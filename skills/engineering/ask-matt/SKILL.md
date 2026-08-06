@@ -60,12 +60,12 @@ Two model-invoked references that run *beneath* the other skills — each the si
 
 ## Platform knowledge
 
-Four model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it — `/implement` and `/tdd` pull them in as the work demands. Reach for them directly when the **platform**, not the process, is what you're stuck on.
+Four model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it — `/tdd` names `/kmp-module-setup` and `/kmp-release-and-publish` directly, and the model reaches for the others as the work demands. Reach for them directly when the **platform**, not the process, is what you're stuck on.
 
 - **`/kmp-module-setup`** — the shared module's *shape*: targets and the source-set hierarchy you get free from `androidTarget()` + `iosArm64()`, the version catalog that pins Kotlin, AGP and Compose Multiplatform together, the iOS framework block, and the `expect`/`actual` vs interfaces-plus-DI call.
 - **`/kmp-ios-integration`** — the *Xcode seam*: direct integration vs CocoaPods vs SPM vs KMMBridge, `embedAndSignAppleFrameworkForXcode`, and the framework-not-found and script-sandboxing errors — plus a review checklist for the Kotlin API Swift has to consume (`@Throws`, sealed classes, suspend functions, generics).
 - **`/compose-multiplatform-ui`** — *shared UI*: per-platform entry points, `composeResources`/`Res`, Navigation and ViewModel in `commonMain`, SwiftUI/UIKit interop both directions, and the iOS-only deltas (frame-rate caps, accessibility, `viewModel()` crashes).
-- **`/kmp-release-and-publish`** — the odd one out: it runs at **ship time**, at the *end* of the flow rather than beneath it. R8 over shared code, iOS archive and TestFlight, Maven Central, and the CI runner split.
+- **`/kmp-release-and-publish`** — the odd one out: it runs at **ship time**, at the *end* of the flow — though `/tdd` also consults it mid-loop for the Gradle task map. R8 over shared code, iOS archive and TestFlight, Maven Central, and the CI runner split.
 
 ## Phase boundaries
 

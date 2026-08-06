@@ -2,11 +2,6 @@
 
 [![skills.sh](https://skills.sh/b/osxsystem/skills)](https://skills.sh/osxsystem/skills)
 
-The **osxsystem team fork** of [mattpocock/skills](https://github.com/mattpocock/skills), customized for mobile development with **Kotlin Multiplatform + Compose Multiplatform** (Android + iOS/Swift).
-
-> [!NOTE]
-> This project uses [mattpocock/skills](https://github.com/mattpocock/skills) — Matt Pocock's agent skills for real engineering. All credit for the engineering, productivity, and misc skills goes to the upstream author; read the [upstream README](https://github.com/mattpocock/skills#why-these-skills-exist) for the philosophy behind them.
-
 What this fork adds on top of upstream:
 
 - **[`skills/mobile/`](./skills/mobile/README.md)** — team skills for Kotlin Multiplatform + Compose Multiplatform development
@@ -93,3 +88,8 @@ Team skills for Kotlin Multiplatform + Compose Multiplatform development (Androi
 - **[kmp-ios-integration](./skills/mobile/kmp-ios-integration/SKILL.md)** — Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
 - **[compose-multiplatform-ui](./skills/mobile/compose-multiplatform-ui/SKILL.md)** — Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
 - **[kmp-release-and-publish](./skills/mobile/kmp-release-and-publish/SKILL.md)** — Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
+
+The **osxsystem team fork** of [mattpocock/skills](https://github.com/mattpocock/skills), customized for mobile development with **Kotlin Multiplatform + Compose Multiplatform** (Android + iOS/Swift).
+
+> [!NOTE]
+> This project uses [mattpocock/skills](https://github.com/mattpocock/skills) — Matt Pocock's agent skills for real engineering. All credit for the engineering, productivity, and misc skills goes to the upstream author; read the [upstream README](https://github.com/mattpocock/skills#why-these-skills-exist) for the philosophy behind them.

@@ -32,18 +32,18 @@
 - Consumes: nothing.
 - Produces: `.claude-plugin/` no longer exists — later tasks remove every reference to it.
 
-- [ ] **Step 1: Delete the directory via git**
+- [x] **Step 1: Delete the directory via git**
 
 ```bash
 git rm -r .claude-plugin
 ```
 
-- [ ] **Step 2: Verify it is gone**
+- [x] **Step 2: Verify it is gone**
 
 Run: `ls .claude-plugin`
 Expected: `ls: .claude-plugin: No such file or directory`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git commit -m "docs: remove Claude Code plugin manifests — skills.sh is the only install route"
@@ -60,7 +60,7 @@ git commit -m "docs: remove Claude Code plugin manifests — skills.sh is the on
 - Consumes: nothing.
 - Produces: the canonical install wording that Task 3 (README) and Task 7 (in-progress README) copy verbatim — canonical blocks `skills-sh-whole-set` and `skills-sh-one-skill`.
 
-- [ ] **Step 1: Replace the entire file content with:**
+- [x] **Step 1: Replace the entire file content with:**
 
 ````markdown
 # The canonical install block
@@ -104,7 +104,7 @@ npx skills@latest update <name>
 Upstream ships a Claude Code plugin from `.claude-plugin/`; this fork deleted that directory, and skills.sh is the only install route. Upstream syncs that re-add `.claude-plugin/` are resolved by deleting it again — see [MAINTENANCE.md](../MAINTENANCE.md). The history of the plugin decision lives in [adr/0002-ship-as-a-claude-code-plugin.md](./adr/0002-ship-as-a-claude-code-plugin.md).
 ````
 
-- [ ] **Step 2: Verify no stale references remain**
+- [x] **Step 2: Verify no stale references remain**
 
 Run: `grep -n "mattpocock/skills\|claude plugins install\|/plugin install\|marketplace" .agents/install-block.md`
 Expected: no output (exit code 1).
@@ -112,7 +112,7 @@ Expected: no output (exit code 1).
 Run: `grep -c "osxsystem/skills" .agents/install-block.md`
 Expected: `3` (skills.sh link, whole-set command, single-skill command).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add .agents/install-block.md
@@ -130,7 +130,7 @@ git commit -m "docs: install block — drop plugin route, point skills.sh at osx
 - Consumes: canonical block `skills-sh-whole-set` from Task 2 (copied verbatim).
 - Produces: the fork README. Task 8 greps it for success criteria.
 
-- [ ] **Step 1: Replace lines 1–183 (everything above `## Reference`) with:**
+- [x] **Step 1: Replace lines 1–183 (everything above `## Reference`) with:**
 
 ````markdown
 # osxsystem/skills
@@ -173,7 +173,7 @@ In your agent, run it once per repo. It will:
 
 (The `## Reference` heading and everything after it — the Engineering, Productivity, and Mobile skill tables — stay exactly as they are.)
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 Run: `grep -n "mattpocock" README.md`
 Expected: matches only on the fork-description line and the `> [!NOTE]` credit line (2 lines). None inside a code block, badge, or skills.sh URL.
@@ -184,7 +184,7 @@ Expected: no output (exit code 1).
 Run: `grep -n "^## Reference" README.md && grep -c "SKILL.md" README.md`
 Expected: `## Reference` present; SKILL.md link count ≥ 30 (the tables survived).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add README.md
@@ -202,7 +202,7 @@ git commit -m "docs: reframe README as osxsystem fork — skills.sh install only
 - Consumes: Task 1 (directory deleted) — this task removes the instructions pointing at it.
 - Produces: the registration rule later tasks and future agents follow: promoted skills register in bucket README + top-level README + docs page only.
 
-- [ ] **Step 1: Apply these four line replacements**
+- [x] **Step 1: Apply these four line replacements**
 
 Line 7, replace:
 
@@ -252,12 +252,12 @@ with:
 Install commands are copied verbatim from [.agents/install-block.md](./.agents/install-block.md). This fork ships via [skills.sh](https://skills.sh/osxsystem/skills) only — upstream's Claude Code plugin route (`.claude-plugin/`) was removed, and upstream syncs that re-add it are resolved by deleting it again (see [MAINTENANCE.md](./MAINTENANCE.md)). The history of the plugin decision lives in [.agents/adr/0002-ship-as-a-claude-code-plugin.md](./.agents/adr/0002-ship-as-a-claude-code-plugin.md).
 ```
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 Run: `grep -n "plugin.json\|plugin validate\|marketplace\|shipped in the plugin" CLAUDE.md`
 Expected: no output (exit code 1).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add CLAUDE.md
@@ -275,7 +275,7 @@ git commit -m "docs: CLAUDE.md — drop plugin registration layer and validation
 - Consumes: Task 1 (deletion is the new steady state the sync instructions must preserve).
 - Produces: the upstream-sync procedure that keeps `.claude-plugin/` deleted.
 
-- [ ] **Step 1: Apply these replacements**
+- [x] **Step 1: Apply these replacements**
 
 Table row (line 13), replace:
 
@@ -329,7 +329,7 @@ with:
 3. Register it in: `skills/mobile/README.md`, top-level `README.md` (Mobile section), and add `docs/mobile/<name>.md` (What it does / When to reach for it / one substance section / It's working if).
 ```
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 Run: `grep -n "plugin.json\|plugin validate" MAINTENANCE.md`
 Expected: no output (exit code 1).
@@ -337,7 +337,7 @@ Expected: no output (exit code 1).
 Run: `grep -c "claude-plugin" MAINTENANCE.md`
 Expected: `3` (table row, conflict note, checklist item 1 — all describing the deletion, none instructing registration).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add MAINTENANCE.md
@@ -355,7 +355,7 @@ git commit -m "docs: MAINTENANCE.md — sync procedure keeps .claude-plugin dele
 - Consumes: registration rule from Task 4 (three layers, not four).
 - Produces: consistent customization loop for future skill edits.
 
-- [ ] **Step 1: Apply these replacements**
+- [x] **Step 1: Apply these replacements**
 
 Section 2 intro sentence, replace:
 
@@ -399,12 +399,12 @@ with:
 4. **Register** (the three layers), then commit and push.
 ```
 
-- [ ] **Step 2: Verify**
+- [x] **Step 2: Verify**
 
 Run: `grep -n "plugin\|four layers\|four places" CUSTOMIZING.md`
 Expected: no output (exit code 1).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add CUSTOMIZING.md
@@ -423,7 +423,7 @@ git commit -m "docs: CUSTOMIZING.md — registration is three layers, plugin man
 - Consumes: canonical block `skills-sh-one-skill` from Task 2 (the single-skill command form).
 - Produces: no live text anywhere references the plugin or a `mattpocock/skills` install command.
 
-- [ ] **Step 1: Edit `skills/in-progress/README.md`**
+- [x] **Step 1: Edit `skills/in-progress/README.md`**
 
 Replace:
 
@@ -449,7 +449,7 @@ npx skills@latest add osxsystem/skills --skill=<name>
 ```
 ```
 
-- [ ] **Step 2: Edit `skills/misc/README.md`**
+- [x] **Step 2: Edit `skills/misc/README.md`**
 
 Replace:
 
@@ -463,12 +463,12 @@ with:
 Tools I keep around but rarely use — not promoted.
 ```
 
-- [ ] **Step 3: Verify**
+- [x] **Step 3: Verify**
 
 Run: `grep -rn "plugin\|mattpocock" skills/in-progress/README.md skills/misc/README.md`
 Expected: no output (exit code 1).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add skills/in-progress/README.md skills/misc/README.md
@@ -486,22 +486,22 @@ git commit -m "docs: bucket READMEs — drop plugin mentions, install via osxsys
 - Consumes: all prior tasks.
 - Produces: confirmation the spec's success criteria hold.
 
-- [ ] **Step 1: Plugin directory gone**
+- [x] **Step 1: Plugin directory gone**
 
 Run: `ls .claude-plugin 2>&1`
 Expected: `No such file or directory`
 
-- [ ] **Step 2: No live plugin instructions**
+- [x] **Step 2: No live plugin instructions**
 
 Run: `grep -rn "claude plugins install\|/plugin install\|plugin validate\|claude-plugin" README.md CLAUDE.md MAINTENANCE.md CUSTOMIZING.md .agents/install-block.md skills/*/README.md`
 Expected: only MAINTENANCE.md / CLAUDE.md / install-block.md lines that *describe the deletion* (`.claude-plugin/` deleted / re-add resolved by deleting). No install commands, no validate commands, no registration instructions.
 
-- [ ] **Step 3: No mattpocock install commands or badges**
+- [x] **Step 3: No mattpocock install commands or badges**
 
 Run: `grep -rn "mattpocock" README.md .agents/install-block.md skills/*/README.md`
 Expected: matches only in `README.md`'s intro/credit links (3 lines). No matches in code blocks, badges, or other files.
 
-- [ ] **Step 4: Working tree clean**
+- [x] **Step 4: Working tree clean**
 
 Run: `git status --porcelain`
 Expected: no output. If any grep in steps 2–3 flagged a stray line, fix it in that file, amend or add a `docs: sweep fixes` commit, and re-run this task.

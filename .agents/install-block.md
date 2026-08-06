@@ -12,7 +12,7 @@ The single install route is [skills.sh](https://skills.sh/osxsystem/skills), whi
 npx skills@latest add osxsystem/skills
 ```
 
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take — make sure `setup-matt-pocock-skills` is one of them.**
+Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take — make sure `setup-osxsystem-skills` is one of them.**
 
 </canonical-block>
 

@@ -1,17 +1,16 @@
 {
-  "name": "mattpocock-skills",
+  "name": "osxsystem-skills",
   "version": "1.2.2",
   "private": true,
-  "description": "Matt Pocock's agent skills for real engineering",
+  "description": "osxsystem team agent skills for real engineering — Kotlin Multiplatform + Compose Multiplatform",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mattpocock/skills"
+    "url": "https://github.com/osxsystem/skills"
   },
   "license": "MIT",
   "scripts": {
     "changeset": "changeset",
-    "version": "changeset version && node scripts/sync-plugin-version.mjs",
-    "check-plugin-version": "node scripts/sync-plugin-version.mjs --check"
+    "version": "changeset version"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.7.0",

@@ -26,7 +26,9 @@ Conflicts will cluster in the four upstream files we touched (table above); our 
 2. Confirm the Mobile section survived in `README.md` and `plugin.json`.
 3. Skim upstream's `CHANGELOG.md` for renamed/moved skills our mobile skills cross-reference (`tdd`, `code-review`).
 
-## Adding or changing a mobile skill
+## Adding or changing a skill
+
+The full how-to — skill anatomy, the registration layers, the write→verify loop, and the customization roadmap — lives in [CUSTOMIZING.md](./CUSTOMIZING.md). Mobile-bucket specifics:
 
 Follow upstream's conventions (see `CLAUDE.md`), plus:
 

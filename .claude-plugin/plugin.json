@@ -43,6 +43,10 @@
     "./skills/productivity/teach",
     "./skills/productivity/to-questionnaire",
     "./skills/productivity/wait-what",
-    "./skills/productivity/writing-for-agents"
+    "./skills/productivity/writing-for-agents",
+    "./skills/mobile/kmp-module-setup",
+    "./skills/mobile/kmp-ios-integration",
+    "./skills/mobile/compose-multiplatform-ui",
+    "./skills/mobile/kmp-release-and-publish"
   ]
 }

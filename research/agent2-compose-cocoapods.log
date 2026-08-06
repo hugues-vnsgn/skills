@@ -1,0 +1,9 @@
+Report written to `research/agent2-compose-cocoapods.md`. Key findings:
+
+- **All 7 assigned docs fetched successfully except one**: the navigation URL (`compose-multiplatform-navigation-routing.html`) returned 404; its content moved to `compose-navigation-routing.html`, which I fetched and used instead. I also pulled five supplementary official pages (versioning, SwiftUI/UIKit interop, ViewModel, iOS accessibility, Hot Reload) to cover the brief fully.
+- **Versioning**: current stable Compose Multiplatform is **1.11.1**, mapping to Jetpack Compose 1.11.2; Android targets automatically use Google's Jetpack artifacts via Gradle Module Metadata. Kotlin 2.1.0 minimum, K2 mandatory since CMP 1.8.0.
+- **Common code coverage is strong**: resources (`Res` class), Navigation Compose (`org.jetbrains.androidx.navigation:navigation-compose:2.9.2`, Stable), and ViewModel (2.10.0) all work in `commonMain` — the one iOS trap being that `viewModel()` requires an explicit initializer on non-JVM platforms.
+- **CocoaPods**: plugin version must match Kotlin; workflow is `cocoapods {}` block → `./gradlew podInstall` (preferred over raw `pod install`) → open `.xcworkspace` → disable Xcode User Script Sandboxing. It's mutually exclusive with direct `embedAndSignAppleFrameworkForXcode` integration. The report includes a troubleshooting table for the common cryptic failures.
+- **Hot reload is desktop-only**; the official guidance is to iterate on the desktop target and verify on iOS release builds. iOS needs `CADisableMinimumFrameDurationOnPhone` in Info.plist for full refresh rates, and accessibility semantics map automatically to VoiceOver/XCTest.
+
+The report ends with six skill recommendations, including extending this repo's existing `html-design-to-compose` skill with an iOS verification step.

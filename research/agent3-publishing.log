@@ -1,0 +1,9 @@
+Report written to `/Users/hugues_mini/Codes/skills/research/agent3-publishing.md`. All four assigned kotlinlang.org pages fetched successfully, supplemented with the official KMP GitHub Actions guide and community sources on R8/Konan caching — no fetch failures.
+
+Key findings captured in the report:
+
+- **Android publishing is deliberately unremarkable** — the official docs defer entirely to standard Android tooling (AAB via `bundleRelease`, standard signing/Play flow). The one KMP-specific R8 wrinkle: the new `com.android.kotlin.multiplatform.library` plugin requires explicit opt-in for consumer keep rules (`optimization.consumerKeepRules.publish = true`), unlike the old `consumerProguardFiles` default.
+- **iOS publishing is standard Xcode archiving** with the shared framework embedded and signed via `embedAndSignAppleFrameworkForXcode`. Bitcode is a non-issue now; the real rejection risks are Apple privacy manifests (KMP apps need special attention) — dSYMs for the shared framework ship by default.
+- **Maven Central in 2026 goes through the Central Portal** with the vanniktech plugin as the official tutorial's route: namespace verification, GPG signing (the Kotlin Gradle plugin now has built-in `generatePgpKeys`/`uploadPublicPgpKey` tasks), user tokens, `publishToMavenCentral --no-configuration-cache`, and the hard rule that all artifacts publish from a single macOS host.
+- **CI**: composite gradle-setup action, JVM tests on Ubuntu, only framework linking/simulator work on macOS (~10× cost), `~/.konan` cached and keyed on the version catalog hash. `iosSimulatorArm64Test` runs simulator tests straight from Gradle with no Xcode invocation.
+- The report ends with six suggested skills, ranked — CI setup and iOS release are the highest-leverage since that's where KMP diverges most from what mobile teams already know.

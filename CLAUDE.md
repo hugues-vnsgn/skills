@@ -1,7 +1,10 @@
+This is the **osxsystem team fork** of mattpocock/skills, customized for mobile development with Kotlin Multiplatform + Compose Multiplatform (Android + iOS/Swift). Fork-specific conventions live in [MAINTENANCE.md](./MAINTENANCE.md); the `mobile/` bucket and its docs are fork additions that upstream syncs must preserve.
+
 Skills are organized into bucket folders under `skills/`:
 
 - `engineering/` — daily code work
 - `productivity/` — daily non-code workflow tools
+- `mobile/` — **fork addition**: Kotlin Multiplatform / Compose Multiplatform team skills (promoted: listed in the top-level `README.md`, `.claude-plugin/plugin.json`, and `docs/mobile/`)
 - `misc/` — kept around but rarely used, not promoted
 - `in-progress/` — beta: public on purpose, feedback wanted, not shipped in the plugin
 - `deprecated/` — no longer used

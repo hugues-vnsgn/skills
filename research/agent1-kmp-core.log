@@ -1,0 +1,11 @@
+Report written to `research/agent1-kmp-core.md`. Summary of what it covers:
+
+- **Project structure** — targets, `commonMain`/`androidMain`/`iosMain` source sets, the one-way visibility rule, the default hierarchy template (auto-applied since 1.9.20), and a version-catalog + plugins setup for Kotlin **2.4.10** (current stable, July 2026) with Compose Multiplatform.
+- **expect/actual** — full mechanism with examples; expect/actual *classes* are still Beta and the official guidance is interfaces + DI (or an expect *factory function*) for anything with behavior or that tests need to fake.
+- **iOS integration** — comparison table of direct integration (the default; exact `embedAndSignAppleFrameworkForXcode` run-script phase and the User Script Sandboxing gotcha), CocoaPods, local/remote SPM, and KMMBridge, with decision guidance per team shape.
+- **Swift interop** — what survives the ObjC bridge and what doesn't (sealed classes, coroutines/Flow, default args, generics, enums, exceptions), `@ObjCName`/`@HiddenFromObjC`/`@ShouldRefineInSwift`/`@Throws`, and SKIE as the standard polish layer.
+- **Gradle snippets** — framework block, static-vs-dynamic trade-offs (static recommended for single-app), `export()`/`transitiveExport`, XCFramework tasks, Info.plist options.
+- **2026 state** — notably **Swift Export is Alpha but moving fast**: 2.4.20-Beta added sealed-class → Swift enum mapping and cross-language inheritance; Touchlab's current advice is SKIE for SwiftUI-heavy teams, earlier Swift Export adoption viable for CMP teams. Plus a 10-item pitfall checklist.
+- **Skill recommendations** — five proposed agent skills: module setup/audit, iOS-integration decision tree, an interop-hazard lint over exported API, expect-actual-vs-interface guidance, and a coordinated version-bump skill.
+
+Fetch failures noted in the report: the get-started page returned only a title/redirect (content reconstructed from the other pages), and the ObjC interop doc lives at `/docs/native-objc-interop.html`, not under `/docs/multiplatform/`.

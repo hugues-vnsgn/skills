@@ -50,4 +50,4 @@ Directions worth taking, roughly by leverage:
 1. **Tailor the mobile skills to the actual project** — bake in real module names (`shared`, `androidApp`, `iosApp`), the chosen iOS integration route (direct vs CocoaPods), the real version catalog.
 2. **Customize `code-review`** with KMP standards — the Swift-facing API checklist from `kmp-ios-integration` as a review axis.
 3. **Customize `implement` / `to-tickets`** so tracer-bullet slices respect the platform dimension (common-first, then per-platform actuals).
-4. **Prune skills the team won't use** (e.g. `ask-matt`, `setup-matt-pocock-skills` are upstream-author-specific) into `deprecated/`.
+4. **Prune skills the team won't use** (e.g. `ask-matt` is upstream-author-specific) into `deprecated/`.

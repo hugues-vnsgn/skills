@@ -1,6 +1,6 @@
 {
   "name": "osxsystem-skills",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "private": true,
   "description": "osxsystem team agent skills for real engineering — Kotlin Multiplatform + Compose Multiplatform",
   "repository": {

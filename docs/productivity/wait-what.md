@@ -24,6 +24,16 @@ The body reuses the leading words already in your global `CLAUDE.md` and your pr
 
 If you have no `CONTEXT.md`, the skill still works. You lose only the domain-vocabulary half.
 
+## Common questions
+
+**This is barely more than typing "wait, I'm confused" myself — why invoke a named skill for three lines of prompt text?**
+
+Because the three lines are fixed, not reinvented each time. Typed freeform, the phrasing and register drift message to message; as a skill, the ASD-STE100 register and the pull-in of `CONTEXT.md` vocabulary happen the same way every time, without you having to remember to ask for either.
+
+**Is it still worth using with no `CONTEXT.md` in the project?**
+
+Yes, just for less. The re-pitch still adds missing context and drops into plainer English — that half of the skill has nothing to do with the file. What disappears is the vocabulary swap: without `CONTEXT.md`, there's no ubiquitous language to translate invented terms back into.
+
 ## It's working if
 
 - The re-pitch is **shorter and clearer**, not shorter and blunter.

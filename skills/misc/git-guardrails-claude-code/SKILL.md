@@ -17,6 +17,10 @@ Sets up a PreToolUse hook that intercepts and blocks dangerous git commands befo
 
 When blocked, Claude sees a message telling it that it does not have authority to access these commands.
 
+Patterns are anchored to the start of each command segment, so a command that merely *mentions* one is allowed — `git commit -m "explain git push"`, `grep -r "git push" docs/`, and `git pushd /tmp` all run. Splitting on `&&`, `||`, `;`, and `|` first means a dangerous command is still caught when it isn't the leading one (`cd foo && git push`), including behind an env-var prefix or `git -C <path>`.
+
+The hook **fails closed**: if `jq` is missing, or `.tool_input.command` can't be read from the payload, the command is blocked rather than allowed. A guardrail that silently stops guarding while still appearing installed is worse than no guardrail.
+
 ## Steps
 
 ### 1. Ask scope

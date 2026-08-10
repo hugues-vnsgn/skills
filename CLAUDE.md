@@ -9,7 +9,7 @@ Skills are organized into bucket folders under `skills/`:
 - `in-progress/` — beta: public on purpose, feedback wanted, not promoted
 - `deprecated/` — no longer used
 
-Every skill in `engineering/` or `productivity/` (the **promoted** buckets) must have a reference in the top-level `README.md`. Skills in `misc/`, `in-progress/`, and `deprecated/` must not appear there.
+Every skill in `engineering/`, `productivity/`, or `mobile/` (the **promoted** buckets) must have a reference in the top-level `README.md`. Skills in `misc/`, `in-progress/`, and `deprecated/` must not appear there.
 
 Install commands are copied verbatim from [.agents/install-block.md](./.agents/install-block.md). This fork ships via [skills.sh](https://skills.sh/osxsystem/skills) only — upstream's Claude Code plugin route (`.claude-plugin/`) was removed, and upstream syncs that re-add it are resolved by deleting it again (see [MAINTENANCE.md](./MAINTENANCE.md)). The history of the plugin decision lives in [.agents/adr/0002-ship-as-a-claude-code-plugin.md](./.agents/adr/0002-ship-as-a-claude-code-plugin.md).
 
@@ -17,7 +17,7 @@ Each skill entry in the top-level `README.md` must link the skill name to its `S
 
 Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description, with the skill name linked to its `SKILL.md`. The promoted buckets' `README.md`s and the top-level `README.md` group entries into **User-invoked** and **Model-invoked**; non-promoted bucket `README.md`s (`misc/`, `in-progress/`) use a flat list.
 
-Skills in `engineering/` and `productivity/` also have a human-facing docs page at `docs/<bucket>/<skill-name>.md` (the docs tree mirrors those two bucket folders under `skills/`). The published URL is `https://aihero.dev/skills-<skill-name>` regardless of bucket — the docs path is repo organisation only. When you add, rename, or change the behaviour of a skill in `engineering/` or `productivity/`, create or re-sync its docs page following [.agents/writing-docs.md](./.agents/writing-docs.md). A finished page carries four sections — **What it does**, **When to reach for it**, **Common questions**, **It's working if** — and `writing-docs.md` holds the template, the section order, and where to hunt for the questions. Skills in the non-promoted buckets (`misc/`, `in-progress/`, `deprecated/`) get **no** docs page.
+Skills in the promoted buckets — `engineering/`, `productivity/`, and `mobile/` — also have a human-facing docs page at `docs/<bucket>/<skill-name>.md` (the docs tree mirrors those three bucket folders under `skills/`). The published URL is `https://aihero.dev/skills-<skill-name>` regardless of bucket — the docs path is repo organisation only, and `mobile/` is fork-local so aihero.dev never hosts it. When you add, rename, or change the behaviour of a skill in a promoted bucket, create or re-sync its docs page following [.agents/writing-docs.md](./.agents/writing-docs.md). A finished page carries four sections — **What it does**, **When to reach for it**, **Common questions**, **It's working if** — and `writing-docs.md` holds the template, the section order, and where to hunt for the questions. Skills in the non-promoted buckets (`misc/`, `in-progress/`, `deprecated/`) get **no** docs page.
 
 Every `SKILL.md` is either user-invoked (`disable-model-invocation: true` plus `policy.allow_implicit_invocation: false` in `agents/openai.yaml`, reachable only by the human) or model-invoked (model- or user-reachable). See [.agents/invocation.md](./.agents/invocation.md).
 

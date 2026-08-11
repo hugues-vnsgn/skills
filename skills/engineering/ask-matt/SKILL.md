@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 You don't remember every skill, so ask.
 
-A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or one of two layers that run underneath: **vocabulary**, and **platform knowledge**.
+A **flow** is a path through the skills. Most paths run along one **main flow**, and several **on-ramps** merge onto it. Everything else is standalone, or one of two layers that run underneath: **vocabulary**, and **platform knowledge**.
 
 ## The main flow: idea → ship
 
@@ -44,6 +44,10 @@ A starting situation that generates work, then merges onto the main flow.
 - **A huge, foggy effort — a greenfield project or a huge feature build, too big for one session** → **`/wayfinder`**, the most cognitively demanding flow here. When the way from here to the destination isn't visible yet, it charts a **shared map** of **decision tickets** on the issue tracker and resolves them one at a time — producing **decisions, not deliverables** — until the fog is pushed back and the way is clear. Where **`/grill-with-docs`** sharpens an idea you can hold in one session, wayfinder is for the idea you can't — and it's slower and denser, so save it for exactly that, never a well-scoped feature.
 
   When the map clears, **it hands off, it doesn't build**: merge onto the main flow at **`/to-spec`**, which collapses the map's linked decisions into a buildable plan, then `/to-tickets` and `/implement` as usual. Looping the map straight into `/implement` skips that collapse and throws the linked detail away — go straight to `/implement` only when the effort turned out genuinely small.
+
+- **Another codebase already solved this** → **`/port-from-repo`**. You saw a capability working somewhere else — an open-source project, a sample app, another repo of your own — and you want it here. It reads the source as a **primary source**, then runs `/grilling` on the question *should we bring this over at all*, which routinely cuts the scope to a fraction of what the source built. It then builds what survives itself — `/tdd` per slice, closing out with `/code-review` — ending where `/implement` does rather than handing off to it.
+
+  **Adapt, don't transplant** is the whole discipline: what crosses over is the approach, not the expression, because the source's dependency graph, error convention and platform assumptions are not yours. Reach for **`/research`** instead when you want to understand another codebase with no intention of building from it.
 
 ## Codebase health
 

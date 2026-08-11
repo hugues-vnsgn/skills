@@ -52,7 +52,7 @@ Translate as you go:
 
 - **Naming** to this project's domain language — read `CONTEXT.md` where it exists.
 - **Error handling** to this codebase's convention, not the source's.
-- **Dependencies** to what the manifest already has. A port that wants three new packages says so out loud, and gets an answer, before it adds them.
+- **Dependencies** to what the manifest already has. A dependency the source has and this codebase doesn't is usually hiding a seam: the thing to port is what the source used it *for*, re-expressed with what's already here — a constructor parameter, an interface, a plain function. Adding the dependency is the last resort, not the first, and a decision to surface, not take.
 
 ### Porting into Kotlin Multiplatform
 

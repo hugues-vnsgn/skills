@@ -9,6 +9,7 @@ This repo (`osxsystem/skills`) is a team fork of [`mattpocock/skills`](https://g
 | `skills/mobile/` | Team KMP/CMP skills (see [skills/mobile/README.md](./skills/mobile/README.md)) |
 | `docs/mobile/` | Docs pages for the mobile bucket (fork-local; not published to aihero.dev) |
 | `research/` | The source research (prompts + reports from official kotlinlang.org docs, 2026-08) each mobile skill's `reference.md` was distilled from |
+| `skills/engineering/port-from-repo/`, `skills/in-progress/when-stuck/` | Fork additions re-authored from external patterns (ClaudeKit's `xia`; Microsoft Amplifier via ClaudeKit's `problem-solving`). Not upstream skills — an upstream sync must not drop them. See [the adoption spec](./docs/superpowers/specs/2026-08-10-claudekit-adoption-design.md). |
 | `MAINTENANCE.md` | This file |
 | Upstream files touched | `README.md` (reframed as fork README + Mobile section), `CLAUDE.md` (mobile bucket, plugin route removed), `skills/engineering/tdd/SKILL.md` (KMP section at the end); `.claude-plugin/` deleted (skills.sh is the only install route) |
 

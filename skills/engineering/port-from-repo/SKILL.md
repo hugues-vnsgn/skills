@@ -18,6 +18,8 @@ Fetch it outside this repository: a shallow clone in a temp directory, or `gh` r
 
 Prefer reading over cloning when the capability is small and the repo is large — a clone you have to search is slower than the two files you actually need.
 
+Read the licence before you read the code. Porting an approach rather than an expression is the safer footing, but a licence that restricts derivative work is a reason to stop and put it to the user, not a wall to work around.
+
 ## Understand
 
 Before any judgement about whether to port, be able to answer four questions:
@@ -52,7 +54,7 @@ Translate as you go:
 
 - **Naming** to this project's domain language — read `CONTEXT.md` where it exists.
 - **Error handling** to this codebase's convention, not the source's.
-- **Dependencies** to what the manifest already has. A dependency the source has and this codebase doesn't is usually hiding a seam: the thing to port is what the source used it *for*, re-expressed with what's already here — a constructor parameter, an interface, a plain function. Adding the dependency is the last resort, not the first, and a decision to surface, not take.
+- **Dependencies** to what the manifest already has. A dependency the source has and this codebase doesn't is usually hiding a seam: the thing to port is what the source used it *for*, re-expressed with what's already here — a constructor parameter, an interface, a plain function. Adding the dependency is the last resort, not the first, and a decision to surface to the user, not take.
 
 ### Porting into Kotlin Multiplatform
 
@@ -66,7 +68,7 @@ The common case in this repo is lifting something out of an Android-only or iOS-
 
 Close out with the `/code-review` skill.
 
-Then record provenance in the commit message: the source repository, the specific commit or file path it came from, and what you changed on the way in. A port whose origin is folklore cannot be re-checked when the source fixes a bug.
+Then record provenance in the commit message: the source repository, its licence, the specific commit or file path it came from, and what you changed on the way in. A port whose origin is folklore cannot be re-checked when the source fixes a bug.
 
 ## Done when
 
@@ -77,4 +79,4 @@ Then record provenance in the commit message: the source repository, the specifi
 
 ---
 
-Derived from the `xia` skill in ClaudeKit, re-authored for this repo. Renamed because "xia" is not defined anywhere in that project.
+Derived from the `xia` skill in ClaudeKit, re-authored for this repo.

@@ -15,6 +15,8 @@ Five ways to re-frame a design problem that will not resolve. Each one is a move
 | A plan or decision you have not settled | the `/grilling` skill |
 | The *shape* of a solution — it won't resolve, or every option feels wrong | this skill |
 
+Once a move lands, the `/codebase-design` skill is the vocabulary for the shape it exposed — complementary to this skill, not competing with it.
+
 ## Inversion
 
 **Reach for it when** you catch yourself saying it has to be done this way, or the design feels forced but you cannot say why.

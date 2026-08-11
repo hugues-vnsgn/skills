@@ -1,0 +1,36 @@
+name: Skill checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate skills
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pyyaml
+        run: pip install pyyaml==6.0.3
+
+      - name: Structural validation
+        run: python3 scripts/harness/skillcheck.py
+
+      - name: Confusable descriptions
+        run: python3 scripts/check-confusable-skills.py
+
+      - name: Git guardrail functional tests
+        run: bash scripts/harness/test_guardrail.sh

@@ -55,28 +55,32 @@ def read_frontmatter(path):
 
 
 def find_skills(repo):
-    """Yield {bucket, name, description, model_invoked} for every skill."""
+    """Yield {bucket, name, description, model_invoked} for every skill.
+
+    Walks rather than listing one level deep: upstream buckets sit directly
+    under skills/, but fork skills are grouped by domain under skills/team/,
+    so a skill's bucket is its directory's parent path (`engineering`,
+    `team/mobile`). Every skill competes in the same flat trigger namespace
+    however deep it is nested.
+    """
     root = os.path.join(repo, "skills")
     if not os.path.isdir(root):
         sys.exit(f"error: no skills/ directory under {repo!r}")
     out = []
-    for bucket in sorted(os.listdir(root)):
-        bdir = os.path.join(root, bucket)
-        if not os.path.isdir(bdir):
+    for dirpath, _dirnames, filenames in os.walk(root):
+        if "SKILL.md" not in filenames:
             continue
-        for name in sorted(os.listdir(bdir)):
-            skill_md = os.path.join(bdir, name, "SKILL.md")
-            if not os.path.isfile(skill_md):
-                continue
-            fm = read_frontmatter(skill_md)
-            out.append({
-                "bucket": bucket,
-                "name": fm.get("name", name),
-                "description": fm.get("description", ""),
-                "model_invoked":
-                    fm.get("disable-model-invocation", "").lower() != "true",
-            })
-    return out
+        skill_md = os.path.join(dirpath, "SKILL.md")
+        name = os.path.basename(dirpath)
+        fm = read_frontmatter(skill_md)
+        out.append({
+            "bucket": os.path.relpath(os.path.dirname(dirpath), root),
+            "name": fm.get("name", name),
+            "description": fm.get("description", ""),
+            "model_invoked":
+                fm.get("disable-model-invocation", "").lower() != "true",
+        })
+    return sorted(out, key=lambda s: (s["bucket"], s["name"]))
 
 
 def tokenize(text):

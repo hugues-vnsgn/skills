@@ -55,6 +55,6 @@ The challenge phase. A copy answers "can we have this?"; the skill answers "do w
 
 An **on-ramp**: a starting situation that generates work and then merges onto the main flow. It ends where [implement](https://aihero.dev/skills-implement) and [code-review](https://aihero.dev/skills-code-review) do, having driven [tdd](https://aihero.dev/skills-tdd) to build each slice.
 
-Its neighbours are [research](https://aihero.dev/skills-research), because reading another codebase to answer a question is research and stops there, and [codebase-design](https://aihero.dev/skills-codebase-design), because deciding where the ported capability sits is a seam decision in this codebase rather than a copy of the source's. On a Kotlin Multiplatform codebase it hands the `expect`/`actual` versus interface-plus-DI call to [kmp-module-setup](../../skills/mobile/kmp-module-setup/SKILL.md).
+Its neighbours are [research](https://aihero.dev/skills-research), because reading another codebase to answer a question is research and stops there, and [codebase-design](https://aihero.dev/skills-codebase-design), because deciding where the ported capability sits is a seam decision in this codebase rather than a copy of the source's. On a Kotlin Multiplatform codebase it hands the `expect`/`actual` versus interface-plus-DI call to [kmp-module-setup](../../../skills/team/mobile/kmp-module-setup/SKILL.md).
 
 For the whole map, see [ask-matt](https://aihero.dev/skills-ask-matt).

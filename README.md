@@ -4,7 +4,7 @@
 
 What this fork adds on top of upstream:
 
-- **[`skills/mobile/`](./skills/mobile/README.md)** — team skills for Kotlin Multiplatform + Compose Multiplatform development
+- **`skills/team/`** — the fork's own skills, grouped by domain: [`mobile/`](./skills/team/mobile/README.md) for Kotlin Multiplatform + Compose Multiplatform development, [`platform/`](./skills/team/platform/README.md) for the toolchain itself
 - Fork conventions in [MAINTENANCE.md](./MAINTENANCE.md) and [CUSTOMIZING.md](./CUSTOMIZING.md)
 
 ## Installation (30-second setup)
@@ -31,7 +31,9 @@ In your agent, run it once per repo. It will:
 
 ## Reference
 
-These split on one axis — who can invoke them. **User-invoked** skills are reachable only when you type them (e.g. `/grill-me`); their job is to orchestrate. **Model-invoked** skills can be invoked by you _or_ reached for automatically by the agent when the task fits; they hold the reusable discipline. A user-invoked skill may invoke model-invoked skills, but never another user-invoked one.
+**Looking for what applies to your job rather than the whole list?** Each role page carries a curated reading order, with a line on why you'd reach for each skill: [software engineer](./docs/roles/engineer.md) · [designer](./docs/roles/designer.md) · [business analyst](./docs/roles/analyst.md) · [QA engineer](./docs/roles/qa.md) · [staff engineer](./docs/roles/staff.md). Every skill with its origin, domain, audience and owner is in [CATALOG.md](./CATALOG.md).
+
+The sections below list every skill by bucket. These split on one axis — who can invoke them. **User-invoked** skills are reachable only when you type them (e.g. `/grill-me`); their job is to orchestrate. **Model-invoked** skills can be invoked by you _or_ reached for automatically by the agent when the task fits; they hold the reusable discipline. A user-invoked skill may invoke model-invoked skills, but never another user-invoked one.
 
 ### Engineering
 
@@ -43,12 +45,10 @@ Skills I use daily for code work.
 - **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)** — Grilling session that also builds your project's domain model, sharpening terminology and updating `CONTEXT.md` and ADRs inline.
 - **[triage](./skills/engineering/triage/SKILL.md)** — Move issues through a state machine of triage roles.
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)** — Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
-- **[setup-osxsystem-skills](./skills/engineering/setup-osxsystem-skills/SKILL.md)** — Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[to-spec](./skills/engineering/to-spec/SKILL.md)** — Turn the current conversation into a spec and publish it to the issue tracker. No interview — just synthesizes what you've already discussed.
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md)** — Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges — written as text in a local file, or as native blocking links on a real tracker.
 - **[implement](./skills/engineering/implement/SKILL.md)** — Build the work described by a spec or set of tickets, driving `/tdd` at pre-agreed seams and closing out with `/code-review` before committing.
 - **[wayfinder](./skills/engineering/wayfinder/SKILL.md)** — Plan a huge chunk of work, more than one agent session can hold, as a shared map of decision tickets on the issue tracker — resolve them one at a time until the way to the destination is clear.
-- **[port-from-repo](./skills/engineering/port-from-repo/SKILL.md)** — Bring a capability across from another codebase — study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
 
 **Model-invoked**
 
@@ -81,14 +81,24 @@ General workflow tools, not code-specific.
 
 ### Mobile
 
-Team skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift). Fork addition — see [skills/mobile/README.md](./skills/mobile/README.md).
+Team skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift). Fork addition — see [skills/team/mobile/README.md](./skills/team/mobile/README.md).
 
 **Model-invoked**
 
-- **[kmp-module-setup](./skills/mobile/kmp-module-setup/SKILL.md)** — Scaffold or audit a shared KMP module: targets, source-set hierarchy, version catalog (Kotlin/AGP/CMP pinned together), framework block, expect/actual vs interfaces + DI.
-- **[kmp-ios-integration](./skills/mobile/kmp-ios-integration/SKILL.md)** — Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
-- **[compose-multiplatform-ui](./skills/mobile/compose-multiplatform-ui/SKILL.md)** — Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
-- **[kmp-release-and-publish](./skills/mobile/kmp-release-and-publish/SKILL.md)** — Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
+- **[kmp-module-setup](./skills/team/mobile/kmp-module-setup/SKILL.md)** — Scaffold or audit a shared KMP module: targets, source-set hierarchy, version catalog (Kotlin/AGP/CMP pinned together), framework block, expect/actual vs interfaces + DI.
+- **[kmp-ios-integration](./skills/team/mobile/kmp-ios-integration/SKILL.md)** — Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
+- **[compose-multiplatform-ui](./skills/team/mobile/compose-multiplatform-ui/SKILL.md)** — Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
+- **[kmp-release-and-publish](./skills/team/mobile/kmp-release-and-publish/SKILL.md)** — Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
+- **[kmp-test-seams](./skills/team/mobile/kmp-test-seams/SKILL.md)** — The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green.
+
+### Platform
+
+Team skills for the toolchain itself — repo configuration, porting capabilities in, unsticking a design. Fork addition — see [skills/team/platform/README.md](./skills/team/platform/README.md).
+
+**User-invoked**
+
+- **[setup-osxsystem-skills](./skills/team/platform/setup-osxsystem-skills/SKILL.md)** — Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
+- **[port-from-repo](./skills/team/platform/port-from-repo/SKILL.md)** — Bring a capability across from another codebase — study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
 
 The **osxsystem team fork** of [mattpocock/skills](https://github.com/mattpocock/skills), customized for mobile development with **Kotlin Multiplatform + Compose Multiplatform** (Android + iOS/Swift).
 

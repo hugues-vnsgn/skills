@@ -1,0 +1,305 @@
+# Fork catalog — the sidecar taxonomy for every skill in this repo.
+#
+# Sidecar by design: upstream `SKILL.md` frontmatter is never edited to carry
+# fork metadata, because every such edit is a future merge conflict.
+#
+# Fields per skill:
+#   name      directory basename — also the flat install name, unique repo-wide
+#   path      repo-relative skill directory
+#   origin    `upstream` (mattpocock/skills owns the bytes) | `fork` (we do)
+#   domain    upstream skills keep their upstream bucket; fork skills are
+#             grouped by capability domain
+#   audience  which roles the skill serves — one skill may serve several
+#   owner     GitHub team with approval authority (mirrors CODEOWNERS)
+#   status    optional: `beta` exempts a team skill from promotion (no docs
+#             page, out of the top-level README, flat `## Beta` list in its
+#             bucket README). Omit it for a promoted skill.
+#
+# `CATALOG.md` is generated from this file:
+#   python3 scripts/generate-catalog.py           # rewrite
+#   python3 scripts/generate-catalog.py --check   # fail if stale (CI)
+
+version: 1
+
+# Role vocabulary. `docs/roles/` has one entry page per audience.
+audiences: [engineer, designer, analyst, qa, staff]
+
+# Domain vocabulary. `design`, `discovery`, and `quality` are reserved for
+# future team domains — their folders are created when the first skill lands.
+domains:
+  - engineering
+  - productivity
+  - misc
+  - in-progress
+  - deprecated
+  - mobile
+  - platform
+  - design
+  - discovery
+  - quality
+
+skills:
+  # --- upstream: engineering ---
+  - name: ask-matt
+    path: skills/engineering/ask-matt
+    origin: upstream
+    domain: engineering
+    audience: [engineer, staff]
+    owner: "@osxsystem/maintainers"
+  - name: code-review
+    path: skills/engineering/code-review
+    origin: upstream
+    domain: engineering
+    audience: [engineer, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: codebase-design
+    path: skills/engineering/codebase-design
+    origin: upstream
+    domain: engineering
+    audience: [engineer, staff]
+    owner: "@osxsystem/maintainers"
+  - name: diagnosing-bugs
+    path: skills/engineering/diagnosing-bugs
+    origin: upstream
+    domain: engineering
+    audience: [engineer, qa]
+    owner: "@osxsystem/maintainers"
+  - name: domain-modeling
+    path: skills/engineering/domain-modeling
+    origin: upstream
+    domain: engineering
+    audience: [engineer, analyst, staff]
+    owner: "@osxsystem/maintainers"
+  - name: grill-with-docs
+    path: skills/engineering/grill-with-docs
+    origin: upstream
+    domain: engineering
+    audience: [engineer, analyst, staff]
+    owner: "@osxsystem/maintainers"
+  - name: implement
+    path: skills/engineering/implement
+    origin: upstream
+    domain: engineering
+    audience: [engineer]
+    owner: "@osxsystem/maintainers"
+  - name: improve-codebase-architecture
+    path: skills/engineering/improve-codebase-architecture
+    origin: upstream
+    domain: engineering
+    audience: [engineer, staff]
+    owner: "@osxsystem/maintainers"
+  - name: prototype
+    path: skills/engineering/prototype
+    origin: upstream
+    domain: engineering
+    audience: [engineer, designer]
+    owner: "@osxsystem/maintainers"
+  - name: research
+    path: skills/engineering/research
+    origin: upstream
+    domain: engineering
+    audience: [engineer, analyst, staff]
+    owner: "@osxsystem/maintainers"
+  - name: resolving-merge-conflicts
+    path: skills/engineering/resolving-merge-conflicts
+    origin: upstream
+    domain: engineering
+    audience: [engineer]
+    owner: "@osxsystem/maintainers"
+  - name: tdd
+    path: skills/engineering/tdd
+    origin: upstream
+    domain: engineering
+    audience: [engineer, qa]
+    owner: "@osxsystem/maintainers"
+  - name: to-spec
+    path: skills/engineering/to-spec
+    origin: upstream
+    domain: engineering
+    audience: [engineer, analyst, staff]
+    owner: "@osxsystem/maintainers"
+  - name: to-tickets
+    path: skills/engineering/to-tickets
+    origin: upstream
+    domain: engineering
+    audience: [engineer, analyst, staff]
+    owner: "@osxsystem/maintainers"
+  - name: triage
+    path: skills/engineering/triage
+    origin: upstream
+    domain: engineering
+    audience: [engineer, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: wayfinder
+    path: skills/engineering/wayfinder
+    origin: upstream
+    domain: engineering
+    audience: [engineer, staff]
+    owner: "@osxsystem/maintainers"
+  - name: wizard
+    path: skills/engineering/wizard
+    origin: upstream
+    domain: engineering
+    audience: [engineer]
+    owner: "@osxsystem/maintainers"
+
+  # --- upstream: productivity ---
+  - name: grill-me
+    path: skills/productivity/grill-me
+    origin: upstream
+    domain: productivity
+    audience: [engineer, designer, analyst, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: grilling
+    path: skills/productivity/grilling
+    origin: upstream
+    domain: productivity
+    audience: [engineer, designer, analyst, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: handoff
+    path: skills/productivity/handoff
+    origin: upstream
+    domain: productivity
+    audience: [engineer, designer, analyst, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: teach
+    path: skills/productivity/teach
+    origin: upstream
+    domain: productivity
+    audience: [engineer, designer, analyst, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: to-questionnaire
+    path: skills/productivity/to-questionnaire
+    origin: upstream
+    domain: productivity
+    audience: [engineer, designer, analyst, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: wait-what
+    path: skills/productivity/wait-what
+    origin: upstream
+    domain: productivity
+    audience: [engineer, designer, analyst, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: writing-for-agents
+    path: skills/productivity/writing-for-agents
+    origin: upstream
+    domain: productivity
+    audience: [engineer, staff]
+    owner: "@osxsystem/maintainers"
+
+  # --- upstream: misc ---
+  - name: git-guardrails-claude-code
+    path: skills/misc/git-guardrails-claude-code
+    origin: upstream
+    domain: misc
+    audience: [engineer]
+    owner: "@osxsystem/maintainers"
+  - name: migrate-to-shoehorn
+    path: skills/misc/migrate-to-shoehorn
+    origin: upstream
+    domain: misc
+    audience: [engineer]
+    owner: "@osxsystem/maintainers"
+  - name: scaffold-exercises
+    path: skills/misc/scaffold-exercises
+    origin: upstream
+    domain: misc
+    audience: [engineer]
+    owner: "@osxsystem/maintainers"
+  - name: setup-pre-commit
+    path: skills/misc/setup-pre-commit
+    origin: upstream
+    domain: misc
+    audience: [engineer]
+    owner: "@osxsystem/maintainers"
+
+  # --- upstream: in-progress ---
+  - name: claude-handoff
+    path: skills/in-progress/claude-handoff
+    origin: upstream
+    domain: in-progress
+    audience: [engineer, designer, analyst, qa, staff]
+    owner: "@osxsystem/maintainers"
+  - name: loop-me
+    path: skills/in-progress/loop-me
+    origin: upstream
+    domain: in-progress
+    audience: [engineer, staff]
+    owner: "@osxsystem/maintainers"
+  - name: setup-ts-deep-modules
+    path: skills/in-progress/setup-ts-deep-modules
+    origin: upstream
+    domain: in-progress
+    audience: [engineer]
+    owner: "@osxsystem/maintainers"
+  - name: writing-beats
+    path: skills/in-progress/writing-beats
+    origin: upstream
+    domain: in-progress
+    audience: [analyst, designer]
+    owner: "@osxsystem/maintainers"
+  - name: writing-fragments
+    path: skills/in-progress/writing-fragments
+    origin: upstream
+    domain: in-progress
+    audience: [analyst, designer]
+    owner: "@osxsystem/maintainers"
+  - name: writing-shape
+    path: skills/in-progress/writing-shape
+    origin: upstream
+    domain: in-progress
+    audience: [analyst, designer]
+    owner: "@osxsystem/maintainers"
+
+  # --- fork: mobile ---
+  - name: compose-multiplatform-ui
+    path: skills/team/mobile/compose-multiplatform-ui
+    origin: fork
+    domain: mobile
+    audience: [engineer, designer]
+    owner: "@osxsystem/mobile"
+  - name: kmp-ios-integration
+    path: skills/team/mobile/kmp-ios-integration
+    origin: fork
+    domain: mobile
+    audience: [engineer]
+    owner: "@osxsystem/mobile"
+  - name: kmp-module-setup
+    path: skills/team/mobile/kmp-module-setup
+    origin: fork
+    domain: mobile
+    audience: [engineer]
+    owner: "@osxsystem/mobile"
+  - name: kmp-release-and-publish
+    path: skills/team/mobile/kmp-release-and-publish
+    origin: fork
+    domain: mobile
+    audience: [engineer, qa]
+    owner: "@osxsystem/mobile"
+  - name: kmp-test-seams
+    path: skills/team/mobile/kmp-test-seams
+    origin: fork
+    domain: mobile
+    audience: [engineer, qa]
+    owner: "@osxsystem/mobile"
+
+  # --- fork: platform ---
+  - name: port-from-repo
+    path: skills/team/platform/port-from-repo
+    origin: fork
+    domain: platform
+    audience: [engineer, staff]
+    owner: "@osxsystem/platform"
+  - name: setup-osxsystem-skills
+    path: skills/team/platform/setup-osxsystem-skills
+    origin: fork
+    domain: platform
+    audience: [engineer, staff]
+    owner: "@osxsystem/platform"
+  - name: when-stuck
+    path: skills/team/platform/when-stuck
+    origin: fork
+    domain: platform
+    audience: [engineer, staff]
+    owner: "@osxsystem/platform"
+    status: beta

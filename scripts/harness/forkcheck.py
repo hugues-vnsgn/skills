@@ -1,0 +1,336 @@
+#!/usr/bin/env python3
+"""Fork boundary guard. Four assertions over externally observable repo state.
+
+    python3 scripts/harness/forkcheck.py                       # repo root defaults to .
+    python3 scripts/harness/forkcheck.py <repo> --upstream-ref upstream/main
+
+  1. frozen-upstream       upstream territory is byte-identical to the upstream
+                           commit, modulo `.fork/sanctioned-edits.txt`
+  2. unique-skill-names    no two skill directories share a basename
+  3. catalog-completeness  every skill has a catalog entry and vice versa
+  4. no-plugin-dir         `.claude-plugin/` stays deleted (ADR 0002)
+
+Upstream territory, per the scope header of `.fork/sanctioned-edits.txt`: every
+path upstream ships, plus every path under an upstream-owned folder — so a fork
+file dropped into `skills/engineering/` is upstream territory too and must be
+enumerated. Everything else is fork territory and must match a tree declared
+under Additions in `.fork/divergence.md`.
+
+Which upstream commit? `.fork/upstream.lock`'s `upstream_sha` — the last commit
+this fork merged. Comparing against a live `upstream/main` would turn any
+upstream push into a red build on an untouched fork. Pass
+`--upstream-ref upstream/main` during a sync, when the two are meant to converge.
+
+Fails closed: an unresolvable upstream ref, an unreadable lock, sanctioned-edits
+list, divergence record, or catalog is an error, not a skipped check. Needs
+`pyyaml`, like `skillcheck.py`.
+"""
+import fnmatch
+import os
+import subprocess
+import sys
+
+# Folders whose contents upstream owns, whatever the file's author. Anything
+# here that differs from upstream must be listed in sanctioned-edits.txt.
+UPSTREAM_FOLDERS = (
+    "skills/engineering/",
+    "skills/productivity/",
+    "skills/misc/",
+    "skills/in-progress/",
+    "skills/deprecated/",
+    "docs/engineering/",
+    "docs/productivity/",
+)
+
+PLUGIN_DIR = ".claude-plugin"
+
+
+class Fatal(Exception):
+    """Something the guard needs is missing or unreadable — fail closed."""
+
+
+def git(repo, *args):
+    proc = subprocess.run(
+        ["git", "-C", repo, *args],
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0:
+        raise Fatal(f"`git {' '.join(args)}` failed: {proc.stderr.strip()}")
+    return proc.stdout
+
+
+def read(repo, relpath):
+    path = os.path.join(repo, relpath)
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return fh.read()
+    except OSError as exc:
+        raise Fatal(f"cannot read {relpath}: {exc}")
+
+
+# --- inputs -----------------------------------------------------------------
+
+
+def load_sanctioned(repo):
+    """The upstream paths allowed to differ. One path per line, `#` comments."""
+    paths = set()
+    for line in read(repo, ".fork/sanctioned-edits.txt").splitlines():
+        line = line.split("#", 1)[0].strip()
+        if line:
+            paths.add(line)
+    if not paths:
+        raise Fatal(".fork/sanctioned-edits.txt lists no paths")
+    return paths
+
+
+def load_fork_trees(repo):
+    """Fork-owned paths, from the Additions table in `.fork/divergence.md`.
+
+    Every backticked token in the first column of that table. A trailing slash
+    means a tree; `*` globs. Additions are sync-inert: upstream never writes
+    them, so they need no sanctioned-edits entry.
+    """
+    text = read(repo, ".fork/divergence.md")
+    patterns = set()
+    in_additions = False
+    for line in text.splitlines():
+        if line.startswith("## "):
+            in_additions = line.strip().startswith("## Additions")
+            continue
+        if not in_additions or not line.startswith("|"):
+            continue
+        cells = line.split("|")
+        if len(cells) < 2:
+            continue
+        first = cells[1]
+        for token in first.split("`")[1::2]:
+            token = token.strip()
+            if token and not token.startswith("-"):
+                patterns.add(token)
+    if not patterns:
+        raise Fatal(
+            ".fork/divergence.md declares no fork-owned paths — expected a "
+            "`## Additions` table with backticked paths in its first column"
+        )
+    return patterns
+
+
+def load_catalog(repo):
+    try:
+        import yaml
+    except ImportError:
+        raise Fatal("pyyaml is not installed (`pip install pyyaml`)")
+    try:
+        data = yaml.safe_load(read(repo, ".fork/catalog.yaml"))
+    except yaml.YAMLError as exc:
+        raise Fatal(f".fork/catalog.yaml is not valid YAML: {exc}")
+    if not isinstance(data, dict) or not isinstance(data.get("skills"), list):
+        raise Fatal(".fork/catalog.yaml must be a mapping with a `skills` list")
+    entries = []
+    for i, entry in enumerate(data["skills"]):
+        if not isinstance(entry, dict) or not entry.get("name") or not entry.get("path"):
+            raise Fatal(f".fork/catalog.yaml: skills[{i}] needs a `name` and a `path`")
+        entries.append((entry["name"], entry["path"]))
+    if not entries:
+        raise Fatal(".fork/catalog.yaml lists no skills")
+    return entries
+
+
+def resolve_upstream(repo, ref):
+    """The commit upstream territory is compared against."""
+    if ref is None:
+        for line in read(repo, ".fork/upstream.lock").splitlines():
+            if line.startswith("upstream_sha:"):
+                ref = line.split(":", 1)[1].strip()
+                break
+        if not ref:
+            raise Fatal(".fork/upstream.lock declares no `upstream_sha`")
+    try:
+        return ref, git(repo, "rev-parse", "--verify", f"{ref}^{{commit}}").strip()
+    except Fatal:
+        raise Fatal(
+            f"cannot resolve upstream ref `{ref}` — run "
+            f"`git fetch upstream main` (CI: the fetch-upstream step)"
+        )
+
+
+def skill_dirs(repo):
+    """Every skill directory under skills/ — a directory holding a SKILL.md.
+
+    Scoped to skills/ so the gitignored isolated_test_workspace/ copy the
+    harness makes is not mistaken for a second tree of skills.
+    """
+    root = os.path.join(repo, "skills")
+    if not os.path.isdir(root):
+        raise Fatal("no skills/ directory — run from the repo root")
+    found = set()
+    for dirpath, _dirnames, filenames in os.walk(root):
+        if "SKILL.md" in filenames:
+            found.add(os.path.relpath(dirpath, repo))
+    if not found:
+        raise Fatal("found no skills under skills/")
+    return found
+
+
+# --- assertions -------------------------------------------------------------
+
+
+def fork_owned(path, patterns):
+    for pattern in patterns:
+        if pattern.endswith("/"):
+            if path.startswith(pattern):
+                return True
+        elif "*" in pattern:
+            if fnmatch.fnmatch(path, pattern):
+                return True
+        elif path == pattern:
+            return True
+    return False
+
+
+def check_frozen_upstream(repo, ref, sanctioned, fork_trees):
+    """Assertion 1 — upstream territory differs only where sanctioned."""
+    ref_name, sha = resolve_upstream(repo, ref)
+    upstream_files = set(git(repo, "ls-tree", "-r", "--name-only", sha).splitlines())
+
+    changed = {}
+    # --no-renames so a rename reads as delete + add, matching how
+    # sanctioned-edits.txt enumerates both sides of the setup-skill rename.
+    for line in git(repo, "diff", "--no-renames", "--name-status", sha).splitlines():
+        if not line.strip():
+            continue
+        status, path = line.split("\t", 1)
+        changed[path.strip()] = status.strip()
+    for path in git(repo, "ls-files", "--others", "--exclude-standard").splitlines():
+        if path.strip():
+            changed.setdefault(path.strip(), "?")
+
+    failures = []
+    accounted = set()
+    for path, status in sorted(changed.items()):
+        if path in upstream_files or path.startswith(UPSTREAM_FOLDERS):
+            if path in sanctioned:
+                accounted.add(path)
+            else:
+                failures.append(
+                    f"{status} {path}: upstream territory differs from {ref_name} "
+                    f"but is not in .fork/sanctioned-edits.txt"
+                )
+        elif not fork_owned(path, fork_trees):
+            failures.append(
+                f"{status} {path}: fork path not covered by any tree under "
+                f"Additions in .fork/divergence.md"
+            )
+
+    for path in sorted(sanctioned - accounted):
+        failures.append(
+            f"  {path}: listed in .fork/sanctioned-edits.txt but identical to "
+            f"{ref_name} — drop the entry"
+        )
+    return failures
+
+
+def check_unique_skill_names(repo, skills):
+    """Assertion 2 — the flat install namespace admits one skill per name."""
+    by_name = {}
+    for path in skills:
+        by_name.setdefault(os.path.basename(path), []).append(path)
+    return [
+        f"{name}: {len(paths)} skills share this install name — {', '.join(sorted(paths))}"
+        for name, paths in sorted(by_name.items())
+        if len(paths) > 1
+    ]
+
+
+def check_catalog_completeness(repo, skills, entries):
+    """Assertion 3 — the catalog and the tree describe the same set of skills."""
+    failures = []
+    catalogued = set()
+    for name, path in entries:
+        if os.path.basename(path) != name:
+            failures.append(f"{path}: catalog name `{name}` is not the directory basename")
+        if path in catalogued:
+            failures.append(f"{path}: duplicate catalog entry")
+        catalogued.add(path)
+    for path in sorted(catalogued - skills):
+        failures.append(f"{path}: in .fork/catalog.yaml but no SKILL.md on disk")
+    for path in sorted(skills - catalogued):
+        failures.append(f"{path}: on disk but missing from .fork/catalog.yaml")
+    return failures
+
+
+def check_no_plugin_dir(repo):
+    """Assertion 4 — the plugin route stays removed (ADR 0002)."""
+    found = []
+    for dirpath, dirnames, _filenames in os.walk(repo):
+        for skip in (".git", "node_modules", "isolated_test_workspace"):
+            if skip in dirnames:
+                dirnames.remove(skip)
+        if PLUGIN_DIR in dirnames:
+            found.append(os.path.relpath(os.path.join(dirpath, PLUGIN_DIR), repo))
+    return [
+        f"{path}: this fork ships via skills.sh only — see .agents/adr/"
+        f"0002-ship-as-a-claude-code-plugin.md and the recipe in .fork/divergence.md"
+        for path in sorted(found)
+    ]
+
+
+# --- entry point ------------------------------------------------------------
+
+
+def run(repo, ref):
+    sanctioned = load_sanctioned(repo)
+    fork_trees = load_fork_trees(repo)
+    entries = load_catalog(repo)
+    skills = skill_dirs(repo)
+    return [
+        ("frozen-upstream", check_frozen_upstream(repo, ref, sanctioned, fork_trees)),
+        ("unique-skill-names", check_unique_skill_names(repo, skills)),
+        ("catalog-completeness", check_catalog_completeness(repo, skills, entries)),
+        ("no-plugin-dir", check_no_plugin_dir(repo)),
+    ]
+
+
+def main():
+    args = sys.argv[1:]
+    ref = None
+    positional = []
+    i = 0
+    while i < len(args):
+        arg = args[i]
+        if arg == "--upstream-ref":
+            i += 1
+            if i >= len(args):
+                print("forkcheck: --upstream-ref needs a value", file=sys.stderr)
+                return 1
+            ref = args[i]
+        elif arg.startswith("--upstream-ref="):
+            ref = arg.split("=", 1)[1]
+        elif arg.startswith("-"):
+            print(f"forkcheck: unknown option `{arg}`", file=sys.stderr)
+            return 1
+        else:
+            positional.append(arg)
+        i += 1
+    repo = positional[0] if positional else "."
+
+    try:
+        results = run(repo, ref)
+    except Fatal as exc:
+        print(f"forkcheck: {exc}", file=sys.stderr)
+        print("FAIL — the guard could not verify the fork boundary", file=sys.stderr)
+        return 1
+
+    total = sum(len(f) for _, f in results)
+    print(f"{len(results)} checks over {repo}")
+    for name, failures in results:
+        print(f"  {'FAIL' if failures else 'PASS'}  {name}")
+        for failure in failures:
+            print(f"        {failure}")
+    print("PASS" if not total else f"{total} VIOLATION(S)")
+    return 1 if total else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

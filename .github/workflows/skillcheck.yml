@@ -18,6 +18,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # forkcheck diffs upstream territory against the commit recorded in
+      # .fork/upstream.lock, which a default checkout does not have.
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/mattpocock/skills.git
+          git fetch --no-tags upstream main
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -25,6 +32,9 @@ jobs:
 
       - name: Install pyyaml
         run: pip install pyyaml==6.0.3
+
+      - name: Fork boundary guard
+        run: python3 scripts/harness/forkcheck.py
 
       - name: Structural validation
         run: python3 scripts/harness/skillcheck.py
@@ -34,3 +44,6 @@ jobs:
 
       - name: Git guardrail functional tests
         run: bash scripts/harness/test_guardrail.sh
+
+      - name: Fork boundary guard fail-closed tests
+        run: bash scripts/harness/test_forkcheck.sh

@@ -1,0 +1,66 @@
+# Sanctioned edits — the only upstream paths allowed to differ from `upstream/main`.
+#
+# Scope: upstream territory only. A path belongs here when it either
+#   (a) exists in `upstream/main` and this fork changed, deleted, or renamed it, or
+#   (b) is a fork file placed inside an upstream-owned folder
+#       (`skills/{engineering,productivity,misc,in-progress,deprecated}/`,
+#        `docs/{engineering,productivity}/`) — as of 2026-08-13 there are none:
+#       every fork-authored skill lives under `skills/team/`.
+# Fork-owned trees (`skills/team/`, `docs/team/`, `research/`, `scripts/harness/`,
+# `.fork/`, and the other paths listed under Additions in `divergence.md`) are
+# sync-inert and are NOT listed here — upstream never writes them, so they cannot drift.
+#
+# Format: one path per line; `#` comments and blank lines ignored.
+# Every entry must have a rationale in `divergence.md`.
+#
+# Verify (should print nothing beyond fork-owned trees):
+#   git fetch upstream && git diff --name-status -M upstream/main
+#
+# Last verified: 2026-08-13 against upstream/main 84fdeffd12f2ee307994d1eb6feb48173b6e0502
+
+# --- Modified upstream files ---
+.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md
+.agents/install-block.md
+.agents/writing-docs.md
+.changeset/config.json
+.gitignore
+CLAUDE.md
+CONTEXT.md
+README.md
+docs/engineering/ask-matt.md
+docs/engineering/code-review.md
+docs/engineering/implement.md
+docs/engineering/to-spec.md
+docs/engineering/to-tickets.md
+docs/engineering/triage.md
+docs/engineering/wayfinder.md
+docs/engineering/wizard.md
+docs/productivity/wait-what.md
+package-lock.json
+package.json
+skills/engineering/README.md
+skills/engineering/ask-matt/SKILL.md
+skills/engineering/code-review/SKILL.md
+skills/engineering/to-spec/SKILL.md
+skills/engineering/to-tickets/SKILL.md
+skills/engineering/triage/SKILL.md
+skills/engineering/wayfinder/SKILL.md
+skills/in-progress/README.md
+skills/misc/README.md
+skills/misc/git-guardrails-claude-code/SKILL.md
+skills/misc/git-guardrails-claude-code/scripts/block-dangerous-git.sh
+
+# --- Deleted upstream files (must stay absent) ---
+# The setup skill is the fork's, re-homed under `skills/team/platform/`;
+# upstream's copy stays deleted rather than restored — see `divergence.md`.
+.claude-plugin/marketplace.json
+.claude-plugin/plugin.json
+docs/engineering/setup-matt-pocock-skills.md
+scripts/sync-plugin-version.mjs
+skills/engineering/setup-matt-pocock-skills/SKILL.md
+skills/engineering/setup-matt-pocock-skills/agents/openai.yaml
+skills/engineering/setup-matt-pocock-skills/domain.md
+skills/engineering/setup-matt-pocock-skills/issue-tracker-github.md
+skills/engineering/setup-matt-pocock-skills/issue-tracker-gitlab.md
+skills/engineering/setup-matt-pocock-skills/issue-tracker-local.md
+skills/engineering/setup-matt-pocock-skills/triage-labels.md

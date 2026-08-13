@@ -1,23 +1,33 @@
-This is the **osxsystem team fork** of mattpocock/skills, customized for mobile development with Kotlin Multiplatform + Compose Multiplatform (Android + iOS/Swift). Fork-specific conventions live in [MAINTENANCE.md](./MAINTENANCE.md); the `mobile/` bucket and its docs are fork additions that upstream syncs must preserve.
+This is the **osxsystem team fork** of mattpocock/skills, customized for mobile development with Kotlin Multiplatform + Compose Multiplatform (Android + iOS/Swift). Fork-specific conventions live in [MAINTENANCE.md](./MAINTENANCE.md); the `skills/team/` tree and its docs are fork additions that upstream syncs must preserve.
 
-Skills are organized into bucket folders under `skills/`:
+`skills/` is split by **provenance**. Upstream's buckets sit directly under it and are vendor territory — never moved, renamed, or edited outside the sanctioned list in [.fork/sanctioned-edits.txt](./.fork/sanctioned-edits.txt):
 
 - `engineering/` — daily code work
 - `productivity/` — daily non-code workflow tools
-- `mobile/` — **fork addition**: Kotlin Multiplatform / Compose Multiplatform team skills (promoted: listed in the top-level `README.md` and `docs/mobile/`)
 - `misc/` — kept around but rarely used, not promoted
 - `in-progress/` — beta: public on purpose, feedback wanted, not promoted
 - `deprecated/` — no longer used
 
-Every skill in `engineering/`, `productivity/`, or `mobile/` (the **promoted** buckets) must have a reference in the top-level `README.md`. Skills in `misc/`, `in-progress/`, and `deprecated/` must not appear there.
+Every fork-authored skill lives under `skills/team/`, grouped by capability **domain**. Upstream never writes there, so it is conflict-free:
+
+- `team/mobile/` — Kotlin Multiplatform / Compose Multiplatform team skills
+- `team/platform/` — the skill toolchain itself: repo setup, porting capabilities in, unsticking a design
+
+A domain folder is created when its first skill lands — no empty growth slots. Each team domain is **promoted** and carries the same registration as an upstream promoted bucket: a bucket `README.md`, an entry in the top-level `README.md`, and a docs page.
+
+Upstream encodes maturity in the bucket — `in-progress/` is beta. A team domain encodes capability instead, so maturity rides in the catalog: a skill whose [.fork/catalog.yaml](./.fork/catalog.yaml) entry carries `status: beta` is exempt from promotion — no docs page, kept out of the top-level `README.md`, listed under a flat `## Beta` heading in its bucket `README.md`. Drop the field to promote it, and add the missing registration in the same change.
+
+Every skill in `engineering/`, `productivity/`, or any `team/<domain>/` (the **promoted** buckets) must have a reference in the top-level `README.md`. Skills in `misc/`, `in-progress/`, `deprecated/`, and any team skill marked `status: beta` must not appear there.
 
 Install commands are copied verbatim from [.agents/install-block.md](./.agents/install-block.md). This fork ships via [skills.sh](https://skills.sh/osxsystem/skills) only — upstream's Claude Code plugin route (`.claude-plugin/`) was removed, and upstream syncs that re-add it are resolved by deleting it again (see [MAINTENANCE.md](./MAINTENANCE.md)). The history of the plugin decision lives in [.agents/adr/0002-ship-as-a-claude-code-plugin.md](./.agents/adr/0002-ship-as-a-claude-code-plugin.md).
 
 Each skill entry in the top-level `README.md` must link the skill name to its `SKILL.md`.
 
-Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description, with the skill name linked to its `SKILL.md`. The promoted buckets' `README.md`s and the top-level `README.md` group entries into **User-invoked** and **Model-invoked**; non-promoted bucket `README.md`s (`misc/`, `in-progress/`) use a flat list.
+Each bucket folder — an upstream bucket or a `team/<domain>/` folder — has a `README.md` that lists every skill in it with a one-line description, with the skill name linked to its `SKILL.md`. The promoted buckets' `README.md`s and the top-level `README.md` group entries into **User-invoked** and **Model-invoked**; non-promoted bucket `README.md`s (`misc/`, `in-progress/`) use a flat list, as does the `## Beta` heading a team domain adds below its groups.
 
-Skills in the promoted buckets — `engineering/`, `productivity/`, and `mobile/` — also have a human-facing docs page at `docs/<bucket>/<skill-name>.md` (the docs tree mirrors those three bucket folders under `skills/`). The published URL is `https://aihero.dev/skills-<skill-name>` regardless of bucket — the docs path is repo organisation only, and `mobile/` is fork-local so aihero.dev never hosts it. When you add, rename, or change the behaviour of a skill in a promoted bucket, create or re-sync its docs page following [.agents/writing-docs.md](./.agents/writing-docs.md). A finished page carries four sections — **What it does**, **When to reach for it**, **Common questions**, **It's working if** — and `writing-docs.md` holds the template, the section order, and where to hunt for the questions. Skills in the non-promoted buckets (`misc/`, `in-progress/`, `deprecated/`) get **no** docs page.
+Skills in the promoted buckets — `engineering/`, `productivity/`, and every `team/<domain>/` — also have a human-facing docs page at `docs/<bucket>/<skill-name>.md`, where `<bucket>` is the skill's path under `skills/` (so `skills/team/mobile/kmp-module-setup` → `docs/team/mobile/kmp-module-setup.md`): the docs tree mirrors the promoted folders under `skills/`. The published URL is `https://aihero.dev/skills-<skill-name>` regardless of bucket — the docs path is repo organisation only, and `team/` is fork-local so aihero.dev never hosts it. When you add, rename, or change the behaviour of a skill in a promoted bucket, create or re-sync its docs page following [.agents/writing-docs.md](./.agents/writing-docs.md). A finished page carries four sections — **What it does**, **When to reach for it**, **Common questions**, **It's working if** — and `writing-docs.md` holds the template, the section order, and where to hunt for the questions. Skills in the non-promoted buckets (`misc/`, `in-progress/`, `deprecated/`) and team skills marked `status: beta` get **no** docs page.
+
+Alongside the per-skill pages, `docs/roles/` carries one entry page per audience in [.fork/catalog.yaml](./.fork/catalog.yaml) — engineer, designer, analyst, qa, staff. Each lists every skill whose `audience` names that role, in a curated reading order, linking to the skill's docs page or to its `SKILL.md` where it has none. The catalog is the source of truth and the pages are the view: refine the `audience` list there, never per page, and re-sync the affected role pages in the same change.
 
 Every `SKILL.md` is either user-invoked (`disable-model-invocation: true` plus `policy.allow_implicit_invocation: false` in `agents/openai.yaml`, reachable only by the human) or model-invoked (model- or user-reachable). See [.agents/invocation.md](./.agents/invocation.md).
 

@@ -20,7 +20,7 @@ You invoke this by typing `/ask-matt` — the agent won't reach for it on its ow
 
 The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable, and it only knows the promoted skills in this repo.
 
-The tracker-dependent routes — triage, `to-spec`, `to-tickets`, `implement` — assume [setup-osxsystem-skills](../../skills/engineering/setup-osxsystem-skills/SKILL.md) has already configured an issue tracker in the repo. The router will happily recommend them before that has happened.
+The tracker-dependent routes — triage, `to-spec`, `to-tickets`, `implement` — assume [setup-osxsystem-skills](../../skills/team/platform/setup-osxsystem-skills/SKILL.md) has already configured an issue tracker in the repo. The router will happily recommend them before that has happened.
 
 ## Flows, not skills
 
@@ -30,7 +30,7 @@ The word the skill gives you to think with is **flow**: a path *through* the ski
 - **On-ramps**, for a situation that generates work and then merges onto the main flow: incoming bug reports, something broken, an effort too foggy and too large to hold in one session, or a capability another codebase already has.
 - **Standalones**, off every flow, reached for on their own terms — the prototype, the questionnaire, the merge conflict you are already sitting in.
 - **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
-- **A platform-knowledge layer underneath**, four Kotlin Multiplatform / Compose Multiplatform references the implementation skills reach for when the platform rather than the process is the problem. One of them, release-and-publish, sits at ship time, though the TDD loop also consults it for the Gradle task map.
+- **A platform-knowledge layer underneath**, five Kotlin Multiplatform / Compose Multiplatform references the implementation skills reach for when the platform rather than the process is the problem. One of them, test-seams, sits directly under the TDD loop — where the seam goes and which Gradle task proves it; another, release-and-publish, sits at ship time and owns the full task map.
 
 ## The phase boundary
 

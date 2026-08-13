@@ -9,10 +9,16 @@ verbatim install block, and the absence of `.claude-plugin/`.
 Run everything the way CI does:
 
 ```bash
+python3 scripts/harness/forkcheck.py           # fork boundary: 4 assertions
 python3 scripts/harness/skillcheck.py          # 476+ assertions, exits 1 on any failure
 bash scripts/harness/test_guardrail.sh         # 39 cases for block-dangerous-git.sh
+bash scripts/harness/test_forkcheck.sh         # 18 fail-closed cases for forkcheck.py
 python3 scripts/check-confusable-skills.py     # description-collision tripwire
 ```
+
+`forkcheck.py` needs the upstream commit recorded in `.fork/upstream.lock`:
+`git fetch upstream main` first, or pass `--upstream-ref` to compare against
+something else (`upstream/main` during a sync).
 
 `skillcheck.py` needs `pyyaml`. Without it, `hand_validator.py` provides a
 dependency-free structural read of every `agents/openai.yaml`, and
@@ -21,6 +27,8 @@ dependency-free structural read of every `agents/openai.yaml`, and
 
 | File | Role |
 |---|---|
+| `forkcheck.py` | The fork boundary guard: frozen upstream territory, unique skill names, catalog completeness, no plugin directory. |
+| `test_forkcheck.sh` | Seeds a violation of each `forkcheck.py` assertion and proves it fails. |
 | `skillcheck.py` | The assertion suite. `--json` prints raw rows. |
 | `hand_validator.py` | Dependency-free `openai.yaml` parse. |
 | `yamlcheck.cjs` | Independent Node parse, for cross-checking. |

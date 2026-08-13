@@ -11,6 +11,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[tdd](../engineering/tdd.md)** _(auto)_ — red-green-refactor, one vertical slice at a time. It owns the loop and the standard for what makes a test worth keeping.
 - **[kmp-test-seams](../team/mobile/kmp-test-seams.md)** _(auto)_ — on a Kotlin Multiplatform repo, the two questions `/tdd` cannot answer: does this test belong in `commonTest` or a platform source set, and which Gradle task actually proves the slice green.
 - **[code-review](../engineering/code-review.md)** _(auto)_ — review a diff on two axes at once: standards, and whether it does what the originating ticket asked. The second axis is the one that catches shipped-but-wrong.
+- **[do-test](../../skills/team/quality/do-test/SKILL.md)** _(auto)_ — verify a feature or a bug fix: derive a test matrix, run it, read every surface, and report a SHIP/BLOCKED/UNVERIFIED verdict backed by evidence. Beta.
 
 ## When something is broken
 

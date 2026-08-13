@@ -20,7 +20,9 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[to-spec](../engineering/to-spec.md)** — the conversation is decided; turn it into a spec on the tracker. It does not re-interview you.
 - **[to-tickets](../engineering/to-tickets.md)** — break the spec into tracer-bullet tickets with their blocking edges declared.
 - **[implement](../engineering/implement.md)** — build a ticket or spec end to end, driving `/tdd` at the agreed seams and closing with `/code-review`.
+- **[cook](../../skills/team/delivery/cook/SKILL.md)** _(auto)_ — the gated alternative to `/implement`: a research → plan → implement → test → review pipeline that stops for your approval between steps. Beta.
 - **[tdd](../engineering/tdd.md)** _(auto)_ — the red-green-refactor loop itself, one vertical slice at a time.
+- **[do-test](../../skills/team/quality/do-test/SKILL.md)** _(auto)_ — after the build: derive a test matrix from the change, run it, and get a SHIP/BLOCKED/UNVERIFIED verdict backed by evidence. Beta.
 - **[code-review](../engineering/code-review.md)** _(auto)_ — review the diff since a fixed point on two axes at once: does it follow the repo's standards, and does it do what the spec asked?
 
 ## While you are building
@@ -29,6 +31,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[prototype](../engineering/prototype.md)** _(auto)_ — a throwaway artifact that answers one design question, rather than arguing about it.
 - **[domain-modeling](../engineering/domain-modeling.md)** _(auto)_ — when two people are using one word for two things, pin the term down and record it.
 - **[research](../engineering/research.md)** _(auto)_ — delegate the reading to a background agent and get back a cited Markdown file instead of a guess.
+- **[project-organization](../../skills/team/delivery/project-organization/SKILL.md)** _(auto)_ — where any output file goes and what it's called: plans, reports, journals, assets, and their markdown templates. Beta.
 - **[wizard](../engineering/wizard.md)** _(auto)_ — the steps only a human can do (dashboards, credentials, a cutover) become an interactive bash script that walks them through it.
 - **[migrate-to-shoehorn](../../skills/misc/migrate-to-shoehorn/SKILL.md)** _(auto)_ — mechanical: replace `as` assertions in TypeScript tests with shoehorn.
 - **[scaffold-exercises](../../skills/misc/scaffold-exercises/SKILL.md)** _(auto)_ — mechanical: stub out an exercise tree (problems, solutions, explainers) for course material.

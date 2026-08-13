@@ -34,6 +34,7 @@ domains:
   - deprecated
   - mobile
   - platform
+  - delivery
   - design
   - discovery
   - quality
@@ -301,5 +302,30 @@ skills:
     origin: fork
     domain: platform
     audience: [engineer, staff]
+    owner: "@osxsystem"
+    status: beta
+
+  # --- fork: delivery ---
+  - name: cook
+    path: skills/team/delivery/cook
+    origin: fork
+    domain: delivery
+    audience: [engineer]
+    owner: "@osxsystem"
+    status: beta
+  - name: project-organization
+    path: skills/team/delivery/project-organization
+    origin: fork
+    domain: delivery
+    audience: [engineer, staff]
+    owner: "@osxsystem"
+    status: beta
+
+  # --- fork: quality ---
+  - name: do-test
+    path: skills/team/quality/do-test
+    origin: fork
+    domain: quality
+    audience: [engineer, qa]
     owner: "@osxsystem"
     status: beta

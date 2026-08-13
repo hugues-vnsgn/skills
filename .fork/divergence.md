@@ -21,7 +21,8 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 | `docs/roles/` | One entry page per audience in [`catalog.yaml`](./catalog.yaml) — a curated reading order for engineers, designers, analysts, QA and staff (fork-local) | Regenerate the lists by hand whenever a skill's `audience` changes; the catalog is the source of truth, the pages are the view. |
 | `research/` | Source research (prompts + reports from official kotlinlang.org docs, 2026-08) behind each mobile `reference.md` | — |
 | `scripts/harness/`, `scripts/check-confusable-skills.py`, `.github/workflows/skillcheck.yml` | The fork's skill-validation harness and its CI job | — |
-| `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py` | This control plane and the generated catalog | — |
+| `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py` | This control plane and the generated catalog — including [`sync-playbook.md`](./sync-playbook.md), the step-by-step sync procedure | The playbook's residual conflict surface is this file's sync-active sections, one row per section. Change one, change the other. |
+| `.github/CODEOWNERS` | PR approval authority: a team per `skills/team/<domain>/`, maintainers over upstream territory and the control plane | Upstream ships no `CODEOWNERS`. Its team slugs mirror the `owner:` fields in [`catalog.yaml`](./catalog.yaml). |
 | `MAINTENANCE.md`, `CUSTOMIZING.md` | Fork maintenance and customization narrative | — |
 | `docs/superpowers/` | Fork specs and plans (dated historical documents) | — |
 | `.scratch/` | The local issue tracker (specs and their tickets); GitHub Issues is disabled on this repo | — |
@@ -29,7 +30,7 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 
 ## Modifications and deletions (sync-active)
 
-Each row is a recurring conflict. Enable `git config rerere.enabled true` once, and the prose rows below self-resolve after the first sync that records them.
+Each row is a recurring conflict, and together they are the fork's entire expected conflict surface — [`sync-playbook.md`](./sync-playbook.md) tabulates the same sections as the list a maintainer checks a conflict against mid-merge, so the two must be changed together. Enable `git config rerere.enabled true` once, and the prose rows below self-resolve after the first sync that records them.
 
 ### `.claude-plugin/` — deleted, and `scripts/sync-plugin-version.mjs`
 

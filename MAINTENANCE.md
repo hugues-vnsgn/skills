@@ -11,22 +11,24 @@ This repo (`osxsystem/skills`) is a team fork of [`mattpocock/skills`](https://g
 | `research/` | The source research (prompts + reports from official kotlinlang.org docs, 2026-08) each mobile skill's `reference.md` was distilled from |
 | `skills/team/platform/` | Team skills for the toolchain itself (see [skills/team/platform/README.md](./skills/team/platform/README.md)): the fork's `setup-osxsystem-skills`, plus `port-from-repo` and `when-stuck` re-authored from external patterns (ClaudeKit's `xia`; Microsoft Amplifier via ClaudeKit's `problem-solving`) — see [the adoption spec](./docs/superpowers/specs/2026-08-10-claudekit-adoption-design.md). |
 | `docs/team/platform/` | Docs pages for the platform domain (fork-local; not published to aihero.dev) |
+| `.fork/` | The fork control plane: the sidecar [catalog](./.fork/catalog.yaml), the [last-synced upstream SHA](./.fork/upstream.lock), the [divergence record](./.fork/divergence.md), the [sanctioned-edits list](./.fork/sanctioned-edits.txt) CI reads, and the [sync playbook](./.fork/sync-playbook.md) |
+| `.github/CODEOWNERS` | PR approval authority — a team per `skills/team/<domain>/`, maintainers over upstream territory and the control plane |
 | `MAINTENANCE.md` | This file |
 | Upstream files touched | `README.md` (reframed as fork README + team sections), `CLAUDE.md` (the team tree, plugin route removed), `skills/engineering/tdd/SKILL.md` (KMP section at the end); `.claude-plugin/` and upstream's `setup-matt-pocock-skills/` deleted. The full record, with a resolution recipe per divergence, is [.fork/divergence.md](./.fork/divergence.md). |
 
 ## Syncing with upstream
 
-```bash
-git remote add upstream https://github.com/mattpocock/skills   # once
-git fetch upstream
-git merge upstream/main        # prefer merge over rebase — keeps fork history honest
-```
+**The step-by-step procedure lives in [`.fork/sync-playbook.md`](./.fork/sync-playbook.md).** Follow it rather than this section — what's here is the shape of the thing, so you know what you're doing before you type it.
 
-Conflicts will cluster in the upstream files we touched (table above); our changes are appended sections/entries, so resolution is usually "keep both" — except `.claude-plugin/`, which we deleted and upstream may re-add. After every sync:
+A sync is a merge plus assertions, not an act of curation. Upstream owns its buckets byte-for-byte; the fork owns `skills/team/` and the control plane, which upstream has never written. Because the two territories don't overlap, the only files that can conflict are the handful the fork deliberately diverged on — every one of them enumerated, with a resolution recipe, in [`.fork/divergence.md`](./.fork/divergence.md) and repeated as the playbook's residual conflict surface. A conflict outside that set means the boundary moved, and that's a stop-and-investigate rather than a merge decision.
 
-1. Confirm `.claude-plugin/` stays deleted — if the merge restored it, run `git rm -r .claude-plugin` and commit.
-2. Confirm the fork README framing and the Mobile and Platform sections survived in `README.md`, and that install commands still say `osxsystem/skills` (upstream's say `mattpocock/skills`).
-3. Skim upstream's `CHANGELOG.md` for renamed/moved skills our mobile skills cross-reference (`tdd`, `code-review`).
+Three habits carry most of the value, and the playbook is mostly scaffolding around them:
+
+- **Merge, never rebase** — rebasing replays every fork commit against every upstream change and rewrites published history.
+- **Sync-only branches** — a reviewer should be able to read every non-upstream hunk as a conflict resolution. Improvements the sync inspires go in a follow-up PR.
+- **`git config rerere.enabled true`, once per clone** — the recurring prose conflicts (fork framing in `README.md`, `CLAUDE.md`, the bucket READMEs) are always "keep both", and rerere replays that resolution for free after the first time.
+
+CI's `forkcheck` guard holds the boundary between syncs; at sync time run it against the merged ref (`--upstream-ref upstream/main`). Advance [`.fork/upstream.lock`](./.fork/upstream.lock) as part of the sync — it's what makes the next one's "what changed since?" a single `git log`.
 
 ## Adding or changing a skill
 

@@ -1,0 +1,89 @@
+# Divergence record
+
+Every way this fork differs from [`mattpocock/skills`](https://github.com/mattpocock/skills), and how to resolve each one when it surfaces in a sync. Seeded from the fork table in [MAINTENANCE.md](../MAINTENANCE.md) and verified against `git diff upstream/main` on 2026-08-13 (upstream `84fdeff`).
+
+Two sections, split by how a sync treats them:
+
+- **Additions** are *sync-inert* — files upstream has never written, so a merge cannot conflict with them. They need no recipe; they need only to survive.
+- **Modifications and deletions** are *sync-active* — upstream may rewrite the same bytes. Each carries a resolution recipe so the same conflict resolves the same way every time.
+
+The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-edits.txt), which lists exactly the upstream paths permitted to differ. Anything appearing in a merge that is not described here is a signal to stop and investigate.
+
+## Additions (sync-inert)
+
+| Path | What | Sync note |
+|---|---|---|
+| `skills/mobile/` | The team's four KMP/CMP skills | Upstream has no `mobile` bucket. |
+| `docs/mobile/` | Docs pages for the mobile bucket (fork-local; never published to aihero.dev) | — |
+| `research/` | Source research (prompts + reports from official kotlinlang.org docs, 2026-08) behind each mobile `reference.md` | — |
+| `skills/engineering/port-from-repo/`, `docs/engineering/port-from-repo.md` | Fork skill re-authored from ClaudeKit's `xia` | Sits **inside** an upstream folder, so it is also listed in `sanctioned-edits.txt`. A sync must not drop it. |
+| `skills/in-progress/when-stuck/` | Fork skill re-authored from Microsoft Amplifier via ClaudeKit's `problem-solving` | Same: inside an upstream folder, listed in `sanctioned-edits.txt`. |
+| `scripts/harness/`, `scripts/check-confusable-skills.py`, `.github/workflows/skillcheck.yml` | The fork's skill-validation harness and its CI job | — |
+| `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py` | This control plane and the generated catalog | — |
+| `MAINTENANCE.md`, `CUSTOMIZING.md` | Fork maintenance and customization narrative | — |
+| `docs/superpowers/` | Fork specs and plans (dated historical documents) | — |
+| `.changeset/*.md` | Fork changesets | Ephemeral; consumed by a release. `.changeset/config.json` is a *modification* — see below. |
+
+## Modifications and deletions (sync-active)
+
+Each row is a recurring conflict. Enable `git config rerere.enabled true` once, and the prose rows below self-resolve after the first sync that records them.
+
+### `.claude-plugin/` — deleted, and `scripts/sync-plugin-version.mjs`
+
+**Why:** this fork ships via [skills.sh](https://skills.sh/osxsystem/skills) only; the Claude Code plugin route was removed. See [ADR 0002](../.agents/adr/0002-ship-as-a-claude-code-plugin.md) for the upstream decision this fork reverses.
+
+**Recipe:** upstream edits to these files land as a modify/delete conflict. Keep the deletion:
+
+```bash
+git rm -r --ignore-unmatch .claude-plugin scripts/sync-plugin-version.mjs
+```
+
+Also drop any `sync-plugin-version` script upstream re-adds to `package.json`.
+
+### `skills/engineering/setup-matt-pocock-skills/` → `setup-osxsystem-skills/` — renamed
+
+**Why:** the setup skill configures *this* repo's skills, and the fork's approved name (2026-08-06 rename spec, [`docs/superpowers/specs/2026-08-06-rename-setup-skill-design.md`](../docs/superpowers/specs/2026-08-06-rename-setup-skill-design.md)) is `setup-osxsystem-skills`. Upstream's copy stays deleted rather than restored: the linker links every non-deprecated skill, so restoring upstream's copy would install two setup skills under two names.
+
+**Recipe:** treat exactly like `.claude-plugin/` — upstream's paths stay deleted, ours stay:
+
+```bash
+git rm -r --ignore-unmatch skills/engineering/setup-matt-pocock-skills docs/engineering/setup-matt-pocock-skills.md
+```
+
+Then port any upstream change to the deleted files into `skills/engineering/setup-osxsystem-skills/` by hand — the content is otherwise unchanged from upstream's, only the name differs.
+
+### `skills/engineering/tdd/SKILL.md` — KMP section appended
+
+**Why:** the team's TDD loop for Kotlin Multiplatform. **This divergence is scheduled for retirement:** the parent restructure extracts the appended section into a fork-owned mobile skill and restores upstream's file verbatim.
+
+**Recipe (until then):** keep both — upstream's body, then the fork's KMP section at the end.
+
+### Prose files — `README.md`, `CLAUDE.md`, `CONTEXT.md`, `MAINTENANCE.md`-adjacent conventions
+
+Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.agents/writing-docs.md`, `.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md`, `skills/{engineering,in-progress,misc}/README.md`, `docs/engineering/*.md`, `docs/productivity/wait-what.md`.
+
+**Why:** fork framing (osxsystem, not mattpocock), the mobile bucket, fork-added skills registered in bucket READMEs, and install commands pointing at `osxsystem/skills`.
+
+**Recipe:** keep both sides — these are appended sections and entries, not rewrites. Then verify:
+
+- install commands say `osxsystem/skills`, not `mattpocock/skills` (source of truth: [`.agents/install-block.md`](../.agents/install-block.md));
+- the fork README framing and its Mobile section survived;
+- fork-added skills are still listed in their bucket README.
+
+### `package.json`, `package-lock.json`, `.changeset/config.json`, `.gitignore`
+
+**Why:** fork package name/description/repository, the removed `sync-plugin-version` script, changelog pointing at `osxsystem/skills`, and the ignored `isolated_test_workspace/`.
+
+**Recipe:** take upstream's dependency and tooling changes; keep the fork's identity fields (`name`, `description`, `repository`, changeset `repo`) and the fork's ignore entries.
+
+### `skills/misc/git-guardrails-claude-code/` — hardened
+
+**Why:** fork-hardened `block-dangerous-git.sh` and its skill doc.
+
+**Recipe:** keep both — reconcile by re-running `bash scripts/harness/test_guardrail.sh`; the tests are the arbiter, not the diff.
+
+### `skills/engineering/{ask-matt,code-review,to-spec,to-tickets,triage,wayfinder}/SKILL.md`
+
+**Why:** router entries and cross-references for fork skills (mobile bucket, `port-from-repo`, `when-stuck`).
+
+**Recipe:** keep both; then re-read [`ask-matt`](../skills/engineering/ask-matt/SKILL.md) and confirm every fork skill still appears and every upstream skill it routes to still exists under that name.

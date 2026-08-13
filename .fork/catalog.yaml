@@ -250,25 +250,25 @@ skills:
 
   # --- fork: mobile ---
   - name: compose-multiplatform-ui
-    path: skills/mobile/compose-multiplatform-ui
+    path: skills/team/mobile/compose-multiplatform-ui
     origin: fork
     domain: mobile
     audience: [engineer, designer]
     owner: "@osxsystem/mobile"
   - name: kmp-ios-integration
-    path: skills/mobile/kmp-ios-integration
+    path: skills/team/mobile/kmp-ios-integration
     origin: fork
     domain: mobile
     audience: [engineer]
     owner: "@osxsystem/mobile"
   - name: kmp-module-setup
-    path: skills/mobile/kmp-module-setup
+    path: skills/team/mobile/kmp-module-setup
     origin: fork
     domain: mobile
     audience: [engineer]
     owner: "@osxsystem/mobile"
   - name: kmp-release-and-publish
-    path: skills/mobile/kmp-release-and-publish
+    path: skills/team/mobile/kmp-release-and-publish
     origin: fork
     domain: mobile
     audience: [engineer, qa]

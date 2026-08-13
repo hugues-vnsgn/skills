@@ -42,10 +42,10 @@ Every skill in this repo: 41 total — 34 upstream, 7 fork-authored.
 | [writing-beats](skills/in-progress/writing-beats/SKILL.md) | upstream | in-progress | analyst, designer | @osxsystem/maintainers |
 | [writing-fragments](skills/in-progress/writing-fragments/SKILL.md) | upstream | in-progress | analyst, designer | @osxsystem/maintainers |
 | [writing-shape](skills/in-progress/writing-shape/SKILL.md) | upstream | in-progress | analyst, designer | @osxsystem/maintainers |
-| [compose-multiplatform-ui](skills/mobile/compose-multiplatform-ui/SKILL.md) | fork | mobile | engineer, designer | @osxsystem/mobile |
-| [kmp-ios-integration](skills/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @osxsystem/mobile |
-| [kmp-module-setup](skills/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @osxsystem/mobile |
-| [kmp-release-and-publish](skills/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @osxsystem/mobile |
+| [compose-multiplatform-ui](skills/team/mobile/compose-multiplatform-ui/SKILL.md) | fork | mobile | engineer, designer | @osxsystem/mobile |
+| [kmp-ios-integration](skills/team/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @osxsystem/mobile |
+| [kmp-module-setup](skills/team/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @osxsystem/mobile |
+| [kmp-release-and-publish](skills/team/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @osxsystem/mobile |
 | [port-from-repo](skills/engineering/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @osxsystem/platform |
 | [setup-osxsystem-skills](skills/engineering/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @osxsystem/platform |
 | [when-stuck](skills/in-progress/when-stuck/SKILL.md) | fork | platform | engineer, designer, staff | @osxsystem/platform |

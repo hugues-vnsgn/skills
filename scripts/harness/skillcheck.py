@@ -10,7 +10,10 @@ import yaml
 _args = [a for a in sys.argv[1:] if not a.startswith("-")]
 REPO = _args[0] if _args else "."
 JSON_OUT = "--json" in sys.argv[1:]
-PROMOTED = {"engineering", "productivity", "mobile"}
+# Upstream's two promoted buckets, plus every domain under the fork's team
+# tree — `team/mobile` and its future siblings are promoted by construction.
+PROMOTED = {"engineering", "productivity"}
+TEAM_TREE = "team"
 DOC_SECTIONS = [
     "What it does",
     "When to reach for it",
@@ -69,19 +72,35 @@ def resolve(base_dir, target):
         return True
     return os.path.exists(os.path.normpath(os.path.join(base_dir, t)))
 
+def is_promoted(bucket):
+    """Promoted buckets carry a docs page and a top-level README entry.
+
+    A bucket is a *path* under skills/: upstream buckets are one segment
+    (`engineering`), fork domains are two (`team/mobile`).
+    """
+    return bucket in PROMOTED or bucket.split("/")[0] == TEAM_TREE
+
+
 def find_skills(repo):
+    """Every skill dir under skills/, with its bucket as a path under skills/.
+
+    Walked, not listed one level deep, because the fork's team tree groups
+    skills by domain: `skills/team/mobile/<name>` has bucket `team/mobile`.
+    Bucket doubles as the path segment for docs/<bucket>/<name>.md and
+    skills/<bucket>/README.md, so both conventions follow the nesting.
+    """
     skills = []
     skills_root = os.path.join(repo, "skills")
-    for bucket in sorted(os.listdir(skills_root)):
-        bdir = os.path.join(skills_root, bucket)
-        if not os.path.isdir(bdir):
+    for dirpath, _dirnames, filenames in os.walk(skills_root):
+        if "SKILL.md" not in filenames:
             continue
-        for name in sorted(os.listdir(bdir)):
-            sdir = os.path.join(bdir, name)
-            skill_md = os.path.join(sdir, "SKILL.md")
-            if os.path.isfile(skill_md):
-                skills.append({"bucket": bucket, "name": name, "dir": sdir})
-    return skills
+        bucket = os.path.relpath(os.path.dirname(dirpath), skills_root)
+        skills.append({
+            "bucket": bucket.replace(os.sep, "/"),
+            "name": os.path.basename(dirpath),
+            "dir": dirpath,
+        })
+    return sorted(skills, key=lambda s: (s["bucket"], s["name"]))
 
 
 def check_skill(repo, skill):
@@ -189,8 +208,8 @@ def check_skill(repo, skill):
         row("links-resolve", "FAIL", f"broken: {', '.join(broken)}")
 
     # --- docs page (promoted buckets only) ---
-    if bucket in PROMOTED:
-        docs_path = os.path.join(repo, "docs", bucket, f"{name}.md")
+    if is_promoted(bucket):
+        docs_path = os.path.join(repo, "docs", *bucket.split("/"), f"{name}.md")
         if os.path.isfile(docs_path):
             dtext = read(docs_path)
             missing_sections = [s for s in DOC_SECTIONS if f"## {s}" not in dtext]
@@ -213,7 +232,7 @@ def check_readme_membership(repo, skills):
             r"\[" + re.escape(name) + r"\]\(\./skills/" + re.escape(bucket) + r"/" + re.escape(name) + r"/SKILL\.md\)"
         )
         present = bool(link_pattern.search(readme))
-        if bucket in PROMOTED:
+        if is_promoted(bucket):
             status = "PASS" if present else "FAIL"
             notes = "" if present else "expected linked entry in top-level README.md, not found"
         else:
@@ -241,7 +260,7 @@ def check_bucket_readmes(repo, skills):
             except yaml.YAMLError:
                 fm = {}
             fm_dmi[s["name"]] = bool(fm.get("disable-model-invocation", False))
-        readme_path = os.path.join(repo, "skills", bucket, "README.md")
+        readme_path = os.path.join(repo, "skills", *bucket.split("/"), "README.md")
         if not os.path.isfile(readme_path):
             for name in names:
                 rows.append({"bucket": bucket, "skill": name, "check": "bucket-readme-lists-skill",
@@ -256,11 +275,11 @@ def check_bucket_readmes(repo, skills):
                          "status": "PASS" if present else "FAIL",
                          "notes": "" if present else "not linked in bucket README",
                          "file": f"skills/{bucket}/README.md"})
-        if bucket in PROMOTED:
+        if is_promoted(bucket):
             # A grouping heading is only required if that group is non-empty.
-            # mobile has zero user-invoked skills today, so no ## User-invoked
-            # heading is expected there - CLAUDE.md requires the *split*, not
-            # both headings unconditionally.
+            # team/mobile has zero user-invoked skills today, so no
+            # ## User-invoked heading is expected there - CLAUDE.md requires
+            # the *split*, not both headings unconditionally.
             has_user = "## User-invoked" in text
             has_model = "## Model-invoked" in text
             expect_user = any(fm_dmi.get(n) for n in names)
@@ -285,7 +304,7 @@ def check_ask_matt_routing(repo, skills):
     rows = []
     am_path = os.path.join(repo, "skills", "engineering", "ask-matt", "SKILL.md")
     text = read(am_path)
-    promoted_names = [s["name"] for s in skills if s["bucket"] in PROMOTED]
+    promoted_names = [s["name"] for s in skills if is_promoted(s["bucket"])]
     all_names = {s["name"] for s in skills}
     for name in promoted_names:
         if name == "ask-matt":

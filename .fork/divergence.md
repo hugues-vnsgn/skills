@@ -13,8 +13,8 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 
 | Path | What | Sync note |
 |---|---|---|
-| `skills/mobile/` | The team's four KMP/CMP skills | Upstream has no `mobile` bucket. |
-| `docs/mobile/` | Docs pages for the mobile bucket (fork-local; never published to aihero.dev) | — |
+| `skills/team/mobile/` | The team's four KMP/CMP skills, in the `mobile` domain of the fork-owned `skills/team/` tree | Upstream writes nothing under `skills/team/`. |
+| `docs/team/mobile/` | Docs pages for the mobile domain, mirroring the skill tree (fork-local; never published to aihero.dev) | — |
 | `research/` | Source research (prompts + reports from official kotlinlang.org docs, 2026-08) behind each mobile `reference.md` | — |
 | `skills/engineering/port-from-repo/`, `docs/engineering/port-from-repo.md` | Fork skill re-authored from ClaudeKit's `xia` | Sits **inside** an upstream folder, so it is also listed in `sanctioned-edits.txt`. A sync must not drop it. |
 | `skills/in-progress/when-stuck/` | Fork skill re-authored from Microsoft Amplifier via ClaudeKit's `problem-solving` | Same: inside an upstream folder, listed in `sanctioned-edits.txt`. |

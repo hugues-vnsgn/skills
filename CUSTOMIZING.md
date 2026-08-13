@@ -16,7 +16,7 @@ The single most important line is the **`description`**. It is the *pointer* the
 
 ## 2. The layers a change must touch
 
-The repo distinguishes **promoted** buckets (`engineering/`, `productivity/`, `mobile/`) from parked ones (`misc/`, `in-progress/`, `deprecated/`). A promoted skill is registered in three places besides the skill itself, and edits ripple to all of them:
+The repo distinguishes **promoted** buckets (`engineering/`, `productivity/`, and every `team/<domain>/` — `team/mobile/` today) from parked ones (`misc/`, `in-progress/`, `deprecated/`). A promoted skill is registered in three places besides the skill itself, and edits ripple to all of them:
 
 | Layer | File |
 |---|---|
@@ -31,7 +31,7 @@ For each skill you want to change:
 
 1. **Classify the change.** Three kinds, cheapest first:
    - *Append* a section to an upstream skill (like the "Kotlin Multiplatform projects" section in `tdd`) — append-only edits merge cleanly when syncing upstream.
-   - *Rewrite or create* a skill (the four `mobile/` skills).
+   - *Rewrite or create* a skill (the four `team/mobile/` skills).
    - *Demote or remove* — move to `deprecated/`, deregister from the three layers.
 2. **Write with the body/pointer split.** Steps and decision tables the agent needs every time go in SKILL.md; anything only some paths need goes to a reference file behind a pointer ("Full detail: [reference.md]"). State rules positively ("write `@Throws` on throwing API") rather than as prohibitions, and prune anything the agent would do by default anyway.
 3. **Verify before shipping.** Dispatch a subagent that may read *only* the skill folder, give it 4–5 realistic task questions you know the answers to, and treat any gap or ambiguity in its answers as the bug to fix. For discipline-style skills — ones that must hold under pressure, like `tdd` — the stronger test is a pressure scenario: give a subagent a tempting shortcut and see if the skill stops it.

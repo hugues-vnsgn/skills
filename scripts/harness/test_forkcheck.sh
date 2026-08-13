@@ -72,14 +72,14 @@ seed_undeclared_fork_tree() {
 seed_stale_sanctioned_entry() { git show "$(lock_sha):.gitignore" > .gitignore; }
 
 # --- assertion 2: unique skill names ---
-seed_duplicate_skill_name() { cp -R skills/engineering/tdd skills/mobile/tdd; }
+seed_duplicate_skill_name() { cp -R skills/engineering/tdd skills/team/mobile/tdd; }
 
 # --- assertion 3: catalog completeness ---
-seed_catalogued_not_on_disk() { rm -rf skills/mobile/kmp-module-setup; }
+seed_catalogued_not_on_disk() { rm -rf skills/team/mobile/kmp-module-setup; }
 seed_on_disk_not_catalogued() {
-  mkdir -p skills/mobile/uncatalogued
+  mkdir -p skills/team/mobile/uncatalogued
   printf -- '---\nname: uncatalogued\ndescription: x\n---\n' \
-    > skills/mobile/uncatalogued/SKILL.md
+    > skills/team/mobile/uncatalogued/SKILL.md
 }
 
 # --- assertion 4: no plugin directory ---

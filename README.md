@@ -4,7 +4,7 @@
 
 What this fork adds on top of upstream:
 
-- **[`skills/mobile/`](./skills/mobile/README.md)** — team skills for Kotlin Multiplatform + Compose Multiplatform development
+- **[`skills/team/`](./skills/team/mobile/README.md)** — the fork's own skills, grouped by domain: `mobile/` for Kotlin Multiplatform + Compose Multiplatform development
 - Fork conventions in [MAINTENANCE.md](./MAINTENANCE.md) and [CUSTOMIZING.md](./CUSTOMIZING.md)
 
 ## Installation (30-second setup)
@@ -81,14 +81,14 @@ General workflow tools, not code-specific.
 
 ### Mobile
 
-Team skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift). Fork addition — see [skills/mobile/README.md](./skills/mobile/README.md).
+Team skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift). Fork addition — see [skills/team/mobile/README.md](./skills/team/mobile/README.md).
 
 **Model-invoked**
 
-- **[kmp-module-setup](./skills/mobile/kmp-module-setup/SKILL.md)** — Scaffold or audit a shared KMP module: targets, source-set hierarchy, version catalog (Kotlin/AGP/CMP pinned together), framework block, expect/actual vs interfaces + DI.
-- **[kmp-ios-integration](./skills/mobile/kmp-ios-integration/SKILL.md)** — Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
-- **[compose-multiplatform-ui](./skills/mobile/compose-multiplatform-ui/SKILL.md)** — Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
-- **[kmp-release-and-publish](./skills/mobile/kmp-release-and-publish/SKILL.md)** — Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
+- **[kmp-module-setup](./skills/team/mobile/kmp-module-setup/SKILL.md)** — Scaffold or audit a shared KMP module: targets, source-set hierarchy, version catalog (Kotlin/AGP/CMP pinned together), framework block, expect/actual vs interfaces + DI.
+- **[kmp-ios-integration](./skills/team/mobile/kmp-ios-integration/SKILL.md)** — Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
+- **[compose-multiplatform-ui](./skills/team/mobile/compose-multiplatform-ui/SKILL.md)** — Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
+- **[kmp-release-and-publish](./skills/team/mobile/kmp-release-and-publish/SKILL.md)** — Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
 
 The **osxsystem team fork** of [mattpocock/skills](https://github.com/mattpocock/skills), customized for mobile development with **Kotlin Multiplatform + Compose Multiplatform** (Android + iOS/Swift).
 

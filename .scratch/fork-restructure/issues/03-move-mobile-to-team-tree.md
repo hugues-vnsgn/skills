@@ -6,13 +6,13 @@
 
 **Blocked by:** 01, 02.
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] The four mobile skills moved via `git mv` to the team tree's mobile domain; their docs pages moved under the mirrored fork docs tree
-- [ ] CLAUDE.md's promoted-bucket rule names the team tree; registration requirements (bucket README, top-level README section, docs page, router re-sync) apply per team domain as they did for the mobile bucket
-- [ ] Top-level README and the team bucket README list the moved skills, grouped User-/Model-invoked, names linked to each SKILL.md; all links valid
-- [ ] The ask-matt router map reflects the new homes
-- [ ] `catalog.yaml` updated; `CATALOG.md` regenerated
-- [ ] Every live reference to the old paths is updated; dated historical documents (CHANGELOG, past specs/plans, out-of-scope records) untouched
-- [ ] Re-running the linker resolves the identical skill-name set as before the move
-- [ ] Full harness + forkcheck green
+- [x] The four mobile skills moved via `git mv` to the team tree's mobile domain; their docs pages moved under the mirrored fork docs tree
+- [x] CLAUDE.md's promoted-bucket rule names the team tree; registration requirements (bucket README, top-level README section, docs page, router re-sync) apply per team domain as they did for the mobile bucket
+- [x] Top-level README and the team bucket README list the moved skills, grouped User-/Model-invoked, names linked to each SKILL.md; all links valid
+- [x] The ask-matt router map reflects the new homes
+- [x] `catalog.yaml` updated; `CATALOG.md` regenerated
+- [x] Every live reference to the old paths is updated; dated historical documents (CHANGELOG, past specs/plans, out-of-scope records) untouched
+- [x] Re-running the linker resolves the identical skill-name set as before the move
+- [x] Full harness + forkcheck green

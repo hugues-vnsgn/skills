@@ -5,7 +5,7 @@
 #   (b) is a fork file placed inside an upstream-owned folder
 #       (`skills/{engineering,productivity,misc,in-progress,deprecated}/`,
 #        `docs/{engineering,productivity}/`).
-# Fork-owned trees (`skills/mobile/`, `docs/mobile/`, `research/`, `scripts/harness/`,
+# Fork-owned trees (`skills/team/mobile/`, `docs/team/mobile/`, `research/`, `scripts/harness/`,
 # `.fork/`, and the other paths listed under Additions in `divergence.md`) are
 # sync-inert and are NOT listed here — upstream never writes them, so they cannot drift.
 #

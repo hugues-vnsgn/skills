@@ -87,6 +87,7 @@ Team skills for Kotlin Multiplatform + Compose Multiplatform development (Androi
 - **[kmp-ios-integration](./skills/team/mobile/kmp-ios-integration/SKILL.md)** — Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
 - **[compose-multiplatform-ui](./skills/team/mobile/compose-multiplatform-ui/SKILL.md)** — Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
 - **[kmp-release-and-publish](./skills/team/mobile/kmp-release-and-publish/SKILL.md)** — Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
+- **[kmp-test-seams](./skills/team/mobile/kmp-test-seams/SKILL.md)** — The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green.
 
 ### Platform
 

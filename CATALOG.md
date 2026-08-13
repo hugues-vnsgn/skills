@@ -2,7 +2,7 @@
 
 # Skill catalog
 
-Every skill in this repo: 41 total — 34 upstream, 7 fork-authored.
+Every skill in this repo: 42 total — 34 upstream, 8 fork-authored.
 
 `Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this team). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
@@ -46,6 +46,7 @@ Every skill in this repo: 41 total — 34 upstream, 7 fork-authored.
 | [kmp-ios-integration](skills/team/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @osxsystem/mobile |
 | [kmp-module-setup](skills/team/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @osxsystem/mobile |
 | [kmp-release-and-publish](skills/team/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @osxsystem/mobile |
+| [kmp-test-seams](skills/team/mobile/kmp-test-seams/SKILL.md) | fork | mobile | engineer, qa | @osxsystem/mobile |
 | [port-from-repo](skills/team/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @osxsystem/platform |
 | [setup-osxsystem-skills](skills/team/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @osxsystem/platform |
 | [when-stuck](skills/team/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, designer, staff | @osxsystem/platform |

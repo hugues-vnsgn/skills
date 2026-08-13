@@ -276,6 +276,12 @@ skills:
     domain: mobile
     audience: [engineer, qa]
     owner: "@osxsystem/mobile"
+  - name: kmp-test-seams
+    path: skills/team/mobile/kmp-test-seams
+    origin: fork
+    domain: mobile
+    audience: [engineer, qa]
+    owner: "@osxsystem/mobile"
 
   # --- fork: platform ---
   - name: port-from-repo

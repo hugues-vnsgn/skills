@@ -2,10 +2,11 @@
 
 Every way this fork differs from [`mattpocock/skills`](https://github.com/mattpocock/skills), and how to resolve each one when it surfaces in a sync. Seeded from the fork table in [MAINTENANCE.md](../MAINTENANCE.md) and verified against `git diff upstream/main` on 2026-08-13 (upstream `84fdeff`).
 
-Two sections, split by how a sync treats them:
+Two live sections, split by how a sync treats them, and a third for the ones already retired:
 
 - **Additions** are *sync-inert* — files upstream has never written, so a merge cannot conflict with them. They need no recipe; they need only to survive.
 - **Modifications and deletions** are *sync-active* — upstream may rewrite the same bytes. Each carries a resolution recipe so the same conflict resolves the same way every time.
+- **Retired divergences** are no longer differences at all. They are kept so nobody re-introduces one by hand.
 
 The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-edits.txt), which lists exactly the upstream paths permitted to differ. Anything appearing in a merge that is not described here is a signal to stop and investigate.
 
@@ -13,7 +14,7 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 
 | Path | What | Sync note |
 |---|---|---|
-| `skills/team/mobile/` | The team's four KMP/CMP skills, in the `mobile` domain of the fork-owned `skills/team/` tree | Upstream writes nothing under `skills/team/`. |
+| `skills/team/mobile/` | The team's KMP/CMP skills, in the `mobile` domain of the fork-owned `skills/team/` tree | Upstream writes nothing under `skills/team/`. `kmp-test-seams` carries the KMP guidance that used to be appended to upstream's `tdd` skill — see below. |
 | `docs/team/mobile/` | Docs pages for the mobile domain, mirroring the skill tree (fork-local; never published to aihero.dev) | — |
 | `skills/team/platform/` | `setup-osxsystem-skills`; `port-from-repo` (re-authored from ClaudeKit's `xia`); `when-stuck` (beta — re-authored from Microsoft Amplifier via ClaudeKit's `problem-solving`). See [the adoption spec](../docs/superpowers/specs/2026-08-10-claudekit-adoption-design.md) | Re-homed here on 2026-08-13; upstream's `setup-matt-pocock-skills` stays deleted — see below. |
 | `docs/team/platform/` | Docs pages for the platform domain (fork-local). `when-stuck` is beta, so it has none | — |
@@ -53,12 +54,6 @@ git rm -r --ignore-unmatch skills/engineering/setup-matt-pocock-skills docs/engi
 
 Then port any upstream change to the deleted files into `skills/team/platform/setup-osxsystem-skills/` by hand — the content is otherwise unchanged from upstream's; only the name and the home differ.
 
-### `skills/engineering/tdd/SKILL.md` — KMP section appended
-
-**Why:** the team's TDD loop for Kotlin Multiplatform. **This divergence is scheduled for retirement:** the parent restructure extracts the appended section into a fork-owned mobile skill and restores upstream's file verbatim.
-
-**Recipe (until then):** keep both — upstream's body, then the fork's KMP section at the end.
-
 ### Prose files — `README.md`, `CLAUDE.md`, `CONTEXT.md`, `MAINTENANCE.md`-adjacent conventions
 
 Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.agents/writing-docs.md`, `.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md`, `skills/{engineering,in-progress,misc}/README.md`, `docs/engineering/*.md`, `docs/productivity/wait-what.md`.
@@ -88,3 +83,13 @@ Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.
 **Why:** router entries and cross-references for fork skills (the `mobile` and `platform` domains). These cite fork skills by name, not by path, so the move left them unchanged.
 
 **Recipe:** keep both; then re-read [`ask-matt`](../skills/engineering/ask-matt/SKILL.md) and confirm every fork skill still appears and every upstream skill it routes to still exists under that name.
+
+## Retired divergences
+
+Recorded so a future maintainer doesn't re-create one by reflex.
+
+### `skills/engineering/tdd/SKILL.md` — KMP section appended (retired 2026-08-13)
+
+Upstream's `tdd` skill carried a fork-appended `## Kotlin Multiplatform projects` section: seams in `commonMain`, tests in `commonTest`, and the cheapest Gradle task that proves a slice. That guidance now lives in [`skills/team/mobile/kmp-test-seams/`](../skills/team/mobile/kmp-test-seams/SKILL.md), which cross-references `tdd` by name, and upstream's file is byte-identical again — so the path is gone from [`sanctioned-edits.txt`](./sanctioned-edits.txt) and a sync can never conflict there.
+
+**If upstream's `tdd` skill grows KMP guidance of its own,** reconcile it into `kmp-test-seams` rather than appending here: an in-file append is the divergence this retirement removed.

@@ -100,6 +100,41 @@ Team skills for the toolchain itself — repo configuration, porting capabilitie
 - **[setup-osxsystem-skills](./skills/team/platform/setup-osxsystem-skills/SKILL.md)** — Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[port-from-repo](./skills/team/platform/port-from-repo/SKILL.md)** — Bring a capability across from another codebase — study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
 
+## Repository layout
+
+The tree is split by **provenance** — who owns the bytes — not by audience. If you're looking for *your* skills, use the [role pages](./docs/roles/engineer.md) or [CATALOG.md](./CATALOG.md) instead of walking the folders.
+
+```
+skills/
+├── engineering/          # ═══ UPSTREAM — vendor territory, byte-frozen ═══
+├── productivity/         #   never moved, renamed, or edited; every deliberate
+├── misc/                 #   divergence is enumerated in .fork/sanctioned-edits.txt
+├── in-progress/          #   and enforced by CI (scripts/harness/forkcheck.py)
+├── deprecated/
+│
+└── team/                 # ═══ FORK — upstream never writes here ═══
+    ├── mobile/           #   KMP/CMP skills: kmp-module-setup, kmp-ios-integration,
+    │                     #   compose-multiplatform-ui, kmp-release-and-publish,
+    │                     #   kmp-test-seams
+    └── platform/         #   toolchain skills: setup-osxsystem-skills,
+                          #   port-from-repo, when-stuck (beta)
+                          #   (design/, discovery/, quality/ are created when
+                          #    their first skill lands — no empty folders)
+
+docs/
+├── engineering/  productivity/    # docs pages mirroring the upstream buckets
+├── team/                          # docs pages mirroring skills/team/
+└── roles/                         # per-role reading orders: engineer, designer,
+                                   #   analyst, qa, staff
+
+.fork/                    # fork control plane: catalog.yaml (source of truth for
+                          #   origin/domain/audience/owner), upstream.lock,
+                          #   divergence.md, sanctioned-edits.txt, sync-playbook.md
+CATALOG.md                # generated from .fork/catalog.yaml — do not hand-edit
+```
+
+Skills install **flat by name** (`scripts/link-skills.sh`), so a skill's folder never changes how it's invoked — the layout exists for maintenance and upstream syncs, not for users. The sync procedure lives in [.fork/sync-playbook.md](./.fork/sync-playbook.md).
+
 The **osxsystem team fork** of [mattpocock/skills](https://github.com/mattpocock/skills), customized for mobile development with **Kotlin Multiplatform + Compose Multiplatform** (Android + iOS/Swift).
 
 > [!NOTE]

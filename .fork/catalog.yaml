@@ -45,103 +45,103 @@ skills:
     origin: upstream
     domain: engineering
     audience: [engineer, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: code-review
     path: skills/engineering/code-review
     origin: upstream
     domain: engineering
     audience: [engineer, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: codebase-design
     path: skills/engineering/codebase-design
     origin: upstream
     domain: engineering
     audience: [engineer, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: diagnosing-bugs
     path: skills/engineering/diagnosing-bugs
     origin: upstream
     domain: engineering
     audience: [engineer, qa]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: domain-modeling
     path: skills/engineering/domain-modeling
     origin: upstream
     domain: engineering
     audience: [engineer, analyst, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: grill-with-docs
     path: skills/engineering/grill-with-docs
     origin: upstream
     domain: engineering
     audience: [engineer, analyst, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: implement
     path: skills/engineering/implement
     origin: upstream
     domain: engineering
     audience: [engineer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: improve-codebase-architecture
     path: skills/engineering/improve-codebase-architecture
     origin: upstream
     domain: engineering
     audience: [engineer, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: prototype
     path: skills/engineering/prototype
     origin: upstream
     domain: engineering
     audience: [engineer, designer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: research
     path: skills/engineering/research
     origin: upstream
     domain: engineering
     audience: [engineer, analyst, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: resolving-merge-conflicts
     path: skills/engineering/resolving-merge-conflicts
     origin: upstream
     domain: engineering
     audience: [engineer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: tdd
     path: skills/engineering/tdd
     origin: upstream
     domain: engineering
     audience: [engineer, qa]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: to-spec
     path: skills/engineering/to-spec
     origin: upstream
     domain: engineering
     audience: [engineer, analyst, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: to-tickets
     path: skills/engineering/to-tickets
     origin: upstream
     domain: engineering
     audience: [engineer, analyst, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: triage
     path: skills/engineering/triage
     origin: upstream
     domain: engineering
     audience: [engineer, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: wayfinder
     path: skills/engineering/wayfinder
     origin: upstream
     domain: engineering
     audience: [engineer, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: wizard
     path: skills/engineering/wizard
     origin: upstream
     domain: engineering
     audience: [engineer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
 
   # --- upstream: productivity ---
   - name: grill-me
@@ -149,43 +149,43 @@ skills:
     origin: upstream
     domain: productivity
     audience: [engineer, designer, analyst, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: grilling
     path: skills/productivity/grilling
     origin: upstream
     domain: productivity
     audience: [engineer, designer, analyst, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: handoff
     path: skills/productivity/handoff
     origin: upstream
     domain: productivity
     audience: [engineer, designer, analyst, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: teach
     path: skills/productivity/teach
     origin: upstream
     domain: productivity
     audience: [engineer, designer, analyst, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: to-questionnaire
     path: skills/productivity/to-questionnaire
     origin: upstream
     domain: productivity
     audience: [engineer, designer, analyst, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: wait-what
     path: skills/productivity/wait-what
     origin: upstream
     domain: productivity
     audience: [engineer, designer, analyst, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: writing-for-agents
     path: skills/productivity/writing-for-agents
     origin: upstream
     domain: productivity
     audience: [engineer, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
 
   # --- upstream: misc ---
   - name: git-guardrails-claude-code
@@ -193,25 +193,25 @@ skills:
     origin: upstream
     domain: misc
     audience: [engineer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: migrate-to-shoehorn
     path: skills/misc/migrate-to-shoehorn
     origin: upstream
     domain: misc
     audience: [engineer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: scaffold-exercises
     path: skills/misc/scaffold-exercises
     origin: upstream
     domain: misc
     audience: [engineer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: setup-pre-commit
     path: skills/misc/setup-pre-commit
     origin: upstream
     domain: misc
     audience: [engineer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
 
   # --- upstream: in-progress ---
   - name: claude-handoff
@@ -219,37 +219,37 @@ skills:
     origin: upstream
     domain: in-progress
     audience: [engineer, designer, analyst, qa, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: loop-me
     path: skills/in-progress/loop-me
     origin: upstream
     domain: in-progress
     audience: [engineer, staff]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: setup-ts-deep-modules
     path: skills/in-progress/setup-ts-deep-modules
     origin: upstream
     domain: in-progress
     audience: [engineer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: writing-beats
     path: skills/in-progress/writing-beats
     origin: upstream
     domain: in-progress
     audience: [analyst, designer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: writing-fragments
     path: skills/in-progress/writing-fragments
     origin: upstream
     domain: in-progress
     audience: [analyst, designer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
   - name: writing-shape
     path: skills/in-progress/writing-shape
     origin: upstream
     domain: in-progress
     audience: [analyst, designer]
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"
 
   # --- fork: mobile ---
   - name: compose-multiplatform-ui
@@ -257,31 +257,31 @@ skills:
     origin: fork
     domain: mobile
     audience: [engineer, designer]
-    owner: "@osxsystem/mobile"
+    owner: "@osxsystem"
   - name: kmp-ios-integration
     path: skills/team/mobile/kmp-ios-integration
     origin: fork
     domain: mobile
     audience: [engineer]
-    owner: "@osxsystem/mobile"
+    owner: "@osxsystem"
   - name: kmp-module-setup
     path: skills/team/mobile/kmp-module-setup
     origin: fork
     domain: mobile
     audience: [engineer]
-    owner: "@osxsystem/mobile"
+    owner: "@osxsystem"
   - name: kmp-release-and-publish
     path: skills/team/mobile/kmp-release-and-publish
     origin: fork
     domain: mobile
     audience: [engineer, qa]
-    owner: "@osxsystem/mobile"
+    owner: "@osxsystem"
   - name: kmp-test-seams
     path: skills/team/mobile/kmp-test-seams
     origin: fork
     domain: mobile
     audience: [engineer, qa]
-    owner: "@osxsystem/mobile"
+    owner: "@osxsystem"
 
   # --- fork: platform ---
   - name: port-from-repo
@@ -289,17 +289,17 @@ skills:
     origin: fork
     domain: platform
     audience: [engineer, staff]
-    owner: "@osxsystem/platform"
+    owner: "@osxsystem"
   - name: setup-osxsystem-skills
     path: skills/team/platform/setup-osxsystem-skills
     origin: fork
     domain: platform
     audience: [engineer, staff]
-    owner: "@osxsystem/platform"
+    owner: "@osxsystem"
   - name: when-stuck
     path: skills/team/platform/when-stuck
     origin: fork
     domain: platform
     audience: [engineer, staff]
-    owner: "@osxsystem/platform"
+    owner: "@osxsystem"
     status: beta

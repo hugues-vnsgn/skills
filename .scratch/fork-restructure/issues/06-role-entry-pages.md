@@ -6,11 +6,11 @@
 
 **Blocked by:** 04, 05.
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] Five pages: engineer, designer, analyst, qa, staff — each a short curated, *ordered* list with a one-line "why you'd reach for it" per entry
-- [ ] Audience assignments come from `catalog.yaml` (single source of truth), not invented per page; shared skills appear on every role page whose audience list names them
-- [ ] Links point at final post-move homes; all links valid
-- [ ] No docs page is invented for non-promoted skills — role pages link those straight to SKILL.md
-- [ ] Role pages are reachable: linked from the top-level README's reference section
-- [ ] Full harness + forkcheck green
+- [x] Five pages: engineer, designer, analyst, qa, staff — each a short curated, *ordered* list with a one-line "why you'd reach for it" per entry
+- [x] Audience assignments come from `catalog.yaml` (single source of truth), not invented per page; shared skills appear on every role page whose audience list names them
+- [x] Links point at final post-move homes; all links valid
+- [x] No docs page is invented for non-promoted skills — role pages link those straight to SKILL.md
+- [x] Role pages are reachable: linked from the top-level README's reference section
+- [x] Full harness + forkcheck green

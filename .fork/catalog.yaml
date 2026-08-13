@@ -300,6 +300,6 @@ skills:
     path: skills/team/platform/when-stuck
     origin: fork
     domain: platform
-    audience: [engineer, designer, staff]
+    audience: [engineer, staff]
     owner: "@osxsystem/platform"
     status: beta

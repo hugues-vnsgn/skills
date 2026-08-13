@@ -31,7 +31,9 @@ In your agent, run it once per repo. It will:
 
 ## Reference
 
-These split on one axis — who can invoke them. **User-invoked** skills are reachable only when you type them (e.g. `/grill-me`); their job is to orchestrate. **Model-invoked** skills can be invoked by you _or_ reached for automatically by the agent when the task fits; they hold the reusable discipline. A user-invoked skill may invoke model-invoked skills, but never another user-invoked one.
+**Looking for what applies to your job rather than the whole list?** Each role page carries a curated reading order, with a line on why you'd reach for each skill: [software engineer](./docs/roles/engineer.md) · [designer](./docs/roles/designer.md) · [business analyst](./docs/roles/analyst.md) · [QA engineer](./docs/roles/qa.md) · [staff engineer](./docs/roles/staff.md). Every skill with its origin, domain, audience and owner is in [CATALOG.md](./CATALOG.md).
+
+The sections below list every skill by bucket. These split on one axis — who can invoke them. **User-invoked** skills are reachable only when you type them (e.g. `/grill-me`); their job is to orchestrate. **Model-invoked** skills can be invoked by you _or_ reached for automatically by the agent when the task fits; they hold the reusable discipline. A user-invoked skill may invoke model-invoked skills, but never another user-invoked one.
 
 ### Engineering
 

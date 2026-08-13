@@ -18,6 +18,7 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 | `docs/team/mobile/` | Docs pages for the mobile domain, mirroring the skill tree (fork-local; never published to aihero.dev) | — |
 | `skills/team/platform/` | `setup-osxsystem-skills`; `port-from-repo` (re-authored from ClaudeKit's `xia`); `when-stuck` (beta — re-authored from Microsoft Amplifier via ClaudeKit's `problem-solving`). See [the adoption spec](../docs/superpowers/specs/2026-08-10-claudekit-adoption-design.md) | Re-homed here on 2026-08-13; upstream's `setup-matt-pocock-skills` stays deleted — see below. |
 | `docs/team/platform/` | Docs pages for the platform domain (fork-local). `when-stuck` is beta, so it has none | — |
+| `docs/roles/` | One entry page per audience in [`catalog.yaml`](./catalog.yaml) — a curated reading order for engineers, designers, analysts, QA and staff (fork-local) | Regenerate the lists by hand whenever a skill's `audience` changes; the catalog is the source of truth, the pages are the view. |
 | `research/` | Source research (prompts + reports from official kotlinlang.org docs, 2026-08) behind each mobile `reference.md` | — |
 | `scripts/harness/`, `scripts/check-confusable-skills.py`, `.github/workflows/skillcheck.yml` | The fork's skill-validation harness and its CI job | — |
 | `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py` | This control plane and the generated catalog | — |

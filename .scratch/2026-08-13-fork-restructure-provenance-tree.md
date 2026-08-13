@@ -1,7 +1,7 @@
 # Restructure the fork into a provenance-split tree (`skills/team/`)
 
 **Date:** 2026-08-13
-**Status:** Open
+**Status:** Done — all 8 tickets complete (verified 2026-08-13: full harness + forkcheck green, zero live pre-move path references, linker resolves 42 unique names, router re-synced, changeset written)
 **Labels:** ready-for-agent
 **Tracker:** local `.scratch/` markdown (GitHub Issues disabled on this repo)
 

@@ -22,7 +22,7 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 | `research/` | Source research (prompts + reports from official kotlinlang.org docs, 2026-08) behind each mobile `reference.md` | — |
 | `scripts/harness/`, `scripts/check-confusable-skills.py`, `.github/workflows/skillcheck.yml` | The fork's skill-validation harness and its CI job | — |
 | `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py` | This control plane and the generated catalog — including [`sync-playbook.md`](./sync-playbook.md), the step-by-step sync procedure | The playbook's residual conflict surface is this file's sync-active sections, one row per section. Change one, change the other. |
-| `.github/CODEOWNERS` | PR approval authority: a team per `skills/team/<domain>/`, maintainers over upstream territory and the control plane | Upstream ships no `CODEOWNERS`. Its team slugs mirror the `owner:` fields in [`catalog.yaml`](./catalog.yaml). |
+| `.github/CODEOWNERS` | PR approval authority: an owner per `skills/team/<domain>/`, maintainers over upstream territory and the control plane | Upstream ships no `CODEOWNERS`. Its owners mirror the `owner:` fields in [`catalog.yaml`](./catalog.yaml) — usernames while the repo is user-owned, team slugs after an org transfer (see the CODEOWNERS header). |
 | `MAINTENANCE.md`, `CUSTOMIZING.md` | Fork maintenance and customization narrative | — |
 | `docs/superpowers/` | Fork specs and plans (dated historical documents) | — |
 | `.scratch/` | The local issue tracker (specs and their tickets); GitHub Issues is disabled on this repo | — |

@@ -95,7 +95,7 @@ New upstream skills stay where upstream put them — a sync never re-homes a ven
     origin: upstream
     domain: <bucket>
     audience: [engineer]          # every role it genuinely serves
-    owner: "@osxsystem/maintainers"
+    owner: "@osxsystem"               # mirror CODEOWNERS — username now, team slug after an org transfer
 ```
 
 Then regenerate the view and refresh the role pages the new audiences touch:
@@ -116,7 +116,7 @@ Update the three recorded fields in [`upstream.lock`](./upstream.lock) — `upst
 
 ### 9. Ship it
 
-Open the PR from the sync branch. CODEOWNERS routes it to `@osxsystem/maintainers`, because every path a sync touches is upstream territory or the control plane. The PR body should carry the upstream range (`<old sha>..<new sha>`), the conflicts resolved and by which recipe, any change to `sanctioned-edits.txt`, and the new upstream skills catalogued. Then, on each machine:
+Open the PR from the sync branch. CODEOWNERS routes it to the maintainers owner (see the CODEOWNERS header for the current identity), because every path a sync touches is upstream territory or the control plane. The PR body should carry the upstream range (`<old sha>..<new sha>`), the conflicts resolved and by which recipe, any change to `sanctioned-edits.txt`, and the new upstream skills catalogued. Then, on each machine:
 
 ```bash
 scripts/link-skills.sh

@@ -2,46 +2,47 @@
 # changed path; the LAST matching pattern wins, so order here is meaningful:
 # broad defaults first, narrow territory last.
 #
-# !! PLACEHOLDER TEAM SLUGS !!
-# The three slugs below are placeholders — no GitHub team by these names is
-# guaranteed to exist yet. Before this file has any effect, either create the
-# teams under the `osxsystem` org or rename them here (and, in the same change,
-# in the `owner:` field of every entry in `.fork/catalog.yaml`, which mirrors
-# this file):
+# !! USER-OWNED REPO — USERNAMES, NOT TEAM SLUGS !!
+# `osxsystem/skills` is owned by a user account, and `@org/team` slugs only
+# exist under a GitHub organization — on this repo a team slug matches nothing
+# and the rule FAILS OPEN (GitHub requests no review at all). Until the repo
+# moves to an org, every owner below is a username with write access.
 #
-#   @osxsystem/maintainers   fork maintainers — sync-aware review
-#   @osxsystem/mobile        the mobile domain's discipline team
-#   @osxsystem/platform      the platform domain's discipline team
-#
-# A slug that names no team means GitHub requests no review at all — the rule
-# fails open, so a rename that misses one line silently unowns that path.
+# Upgrade path, when the repo transfers to an `osxsystem` org:
+#   1. Create teams: maintainers, mobile, platform (one per block below).
+#   2. Swap each username for its team slug — and, in the same change, the
+#      `owner:` field of every entry in `.fork/catalog.yaml`, which mirrors
+#      this file. Regenerate CATALOG.md.
+# The per-path blocks are already shaped for that swap; only the right-hand
+# column changes.
 
 # Default: anything not claimed below is a maintainers call.
-*                                   @osxsystem/maintainers
+*                                   @osxsystem
 
 # --- Upstream territory (byte-frozen vendor files) --------------------------
 # Edits here are boundary changes, not content changes: every one of them has
 # to be sanctioned in `.fork/sanctioned-edits.txt` and survive a sync. Reviewed
 # by maintainers, who carry the sync context — see `.fork/sync-playbook.md`.
-/skills/engineering/                @osxsystem/maintainers
-/skills/productivity/               @osxsystem/maintainers
-/skills/misc/                       @osxsystem/maintainers
-/skills/in-progress/                @osxsystem/maintainers
-/skills/deprecated/                 @osxsystem/maintainers
-/docs/engineering/                  @osxsystem/maintainers
-/docs/productivity/                 @osxsystem/maintainers
+/skills/engineering/                @osxsystem
+/skills/productivity/               @osxsystem
+/skills/misc/                       @osxsystem
+/skills/in-progress/                @osxsystem
+/skills/deprecated/                 @osxsystem
+/docs/engineering/                  @osxsystem
+/docs/productivity/                 @osxsystem
 
 # --- Fork control plane, harness, and CI ------------------------------------
-/.fork/                             @osxsystem/maintainers
-/scripts/                           @osxsystem/maintainers
-/.github/                           @osxsystem/maintainers
+/.fork/                             @osxsystem
+/scripts/                           @osxsystem
+/.github/                           @osxsystem
 
 # --- Team domains -----------------------------------------------------------
 # One block per existing domain under `skills/team/`: the skills and the docs
 # tree that mirrors them. A new domain folder adds a block here, a matching
-# `owner:` in `.fork/catalog.yaml`, and nothing else.
-/skills/team/mobile/                @osxsystem/mobile
-/docs/team/mobile/                  @osxsystem/mobile
+# `owner:` in `.fork/catalog.yaml`, and nothing else. Add each discipline's
+# usernames here as they gain write access (space-separated on the same line).
+/skills/team/mobile/                @osxsystem
+/docs/team/mobile/                  @osxsystem
 
-/skills/team/platform/              @osxsystem/platform
-/docs/team/platform/                @osxsystem/platform
+/skills/team/platform/              @osxsystem
+/docs/team/platform/                @osxsystem

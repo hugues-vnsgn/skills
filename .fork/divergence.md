@@ -22,6 +22,7 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 | `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py` | This control plane and the generated catalog | — |
 | `MAINTENANCE.md`, `CUSTOMIZING.md` | Fork maintenance and customization narrative | — |
 | `docs/superpowers/` | Fork specs and plans (dated historical documents) | — |
+| `.scratch/` | The local issue tracker (specs and their tickets); GitHub Issues is disabled on this repo | — |
 | `.changeset/*.md` | Fork changesets | Ephemeral; consumed by a release. `.changeset/config.json` is a *modification* — see below. |
 
 ## Modifications and deletions (sync-active)

@@ -15,9 +15,9 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 |---|---|---|
 | `skills/team/mobile/` | The team's four KMP/CMP skills, in the `mobile` domain of the fork-owned `skills/team/` tree | Upstream writes nothing under `skills/team/`. |
 | `docs/team/mobile/` | Docs pages for the mobile domain, mirroring the skill tree (fork-local; never published to aihero.dev) | — |
+| `skills/team/platform/` | `setup-osxsystem-skills`; `port-from-repo` (re-authored from ClaudeKit's `xia`); `when-stuck` (beta — re-authored from Microsoft Amplifier via ClaudeKit's `problem-solving`). See [the adoption spec](../docs/superpowers/specs/2026-08-10-claudekit-adoption-design.md) | Re-homed here on 2026-08-13; upstream's `setup-matt-pocock-skills` stays deleted — see below. |
+| `docs/team/platform/` | Docs pages for the platform domain (fork-local). `when-stuck` is beta, so it has none | — |
 | `research/` | Source research (prompts + reports from official kotlinlang.org docs, 2026-08) behind each mobile `reference.md` | — |
-| `skills/engineering/port-from-repo/`, `docs/engineering/port-from-repo.md` | Fork skill re-authored from ClaudeKit's `xia` | Sits **inside** an upstream folder, so it is also listed in `sanctioned-edits.txt`. A sync must not drop it. |
-| `skills/in-progress/when-stuck/` | Fork skill re-authored from Microsoft Amplifier via ClaudeKit's `problem-solving` | Same: inside an upstream folder, listed in `sanctioned-edits.txt`. |
 | `scripts/harness/`, `scripts/check-confusable-skills.py`, `.github/workflows/skillcheck.yml` | The fork's skill-validation harness and its CI job | — |
 | `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py` | This control plane and the generated catalog | — |
 | `MAINTENANCE.md`, `CUSTOMIZING.md` | Fork maintenance and customization narrative | — |
@@ -41,17 +41,17 @@ git rm -r --ignore-unmatch .claude-plugin scripts/sync-plugin-version.mjs
 
 Also drop any `sync-plugin-version` script upstream re-adds to `package.json`.
 
-### `skills/engineering/setup-matt-pocock-skills/` → `setup-osxsystem-skills/` — renamed
+### `skills/engineering/setup-matt-pocock-skills/` — deleted
 
-**Why:** the setup skill configures *this* repo's skills, and the fork's approved name (2026-08-06 rename spec, [`docs/superpowers/specs/2026-08-06-rename-setup-skill-design.md`](../docs/superpowers/specs/2026-08-06-rename-setup-skill-design.md)) is `setup-osxsystem-skills`. Upstream's copy stays deleted rather than restored: the linker links every non-deprecated skill, so restoring upstream's copy would install two setup skills under two names.
+**Why:** the setup skill configures *this* repo's skills, and the fork's approved name (2026-08-06 rename spec, [`docs/superpowers/specs/2026-08-06-rename-setup-skill-design.md`](../docs/superpowers/specs/2026-08-06-rename-setup-skill-design.md)) is `setup-osxsystem-skills`. That skill is now a fork addition under [`skills/team/platform/`](../skills/team/platform/setup-osxsystem-skills/SKILL.md), so this is no longer a rename spanning both territories — it is a plain deletion of upstream's copy, which stays deleted rather than restored: the linker links every non-deprecated skill, so restoring upstream's copy would install two setup skills under two names.
 
-**Recipe:** treat exactly like `.claude-plugin/` — upstream's paths stay deleted, ours stay:
+**Recipe:** treat exactly like `.claude-plugin/` — upstream's paths stay deleted:
 
 ```bash
 git rm -r --ignore-unmatch skills/engineering/setup-matt-pocock-skills docs/engineering/setup-matt-pocock-skills.md
 ```
 
-Then port any upstream change to the deleted files into `skills/engineering/setup-osxsystem-skills/` by hand — the content is otherwise unchanged from upstream's, only the name differs.
+Then port any upstream change to the deleted files into `skills/team/platform/setup-osxsystem-skills/` by hand — the content is otherwise unchanged from upstream's; only the name and the home differ.
 
 ### `skills/engineering/tdd/SKILL.md` — KMP section appended
 
@@ -63,13 +63,13 @@ Then port any upstream change to the deleted files into `skills/engineering/setu
 
 Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.agents/writing-docs.md`, `.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md`, `skills/{engineering,in-progress,misc}/README.md`, `docs/engineering/*.md`, `docs/productivity/wait-what.md`.
 
-**Why:** fork framing (osxsystem, not mattpocock), the mobile bucket, fork-added skills registered in bucket READMEs, and install commands pointing at `osxsystem/skills`.
+**Why:** fork framing (osxsystem, not mattpocock), the team tree's sections, the fork's setup-skill name, and install commands pointing at `osxsystem/skills`. `skills/engineering/README.md` and `skills/in-progress/README.md` now diverge by *omission* — the fork skills they used to list live under `skills/team/platform/`.
 
 **Recipe:** keep both sides — these are appended sections and entries, not rewrites. Then verify:
 
 - install commands say `osxsystem/skills`, not `mattpocock/skills` (source of truth: [`.agents/install-block.md`](../.agents/install-block.md));
-- the fork README framing and its Mobile section survived;
-- fork-added skills are still listed in their bucket README.
+- the fork README framing and its Mobile and Platform sections survived;
+- no fork skill has been re-added to an upstream bucket README.
 
 ### `package.json`, `package-lock.json`, `.changeset/config.json`, `.gitignore`
 
@@ -85,6 +85,6 @@ Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.
 
 ### `skills/engineering/{ask-matt,code-review,to-spec,to-tickets,triage,wayfinder}/SKILL.md`
 
-**Why:** router entries and cross-references for fork skills (mobile bucket, `port-from-repo`, `when-stuck`).
+**Why:** router entries and cross-references for fork skills (the `mobile` and `platform` domains). These cite fork skills by name, not by path, so the move left them unchanged.
 
 **Recipe:** keep both; then re-read [`ask-matt`](../skills/engineering/ask-matt/SKILL.md) and confirm every fork skill still appears and every upstream skill it routes to still exists under that name.

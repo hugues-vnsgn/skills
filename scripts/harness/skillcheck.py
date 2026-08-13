@@ -11,7 +11,8 @@ _args = [a for a in sys.argv[1:] if not a.startswith("-")]
 REPO = _args[0] if _args else "."
 JSON_OUT = "--json" in sys.argv[1:]
 # Upstream's two promoted buckets, plus every domain under the fork's team
-# tree — `team/mobile` and its future siblings are promoted by construction.
+# tree — `team/mobile`, `team/platform`, and their future siblings are promoted
+# by construction, skill by skill unless the catalog marks one beta.
 PROMOTED = {"engineering", "productivity"}
 TEAM_TREE = "team"
 DOC_SECTIONS = [
@@ -72,12 +73,29 @@ def resolve(base_dir, target):
         return True
     return os.path.exists(os.path.normpath(os.path.join(base_dir, t)))
 
-def is_promoted(bucket):
-    """Promoted buckets carry a docs page and a top-level README entry.
+
+def load_beta(repo):
+    """Skill names the fork catalog marks `status: beta`.
+
+    A team domain groups by capability, not maturity, so a beta team skill is
+    marked in the catalog rather than parked in a beta folder. Reads fail
+    closed: an unreadable catalog raises rather than yielding an empty set,
+    which would silently demand promotion of every beta skill.
+    """
+    data = yaml.safe_load(read(os.path.join(repo, ".fork", "catalog.yaml"))) or {}
+    return {e.get("name") for e in (data.get("skills") or [])
+            if e.get("status") == "beta"}
+
+
+def is_promoted(bucket, name, beta):
+    """Promoted skills carry a docs page and a top-level README entry.
 
     A bucket is a *path* under skills/: upstream buckets are one segment
-    (`engineering`), fork domains are two (`team/mobile`).
+    (`engineering`), fork domains are two (`team/mobile`). Every team domain is
+    promoted by construction — except the skills its catalog entry marks beta.
     """
+    if name in beta:
+        return False
     return bucket in PROMOTED or bucket.split("/")[0] == TEAM_TREE
 
 
@@ -103,7 +121,7 @@ def find_skills(repo):
     return sorted(skills, key=lambda s: (s["bucket"], s["name"]))
 
 
-def check_skill(repo, skill):
+def check_skill(repo, skill, beta):
     rows = []
     sdir = skill["dir"]
     bucket = skill["bucket"]
@@ -207,8 +225,8 @@ def check_skill(repo, skill):
     else:
         row("links-resolve", "FAIL", f"broken: {', '.join(broken)}")
 
-    # --- docs page (promoted buckets only) ---
-    if is_promoted(bucket):
+    # --- docs page (promoted skills only) ---
+    if is_promoted(bucket, name, beta):
         docs_path = os.path.join(repo, "docs", *bucket.split("/"), f"{name}.md")
         if os.path.isfile(docs_path):
             dtext = read(docs_path)
@@ -223,7 +241,7 @@ def check_skill(repo, skill):
     return rows
 
 
-def check_readme_membership(repo, skills):
+def check_readme_membership(repo, skills, beta):
     rows = []
     readme = read(os.path.join(repo, "README.md"))
     for s in skills:
@@ -232,18 +250,19 @@ def check_readme_membership(repo, skills):
             r"\[" + re.escape(name) + r"\]\(\./skills/" + re.escape(bucket) + r"/" + re.escape(name) + r"/SKILL\.md\)"
         )
         present = bool(link_pattern.search(readme))
-        if is_promoted(bucket):
+        if is_promoted(bucket, name, beta):
             status = "PASS" if present else "FAIL"
             notes = "" if present else "expected linked entry in top-level README.md, not found"
         else:
             status = "PASS" if not present else "FAIL"
-            notes = "" if not present else f"{bucket}/ is non-promoted but appears in top-level README.md"
+            where = "beta" if name in beta else f"{bucket}/ is non-promoted"
+            notes = "" if not present else f"{where} but appears in top-level README.md"
         rows.append({"bucket": bucket, "skill": name, "check": "readme-membership",
                      "status": status, "notes": notes, "file": "README.md"})
     return rows
 
 
-def check_bucket_readmes(repo, skills):
+def check_bucket_readmes(repo, skills, beta):
     rows = []
     by_bucket = {}
     for s in skills:
@@ -275,15 +294,18 @@ def check_bucket_readmes(repo, skills):
                          "status": "PASS" if present else "FAIL",
                          "notes": "" if present else "not linked in bucket README",
                          "file": f"skills/{bucket}/README.md"})
-        if is_promoted(bucket):
+        if any(is_promoted(bucket, n, beta) for n in names):
             # A grouping heading is only required if that group is non-empty.
             # team/mobile has zero user-invoked skills today, so no
             # ## User-invoked heading is expected there - CLAUDE.md requires
             # the *split*, not both headings unconditionally.
             has_user = "## User-invoked" in text
             has_model = "## Model-invoked" in text
-            expect_user = any(fm_dmi.get(n) for n in names)
-            expect_model = any(not fm_dmi.get(n) for n in names)
+            # Beta skills sit under a flat `## Beta` heading, so they neither
+            # populate nor require the invocation-mode groups.
+            grouped = [n for n in names if is_promoted(bucket, n, beta)]
+            expect_user = any(fm_dmi.get(n) for n in grouped)
+            expect_model = any(not fm_dmi.get(n) for n in grouped)
             missing = []
             if expect_user and not has_user:
                 missing.append("User-invoked")
@@ -300,11 +322,11 @@ def check_bucket_readmes(repo, skills):
     return rows
 
 
-def check_ask_matt_routing(repo, skills):
+def check_ask_matt_routing(repo, skills, beta):
     rows = []
     am_path = os.path.join(repo, "skills", "engineering", "ask-matt", "SKILL.md")
     text = read(am_path)
-    promoted_names = [s["name"] for s in skills if is_promoted(s["bucket"])]
+    promoted_names = [s["name"] for s in skills if is_promoted(s["bucket"], s["name"], beta)]
     all_names = {s["name"] for s in skills}
     for name in promoted_names:
         if name == "ask-matt":
@@ -384,12 +406,13 @@ def check_install_block(repo):
 
 def main():
     skills = find_skills(REPO)
+    beta = load_beta(REPO)
     rows = []
     for s in skills:
-        rows.extend(check_skill(REPO, s))
-    rows.extend(check_readme_membership(REPO, skills))
-    rows.extend(check_bucket_readmes(REPO, skills))
-    rows.extend(check_ask_matt_routing(REPO, skills))
+        rows.extend(check_skill(REPO, s, beta))
+    rows.extend(check_readme_membership(REPO, skills, beta))
+    rows.extend(check_bucket_readmes(REPO, skills, beta))
+    rows.extend(check_ask_matt_routing(REPO, skills, beta))
     rows.extend(check_install_block(REPO))
 
     if JSON_OUT:

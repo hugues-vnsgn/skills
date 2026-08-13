@@ -9,9 +9,10 @@ This repo (`osxsystem/skills`) is a team fork of [`mattpocock/skills`](https://g
 | `skills/team/mobile/` | Team KMP/CMP skills (see [skills/team/mobile/README.md](./skills/team/mobile/README.md)) |
 | `docs/team/mobile/` | Docs pages for the mobile domain (fork-local; not published to aihero.dev) |
 | `research/` | The source research (prompts + reports from official kotlinlang.org docs, 2026-08) each mobile skill's `reference.md` was distilled from |
-| `skills/engineering/port-from-repo/`, `skills/in-progress/when-stuck/` | Fork additions re-authored from external patterns (ClaudeKit's `xia`; Microsoft Amplifier via ClaudeKit's `problem-solving`). Not upstream skills — an upstream sync must not drop them. See [the adoption spec](./docs/superpowers/specs/2026-08-10-claudekit-adoption-design.md). |
+| `skills/team/platform/` | Team skills for the toolchain itself (see [skills/team/platform/README.md](./skills/team/platform/README.md)): the fork's `setup-osxsystem-skills`, plus `port-from-repo` and `when-stuck` re-authored from external patterns (ClaudeKit's `xia`; Microsoft Amplifier via ClaudeKit's `problem-solving`) — see [the adoption spec](./docs/superpowers/specs/2026-08-10-claudekit-adoption-design.md). |
+| `docs/team/platform/` | Docs pages for the platform domain (fork-local; not published to aihero.dev) |
 | `MAINTENANCE.md` | This file |
-| Upstream files touched | `README.md` (reframed as fork README + Mobile section), `CLAUDE.md` (mobile bucket, plugin route removed), `skills/engineering/tdd/SKILL.md` (KMP section at the end); `.claude-plugin/` deleted (skills.sh is the only install route) |
+| Upstream files touched | `README.md` (reframed as fork README + team sections), `CLAUDE.md` (the team tree, plugin route removed), `skills/engineering/tdd/SKILL.md` (KMP section at the end); `.claude-plugin/` and upstream's `setup-matt-pocock-skills/` deleted. The full record, with a resolution recipe per divergence, is [.fork/divergence.md](./.fork/divergence.md). |
 
 ## Syncing with upstream
 
@@ -24,7 +25,7 @@ git merge upstream/main        # prefer merge over rebase — keeps fork history
 Conflicts will cluster in the upstream files we touched (table above); our changes are appended sections/entries, so resolution is usually "keep both" — except `.claude-plugin/`, which we deleted and upstream may re-add. After every sync:
 
 1. Confirm `.claude-plugin/` stays deleted — if the merge restored it, run `git rm -r .claude-plugin` and commit.
-2. Confirm the fork README framing and the Mobile section survived in `README.md`, and that install commands still say `osxsystem/skills` (upstream's say `mattpocock/skills`).
+2. Confirm the fork README framing and the Mobile and Platform sections survived in `README.md`, and that install commands still say `osxsystem/skills` (upstream's say `mattpocock/skills`).
 3. Skim upstream's `CHANGELOG.md` for renamed/moved skills our mobile skills cross-reference (`tdd`, `code-review`).
 
 ## Adding or changing a skill

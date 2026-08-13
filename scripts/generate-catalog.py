@@ -4,7 +4,7 @@
     python3 scripts/generate-catalog.py           # rewrite CATALOG.md
     python3 scripts/generate-catalog.py --check   # exit 1 if CATALOG.md is stale
 
-Fails closed: an unreadable catalog, an unknown domain or audience, a duplicate
+Fails closed: an unreadable catalog, an unknown domain, audience or status, a duplicate
 skill name, or any mismatch between the catalog and the skills on disk is an
 error, not a silently smaller table. Needs `pyyaml`, like skillcheck.py.
 """
@@ -76,6 +76,8 @@ def validate(repo, catalog):
             errors.append(f"{where}: origin must be `upstream` or `fork`")
         if entry["domain"] not in domains:
             errors.append(f"{where}: domain `{entry['domain']}` not in `domains`")
+        if entry.get("status") not in (None, "beta"):
+            errors.append(f"{where}: status must be `beta` or absent")
         if not isinstance(entry["audience"], list):
             errors.append(f"{where}: audience must be a list")
         else:
@@ -122,7 +124,8 @@ def render(entries, domains):
         "`Origin` says who owns the bytes (`upstream` = "
         "[mattpocock/skills](https://github.com/mattpocock/skills), which may "
         "rewrite them in any sync; `fork` = this team). `Audience` is who the "
-        "skill is for — a skill can serve several roles. Edit "
+        "skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no "
+        "docs page, and not listed in the top-level README. Edit "
         "[.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit "
         "this file.",
         "",
@@ -131,6 +134,8 @@ def render(entries, domains):
     ]
     for e in rows:
         link = f"[{e['name']}]({e['path']}/SKILL.md)"
+        if e.get("status") == "beta":
+            link += " _(beta)_"
         audience = ", ".join(e["audience"])
         out.append(
             f"| {link} | {e['origin']} | {e['domain']} | {audience} | {e['owner']} |"

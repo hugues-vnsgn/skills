@@ -16,7 +16,7 @@ The single most important line is the **`description`**. It is the *pointer* the
 
 ## 2. The layers a change must touch
 
-The repo distinguishes **promoted** buckets (`engineering/`, `productivity/`, and every `team/<domain>/` — `team/mobile/` today) from parked ones (`misc/`, `in-progress/`, `deprecated/`). A promoted skill is registered in three places besides the skill itself, and edits ripple to all of them:
+The repo distinguishes **promoted** buckets (`engineering/`, `productivity/`, and every `team/<domain>/` — `team/mobile/` and `team/platform/` today) from parked ones (`misc/`, `in-progress/`, `deprecated/`), plus the team skills the catalog marks `status: beta`, which stay unpromoted inside a promoted domain. A promoted skill is registered in three places besides the skill itself, and edits ripple to all of them:
 
 | Layer | File |
 |---|---|

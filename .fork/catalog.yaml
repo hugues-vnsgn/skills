@@ -11,6 +11,9 @@
 #             grouped by capability domain
 #   audience  which roles the skill serves — one skill may serve several
 #   owner     GitHub team with approval authority (mirrors CODEOWNERS)
+#   status    optional: `beta` exempts a team skill from promotion (no docs
+#             page, out of the top-level README, flat `## Beta` list in its
+#             bucket README). Omit it for a promoted skill.
 #
 # `CATALOG.md` is generated from this file:
 #   python3 scripts/generate-catalog.py           # rewrite
@@ -274,22 +277,23 @@ skills:
     audience: [engineer, qa]
     owner: "@osxsystem/mobile"
 
-  # --- fork: platform (still homed inside upstream folders until the move) ---
+  # --- fork: platform ---
   - name: port-from-repo
-    path: skills/engineering/port-from-repo
+    path: skills/team/platform/port-from-repo
     origin: fork
     domain: platform
     audience: [engineer, staff]
     owner: "@osxsystem/platform"
   - name: setup-osxsystem-skills
-    path: skills/engineering/setup-osxsystem-skills
+    path: skills/team/platform/setup-osxsystem-skills
     origin: fork
     domain: platform
     audience: [engineer, staff]
     owner: "@osxsystem/platform"
   - name: when-stuck
-    path: skills/in-progress/when-stuck
+    path: skills/team/platform/when-stuck
     origin: fork
     domain: platform
     audience: [engineer, designer, staff]
     owner: "@osxsystem/platform"
+    status: beta

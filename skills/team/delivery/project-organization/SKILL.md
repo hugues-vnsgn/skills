@@ -28,7 +28,7 @@ To place a file, walk this table top to bottom and take the **first** matching r
 |----------|------|---------|
 | Source code | `src/` or project root | Application code (follow language conventions, not managed here) |
 | Tests | `tests/` or `test/` | Test suites (unit, integration, e2e), mirroring source structure |
-| Plans | `plans/` | Implementation plans (`plans/{date-slug}/`), agent reports (`plans/{date-slug}/reports/` when plan-scoped, `plans/reports/` standalone), research |
+| Plans | `plans/` | Implementation plans (`plans/{YYMMDD-HHmm}-{slug}/`), agent reports (`plans/{YYMMDD-HHmm}-{slug}/reports/` when plan-scoped, `plans/reports/` standalone), research |
 | Documentation | `docs/` | Evergreen docs (`docs/{slug}.md`), journals (`docs/journals/`), ADRs (`docs/decisions/`) |
 | Assets | `assets/{type}/` | Media, branding, designs, generated content |
 | Scripts | `scripts/` | Build, deploy, utility scripts |

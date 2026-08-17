@@ -2,7 +2,7 @@
   "name": "osxsystem-skills",
   "version": "1.2.3",
   "private": true,
-  "description": "osxsystem team agent skills for real engineering — Kotlin Multiplatform + Compose Multiplatform",
+  "description": "osxsystem team agent skills for real engineering",
   "repository": {
     "type": "git",
     "url": "https://github.com/osxsystem/skills"

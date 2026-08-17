@@ -36,6 +36,12 @@ jobs:
       - name: Fork boundary guard
         run: python3 scripts/harness/forkcheck.py
 
+      # The installer groups its picker from this manifest. A stale one is not a
+      # cosmetic diff: a skill missing from it silently falls into the picker's
+      # "Other" heading.
+      - name: Installer manifest is current
+        run: python3 scripts/generate-marketplace.py --check
+
       - name: Structural validation
         run: python3 scripts/harness/skillcheck.py
 

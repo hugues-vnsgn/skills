@@ -24,7 +24,7 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 | `docs/roles/` | One entry page per audience in [`catalog.yaml`](./catalog.yaml) — a curated reading order for engineers, designers, analysts, QA and staff (fork-local) | Regenerate the lists by hand whenever a skill's `audience` changes; the catalog is the source of truth, the pages are the view. |
 | `research/` | Source research (prompts + reports from official kotlinlang.org docs, 2026-08) behind each mobile `reference.md` | — |
 | `scripts/harness/`, `scripts/check-confusable-skills.py`, `.github/workflows/skillcheck.yml` | The fork's skill-validation harness and its CI job | — |
-| `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py` | This control plane and the generated catalog — including [`sync-playbook.md`](./sync-playbook.md), the step-by-step sync procedure | The playbook's residual conflict surface is this file's sync-active sections, one row per section. Change one, change the other. |
+| `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py`, `scripts/generate-marketplace.py` | This control plane and the two artefacts generated from [`catalog.yaml`](./catalog.yaml) — `CATALOG.md` (the human table) and `.claude-plugin/marketplace.json` (installer picker grouping; the manifest itself is a *modification*, see below) — including [`sync-playbook.md`](./sync-playbook.md), the step-by-step sync procedure | The playbook's residual conflict surface is this file's sync-active sections, one row per section. Change one, change the other. |
 | `.github/CODEOWNERS` | PR approval authority: an owner per `skills/team/<domain>/`, maintainers over upstream territory and the control plane | Upstream ships no `CODEOWNERS`. Its owners mirror the `owner:` fields in [`catalog.yaml`](./catalog.yaml) — usernames while the repo is user-owned, team slugs after an org transfer (see the CODEOWNERS header). |
 | `MAINTENANCE.md`, `CUSTOMIZING.md` | Fork maintenance and customization narrative | — |
 | `docs/superpowers/` | Fork specs and plans (dated historical documents) | — |
@@ -35,17 +35,22 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 
 Each row is a recurring conflict, and together they are the fork's entire expected conflict surface — [`sync-playbook.md`](./sync-playbook.md) tabulates the same sections as the list a maintainer checks a conflict against mid-merge, so the two must be changed together. Enable `git config rerere.enabled true` once, and the prose rows below self-resolve after the first sync that records them.
 
-### `.claude-plugin/` — deleted, and `scripts/sync-plugin-version.mjs`
+### `.claude-plugin/` — `marketplace.json` regenerated, everything else deleted, and `scripts/sync-plugin-version.mjs`
 
-**Why:** this fork ships via [skills.sh](https://skills.sh/osxsystem/skills) only; the Claude Code plugin route was removed. See [ADR 0002](../.agents/adr/0002-ship-as-a-claude-code-plugin.md) for the upstream decision this fork reverses.
+**Why:** this fork ships via [skills.sh](https://skills.sh/osxsystem/skills) only; the Claude Code plugin *install route* was removed. See [ADR 0002](../.agents/adr/0002-ship-as-a-claude-code-plugin.md) for the upstream decision this fork reverses, and its 2026-08-17 update for why one file came back.
 
-**Recipe:** upstream edits to these files land as a modify/delete conflict. Keep the deletion:
+`.claude-plugin/marketplace.json` is **not** an install route here. The skills.sh installer groups its picker — the collapsible headings with a per-group "select all" — only from that file, reading `plugins[].name` and `plugins[].skills[]` and nothing else. Without it every skill lands in one flat, ungrouped list. The fork's copy is generated from [`catalog.yaml`](./catalog.yaml) by [`scripts/generate-marketplace.py`](../scripts/generate-marketplace.py) and shares nothing with upstream's but the path. `plugin.json` — the file that actually makes the directory installable — stays deleted, and `forkcheck`'s `plugin-dir-marketplace-only` assertion fails if a sync brings it back.
+
+**Recipe:** upstream edits land as a modify/delete conflict for the deleted paths, and a content conflict on `marketplace.json`. Never take upstream's — regenerate ours:
 
 ```bash
-git rm -r --ignore-unmatch .claude-plugin scripts/sync-plugin-version.mjs
+git rm -r --ignore-unmatch scripts/sync-plugin-version.mjs
+git rm --ignore-unmatch .claude-plugin/plugin.json
+python3 scripts/generate-marketplace.py
+git add .claude-plugin/marketplace.json
 ```
 
-Also drop any `sync-plugin-version` script upstream re-adds to `package.json`.
+Also drop any `sync-plugin-version` script upstream re-adds to `package.json`: this fork's manifest carries no `version`, so there is nothing to sync.
 
 ### `skills/engineering/setup-matt-pocock-skills/` — deleted
 
@@ -88,6 +93,14 @@ Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.
 **Why:** router entries and cross-references for fork skills (the `mobile` and `platform` domains). These cite fork skills by name, not by path, so the move left them unchanged.
 
 **Recipe:** keep both; then re-read [`ask-matt`](../skills/engineering/ask-matt/SKILL.md) and confirm every fork skill still appears and every upstream skill it routes to still exists under that name.
+
+### `skills/engineering/ask-matt/references/` — the router's long-form detail
+
+Affected: `skills/engineering/ask-matt/PHASE-BOUNDARIES.md` (deleted), `references/phase-boundaries.md` and `references/platform-knowledge.md` (added).
+
+**Why:** `ask-matt` is a router — its `SKILL.md` earns its keep by being scannable. The fork's five KMP/CMP skills added a `## Platform knowledge` section whose per-skill detail is reference material, not routing, so it moved into `references/platform-knowledge.md` and the section kept only its framing paragraph, the five names, and a pointer. Upstream's `PHASE-BOUNDARIES.md` moved alongside it — same kind of content, same folder — renamed to `phase-boundaries.md` to match the lowercase `references/` convention the fork's `skills/team/` skills already use. Content is byte-identical to upstream's; only the path and the case of the name changed.
+
+**Recipe:** take upstream's edits to `PHASE-BOUNDARIES.md` and apply them to `references/phase-boundaries.md`, then delete upstream's copy again — a sync that restores it leaves two copies of the same tree and `SKILL.md` links to only one. If upstream ever grows its own `references/` folder here, drop the case (b) entries and keep the paths.
 
 ## Retired divergences
 

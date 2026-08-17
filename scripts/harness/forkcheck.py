@@ -8,7 +8,9 @@
                            commit, modulo `.fork/sanctioned-edits.txt`
   2. unique-skill-names    no two skill directories share a basename
   3. catalog-completeness  every skill has a catalog entry and vice versa
-  4. no-plugin-dir         `.claude-plugin/` stays deleted (ADR 0002)
+  4. plugin-dir-marketplace-only
+                           `.claude-plugin/` holds the generated
+                           `marketplace.json` and nothing else (ADR 0002)
   5. changeset-package     every changeset addresses this fork's package, not
                            the one upstream's imported changesets name
 
@@ -56,6 +58,11 @@ RELEASE_ARTIFACTS = (
 )
 
 PLUGIN_DIR = ".claude-plugin"
+
+# The only file allowed inside PLUGIN_DIR. It is picker metadata for the
+# skills.sh installer — see scripts/generate-marketplace.py. `plugin.json` is
+# what makes the directory an install route, so it stays out.
+PLUGIN_DIR_ALLOWED = ("marketplace.json",)
 
 
 class Fatal(Exception):
@@ -144,7 +151,7 @@ def load_catalog(repo):
     for i, entry in enumerate(data["skills"]):
         if not isinstance(entry, dict) or not entry.get("name") or not entry.get("path"):
             raise Fatal(f".fork/catalog.yaml: skills[{i}] needs a `name` and a `path`")
-        entries.append((entry["name"], entry["path"]))
+        entries.append((entry["name"], entry["path"], entry.get("domain")))
     if not entries:
         raise Fatal(".fork/catalog.yaml lists no skills")
     return entries
@@ -276,7 +283,7 @@ def check_catalog_completeness(repo, skills, entries):
     """Assertion 3 — the catalog and the tree describe the same set of skills."""
     failures = []
     catalogued = set()
-    for name, path in entries:
+    for name, path, _domain in entries:
         if os.path.basename(path) != name:
             failures.append(f"{path}: catalog name `{name}` is not the directory basename")
         if path in catalogued:
@@ -289,20 +296,97 @@ def check_catalog_completeness(repo, skills, entries):
     return failures
 
 
-def check_no_plugin_dir(repo):
-    """Assertion 4 — the plugin route stays removed (ADR 0002)."""
-    found = []
-    for dirpath, dirnames, _filenames in os.walk(repo):
+def check_plugin_dir_marketplace_only(repo):
+    """Assertion 4 — the plugin route stays removed (ADR 0002).
+
+    `.claude-plugin/marketplace.json` came back in the fork's 1.4 line, but only
+    as grouping metadata for the skills.sh picker — see
+    scripts/generate-marketplace.py. Everything else upstream keeps in that
+    directory (`plugin.json` above all) is what makes it installable as a
+    plugin, so a sync that drags those files back must still fail here.
+    """
+    failures = []
+    root_plugin_dir = os.path.join(repo, PLUGIN_DIR)
+    for dirpath, dirnames, filenames in os.walk(repo):
         for skip in (".git", "node_modules", "isolated_test_workspace"):
             if skip in dirnames:
                 dirnames.remove(skip)
-        if PLUGIN_DIR in dirnames:
-            found.append(os.path.relpath(os.path.join(dirpath, PLUGIN_DIR), repo))
-    return [
-        f"{path}: this fork ships via skills.sh only — see .agents/adr/"
-        f"0002-ship-as-a-claude-code-plugin.md and the recipe in .fork/divergence.md"
-        for path in sorted(found)
-    ]
+        if PLUGIN_DIR not in dirnames:
+            continue
+        found = os.path.join(dirpath, PLUGIN_DIR)
+        rel = os.path.relpath(found, repo)
+        if os.path.abspath(found) != os.path.abspath(root_plugin_dir):
+            failures.append(
+                f"{rel}: the only permitted plugin directory is the repo root's "
+                f"{PLUGIN_DIR}/ — see .agents/adr/"
+                f"0002-ship-as-a-claude-code-plugin.md"
+            )
+            continue
+        for name in sorted(os.listdir(found)):
+            if name in PLUGIN_DIR_ALLOWED:
+                continue
+            failures.append(
+                f"{rel}/{name}: this fork ships via skills.sh only — "
+                f"{PLUGIN_DIR}/ may hold "
+                f"{' and '.join(PLUGIN_DIR_ALLOWED)} and nothing else. See "
+                f".agents/adr/0002-ship-as-a-claude-code-plugin.md and the "
+                f"recipe in .fork/divergence.md"
+            )
+    return failures
+
+
+def check_marketplace_groups(repo, entries):
+    """Assertion 6 — every shipped skill sits in exactly one picker group.
+
+    The manifest is generated, so this asserts what the generator promises from
+    the other side: read the committed file and the catalog independently, and
+    compare. The failure this catches is drift — a skill catalogued and never
+    regenerated is not a stale file, it is a skill that silently falls into the
+    installer's "Other" heading.
+    """
+    path = os.path.join(repo, PLUGIN_DIR, "marketplace.json")
+    if not os.path.exists(path):
+        return [
+            f"{PLUGIN_DIR}/marketplace.json is missing — run "
+            f"`python3 scripts/generate-marketplace.py`"
+        ]
+    try:
+        manifest = json.loads(read(repo, f"{PLUGIN_DIR}/marketplace.json"))
+    except ValueError as exc:
+        raise Fatal(f"cannot parse {PLUGIN_DIR}/marketplace.json: {exc}")
+
+    UNSHIPPED = ("misc", "in-progress", "deprecated")
+    expected = {path for _name, path, domain in entries if domain not in UNSHIPPED}
+
+    failures = []
+    seen = {}
+    for plugin in manifest.get("plugins") or []:
+        for entry in plugin.get("skills") or []:
+            # The installer ignores any path that does not start with "./".
+            if not entry.startswith("./"):
+                failures.append(
+                    f"{PLUGIN_DIR}/marketplace.json: `{entry}` must start with "
+                    f"`./` or the installer drops it"
+                )
+                continue
+            skill = entry[2:]
+            if skill in seen:
+                failures.append(
+                    f"{PLUGIN_DIR}/marketplace.json: {skill} is in both "
+                    f"`{seen[skill]}` and `{plugin.get('name')}`"
+                )
+            seen[skill] = plugin.get("name")
+
+    for skill in sorted(expected - set(seen)):
+        failures.append(
+            f"{skill}: shipped in .fork/catalog.yaml but in no marketplace.json "
+            f"group — it would fall to the installer's \"Other\" heading"
+        )
+    for skill in sorted(set(seen) - expected):
+        failures.append(
+            f"{skill}: in marketplace.json but not a shipped catalog entry"
+        )
+    return failures
 
 
 # --- entry point ------------------------------------------------------------
@@ -347,7 +431,8 @@ def run(repo, ref):
         ("frozen-upstream", check_frozen_upstream(repo, ref, sanctioned, fork_trees)),
         ("unique-skill-names", check_unique_skill_names(repo, skills)),
         ("catalog-completeness", check_catalog_completeness(repo, skills, entries)),
-        ("no-plugin-dir", check_no_plugin_dir(repo)),
+        ("plugin-dir-marketplace-only", check_plugin_dir_marketplace_only(repo)),
+        ("marketplace-groups", check_marketplace_groups(repo, entries)),
         ("changeset-package", check_changeset_package(repo)),
     ]
 

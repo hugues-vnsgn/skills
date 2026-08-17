@@ -90,6 +90,35 @@ seed_plugin_dir_restored() {
     > .claude-plugin/plugin.json
 }
 
+# A plugin directory anywhere but the repo root: the rule permits exactly one.
+seed_nested_plugin_dir() {
+  mkdir -p skills/team/platform/.claude-plugin
+  echo '{}' > skills/team/platform/.claude-plugin/marketplace.json
+}
+
+# --- assertion 6: the installer manifest matches the catalog ---
+# The drift that matters is silent: a shipped skill missing from the manifest
+# still installs, it just falls into the picker's ungrouped heading.
+seed_rm_marketplace() {
+  rm -f .claude-plugin/marketplace.json
+}
+
+seed_marketplace_drops_skill() {
+  python3 - <<'PY'
+import json
+path = ".claude-plugin/marketplace.json"
+with open(path) as fh:
+    manifest = json.load(fh)
+for plugin in manifest["plugins"]:
+    if plugin["skills"]:
+        plugin["skills"].pop()
+        break
+with open(path, "w") as fh:
+    json.dump(manifest, fh, indent=2)
+    fh.write("\n")
+PY
+}
+
 # --- assertion 5: changesets address this fork's package ---
 # The shape a sync imports: a changeset naming upstream's package. It conflicts
 # with nothing and fails the Release workflow, not this one — hence the guard.
@@ -141,8 +170,14 @@ run "catalogued, not on disk"     1 "no SKILL.md on disk" seed_catalogued_not_on
 run "on disk, not catalogued"     1 "missing from .fork/catalog.yaml" seed_on_disk_not_catalogued
 
 echo
-echo "=== ASSERTION 4: plugin directory absent (exit 1) ==="
-run "plugin dir restored"         1 "FAIL  no-plugin-dir" seed_plugin_dir_restored
+echo "=== ASSERTION 4: plugin dir holds marketplace.json only (exit 1) ==="
+run "plugin.json restored"        1 "FAIL  plugin-dir-marketplace-only" seed_plugin_dir_restored
+run "nested plugin dir"           1 "only permitted plugin directory" seed_nested_plugin_dir
+
+echo
+echo "=== ASSERTION 6: marketplace groups match the catalog (exit 1) ==="
+run "manifest missing"            1 "generate-marketplace.py" seed_rm_marketplace
+run "shipped skill ungrouped"     1 "in no marketplace.json group" seed_marketplace_drops_skill
 
 echo
 echo "=== ASSERTION 5: changesets address this fork's package (exit 1) ==="

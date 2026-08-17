@@ -12,7 +12,9 @@ The single install route is [skills.sh](https://skills.sh/osxsystem/skills), whi
 npx skills@latest add osxsystem/skills
 ```
 
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take — make sure `setup-osxsystem-skills` is one of them.**
+Skills are grouped by domain — **Engineering**, **Productivity**, and one group per team domain — and each group header takes a single keystroke to select everything under it. Pick the groups or the individual skills you want, then choose which coding agents to install them on. **Expand **Team Platform** and make sure `setup-osxsystem-skills` is ticked.**
+
+Claude Code, Codex, Cursor, Pi and 70-odd other agents are offered by name. **[omp (oh-my-pi)](https://omp.sh) is not yet listed by name — choose the `agents` target**, which writes to `~/.agents/skills`, the location omp reads natively.
 
 </canonical-block>
 

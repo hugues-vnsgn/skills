@@ -14,7 +14,7 @@ This repo (`osxsystem/skills`) is a team fork of [`mattpocock/skills`](https://g
 | `.fork/` | The fork control plane: the sidecar [catalog](./.fork/catalog.yaml), the [last-synced upstream SHA](./.fork/upstream.lock), the [divergence record](./.fork/divergence.md), the [sanctioned-edits list](./.fork/sanctioned-edits.txt) CI reads, and the [sync playbook](./.fork/sync-playbook.md) |
 | `.github/CODEOWNERS` | PR approval authority — a team per `skills/team/<domain>/`, maintainers over upstream territory and the control plane |
 | `MAINTENANCE.md` | This file |
-| Upstream files touched | `README.md` (reframed as fork README + team sections), `CLAUDE.md` (the team tree, plugin route removed), `skills/engineering/tdd/SKILL.md` (KMP section at the end); `.claude-plugin/` and upstream's `setup-matt-pocock-skills/` deleted. The full record, with a resolution recipe per divergence, is [.fork/divergence.md](./.fork/divergence.md). |
+| Upstream files touched | `README.md` (reframed as fork README + team sections), `CLAUDE.md` (the team tree, plugin route removed), `skills/engineering/tdd/SKILL.md` (KMP section at the end); upstream's `setup-matt-pocock-skills/` deleted, and `.claude-plugin/` reduced to a generated `marketplace.json` — grouping metadata for the skills.sh picker, never an install route, with `plugin.json` still deleted. On conflict, regenerate ours (`python3 scripts/generate-marketplace.py`); never take upstream's. The full record, with a resolution recipe per divergence, is [.fork/divergence.md](./.fork/divergence.md). |
 
 ## Syncing with upstream
 

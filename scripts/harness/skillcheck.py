@@ -393,13 +393,27 @@ def check_install_block(repo):
                  "notes": "" if not dup_files else f"duplicated in: {', '.join(dup_files)}",
                  "file": "docs/"})
 
-    plugin_dirs = []
+    # `.claude-plugin/` may hold the generated marketplace.json — grouping
+    # metadata for the skills.sh picker — and nothing else. `plugin.json` is
+    # what makes the directory an install route, so it stays out. See
+    # scripts/generate-marketplace.py and ADR 0002's 2026-08-17 update.
+    stray_plugin_files = []
     for root, dirs, _ in os.walk(repo):
-        if ".claude-plugin" in dirs:
-            plugin_dirs.append(os.path.relpath(os.path.join(root, ".claude-plugin"), repo))
-    rows.append({"bucket": "-", "skill": "(repo)", "check": "no-claude-plugin-dir",
-                 "status": "PASS" if not plugin_dirs else "FAIL",
-                 "notes": "" if not plugin_dirs else f"found: {', '.join(plugin_dirs)}",
+        if ".claude-plugin" not in dirs:
+            continue
+        found = os.path.join(root, ".claude-plugin")
+        rel = os.path.relpath(found, repo)
+        if rel != ".claude-plugin":
+            stray_plugin_files.append(rel)
+            continue
+        stray_plugin_files.extend(
+            f"{rel}/{name}"
+            for name in sorted(os.listdir(found))
+            if name != "marketplace.json"
+        )
+    rows.append({"bucket": "-", "skill": "(repo)", "check": "plugin-dir-marketplace-only",
+                 "status": "PASS" if not stray_plugin_files else "FAIL",
+                 "notes": "" if not stray_plugin_files else f"found: {', '.join(stray_plugin_files)}",
                  "file": "."})
     return rows
 

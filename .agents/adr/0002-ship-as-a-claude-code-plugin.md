@@ -39,3 +39,17 @@ Verified 2026-08-05, on Claude Code 2.1.222, against the live listing:
 - `claude plugin details mattpocock-skills` then reports version 1.2.0 and loads the promoted skills.
 - The listing's `source` is `{"source": "url", "url": "https://github.com/mattpocock/skills.git", "sha": …}` — the **sha is pinned**, so a release reaches installed users when that pin moves, not the moment we tag. At the time of writing the pin sits two commits behind `main`, which is why it lists 22 skills rather than the 24 in `plugin.json`.
 - The in-session `/plugin install mattpocock-skills` was **not** exercised — `/plugin` is unavailable in headless (`claude -p`) sessions. It runs the same resolver as the CLI, and the documented example form is `/plugin install <name>@claude-plugins-official`.
+
+## Fork update, 2026-08-17 — `.claude-plugin/marketplace.json` comes back, as picker metadata
+
+This fork reversed the decision above: `.claude-plugin/` was deleted and [skills.sh](https://skills.sh/osxsystem/skills) is the only install route. `forkcheck.py` enforced that with a `no-plugin-dir` assertion.
+
+One file is now restored, and the reason has nothing to do with plugins. The skills.sh installer ([vercel-labs/skills](https://github.com/vercel-labs/skills)) renders its interactive picker as a flat list unless skills carry a group, and it derives groups from exactly one source: `getPluginGroupings()`, which reads `.claude-plugin/marketplace.json` (or `plugin.json`). With a manifest present it renders collapsible headings, each with a "select all" row — the difference between ticking 35 skills one at a time and ticking six domains. `plugin.json` can only ever express a single group, so grouping requires `marketplace.json` specifically.
+
+**Decision:** generate `.claude-plugin/marketplace.json` from [`.fork/catalog.yaml`](../../.fork/catalog.yaml) via [`scripts/generate-marketplace.py`](../../scripts/generate-marketplace.py), carrying only `plugins[].name` and `plugins[].skills[]` — the fields the picker reads — plus a `metadata.note` recording what the file is for. No `version`, `source`, or `owner` block, so the ADR's version-sync invariant does not return and the entries do not present as installable plugins.
+
+`no-plugin-dir` becomes **`plugin-dir-marketplace-only`**: `.claude-plugin/` may hold `marketplace.json` and nothing else, so a sync that drags `plugin.json` back still fails CI. The install story in [`install-block.md`](../install-block.md) is unchanged — one route, skills.sh.
+
+**Known consequence, accepted:** a valid `marketplace.json` is technically resolvable by `claude plugin marketplace add`. That route is undocumented and unsupported here; we chose not to sabotage the file to prevent it, because a manifest engineered to break for one consumer is a trap for the next maintainer.
+
+**Second consequence, accepted:** the installer sets `searchable: !hasGroups`, so turning grouping on turns type-to-filter off, and groups open expanded. Both are upstream behaviours; a PR to let search and grouping coexist (and to default groups collapsed) is tracked separately and does not gate this change.

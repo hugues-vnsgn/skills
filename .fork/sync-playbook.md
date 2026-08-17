@@ -65,6 +65,20 @@ Every conflict should be a row in [Residual conflict surface](#residual-conflict
 
 If a file conflicts that is *not* in the table: stop. Do not resolve it yet. Either the fork acquired a divergence nobody recorded, or upstream started writing a path the fork thought was its own. Both are boundary changes: work out which, then land the record — a `divergence.md` row plus a `sanctioned-edits.txt` line — as part of this sync, so the next maintainer meets a documented conflict instead of the same surprise.
 
+### 5b. Re-home the changesets upstream brought in
+
+Upstream ships changesets, and each names *upstream's* package. This fork renamed the package to `osxsystem-skills`, so an imported changeset addresses something that isn't in the workspace and `changeset version` aborts — failing the **Release** workflow, which is a different workflow from the one step 6 runs. Nothing conflicts (they arrive as new files with new names), so nothing warns you.
+
+Rewrite the package name in every changeset the merge added:
+
+```bash
+sed -i '' 's/^"mattpocock-skills":/"osxsystem-skills":/' .changeset/*.md   # GNU sed: -i without ''
+```
+
+Leave the bodies alone — they are upstream's release notes for changes this fork now carries, and they are accurate as written.
+
+`forkcheck`'s `changeset-package` assertion in step 6 catches a missed one, so this step is belt-and-braces rather than the only guard.
+
 ### 6. Assert the boundary
 
 `forkcheck` normally compares upstream territory against the *locked* commit — a live comparison would redden CI on an untouched fork every time upstream pushes. During a sync the two are meant to converge, so point it at the merged ref:

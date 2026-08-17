@@ -90,6 +90,16 @@ seed_plugin_dir_restored() {
     > .claude-plugin/plugin.json
 }
 
+# --- assertion 5: changesets address this fork's package ---
+# The shape a sync imports: a changeset naming upstream's package. It conflicts
+# with nothing and fails the Release workflow, not this one — hence the guard.
+seed_changeset_upstream_package() {
+  mkdir -p .changeset
+  # `printf '---...'` would read the YAML fence as options; feed it as data.
+  printf '%s\n' '---' '"mattpocock-skills": patch' '---' '' 'imported from upstream' \
+    > .changeset/zz-imported-from-upstream.md
+}
+
 # --- fail-closed: unreadable inputs ---
 seed_rm_catalog() { rm -f .fork/catalog.yaml; }
 seed_corrupt_catalog() { printf 'skills:\n  - [unclosed\n' > .fork/catalog.yaml; }
@@ -122,6 +132,10 @@ run "on disk, not catalogued"     1 "missing from .fork/catalog.yaml" seed_on_di
 echo
 echo "=== ASSERTION 4: plugin directory absent (exit 1) ==="
 run "plugin dir restored"         1 "FAIL  no-plugin-dir" seed_plugin_dir_restored
+
+echo
+echo "=== ASSERTION 5: changesets address this fork's package (exit 1) ==="
+run "changeset names upstream pkg" 1 "FAIL  changeset-package" seed_changeset_upstream_package
 
 echo
 echo "=== FAIL-CLOSED: unreachable upstream must not pass (exit 1) ==="

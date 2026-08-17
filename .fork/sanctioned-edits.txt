@@ -16,7 +16,7 @@
 # Verify (should print nothing beyond fork-owned trees):
 #   git fetch upstream && git diff --name-status -M upstream/main
 #
-# Last verified: 2026-08-13 against upstream/main 84fdeffd12f2ee307994d1eb6feb48173b6e0502
+# Last verified: 2026-08-17 against upstream/main 068b6e0c62393147daf03530149cdce209c93da8
 
 # --- Modified upstream files ---
 .agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md

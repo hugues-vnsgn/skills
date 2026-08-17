@@ -46,6 +46,15 @@ UPSTREAM_FOLDERS = (
     "docs/productivity/",
 )
 
+# Artifacts the release process writes, which upstream also ships. Their
+# divergence is guaranteed, permanent and carries no review value, so
+# frozen-upstream skips them rather than demanding a sanctioned-edits entry.
+# See the release-artifacts row in divergence.md's Additions table.
+RELEASE_ARTIFACTS = (
+    ".changeset/*.md",
+    "CHANGELOG.md",
+)
+
 PLUGIN_DIR = ".claude-plugin"
 
 
@@ -213,14 +222,21 @@ def check_frozen_upstream(repo, ref, sanctioned, fork_trees):
     failures = []
     accounted = set()
     for path, status in sorted(changed.items()):
-        # Changesets are ephemeral release inputs, not content, and
-        # `.changeset/*.md` is declared fork-owned in divergence.md's Additions
+        # Release artifacts, declared fork-owned in divergence.md's Additions
         # table. Upstream ships them too, so upstream-presence would otherwise
-        # override that declaration and demand a sanctioned-edits entry for
-        # every changeset a sync imports and re-homes — churn on files the next
-        # release deletes. The `changeset-package` assertion covers what
-        # actually matters about them.
-        if fnmatch.fnmatch(path, ".changeset/*.md"):
+        # override that declaration.
+        #
+        # Changesets are ephemeral release *inputs*: demanding a sanctioned
+        # entry for each would be churn on files the next release deletes. The
+        # `changeset-package` assertion covers what actually matters there.
+        #
+        # CHANGELOG.md is the release *output*, and it cannot be sanctioned at
+        # all: `changeset version` diverges it — new H1, new version section —
+        # only at the moment a release is cut, and until then it is identical
+        # to upstream, which the stale-entry branch below rejects. A path that
+        # fails one way before the release and the other way after has no
+        # correct sanctioned-edits state; skipping is the only consistent one.
+        if any(fnmatch.fnmatch(path, pat) for pat in RELEASE_ARTIFACTS):
             continue
         if path in upstream_files or path.startswith(UPSTREAM_FOLDERS):
             if path in sanctioned:

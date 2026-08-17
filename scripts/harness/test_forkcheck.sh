@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Fail-closed test for forkcheck.py.
-# Contract: each of the four assertions fails when its invariant is violated,
+# Contract: each of the five assertions fails when its invariant is violated,
 # and the guard fails — rather than passing vacuously — when an input it needs
 # is missing or unreadable. Every case runs against a throwaway copy of the
 # repo, so nothing here mutates the working tree.
@@ -100,6 +100,17 @@ seed_changeset_upstream_package() {
     > .changeset/zz-imported-from-upstream.md
 }
 
+# --- release artifacts are exempt from frozen-upstream ---
+# What `changeset version` writes when the fork cuts a release: upstream's
+# CHANGELOG.md, rewritten with the fork's package name and a new version
+# section. It is upstream territory and it is not in sanctioned-edits.txt, so
+# without the RELEASE_ARTIFACTS exemption every release PR fails CI. Asserting
+# the PASS is the point — this is the one probe here that expects exit 0.
+seed_changelog_diverged() {
+  printf '%s\n' '# osxsystem-skills' '' '## 1.3.0' '' '### Minor Changes' '' '- a release' \
+    > CHANGELOG.md
+}
+
 # --- fail-closed: unreadable inputs ---
 seed_rm_catalog() { rm -f .fork/catalog.yaml; }
 seed_corrupt_catalog() { printf 'skills:\n  - [unclosed\n' > .fork/catalog.yaml; }
@@ -136,6 +147,10 @@ run "plugin dir restored"         1 "FAIL  no-plugin-dir" seed_plugin_dir_restor
 echo
 echo "=== ASSERTION 5: changesets address this fork's package (exit 1) ==="
 run "changeset names upstream pkg" 1 "FAIL  changeset-package" seed_changeset_upstream_package
+
+echo
+echo "=== RELEASE ARTIFACTS: exempt from frozen-upstream (exit 0) ==="
+run "diverged CHANGELOG exempt"    0 "PASS  frozen-upstream" seed_changelog_diverged
 
 echo
 echo "=== FAIL-CLOSED: unreachable upstream must not pass (exit 1) ==="

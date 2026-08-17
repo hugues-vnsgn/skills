@@ -2,8 +2,8 @@
 # `git log <sha>..upstream/main` answers "what changed since the last sync".
 upstream_remote: https://github.com/mattpocock/skills
 upstream_ref: refs/heads/main
-upstream_sha: 84fdeffd12f2ee307994d1eb6feb48173b6e0502
-upstream_commit_date: 2026-08-06
+upstream_sha: 068b6e0c62393147daf03530149cdce209c93da8
+upstream_commit_date: 2026-08-15
 # Date this lock was written. Verified on that date: `upstream_sha` is an
 # ancestor of `main`, so the fork carries all upstream work through it.
-recorded_on: 2026-08-13
+recorded_on: 2026-08-17

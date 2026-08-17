@@ -1,5 +1,153 @@
 # mattpocock-skills
 
+## 1.3.0
+
+### Minor Changes
+
+- [#7](https://github.com/osxsystem/skills/pull/7) [`f1c4af3`](https://github.com/osxsystem/skills/commit/f1c4af306bc7da1d231dc65f83384b54df6d0764) Thanks [@osxsystem](https://github.com/osxsystem)! - Restructure the tree by provenance: every fork-authored skill now lives under
+  `skills/team/`, grouped by capability domain.
+
+  **No skill was renamed.** `/kmp-module-setup`, `/port-from-repo`,
+  `/setup-osxsystem-skills` and the rest answer to exactly the same names as
+  before — only their directories moved, so invocation is unchanged. Re-run
+  `scripts/link-skills.sh` to relink from the new paths.
+
+  - **`skills/team/mobile/`** — the four Kotlin Multiplatform / Compose
+    Multiplatform skills, from `skills/mobile/`.
+  - **`skills/team/platform/`** — `setup-osxsystem-skills` (from
+    `skills/engineering/`), `port-from-repo` (from `skills/engineering/`), and
+    `when-stuck` (from `skills/in-progress/`, still beta).
+
+  Upstream's buckets (`engineering/`, `productivity/`, `misc/`, `in-progress/`,
+  `deprecated/`) are now byte-frozen vendor territory, so an upstream sync is a
+  merge plus assertions rather than an act of curation.
+
+  **New skill:** `kmp-test-seams` (model-invoked) — which source set a test
+  belongs in and which Gradle task proves a slice green. It was the KMP section
+  appended to upstream's `tdd` skill; extracting it restores `tdd` verbatim and
+  retires a guaranteed merge conflict. `ask-matt` routes to it under the
+  platform-knowledge layer.
+
+  **Fork control plane** — `.fork/` holds the per-skill sidecar taxonomy
+  (`catalog.yaml`: origin, domain, audience, owner), the last-synced upstream SHA
+  (`upstream.lock`), the divergence record with a resolution recipe per entry, the
+  sanctioned-edits list CI consumes, and the sync playbook. `CATALOG.md` at the
+  repo root is generated from the catalog and must never be hand-edited.
+
+  **CI guard** — `scripts/harness/forkcheck.py` joins the validate job and fails
+  the build on four invariants: upstream paths drifting from `upstream/main`
+  outside the sanctioned list, two skills sharing a directory basename anywhere in
+  the tree, a catalog that doesn't match the skills on disk, and the reappearance
+  of the `.claude-plugin/` directory this fork deleted.
+
+  **Ownership and discovery** — `CODEOWNERS` maps one line per team domain plus a
+  maintainers line over vendor territory and the control plane, and `docs/roles/`
+  adds an entry page per audience (engineer, designer, analyst, qa, staff) giving
+  each discipline a curated reading order instead of a folder taxonomy to learn.
+
+### Patch Changes
+
+- [#2](https://github.com/osxsystem/skills/pull/2) [`4810a38`](https://github.com/osxsystem/skills/commit/4810a3810442760fe8e9135f451c91252426af28) Thanks [@osxsystem](https://github.com/osxsystem)! - `ask-matt` now routes to the mobile bucket.
+
+  The router mapped every promoted skill except the four Kotlin Multiplatform /
+  Compose Multiplatform ones, which have shipped in `skills/mobile/` since the
+  fork added the bucket. They now appear as a **Platform knowledge** layer that
+  runs beneath the main flow, alongside the existing vocabulary layer.
+
+  No skill behaviour changes — this is the map catching up with the repo.
+
+- [#848](https://github.com/mattpocock/skills/pull/848) [`f02e2ed`](https://github.com/osxsystem/skills/commit/f02e2ed3624d031272f8547742d23bf6bca8b072) Thanks [@mattpocock](https://github.com/mattpocock)! - domain-modeling: trigger on discussing codebase terminology and on writing or editing a CONTEXT.md or an ADR directly, replacing the narrower "pin down domain terminology or a ubiquitous language" / "record an architectural decision" phrasing. Also drops the "another skill needs to maintain the domain model" caveat — that's the invoking skill's job to state explicitly, not this description's.
+
+- [#879](https://github.com/mattpocock/skills/pull/879) [`d419977`](https://github.com/osxsystem/skills/commit/d419977fe07d9e1607d3523f3579310bbb076b93) Thanks [@mattpocock](https://github.com/mattpocock)! - grilling: remove em-dashes from `SKILL.md`, replacing them with colons and semicolons so the instructions read as plain text.
+
+- [#4](https://github.com/osxsystem/skills/pull/4) [`ffd206a`](https://github.com/osxsystem/skills/commit/ffd206ac0814767690a5f7bb249d6e24161a1239) Thanks [@osxsystem](https://github.com/osxsystem)! - Fix two bugs in `git-guardrails-claude-code`'s hook script, and add the missing
+  `## Common questions` section to five docs pages.
+
+  **The guardrail no longer blocks commands that merely mention a dangerous one.**
+  Patterns were matched anywhere in the command string, so `git pushd /tmp`,
+  `git commit -m "docs: explain git push safety"`, and `grep -r "git push" docs/`
+  were all blocked. Patterns are now anchored to the start of each command
+  segment, so a mention runs and an invocation still blocks.
+
+  **The guardrail now fails closed.** Previously, unparseable hook input made `jq`
+  error, left the command string empty, matched nothing, and exited `0` — allowing
+  the command. A missing `jq` did the same. Both now block (exit 2). If you relied
+  on the old behaviour to slip commands past the hook, they will now be refused.
+
+  Dangerous commands are still caught when they are not the leading command in a
+  chain (`cd foo && git push`), behind an env-var prefix, or via `git -C <path>`.
+
+  Also in this release: `docs/mobile/*` (all four) and
+  `docs/productivity/wait-what.md` gained the `## Common questions` section
+  required by `.agents/writing-docs.md`, and the stale claim in `CLAUDE.md` and
+  `.agents/writing-docs.md` that only `engineering/` and `productivity/` are
+  promoted now names `mobile/` too.
+
+- [#2](https://github.com/osxsystem/skills/pull/2) [`297de67`](https://github.com/osxsystem/skills/commit/297de67ce52a8824828a191c4216423d15d6622c) Thanks [@osxsystem](https://github.com/osxsystem)! - The four `skills/mobile/` skills now carry the `agents/openai.yaml` that
+  `.agents/invocation.md` requires of every skill. They stay model-invoked, so
+  the files hold Codex UI metadata only and no `policy` block.
+
+- [#1](https://github.com/osxsystem/skills/pull/1) [`03c7993`](https://github.com/osxsystem/skills/commit/03c7993928c03a963a2a46e1e33b42b35ceb54c4) Thanks [@osxsystem](https://github.com/osxsystem)! - Rename `setup-matt-pocock-skills` to `setup-osxsystem-skills`.
+
+  The skill's behaviour is unchanged — only its name, directory, and docs page
+  move. Run `/setup-osxsystem-skills` instead of the old command.
+
+  **If you installed a previous version,** the old skill is still linked under its
+  old name and will surface a broken slash command. Remove it:
+
+  ```bash
+  rm -f ~/.claude/skills/setup-matt-pocock-skills \
+        ~/.agents/skills/setup-matt-pocock-skills
+  ```
+
+  Also in this release: `package.json` now identifies this fork rather than
+  upstream, and `scripts/sync-plugin-version.mjs` is deleted. That script synced a
+  `.claude-plugin/plugin.json` this fork does not ship, and its failure was
+  breaking the release workflow.
+
+- [#6](https://github.com/osxsystem/skills/pull/6) [`bfb933b`](https://github.com/osxsystem/skills/commit/bfb933bb7d45153f1c0198f2fa432f63216331b4) Thanks [@osxsystem](https://github.com/osxsystem)! - Two new skills, from a second pass over ClaudeKit's catalogue.
+
+  `port-from-repo` (engineering, user-invoked) brings a capability across from
+  another codebase without bringing its architecture with it — understand,
+  challenge, adapt, verify. It delegates four of those phases to skills this repo
+  already owns, so it stays small: `/grilling` for the challenge, `/codebase-design`
+  for the seam, `/tdd` for the build, `/code-review` for close-out.
+
+  `when-stuck` (in-progress, model-invoked) collects five techniques for
+  design-level stuck-ness — inversion, the scale game, simplification cascades,
+  meta-patterns, collision — scoped away from bugs and undecided plans so it
+  doesn't compete with `/diagnosing-bugs` or `/grilling`.
+
+  `ask-matt` gains an on-ramp for `port-from-repo`, and its opening line stops
+  claiming a fixed number of on-ramps now that there are four.
+
+- [#878](https://github.com/mattpocock/skills/pull/878) [`e3e547b`](https://github.com/osxsystem/skills/commit/e3e547b57d549110a0aa6ff40fd7b871c01c76c9) Thanks [@mattpocock](https://github.com/mattpocock)! - Standardize cross-skill invocation on an explicit "call the Skill tool" instruction instead of bare `/skill`-style prose, across `code-review`, `diagnosing-bugs`, `grill-with-docs`, `grill-me`, `improve-codebase-architecture`, `tdd`, `to-spec`, `to-tickets`, `triage`, and `wayfinder`.
+
+  - A skill that names another skill in prose ("run the `/grilling` skill") does not reliably cause it to load — this is the documented rough edge behind `grill-with-docs`'s most-reported problem. Naming the tool directly (`Call the Skill tool with "grilling"`) is intended to raise the hit rate. Dropping the leading `/` also makes the instruction harness-neutral rather than less: it no longer assumes Claude Code's trigger syntax.
+  - A step needing more than one skill now says so as multiple calls ("Call the Skill tool twice, for `grilling` and `domain-modeling`"), not one call carrying two names.
+  - Documents the convention in `.agents/invocation.md` for future skills to follow.
+
+- [#5](https://github.com/osxsystem/skills/pull/5) [`ffd4a94`](https://github.com/osxsystem/skills/commit/ffd4a94eb6e1d8eae8644a682bf6ee4bebc5b9ef) Thanks [@osxsystem](https://github.com/osxsystem)! - Skill validation now runs in CI.
+
+  The structural validator that checks this repo's own invariants — bucket-README
+  membership and grouping, docs-page sections, invocation-mode consistency across
+  `SKILL.md` and `agents/openai.yaml`, link resolution, `ask-matt` routing
+  freshness, the verbatim install block — has moved into `scripts/harness/` and
+  runs on every pull request. A new `scripts/check-confusable-skills.py` fails
+  when two model-invoked skill descriptions overlap enough to compete for the
+  same trigger.
+
+  No skill behaviour changes. The rules were already written down in `CLAUDE.md`;
+  now something checks them.
+
+- [#880](https://github.com/mattpocock/skills/pull/880) [`1dab982`](https://github.com/osxsystem/skills/commit/1dab98299c3b81f560026c01b7ebf55ed5d91373) Thanks [@mattpocock](https://github.com/mattpocock)! - Stop skills from trying to reach user-invoked skills through the Skill tool — fix cross-skill references that violated the "no other skill can call it" invariant in `.agents/invocation.md`, in `to-spec`, `wayfinder`, `to-tickets`, `triage`, `code-review`, and `diagnosing-bugs`.
+
+  - `to-spec`, `wayfinder`, `to-tickets`, `triage`, and `code-review` each carried a precondition ("...run `/setup-matt-pocock-skills` if not") that PR [#878](https://github.com/osxsystem/skills/issues/878) rewrote into a literal `Call the Skill tool with "setup-matt-pocock-skills"` instruction. `setup-matt-pocock-skills` is user-invoked, so none of these skills — user-invoked or model-invoked — can call it. Reworded all five as instructions for the agent to tell the human to run it instead.
+  - `diagnosing-bugs`'s Phase 6 post-mortem hand off to `improve-codebase-architecture` (also user-invoked) the same way, from an autonomous, often-unattended bug-fixing flow with no human in the loop to catch the failed call. Removed the hand-off outright rather than softening it — it rarely fired in practice. Phase 6 is now "Cleanup" only; the mechanical checklist is untouched.
+  - Added a carve-out paragraph to `.agents/invocation.md`'s "Dependencies between them" section: the `Call the Skill tool with "name"` convention only applies when the named skill is model-invoked. This is the section PR [#878](https://github.com/osxsystem/skills/issues/878) introduced without reconciling it against the user-invoked/model-invoked invariant stated eight lines above it — the gap is most of why this bug reached six call sites instead of one.
+
+  Fixes [#453](https://github.com/osxsystem/skills/issues/453).
+
 ## 1.2.3
 
 ### Patch Changes

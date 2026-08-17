@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fork boundary guard. Four assertions over externally observable repo state.
+"""Fork boundary guard. Five assertions over externally observable repo state.
 
     python3 scripts/harness/forkcheck.py                       # repo root defaults to .
     python3 scripts/harness/forkcheck.py <repo> --upstream-ref upstream/main
@@ -9,6 +9,8 @@
   2. unique-skill-names    no two skill directories share a basename
   3. catalog-completeness  every skill has a catalog entry and vice versa
   4. no-plugin-dir         `.claude-plugin/` stays deleted (ADR 0002)
+  5. changeset-package     every changeset addresses this fork's package, not
+                           the one upstream's imported changesets name
 
 Upstream territory, per the scope header of `.fork/sanctioned-edits.txt`: every
 path upstream ships, plus every path under an upstream-owned folder — so a fork
@@ -26,7 +28,9 @@ list, divergence record, or catalog is an error, not a skipped check. Needs
 `pyyaml`, like `skillcheck.py`.
 """
 import fnmatch
+import json
 import os
+import re
 import subprocess
 import sys
 
@@ -209,6 +213,15 @@ def check_frozen_upstream(repo, ref, sanctioned, fork_trees):
     failures = []
     accounted = set()
     for path, status in sorted(changed.items()):
+        # Changesets are ephemeral release inputs, not content, and
+        # `.changeset/*.md` is declared fork-owned in divergence.md's Additions
+        # table. Upstream ships them too, so upstream-presence would otherwise
+        # override that declaration and demand a sanctioned-edits entry for
+        # every changeset a sync imports and re-homes — churn on files the next
+        # release deletes. The `changeset-package` assertion covers what
+        # actually matters about them.
+        if fnmatch.fnmatch(path, ".changeset/*.md"):
+            continue
         if path in upstream_files or path.startswith(UPSTREAM_FOLDERS):
             if path in sanctioned:
                 accounted.add(path)
@@ -279,6 +292,36 @@ def check_no_plugin_dir(repo):
 # --- entry point ------------------------------------------------------------
 
 
+def check_changeset_package(repo):
+    """Assertion 5 — every changeset addresses this fork's package.
+
+    Upstream ships changesets too, and they name upstream's package. A sync
+    imports them verbatim, and `changeset version` then aborts with "which is
+    not in the workspace" — failing the Release workflow, not this one. Catch
+    it here, where a maintainer is already looking.
+    """
+    csdir = os.path.join(repo, ".changeset")
+    if not os.path.isdir(csdir):
+        return []
+    try:
+        pkg = json.loads(read(repo, "package.json"))["name"]
+    except (ValueError, KeyError) as exc:
+        raise Fatal(f"cannot read `name` from package.json: {exc}")
+    failures = []
+    for entry in sorted(os.listdir(csdir)):
+        if not entry.endswith(".md") or entry == "README.md":
+            continue
+        for line in read(repo, f".changeset/{entry}").splitlines():
+            match = re.match(r'^"([^"]+)":\s*(patch|minor|major)\s*$', line.strip())
+            if match and match.group(1) != pkg:
+                failures.append(
+                    f".changeset/{entry}: addresses `{match.group(1)}`, not this "
+                    f"fork's `{pkg}` — rewrite the package name (see the changeset "
+                    f"step in .fork/sync-playbook.md)"
+                )
+    return failures
+
+
 def run(repo, ref):
     sanctioned = load_sanctioned(repo)
     fork_trees = load_fork_trees(repo)
@@ -289,6 +332,7 @@ def run(repo, ref):
         ("unique-skill-names", check_unique_skill_names(repo, skills)),
         ("catalog-completeness", check_catalog_completeness(repo, skills, entries)),
         ("no-plugin-dir", check_no_plugin_dir(repo)),
+        ("changeset-package", check_changeset_package(repo)),
     ]
 
 

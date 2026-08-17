@@ -29,7 +29,7 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 | `MAINTENANCE.md`, `CUSTOMIZING.md` | Fork maintenance and customization narrative | — |
 | `docs/superpowers/` | Fork specs and plans (dated historical documents) | — |
 | `.scratch/` | The local issue tracker (specs and their tickets); GitHub Issues is disabled on this repo | — |
-| `.changeset/*.md` | Fork changesets | Ephemeral; consumed by a release. `.changeset/config.json` is a *modification* — see below. |
+| `.changeset/*.md` | Changesets — the fork's own, plus every one a sync imports from upstream | Ephemeral; consumed by a release. **Not sync-inert, despite sitting in this table:** upstream ships changesets too, and each names *its* package, so an imported one makes `changeset version` abort with "not in the workspace" and fails the Release workflow. They never *conflict* (new files, new names), so this is a post-merge fixup, not a conflict recipe — see the changeset step in [`sync-playbook.md`](./sync-playbook.md). `forkcheck`'s `changeset-package` assertion catches a missed one. `.changeset/config.json` is a *modification* — see below. |
 
 ## Modifications and deletions (sync-active)
 

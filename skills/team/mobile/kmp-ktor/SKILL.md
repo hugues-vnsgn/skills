@@ -5,7 +5,7 @@ description: Use when setting up or working with Ktor client in KMP or Android p
 
 # Ktor Client for KMP and Android
 
-This reference covers the Ktor client configuration traps — plugin install order, serialization flags, auth refresh, and error mapping — not the basics of a shared `HttpClient`, engine selection, or `ContentNegotiation` setup. **Related:** `android-skills:android-data-layer` (repository + the `DataError` error model — its canonical home), `android-skills:android-retrofit` (Android-only equivalent).
+This reference covers the Ktor client configuration traps — plugin install order, serialization flags, auth refresh, and error mapping — not the basics of a shared `HttpClient`, engine selection, or `ContentNegotiation` setup. **Related:** [`kmp-boundaries`](../kmp-boundaries/SKILL.md) (where the network boundary sits relative to common code), [`kmp-test-seams`](../kmp-test-seams/SKILL.md) (which source set the `MockEngine` tests below belong in).
 
 ## Plugin install order — `HttpRequestRetry` BEFORE `HttpTimeout`
 
@@ -86,7 +86,20 @@ Wrap SSE/WebSocket collection in a `LaunchedEffect` or repository coroutine so c
 
 ## Error mapping + testing
 
-Catch **specific** Ktor types at the repository (`ClientRequestException` / `ServerResponseException` / `HttpRequestTimeoutException` / `IOException`) and map to `DataError` — `catch (e: Exception)` would swallow `CancellationException`. The full repository pattern + `DataError` taxonomy lives in `android-skills:android-data-layer`. For richer per-error UI states (`Unauthorized`, `RateLimited`, `Forbidden`, …), a sealed `ApiResult<T>` + a `safeRequest` wrapper with `expectSuccess = false` is the alternative shape — pick one per project.
+Catch **specific** Ktor types at the repository (`ClientRequestException` / `ServerResponseException` / `HttpRequestTimeoutException` / `IOException`) and map them to a domain error type — `catch (e: Exception)` would swallow `CancellationException` and break structured concurrency.
+
+The error type is yours to define; the point is that Ktor types stop at the repository and never reach a ViewModel. A minimal shape:
+
+```kotlin
+// commonMain — no Ktor types in the signature, so callers stay engine-agnostic
+sealed interface DataError {
+    data class Network(val cause: Throwable) : DataError   // IOException, timeouts
+    data class Http(val status: Int) : DataError           // 4xx / 5xx
+    data class Serialization(val cause: Throwable) : DataError
+}
+```
+
+For richer per-error UI states (`Unauthorized`, `RateLimited`, `Forbidden`, …), a sealed `ApiResult<T>` plus a `safeRequest` wrapper with `expectSuccess = false` is the alternative shape — pick one per project and apply it consistently.
 
 Inject `HttpClientEngine` so tests swap in `MockEngine`, reusing the production `createHttpClient` factory so plugin config matches:
 

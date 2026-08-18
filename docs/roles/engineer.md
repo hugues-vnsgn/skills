@@ -52,7 +52,6 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[kmp-release-and-publish](../team/mobile/kmp-release-and-publish.md)** _(auto)_ — Android release with R8 over shared code, iOS archive and TestFlight, Maven Central, CI runner split.
 - **[kmp-boundaries](../../skills/team/mobile/kmp-boundaries/SKILL.md)** _(auto, beta)_ — common code needs a platform API and you are picking the boundary shape: `expect`/`actual`, a common interface with platform bindings, or separate screens.
 - **[kmp-ktor](../../skills/team/mobile/kmp-ktor/SKILL.md)** _(auto, beta)_ — the HTTP layer: engine per platform, serialization, bearer auth with refresh, `MockEngine` in tests, error mapping at the repository edge.
-- **[kotlin-multiplatform](../../skills/team/mobile/kotlin-multiplatform/SKILL.md)** _(auto, beta)_ — the share-or-specialise call itself, and which source set the answer belongs in.
 
 ## Work bigger than one session
 

@@ -16,6 +16,5 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 
 Not promoted: no docs page, and excluded from the top-level `README.md` until they graduate. Try them and say what breaks — they can change or disappear without warning.
 
-- **[kmp-boundaries](./kmp-boundaries/SKILL.md)** — Choosing the boundary shape when common code reaches a platform API: `expect`/`actual` vs a common interface with platform bindings vs separate platform screens, across clipboard, share, haptics, permissions, files, sensors and biometrics.
+- **[kmp-boundaries](./kmp-boundaries/SKILL.md)** — Choosing the boundary shape when common code reaches a platform API: a common interface with per-platform bindings vs `expect`/`actual` vs separate implementations, keeping actuals thin, the Activity-owned platform-UI binding, custom intermediate source sets, and the AGP-9 constraints on shared code.
 - **[kmp-ktor](./kmp-ktor/SKILL.md)** — Ktor client in KMP: `HttpClient` configuration, per-platform engine selection, kotlinx.serialization, bearer auth with refresh, `MockEngine` testing, and error mapping at the repository boundary.
-- **[kotlin-multiplatform](./kotlin-multiplatform/SKILL.md)** — Share-or-specialise decisions and source-set placement (`commonMain`, `jvmAndroid`, platform-specific), plus `expect`/`actual` patterns.

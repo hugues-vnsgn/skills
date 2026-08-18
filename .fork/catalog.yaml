@@ -301,13 +301,6 @@ skills:
     domain: mobile
     audience: [engineer, qa]
     owner: "@osxsystem"
-  - name: kotlin-multiplatform
-    path: skills/team/mobile/kotlin-multiplatform
-    origin: fork
-    domain: mobile
-    audience: [engineer]
-    owner: "@osxsystem"
-    status: beta
 
   # --- fork: platform ---
   - name: herdr

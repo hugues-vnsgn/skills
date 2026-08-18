@@ -54,8 +54,7 @@
         "./skills/team/mobile/kmp-ktor",
         "./skills/team/mobile/kmp-module-setup",
         "./skills/team/mobile/kmp-release-and-publish",
-        "./skills/team/mobile/kmp-test-seams",
-        "./skills/team/mobile/kotlin-multiplatform"
+        "./skills/team/mobile/kmp-test-seams"
       ]
     },
     {

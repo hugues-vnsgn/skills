@@ -148,6 +148,23 @@ seed_rm_sanctioned() { rm -f .fork/sanctioned-edits.txt; }
 seed_empty_sanctioned() { printf '# nothing sanctioned\n' > .fork/sanctioned-edits.txt; }
 seed_rm_divergence() { rm -f .fork/divergence.md; }
 seed_empty_divergence() { printf '# Divergence record\n' > .fork/divergence.md; }
+# A row outliving its tree is the rot `declared-trees-exist` exists to catch;
+# the same row marked `(planned)` is a deliberate forward declaration and must
+# still pass, or the marker is worthless.
+seed_declared_tree_missing() {
+  python3 - <<'PY'
+import pathlib
+p = pathlib.Path(".fork/divergence.md"); t = p.read_text()
+p.write_text(t.replace("| `.scratch/` |", "| `ghost-tree/` | probe | — |\n| `.scratch/` |", 1))
+PY
+}
+seed_declared_tree_planned() {
+  python3 - <<'PY'
+import pathlib
+p = pathlib.Path(".fork/divergence.md"); t = p.read_text()
+p.write_text(t.replace("| `.scratch/` |", "| `ghost-tree/` (planned) | probe | — |\n| `.scratch/` |", 1))
+PY
+}
 seed_rm_lock() { rm -f .fork/upstream.lock; }
 
 echo "=== BASELINE: unmodified tree must pass (exit 0) ==="
@@ -158,6 +175,8 @@ echo "=== ASSERTION 1: frozen upstream (exit 1) ==="
 run "upstream file drifts"        1 "sanctioned-edits.txt" seed_upstream_drift
 run "fork file in upstream folder" 1 "sanctioned-edits.txt" seed_fork_file_in_upstream_folder
 run "undeclared fork tree"        1 "divergence.md" seed_undeclared_fork_tree
+run "declared tree missing"       1 "but not on disk" seed_declared_tree_missing
+run "declared tree marked planned" 0 "PASS" seed_declared_tree_planned
 run "stale sanctioned entry"      1 "drop the entry" seed_stale_sanctioned_entry
 
 echo

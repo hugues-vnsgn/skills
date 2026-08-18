@@ -267,6 +267,60 @@ def check_frozen_upstream(repo, ref, sanctioned, fork_trees):
     return failures
 
 
+def load_planned_trees(repo):
+    """Additions paths marked `(planned)` — declared before the tree exists.
+
+    The marker sits immediately after the backticked path in the first column,
+    so it attaches to one path even when a row declares several.
+    """
+    text = read(repo, ".fork/divergence.md")
+    planned = set()
+    in_additions = False
+    for line in text.splitlines():
+        if line.startswith("## "):
+            in_additions = line.strip().startswith("## Additions")
+            continue
+        if not in_additions or not line.startswith("|"):
+            continue
+        cells = line.split("|")
+        if len(cells) < 2:
+            continue
+        parts = cells[1].split("`")
+        # parts alternates: text, token, text, token, ... — the text *after*
+        # token i sits at parts[2 * i + 2].
+        for i, token in enumerate(parts[1::2]):
+            following = parts[2 * i + 2] if 2 * i + 2 < len(parts) else ""
+            if following.lstrip().startswith("(planned)"):
+                planned.add(token.strip())
+    return planned
+
+
+def check_declared_trees_exist(repo, fork_trees):
+    """Assertion — every tree declared in Additions is actually on disk.
+
+    `frozen-upstream` reads the same table in one direction only: it asks
+    whether an existing fork path is declared. Nothing asks the reverse, so a
+    row outliving the tree it describes rots silently — `research/` and
+    `docs/superpowers/` both survived the commit that deleted them.
+
+    Globs are skipped: `.changeset/*.md` legitimately matches nothing between
+    releases, so its absence is not drift. A path followed by `(planned)` in
+    the table is skipped too — the fork forward-declares a tree it intends to
+    fill later, and that intent is deliberate rather than rot.
+    """
+    planned = load_planned_trees(repo)
+    failures = []
+    for pattern in sorted(fork_trees):
+        if "*" in pattern or pattern in planned:
+            continue
+        if not os.path.exists(os.path.join(repo, pattern.rstrip("/"))):
+            failures.append(
+                f"{pattern}: declared under Additions in .fork/divergence.md "
+                f"but not on disk — drop the row, or restore the tree"
+            )
+    return failures
+
+
 def check_unique_skill_names(repo, skills):
     """Assertion 2 — the flat install namespace admits one skill per name."""
     by_name = {}
@@ -432,6 +486,7 @@ def run(repo, ref):
     skills = skill_dirs(repo)
     return [
         ("frozen-upstream", check_frozen_upstream(repo, ref, sanctioned, fork_trees)),
+        ("declared-trees-exist", check_declared_trees_exist(repo, fork_trees)),
         ("unique-skill-names", check_unique_skill_names(repo, skills)),
         ("catalog-completeness", check_catalog_completeness(repo, skills, entries)),
         ("plugin-dir-marketplace-only", check_plugin_dir_marketplace_only(repo)),

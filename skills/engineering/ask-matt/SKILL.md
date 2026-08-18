@@ -64,13 +64,9 @@ Two model-invoked references that run *beneath* the other skills — each the si
 
 ## Platform knowledge
 
-Five model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it — the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
+Five model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/kmp-test-seams`, `/kmp-release-and-publish`. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it — the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
 
-- **`/kmp-module-setup`** — the shared module's *shape*: targets and the source-set hierarchy you get free from `androidTarget()` + `iosArm64()`, the version catalog that pins Kotlin, AGP and Compose Multiplatform together, the iOS framework block, and the `expect`/`actual` vs interfaces-plus-DI call.
-- **`/kmp-ios-integration`** — the *Xcode seam*: direct integration vs CocoaPods vs SPM vs KMMBridge, `embedAndSignAppleFrameworkForXcode`, and the framework-not-found and script-sandboxing errors — plus a review checklist for the Kotlin API Swift has to consume (`@Throws`, sealed classes, suspend functions, generics).
-- **`/compose-multiplatform-ui`** — *shared UI*: per-platform entry points, `composeResources`/`Res`, Navigation and ViewModel in `commonMain`, SwiftUI/UIKit interop both directions, and the iOS-only deltas (frame-rate caps, accessibility, `viewModel()` crashes).
-- **`/kmp-test-seams`** — the platform layer *under `/tdd`*: which source set a seam lives in (`commonMain` interfaces over platform services), so the loop runs in `commonTest` rather than `androidHostTest`/`iosTest`, and which Gradle task is the cheapest one that proves a slice green. `/tdd` still owns the loop and what makes a test worth keeping; this only answers the two questions KMP adds.
-- **`/kmp-release-and-publish`** — the odd one out: it runs at **ship time**, at the *end* of the flow — though `/kmp-test-seams` points into it mid-loop for the full Gradle task map. R8 over shared code, iOS archive and TestFlight, Maven Central, and the CI runner split.
+Read [references/platform-knowledge.md](references/platform-knowledge.md) for what each one covers.
 
 ## Phase boundaries
 
@@ -82,7 +78,7 @@ A **phase** is a chunk of work inside a session — the grilling, the implementa
 - **Subagent** — send a tightly-scoped task to its own window and get a report back.
 - **`/compact`** — compress this context and seed a fresh session with it. The **default**, at the bottom of the tree rather than the first reach.
 
-Read [PHASE-BOUNDARIES.md](PHASE-BOUNDARIES.md) for the ordered tree — the five questions, the reasoning behind each branch, and why the primary-source cost makes **Continue** the one to rule out first. Make the decision **at** a boundary; mid-phase, continue or split the rest into subagents.
+Read [references/phase-boundaries.md](references/phase-boundaries.md) for the ordered tree — the five questions, the reasoning behind each branch, and why the primary-source cost makes **Continue** the one to rule out first. Make the decision **at** a boundary; mid-phase, continue or split the rest into subagents.
 
 ## Standalone
 

@@ -7,3 +7,20 @@ isolated_test_workspace/
 .beads-credential-key
 .beads/proxieddb/
 CLAUDE.local.md
+
+# Local agent harness — machine-local, not committed. `.claude/skills/` and
+# `.agents/skills/` are where `scripts/link-skills.sh` and each agent host
+# install skills for *this* checkout; the repo publishes its own via skills.sh,
+# so a committed copy here would be a second, silently-stale source of truth.
+# The rest is per-host config that has not earned a place in the repo yet.
+#
+# Merely leaving these untracked is not enough: `forkcheck` counts any
+# undeclared path as drift and `test_forkcheck.sh` asserts a clean tree, so an
+# unignored copy fails both on every machine that has one. To commit any of
+# them, drop its line and add an Additions row to `.fork/divergence.md` in the
+# same change — that is the file `forkcheck` reads to decide a path is ours.
+.claude/
+.agents/skills/
+.codex/
+prompts/
+.DS_Store

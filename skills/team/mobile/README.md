@@ -11,3 +11,11 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 - **[compose-multiplatform-ui](./compose-multiplatform-ui/SKILL.md)** — Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
 - **[kmp-release-and-publish](./kmp-release-and-publish/SKILL.md)** — Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching, test task map.
 - **[kmp-test-seams](./kmp-test-seams/SKILL.md)** — The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green. The loop itself stays with the `tdd` skill.
+
+## Beta
+
+Not promoted: no docs page, and excluded from the top-level `README.md` until they graduate. Try them and say what breaks — they can change or disappear without warning.
+
+- **[kmp-boundaries](./kmp-boundaries/SKILL.md)** — Choosing the boundary shape when common code reaches a platform API: `expect`/`actual` vs a common interface with platform bindings vs separate platform screens, across clipboard, share, haptics, permissions, files, sensors and biometrics.
+- **[kmp-ktor](./kmp-ktor/SKILL.md)** — Ktor client in KMP: `HttpClient` configuration, per-platform engine selection, kotlinx.serialization, bearer auth with refresh, `MockEngine` testing, and error mapping at the repository boundary.
+- **[kotlin-multiplatform](./kotlin-multiplatform/SKILL.md)** — Share-or-specialise decisions and source-set placement (`commonMain`, `jvmAndroid`, platform-specific), plus `expect`/`actual` patterns.

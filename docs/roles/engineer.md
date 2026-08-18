@@ -50,6 +50,9 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[compose-multiplatform-ui](../team/mobile/compose-multiplatform-ui.md)** _(auto)_ — shared UI: entry points per platform, resources, navigation and ViewModel in common code, SwiftUI/UIKit interop.
 - **[kmp-ios-integration](../team/mobile/kmp-ios-integration.md)** _(auto)_ — getting the framework into Xcode, and the Swift-facing API review that stops Kotlin idioms leaking awkwardly.
 - **[kmp-release-and-publish](../team/mobile/kmp-release-and-publish.md)** _(auto)_ — Android release with R8 over shared code, iOS archive and TestFlight, Maven Central, CI runner split.
+- **[kmp-boundaries](../../skills/team/mobile/kmp-boundaries/SKILL.md)** _(auto, beta)_ — common code needs a platform API and you are picking the boundary shape: `expect`/`actual`, a common interface with platform bindings, or separate screens.
+- **[kmp-ktor](../../skills/team/mobile/kmp-ktor/SKILL.md)** _(auto, beta)_ — the HTTP layer: engine per platform, serialization, bearer auth with refresh, `MockEngine` in tests, error mapping at the repository edge.
+- **[kotlin-multiplatform](../../skills/team/mobile/kotlin-multiplatform/SKILL.md)** _(auto, beta)_ — the share-or-specialise call itself, and which source set the answer belongs in.
 
 ## Work bigger than one session
 
@@ -71,6 +74,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[writing-for-agents](../productivity/writing-for-agents.md)** _(auto)_ — before you edit a `SKILL.md`, a `CLAUDE.md`, or any document an agent reaches by pointer: they are written for a reader who cannot ask a follow-up question.
 - **[port-from-repo](../team/platform/port-from-repo.md)** — another repo does something well and you want it here. Study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
+- **[herdr](../../skills/team/platform/herdr/SKILL.md)** _(auto, beta)_ — drive Herdr's panes, tabs and workspaces from an agent. Only reaches for it when you name Herdr, and only with `HERDR_ENV=1` set.
 
 ## Where to look next
 

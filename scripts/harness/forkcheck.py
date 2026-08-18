@@ -355,7 +355,10 @@ def check_marketplace_groups(repo, entries):
     except ValueError as exc:
         raise Fatal(f"cannot parse {PLUGIN_DIR}/marketplace.json: {exc}")
 
-    UNSHIPPED = ("misc", "in-progress", "deprecated")
+    # Must stay in step with `UNSHIPPED` in scripts/generate-marketplace.py —
+    # this check asserts that generator's output, so a domain unshipped there
+    # and expected here would fail every build.
+    UNSHIPPED = ("misc", "in-progress", "deprecated", "in-development")
     expected = {path for _name, path, domain in entries if domain not in UNSHIPPED}
 
     failures = []

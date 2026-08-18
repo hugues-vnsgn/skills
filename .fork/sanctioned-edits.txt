@@ -4,8 +4,10 @@
 #   (a) exists in `upstream/main` and this fork changed, deleted, or renamed it, or
 #   (b) is a fork file placed inside an upstream-owned folder
 #       (`skills/{engineering,productivity,misc,in-progress,deprecated}/`,
-#        `docs/{engineering,productivity}/`) — as of 2026-08-13 there are none:
-#       every fork-authored skill lives under `skills/team/`.
+#        `docs/{engineering,productivity}/`). Every fork-authored *skill* lives
+#       under `skills/team/`, so the only case (b) entries are the two
+#       `skills/engineering/ask-matt/references/` files — reference material
+#       split out of an already-sanctioned upstream `SKILL.md`.
 # Fork-owned trees (`skills/team/`, `docs/team/`, `research/`, `scripts/harness/`,
 # `.fork/`, and the other paths listed under Additions in `divergence.md`) are
 # sync-inert and are NOT listed here — upstream never writes them, so they cannot drift.
@@ -46,6 +48,11 @@ package-lock.json
 package.json
 skills/engineering/README.md
 skills/engineering/ask-matt/SKILL.md
+# Detail lifted out of the sanctioned `SKILL.md` above into `references/`.
+# `phase-boundaries.md` is upstream's `PHASE-BOUNDARIES.md` relocated (the
+# original stays deleted, below); `platform-knowledge.md` is fork-authored.
+skills/engineering/ask-matt/references/phase-boundaries.md
+skills/engineering/ask-matt/references/platform-knowledge.md
 skills/engineering/code-review/SKILL.md
 skills/engineering/to-spec/SKILL.md
 skills/engineering/to-tickets/SKILL.md
@@ -61,6 +68,8 @@ skills/misc/git-guardrails-claude-code/scripts/block-dangerous-git.sh
 # upstream's copy stays deleted rather than restored — see `divergence.md`.
 .claude-plugin/plugin.json
 docs/engineering/setup-matt-pocock-skills.md
+# Relocated to `ask-matt/references/phase-boundaries.md`, above.
+skills/engineering/ask-matt/PHASE-BOUNDARIES.md
 scripts/sync-plugin-version.mjs
 skills/engineering/setup-matt-pocock-skills/SKILL.md
 skills/engineering/setup-matt-pocock-skills/agents/openai.yaml

@@ -2,7 +2,7 @@
 
 # Skill catalog
 
-Every skill in this repo: 45 total — 34 upstream, 11 fork-authored.
+Every skill in this repo: 52 total — 34 upstream, 18 fork-authored.
 
 `Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this team). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
@@ -43,13 +43,20 @@ Every skill in this repo: 45 total — 34 upstream, 11 fork-authored.
 | [writing-fragments](skills/in-progress/writing-fragments/SKILL.md) | upstream | in-progress | analyst, designer | @osxsystem |
 | [writing-shape](skills/in-progress/writing-shape/SKILL.md) | upstream | in-progress | analyst, designer | @osxsystem |
 | [compose-multiplatform-ui](skills/team/mobile/compose-multiplatform-ui/SKILL.md) | fork | mobile | engineer, designer | @osxsystem |
+| [kmp-boundaries](skills/team/mobile/kmp-boundaries/SKILL.md) _(beta)_ | fork | mobile | engineer | @osxsystem |
 | [kmp-ios-integration](skills/team/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @osxsystem |
+| [kmp-ktor](skills/team/mobile/kmp-ktor/SKILL.md) _(beta)_ | fork | mobile | engineer | @osxsystem |
 | [kmp-module-setup](skills/team/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @osxsystem |
 | [kmp-release-and-publish](skills/team/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @osxsystem |
 | [kmp-test-seams](skills/team/mobile/kmp-test-seams/SKILL.md) | fork | mobile | engineer, qa | @osxsystem |
+| [kotlin-multiplatform](skills/team/mobile/kotlin-multiplatform/SKILL.md) _(beta)_ | fork | mobile | engineer | @osxsystem |
+| [herdr](skills/team/platform/herdr/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @osxsystem |
 | [port-from-repo](skills/team/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @osxsystem |
 | [setup-osxsystem-skills](skills/team/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @osxsystem |
 | [when-stuck](skills/team/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @osxsystem |
 | [cook](skills/team/delivery/cook/SKILL.md) _(beta)_ | fork | delivery | engineer | @osxsystem |
 | [project-organization](skills/team/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @osxsystem |
 | [do-test](skills/team/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @osxsystem |
+| [bro](skills/team/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @osxsystem |
+| [improve-claude-md](skills/team/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @osxsystem |
+| [show-me](skills/team/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @osxsystem |

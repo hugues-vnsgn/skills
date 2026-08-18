@@ -49,15 +49,19 @@
       "name": "team-mobile",
       "skills": [
         "./skills/team/mobile/compose-multiplatform-ui",
+        "./skills/team/mobile/kmp-boundaries",
         "./skills/team/mobile/kmp-ios-integration",
+        "./skills/team/mobile/kmp-ktor",
         "./skills/team/mobile/kmp-module-setup",
         "./skills/team/mobile/kmp-release-and-publish",
-        "./skills/team/mobile/kmp-test-seams"
+        "./skills/team/mobile/kmp-test-seams",
+        "./skills/team/mobile/kotlin-multiplatform"
       ]
     },
     {
       "name": "team-platform",
       "skills": [
+        "./skills/team/platform/herdr",
         "./skills/team/platform/port-from-repo",
         "./skills/team/platform/setup-osxsystem-skills",
         "./skills/team/platform/when-stuck"

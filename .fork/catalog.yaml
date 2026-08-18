@@ -38,6 +38,10 @@ domains:
   - design
   - discovery
   - quality
+  # Not a capability domain — the staging bucket for skills still being
+  # written. Unshipped in `scripts/generate-marketplace.py`, so its skills
+  # stay out of the installer picker until they move to a real domain.
+  - in-development
 
 skills:
   # --- upstream: engineering ---
@@ -259,6 +263,13 @@ skills:
     domain: mobile
     audience: [engineer, designer]
     owner: "@osxsystem"
+  - name: kmp-boundaries
+    path: skills/team/mobile/kmp-boundaries
+    origin: fork
+    domain: mobile
+    audience: [engineer]
+    owner: "@osxsystem"
+    status: beta
   - name: kmp-ios-integration
     path: skills/team/mobile/kmp-ios-integration
     origin: fork
@@ -271,6 +282,13 @@ skills:
     domain: mobile
     audience: [engineer]
     owner: "@osxsystem"
+  - name: kmp-ktor
+    path: skills/team/mobile/kmp-ktor
+    origin: fork
+    domain: mobile
+    audience: [engineer]
+    owner: "@osxsystem"
+    status: beta
   - name: kmp-release-and-publish
     path: skills/team/mobile/kmp-release-and-publish
     origin: fork
@@ -283,8 +301,22 @@ skills:
     domain: mobile
     audience: [engineer, qa]
     owner: "@osxsystem"
+  - name: kotlin-multiplatform
+    path: skills/team/mobile/kotlin-multiplatform
+    origin: fork
+    domain: mobile
+    audience: [engineer]
+    owner: "@osxsystem"
+    status: beta
 
   # --- fork: platform ---
+  - name: herdr
+    path: skills/team/platform/herdr
+    origin: fork
+    domain: platform
+    audience: [engineer, staff]
+    owner: "@osxsystem"
+    status: beta
   - name: port-from-repo
     path: skills/team/platform/port-from-repo
     origin: fork
@@ -327,5 +359,35 @@ skills:
     origin: fork
     domain: quality
     audience: [engineer, qa]
+    owner: "@osxsystem"
+    status: beta
+
+  # --- fork: in-development ---
+  # Staging, not a capability domain. Every entry is `status: beta` and carries
+  # `metadata.internal: true`, so none reaches the installer picker. The
+  # `audience` below records who the skill is *aimed at*; it earns its place in
+  # the matching `docs/roles/` page and its docs page only on the move to a real
+  # domain — listing a skill nobody can install yet in a role's reading order
+  # sends the reader at a dead end. See the shipping checklist in
+  # `skills/team/in-development/README.md`.
+  - name: bro
+    path: skills/team/in-development/bro
+    origin: fork
+    domain: in-development
+    audience: [engineer]
+    owner: "@osxsystem"
+    status: beta
+  - name: improve-claude-md
+    path: skills/team/in-development/improve-claude-md
+    origin: fork
+    domain: in-development
+    audience: [engineer, staff]
+    owner: "@osxsystem"
+    status: beta
+  - name: show-me
+    path: skills/team/in-development/show-me
+    origin: fork
+    domain: in-development
+    audience: [engineer, designer]
     owner: "@osxsystem"
     status: beta

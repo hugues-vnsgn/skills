@@ -11,6 +11,7 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 
 ## Beta
 
-Not promoted: no docs page, and excluded from the top-level `README.md` until it graduates. Try it and say what breaks — it can change or disappear without warning.
+Not promoted: no docs page, and excluded from the top-level `README.md` until they graduate. Try them and say what breaks — they can change or disappear without warning.
 
 - **[when-stuck](./when-stuck/SKILL.md)** — Five techniques for design and architecture stuck-ness: inversion, the scale game, simplification cascades, meta-patterns, collision.
+- **[herdr](./herdr/SKILL.md)** — Drive Herdr, a terminal multiplexer for coding agents: inspect and control panes, tabs, workspaces and commands. Requires `HERDR_ENV=1`.

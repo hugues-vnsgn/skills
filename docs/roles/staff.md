@@ -37,6 +37,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[writing-for-agents](../productivity/writing-for-agents.md)** _(auto)_ — how to write a skill, an `AGENTS.md`, or any document an agent reaches by pointer. Read before authoring a team skill.
 - **[project-organization](../../skills/team/delivery/project-organization/SKILL.md)** _(auto)_ — the conventions every output file follows: where plans, reports, journals and assets live, and their markdown templates. Beta.
 - **[loop-me](../../skills/in-progress/loop-me/SKILL.md)** — get the spec for a workflow you want to build grilled out of you first.
+- **[herdr](../../skills/team/platform/herdr/SKILL.md)** _(auto)_ — drive Herdr's panes, tabs and workspaces from an agent when you are fanning work out across terminals. Requires `HERDR_ENV=1`. Beta.
 
 ## Interview and communicate
 

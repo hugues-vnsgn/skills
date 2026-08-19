@@ -46,6 +46,12 @@
       ]
     },
     {
+      "name": "team-discovery",
+      "skills": [
+        "./skills/team/discovery/to-prd"
+      ]
+    },
+    {
       "name": "team-mobile",
       "skills": [
         "./skills/team/mobile/compose-multiplatform-ui",

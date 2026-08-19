@@ -346,6 +346,14 @@ skills:
     owner: "@osxsystem"
     status: beta
 
+  # --- fork: discovery ---
+  - name: to-prd
+    path: skills/team/discovery/to-prd
+    origin: fork
+    domain: discovery
+    audience: [analyst, staff]
+    owner: "@osxsystem"
+
   # --- fork: quality ---
   - name: do-test
     path: skills/team/quality/do-test

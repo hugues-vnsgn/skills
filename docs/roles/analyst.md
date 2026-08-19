@@ -14,6 +14,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Turn it into work
 
+- **[to-prd](../team/discovery/to-prd.md)** — for initiative-scale work, turn the grilled conversation into a PRD first: why it's worth building, for whom, and what success looks like — the document a stakeholder outside engineering signs off on. It refuses unripe ideas and marks undecided targets `⚠ TBD` rather than inventing them. A single well-scoped feature skips this.
 - **[to-spec](../engineering/to-spec.md)** — the conversation is settled; publish it as a spec on the tracker. It synthesises what was already discussed rather than interviewing you again.
 - **[to-tickets](../engineering/to-tickets.md)** — split the spec into tracer-bullet tickets, each declaring what blocks it, on the tracker or as local files.
 

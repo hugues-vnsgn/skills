@@ -81,6 +81,14 @@ General workflow tools, not code-specific.
 - **[grilling](./skills/productivity/grilling/SKILL.md)** — Interview the user relentlessly about a plan, decision, or idea until every branch of the design tree is resolved. The reusable interview primitive behind `grill-me`, `grill-with-docs`, `triage`, `wayfinder` and `improve-codebase-architecture`.
 - **[writing-for-agents](./skills/productivity/writing-for-agents/SKILL.md)** — Writing documents for agents: skills, AGENTS.md/CLAUDE.md, and any doc an agent reaches by a pointer.
 
+### Discovery
+
+Team skills for the phase before the spec — turning an idea into documents a CEO, BA, and engineer can all read the same way. Fork addition — see [skills/team/discovery/README.md](./skills/team/discovery/README.md).
+
+**User-invoked**
+
+- **[to-prd](./skills/team/discovery/to-prd/SKILL.md)** — Turn the current conversation into a Product Requirements Document — why it's worth building, for whom, and what success looks like. Synthesis first, one batched round of questions for the decisions only you can make; saved in the repo, linked from the tracker.
+
 ### Mobile
 
 Team skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift). Fork addition — see [skills/team/mobile/README.md](./skills/team/mobile/README.md).

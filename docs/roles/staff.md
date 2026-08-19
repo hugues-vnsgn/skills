@@ -13,6 +13,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 ## Shape the work
 
 - **[grill-with-docs](../engineering/grill-with-docs.md)** — the interview that turns a direction into decided architecture, leaving ADRs and a glossary behind as evidence of *why*.
+- **[to-prd](../team/discovery/to-prd.md)** — for initiative-scale work, anchor the *why* in a PRD before anyone specs: the document non-engineering stakeholders sign, which every spec that follows references. Skip it for a single well-scoped feature.
 - **[to-spec](../engineering/to-spec.md)** — publish the decided conversation as a spec, without a second interview.
 - **[to-tickets](../engineering/to-tickets.md)** — split it into tracer-bullet tickets with explicit blocking edges, so parallel work is safe.
 - **[wayfinder](../engineering/wayfinder.md)** — for work too big for one agent session: a shared map of decision tickets, resolved one at a time. This is the one that scales past a spec.

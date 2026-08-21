@@ -322,6 +322,13 @@ skills:
     domain: platform
     audience: [engineer, staff]
     owner: "@osxsystem"
+  - name: sync-upstream
+    path: skills/team/platform/sync-upstream
+    origin: fork
+    domain: platform
+    audience: [staff]
+    owner: "@osxsystem"
+    status: beta
   - name: when-stuck
     path: skills/team/platform/when-stuck
     origin: fork

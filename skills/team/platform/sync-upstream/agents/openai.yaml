@@ -1,0 +1,5 @@
+interface:
+  display_name: "Sync Upstream"
+  short_description: "Merge mattpocock/skills into this fork"
+policy:
+  allow_implicit_invocation: false

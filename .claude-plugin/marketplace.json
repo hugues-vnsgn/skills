@@ -69,6 +69,7 @@
         "./skills/team/platform/herdr",
         "./skills/team/platform/port-from-repo",
         "./skills/team/platform/setup-osxsystem-skills",
+        "./skills/team/platform/sync-upstream",
         "./skills/team/platform/when-stuck"
       ]
     },

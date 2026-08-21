@@ -35,6 +35,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[setup-osxsystem-skills](../team/platform/setup-osxsystem-skills.md)** — run once per repo to configure the tracker, triage labels and docs layout every other skill assumes.
 - **[port-from-repo](../team/platform/port-from-repo.md)** — bring a capability across from another codebase: study it, argue against it, then adapt it to this codebase's idiom rather than transplanting it.
+- **[sync-upstream](../../skills/team/platform/sync-upstream/SKILL.md)** — drive the upstream merge: read the delta, classify each conflict before resolving it, and land the sync PR without breaking the lock. Maintainers only. Beta.
 - **[writing-for-agents](../productivity/writing-for-agents.md)** _(auto)_ — how to write a skill, an `AGENTS.md`, or any document an agent reaches by pointer. Read before authoring a team skill.
 - **[project-organization](../../skills/team/delivery/project-organization/SKILL.md)** _(auto)_ — the conventions every output file follows: where plans, reports, journals and assets live, and their markdown templates. Beta.
 - **[loop-me](../../skills/in-progress/loop-me/SKILL.md)** — get the spec for a workflow you want to build grilled out of you first.

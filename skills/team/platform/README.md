@@ -13,5 +13,6 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 
 Not promoted: no docs page, and excluded from the top-level `README.md` until they graduate. Try them and say what breaks — they can change or disappear without warning.
 
+- **[sync-upstream](./sync-upstream/SKILL.md)**: Drive a merge of mattpocock/skills into this fork. Not shipped in the installer: it only works in this repo.
 - **[when-stuck](./when-stuck/SKILL.md)** — Five techniques for design and architecture stuck-ness: inversion, the scale game, simplification cascades, meta-patterns, collision.
 - **[herdr](./herdr/SKILL.md)** — Drive Herdr, a terminal multiplexer for coding agents: inspect and control panes, tabs, workspaces and commands. Requires `HERDR_ENV=1`.

@@ -2,7 +2,7 @@
 
 # Skill catalog
 
-Every skill in this repo: 52 total — 34 upstream, 18 fork-authored.
+Every skill in this repo: 53 total — 34 upstream, 19 fork-authored.
 
 `Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this team). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
@@ -52,6 +52,7 @@ Every skill in this repo: 52 total — 34 upstream, 18 fork-authored.
 | [herdr](skills/team/platform/herdr/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @osxsystem |
 | [port-from-repo](skills/team/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @osxsystem |
 | [setup-osxsystem-skills](skills/team/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @osxsystem |
+| [sync-upstream](skills/team/platform/sync-upstream/SKILL.md) _(beta)_ | fork | platform | staff | @osxsystem |
 | [when-stuck](skills/team/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @osxsystem |
 | [cook](skills/team/delivery/cook/SKILL.md) _(beta)_ | fork | delivery | engineer | @osxsystem |
 | [project-organization](skills/team/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @osxsystem |

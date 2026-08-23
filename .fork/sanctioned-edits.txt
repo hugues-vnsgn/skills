@@ -34,6 +34,10 @@
 .gitignore
 CLAUDE.md
 CONTEXT.md
+# Upstream's MIT text kept verbatim, with the fork's copyright line added
+# beneath upstream's. MIT requires the original notice to travel with the
+# copies, and this repo vendors upstream's skill trees byte-for-byte.
+LICENSE
 README.md
 docs/engineering/ask-matt.md
 docs/engineering/code-review.md

@@ -83,6 +83,14 @@ Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.
 
 **Recipe:** take upstream's dependency and tooling changes; keep the fork's identity fields (`name`, `description`, `repository`, changeset `repo`) and the fork's ignore entries.
 
+### `LICENSE` — the fork's copyright line added under upstream's
+
+**Why:** the repo is part upstream and part fork, so the notice should say both. Upstream's MIT text is kept verbatim and `Copyright (c) 2026 hugues-vnsgn` sits directly beneath `Copyright (c) 2026 Matt Pocock`. The permission grant and warranty disclaimer are upstream's, unchanged.
+
+This is a one-line divergence on purpose. MIT requires that "the above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software", and this repo vendors upstream's `skills/{engineering,productivity,misc,in-progress}/` trees byte-for-byte, which is exactly what `forkcheck`'s frozen-upstream assertion guards. Dropping either notice while continuing to ship those files would not satisfy the licence they arrive under, so the file is extended rather than replaced.
+
+**Recipe:** take upstream's text wholesale on conflict, then re-add the fork's copyright line beneath upstream's. Never resolve by deleting either notice. `LICENSE` was briefly reduced to a bare `MIT License` heading in `bb482b1`; `forkcheck` caught it as unsanctioned drift, which is the guard working as intended.
+
 ### `skills/misc/git-guardrails-claude-code/` — hardened
 
 **Why:** fork-hardened `block-dangerous-git.sh` and its skill doc.

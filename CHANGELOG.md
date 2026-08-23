@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [`36c463a`](https://github.com/osxsystem/skills/commit/36c463abffbaa2150a76696d4896b8e3dd9a5f13) Thanks [@osxsystem](https://github.com/osxsystem)! - Add `to-prd` and open the `discovery` team domain.
+- [`36c463a`](https://github.com/hugues-vnsgn/skills/commit/36c463abffbaa2150a76696d4896b8e3dd9a5f13) Thanks [@osxsystem](https://github.com/osxsystem)! - Add `to-prd` and open the `discovery` team domain.
 
   **Skills**
 
@@ -17,21 +17,21 @@
 
 ### Patch Changes
 
-- [#25](https://github.com/osxsystem/skills/pull/25) [`6747567`](https://github.com/osxsystem/skills/commit/6747567b75b54446c0ebff510b8632d0445f9257) Thanks [@osxsystem](https://github.com/osxsystem)! - Add `sync-upstream`, a maintainer skill that drives an upstream merge. It defers to `.fork/sync-playbook.md` for the steps and carries what the playbook cannot: how to read the delta, how to classify a conflict before resolving it, how to handle a repo-wide style sweep, and the failures that look like breakage and are not. Beta, and marked internal so the installer does not offer a skill that only works in this repo.
+- #25 [`6747567`](https://github.com/hugues-vnsgn/skills/commit/6747567b75b54446c0ebff510b8632d0445f9257) Thanks [@osxsystem](https://github.com/osxsystem)! - Add `sync-upstream`, a maintainer skill that drives an upstream merge. It defers to `.fork/sync-playbook.md` for the steps and carries what the playbook cannot: how to read the delta, how to classify a conflict before resolving it, how to handle a repo-wide style sweep, and the failures that look like breakage and are not. Beta, and marked internal so the installer does not offer a skill that only works in this repo.
 
-- [#24](https://github.com/osxsystem/skills/pull/24) [`4f28947`](https://github.com/osxsystem/skills/commit/4f289474bad013fe2be8f8769d733f59d9103d6b) Thanks [@osxsystem](https://github.com/osxsystem)! - Quote the `description` front matter in `to-spec`, `code-review`, `setup-matt-pocock-skills`, `writing-fragments`, `writing-shape`, and `wait-what`. An unquoted colon-space left over from the em-dash sweep in [#905](https://github.com/osxsystem/skills/issues/905) made each block invalid YAML, so `skills.sh` skipped all six during discovery and they couldn't be listed or installed via `npx skills`.
+- #24 [`4f28947`](https://github.com/hugues-vnsgn/skills/commit/4f289474bad013fe2be8f8769d733f59d9103d6b) Thanks [@osxsystem](https://github.com/osxsystem)! - Quote the `description` front matter in `to-spec`, `code-review`, `setup-matt-pocock-skills`, `writing-fragments`, `writing-shape`, and `wait-what`. An unquoted colon-space left over from the em-dash sweep in [#905](https://github.com/mattpocock/skills/issues/905) made each block invalid YAML, so `skills.sh` skipped all six during discovery and they couldn't be listed or installed via `npx skills`.
 
-- [#24](https://github.com/osxsystem/skills/pull/24) [`85f83d3`](https://github.com/osxsystem/skills/commit/85f83d3fde1d3a90d5c9a657f6998c79a6c37308) Thanks [@osxsystem](https://github.com/osxsystem)! - grilling: update the round template so consecutive questions are separated by a horizontal rule (`---`) instead of running together.
+- #24 [`85f83d3`](https://github.com/hugues-vnsgn/skills/commit/85f83d3fde1d3a90d5c9a657f6998c79a6c37308) Thanks [@osxsystem](https://github.com/osxsystem)! - grilling: update the round template so consecutive questions are separated by a horizontal rule (`---`) instead of running together.
 
-- [#24](https://github.com/osxsystem/skills/pull/24) [`e6e9577`](https://github.com/osxsystem/skills/commit/e6e957797d8cceb5b351c0dc840369523f9fb8fb) Thanks [@osxsystem](https://github.com/osxsystem)! - Remove every em-dash from the repo's prose (docs, `SKILL.md` files, ADRs, `README.md`, scripts, JSON/YAML metadata), hand-rewriting each sentence with a comma, colon, period, parentheses, or conjunction rather than mechanically substituting the character. `CLAUDE.md`/`AGENTS.md` now says not to reintroduce them.
+- #24 [`e6e9577`](https://github.com/hugues-vnsgn/skills/commit/e6e957797d8cceb5b351c0dc840369523f9fb8fb) Thanks [@osxsystem](https://github.com/osxsystem)! - Remove every em-dash from the repo's prose (docs, `SKILL.md` files, ADRs, `README.md`, scripts, JSON/YAML metadata), hand-rewriting each sentence with a comma, colon, period, parentheses, or conjunction rather than mechanically substituting the character. `CLAUDE.md`/`AGENTS.md` now says not to reintroduce them.
 
-- [#24](https://github.com/osxsystem/skills/pull/24) [`594f0f8`](https://github.com/osxsystem/skills/commit/594f0f83188921a60d45d63d6cdac509de20df2c) Thanks [@osxsystem](https://github.com/osxsystem)! - wait-what: follow `CONTEXT-MAP.md` to the right `CONTEXT.md` when a repo indexes multiple contexts that way instead of keeping a single root `CONTEXT.md`.
+- #24 [`594f0f8`](https://github.com/hugues-vnsgn/skills/commit/594f0f83188921a60d45d63d6cdac509de20df2c) Thanks [@osxsystem](https://github.com/osxsystem)! - wait-what: follow `CONTEXT-MAP.md` to the right `CONTEXT.md` when a repo indexes multiple contexts that way instead of keeping a single root `CONTEXT.md`.
 
 ## 1.5.0
 
 ### Minor Changes
 
-- [#21](https://github.com/osxsystem/skills/pull/21) [`e48c68d`](https://github.com/osxsystem/skills/commit/e48c68dc093f4458b384ab8e7b4ac5757384edfb) Thanks [@osxsystem](https://github.com/osxsystem)! - Tidy the mobile domain and make the fork record self-checking.
+- #21 [`e48c68d`](https://github.com/hugues-vnsgn/skills/commit/e48c68dc093f4458b384ab8e7b4ac5757384edfb) Thanks [@osxsystem](https://github.com/osxsystem)! - Tidy the mobile domain and make the fork record self-checking.
 
   **Skills**
 
@@ -48,7 +48,7 @@
 
 ### Minor Changes
 
-- [#17](https://github.com/osxsystem/skills/pull/17) [`a1e7cdf`](https://github.com/osxsystem/skills/commit/a1e7cdfc2f4bc78993ff22bd4e7aefdd5577bf0f) Thanks [@osxsystem](https://github.com/osxsystem)! - Group the installer's skill picker by domain, with a select-all per group.
+- #17 [`a1e7cdf`](https://github.com/hugues-vnsgn/skills/commit/a1e7cdfc2f4bc78993ff22bd4e7aefdd5577bf0f) Thanks [@osxsystem](https://github.com/osxsystem)! - Group the installer's skill picker by domain, with a select-all per group.
 
   `npx skills@latest add osxsystem/skills` previously listed all 45 skills flat, one keystroke per skill. It now renders six collapsible groups — Engineering, Productivity, Team Delivery, Team Mobile, Team Platform, Team Quality — each with a header row that selects everything under it. Upstream's `misc/` and `in-progress/` skills stay installable under the picker's own "Other" heading.
 
@@ -62,7 +62,7 @@
 
 ### Minor Changes
 
-- [#7](https://github.com/osxsystem/skills/pull/7) [`f1c4af3`](https://github.com/osxsystem/skills/commit/f1c4af306bc7da1d231dc65f83384b54df6d0764) Thanks [@osxsystem](https://github.com/osxsystem)! - Restructure the tree by provenance: every fork-authored skill now lives under
+- #7 [`f1c4af3`](https://github.com/hugues-vnsgn/skills/commit/f1c4af306bc7da1d231dc65f83384b54df6d0764) Thanks [@osxsystem](https://github.com/osxsystem)! - Restructure the tree by provenance: every fork-authored skill now lives under
   `skills/team/`, grouped by capability domain.
 
   **No skill was renamed.** `/kmp-module-setup`, `/port-from-repo`,
@@ -105,7 +105,7 @@
 
 ### Patch Changes
 
-- [#2](https://github.com/osxsystem/skills/pull/2) [`4810a38`](https://github.com/osxsystem/skills/commit/4810a3810442760fe8e9135f451c91252426af28) Thanks [@osxsystem](https://github.com/osxsystem)! - `ask-matt` now routes to the mobile bucket.
+- #2 [`4810a38`](https://github.com/hugues-vnsgn/skills/commit/4810a3810442760fe8e9135f451c91252426af28) Thanks [@osxsystem](https://github.com/osxsystem)! - `ask-matt` now routes to the mobile bucket.
 
   The router mapped every promoted skill except the four Kotlin Multiplatform /
   Compose Multiplatform ones, which have shipped in `skills/mobile/` since the
@@ -114,11 +114,11 @@
 
   No skill behaviour changes — this is the map catching up with the repo.
 
-- [#848](https://github.com/mattpocock/skills/pull/848) [`f02e2ed`](https://github.com/osxsystem/skills/commit/f02e2ed3624d031272f8547742d23bf6bca8b072) Thanks [@mattpocock](https://github.com/mattpocock)! - domain-modeling: trigger on discussing codebase terminology and on writing or editing a CONTEXT.md or an ADR directly, replacing the narrower "pin down domain terminology or a ubiquitous language" / "record an architectural decision" phrasing. Also drops the "another skill needs to maintain the domain model" caveat — that's the invoking skill's job to state explicitly, not this description's.
+- [#848](https://github.com/mattpocock/skills/pull/848) [`f02e2ed`](https://github.com/hugues-vnsgn/skills/commit/f02e2ed3624d031272f8547742d23bf6bca8b072) Thanks [@mattpocock](https://github.com/mattpocock)! - domain-modeling: trigger on discussing codebase terminology and on writing or editing a CONTEXT.md or an ADR directly, replacing the narrower "pin down domain terminology or a ubiquitous language" / "record an architectural decision" phrasing. Also drops the "another skill needs to maintain the domain model" caveat — that's the invoking skill's job to state explicitly, not this description's.
 
-- [#879](https://github.com/mattpocock/skills/pull/879) [`d419977`](https://github.com/osxsystem/skills/commit/d419977fe07d9e1607d3523f3579310bbb076b93) Thanks [@mattpocock](https://github.com/mattpocock)! - grilling: remove em-dashes from `SKILL.md`, replacing them with colons and semicolons so the instructions read as plain text.
+- [#879](https://github.com/mattpocock/skills/pull/879) [`d419977`](https://github.com/hugues-vnsgn/skills/commit/d419977fe07d9e1607d3523f3579310bbb076b93) Thanks [@mattpocock](https://github.com/mattpocock)! - grilling: remove em-dashes from `SKILL.md`, replacing them with colons and semicolons so the instructions read as plain text.
 
-- [#4](https://github.com/osxsystem/skills/pull/4) [`ffd206a`](https://github.com/osxsystem/skills/commit/ffd206ac0814767690a5f7bb249d6e24161a1239) Thanks [@osxsystem](https://github.com/osxsystem)! - Fix two bugs in `git-guardrails-claude-code`'s hook script, and add the missing
+- #4 [`ffd206a`](https://github.com/hugues-vnsgn/skills/commit/ffd206ac0814767690a5f7bb249d6e24161a1239) Thanks [@osxsystem](https://github.com/osxsystem)! - Fix two bugs in `git-guardrails-claude-code`'s hook script, and add the missing
   `## Common questions` section to five docs pages.
 
   **The guardrail no longer blocks commands that merely mention a dangerous one.**
@@ -141,11 +141,11 @@
   `.agents/writing-docs.md` that only `engineering/` and `productivity/` are
   promoted now names `mobile/` too.
 
-- [#2](https://github.com/osxsystem/skills/pull/2) [`297de67`](https://github.com/osxsystem/skills/commit/297de67ce52a8824828a191c4216423d15d6622c) Thanks [@osxsystem](https://github.com/osxsystem)! - The four `skills/mobile/` skills now carry the `agents/openai.yaml` that
+- #2 [`297de67`](https://github.com/hugues-vnsgn/skills/commit/297de67ce52a8824828a191c4216423d15d6622c) Thanks [@osxsystem](https://github.com/osxsystem)! - The four `skills/mobile/` skills now carry the `agents/openai.yaml` that
   `.agents/invocation.md` requires of every skill. They stay model-invoked, so
   the files hold Codex UI metadata only and no `policy` block.
 
-- [#1](https://github.com/osxsystem/skills/pull/1) [`03c7993`](https://github.com/osxsystem/skills/commit/03c7993928c03a963a2a46e1e33b42b35ceb54c4) Thanks [@osxsystem](https://github.com/osxsystem)! - Rename `setup-matt-pocock-skills` to `setup-osxsystem-skills`.
+- #1 [`03c7993`](https://github.com/hugues-vnsgn/skills/commit/03c7993928c03a963a2a46e1e33b42b35ceb54c4) Thanks [@osxsystem](https://github.com/osxsystem)! - Rename `setup-matt-pocock-skills` to `setup-osxsystem-skills`.
 
   The skill's behaviour is unchanged — only its name, directory, and docs page
   move. Run `/setup-osxsystem-skills` instead of the old command.
@@ -163,7 +163,7 @@
   `.claude-plugin/plugin.json` this fork does not ship, and its failure was
   breaking the release workflow.
 
-- [#6](https://github.com/osxsystem/skills/pull/6) [`bfb933b`](https://github.com/osxsystem/skills/commit/bfb933bb7d45153f1c0198f2fa432f63216331b4) Thanks [@osxsystem](https://github.com/osxsystem)! - Two new skills, from a second pass over ClaudeKit's catalogue.
+- #6 [`bfb933b`](https://github.com/hugues-vnsgn/skills/commit/bfb933bb7d45153f1c0198f2fa432f63216331b4) Thanks [@osxsystem](https://github.com/osxsystem)! - Two new skills, from a second pass over ClaudeKit's catalogue.
 
   `port-from-repo` (engineering, user-invoked) brings a capability across from
   another codebase without bringing its architecture with it — understand,
@@ -179,13 +179,13 @@
   `ask-matt` gains an on-ramp for `port-from-repo`, and its opening line stops
   claiming a fixed number of on-ramps now that there are four.
 
-- [#878](https://github.com/mattpocock/skills/pull/878) [`e3e547b`](https://github.com/osxsystem/skills/commit/e3e547b57d549110a0aa6ff40fd7b871c01c76c9) Thanks [@mattpocock](https://github.com/mattpocock)! - Standardize cross-skill invocation on an explicit "call the Skill tool" instruction instead of bare `/skill`-style prose, across `code-review`, `diagnosing-bugs`, `grill-with-docs`, `grill-me`, `improve-codebase-architecture`, `tdd`, `to-spec`, `to-tickets`, `triage`, and `wayfinder`.
+- [#878](https://github.com/mattpocock/skills/pull/878) [`e3e547b`](https://github.com/hugues-vnsgn/skills/commit/e3e547b57d549110a0aa6ff40fd7b871c01c76c9) Thanks [@mattpocock](https://github.com/mattpocock)! - Standardize cross-skill invocation on an explicit "call the Skill tool" instruction instead of bare `/skill`-style prose, across `code-review`, `diagnosing-bugs`, `grill-with-docs`, `grill-me`, `improve-codebase-architecture`, `tdd`, `to-spec`, `to-tickets`, `triage`, and `wayfinder`.
 
   - A skill that names another skill in prose ("run the `/grilling` skill") does not reliably cause it to load — this is the documented rough edge behind `grill-with-docs`'s most-reported problem. Naming the tool directly (`Call the Skill tool with "grilling"`) is intended to raise the hit rate. Dropping the leading `/` also makes the instruction harness-neutral rather than less: it no longer assumes Claude Code's trigger syntax.
   - A step needing more than one skill now says so as multiple calls ("Call the Skill tool twice, for `grilling` and `domain-modeling`"), not one call carrying two names.
   - Documents the convention in `.agents/invocation.md` for future skills to follow.
 
-- [#5](https://github.com/osxsystem/skills/pull/5) [`ffd4a94`](https://github.com/osxsystem/skills/commit/ffd4a94eb6e1d8eae8644a682bf6ee4bebc5b9ef) Thanks [@osxsystem](https://github.com/osxsystem)! - Skill validation now runs in CI.
+- #5 [`ffd4a94`](https://github.com/hugues-vnsgn/skills/commit/ffd4a94eb6e1d8eae8644a682bf6ee4bebc5b9ef) Thanks [@osxsystem](https://github.com/osxsystem)! - Skill validation now runs in CI.
 
   The structural validator that checks this repo's own invariants — bucket-README
   membership and grouping, docs-page sections, invocation-mode consistency across
@@ -198,13 +198,13 @@
   No skill behaviour changes. The rules were already written down in `CLAUDE.md`;
   now something checks them.
 
-- [#880](https://github.com/mattpocock/skills/pull/880) [`1dab982`](https://github.com/osxsystem/skills/commit/1dab98299c3b81f560026c01b7ebf55ed5d91373) Thanks [@mattpocock](https://github.com/mattpocock)! - Stop skills from trying to reach user-invoked skills through the Skill tool — fix cross-skill references that violated the "no other skill can call it" invariant in `.agents/invocation.md`, in `to-spec`, `wayfinder`, `to-tickets`, `triage`, `code-review`, and `diagnosing-bugs`.
+- [#880](https://github.com/mattpocock/skills/pull/880) [`1dab982`](https://github.com/hugues-vnsgn/skills/commit/1dab98299c3b81f560026c01b7ebf55ed5d91373) Thanks [@mattpocock](https://github.com/mattpocock)! - Stop skills from trying to reach user-invoked skills through the Skill tool — fix cross-skill references that violated the "no other skill can call it" invariant in `.agents/invocation.md`, in `to-spec`, `wayfinder`, `to-tickets`, `triage`, `code-review`, and `diagnosing-bugs`.
 
-  - `to-spec`, `wayfinder`, `to-tickets`, `triage`, and `code-review` each carried a precondition ("...run `/setup-matt-pocock-skills` if not") that PR [#878](https://github.com/osxsystem/skills/issues/878) rewrote into a literal `Call the Skill tool with "setup-matt-pocock-skills"` instruction. `setup-matt-pocock-skills` is user-invoked, so none of these skills — user-invoked or model-invoked — can call it. Reworded all five as instructions for the agent to tell the human to run it instead.
+  - `to-spec`, `wayfinder`, `to-tickets`, `triage`, and `code-review` each carried a precondition ("...run `/setup-matt-pocock-skills` if not") that PR [#878](https://github.com/mattpocock/skills/issues/878) rewrote into a literal `Call the Skill tool with "setup-matt-pocock-skills"` instruction. `setup-matt-pocock-skills` is user-invoked, so none of these skills — user-invoked or model-invoked — can call it. Reworded all five as instructions for the agent to tell the human to run it instead.
   - `diagnosing-bugs`'s Phase 6 post-mortem hand off to `improve-codebase-architecture` (also user-invoked) the same way, from an autonomous, often-unattended bug-fixing flow with no human in the loop to catch the failed call. Removed the hand-off outright rather than softening it — it rarely fired in practice. Phase 6 is now "Cleanup" only; the mechanical checklist is untouched.
-  - Added a carve-out paragraph to `.agents/invocation.md`'s "Dependencies between them" section: the `Call the Skill tool with "name"` convention only applies when the named skill is model-invoked. This is the section PR [#878](https://github.com/osxsystem/skills/issues/878) introduced without reconciling it against the user-invoked/model-invoked invariant stated eight lines above it — the gap is most of why this bug reached six call sites instead of one.
+  - Added a carve-out paragraph to `.agents/invocation.md`'s "Dependencies between them" section: the `Call the Skill tool with "name"` convention only applies when the named skill is model-invoked. This is the section PR [#878](https://github.com/mattpocock/skills/issues/878) introduced without reconciling it against the user-invoked/model-invoked invariant stated eight lines above it — the gap is most of why this bug reached six call sites instead of one.
 
-  Fixes [#453](https://github.com/osxsystem/skills/issues/453).
+  Fixes [#453](https://github.com/mattpocock/skills/issues/453).
 
 ## 1.2.3
 

@@ -1,6 +1,6 @@
-# osxsystem/skills
+# hugues-vnsgn/skills
 
-[![skills.sh](https://skills.sh/b/osxsystem/skills)](https://skills.sh/osxsystem/skills)
+[![skills.sh](https://skills.sh/b/hugues-vnsgn/skills)](https://skills.sh/hugues-vnsgn/skills)
 
 What this fork adds on top of upstream:
 
@@ -12,7 +12,7 @@ What this fork adds on top of upstream:
 ### 1. Get the skills
 
 ```bash
-npx skills@latest add osxsystem/skills
+npx skills@latest add hugues-vnsgn/skills
 ```
 
 Skills are grouped by domain — **Engineering**, **Productivity**, and one group per team domain — and each group header takes a single keystroke to select everything under it. Pick the groups or the individual skills you want, then choose which coding agents to install them on. **Expand **Team Platform** and make sure `setup-osxsystem-skills` is ticked.**

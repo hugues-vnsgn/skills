@@ -2,14 +2,14 @@
 
 One install story, one wording. `README.md`, `.changeset/*`, and every page under `docs/` must say **this** and nothing else. Change it here first, then propagate.
 
-The single install route is [skills.sh](https://skills.sh/osxsystem/skills), which copies editable skill files into the project — files you own and can edit. Nothing updates behind your back; pull the latest changes with `npx skills update`.
+The single install route is [skills.sh](https://skills.sh/hugues-vnsgn/skills), which copies editable skill files into the project — files you own and can edit. Nothing updates behind your back; pull the latest changes with `npx skills update`.
 
 ## Whole set — on `README.md`
 
 <canonical-block name="skills-sh-whole-set">
 
 ```bash
-npx skills@latest add osxsystem/skills
+npx skills@latest add hugues-vnsgn/skills
 ```
 
 Skills are grouped by domain — **Engineering**, **Productivity**, and one group per team domain — and each group header takes a single keystroke to select everything under it. Pick the groups or the individual skills you want, then choose which coding agents to install them on. **Expand **Team Platform** and make sure `setup-osxsystem-skills` is ticked.**
@@ -25,7 +25,7 @@ Note that **`docs/` pages are not a consumer of this block**: ai-hero renders th
 <canonical-block name="skills-sh-one-skill">
 
 ```bash
-npx skills@latest add osxsystem/skills --skill=<name>
+npx skills@latest add hugues-vnsgn/skills --skill=<name>
 ```
 
 ```bash

@@ -3,12 +3,12 @@
 # broad defaults first, narrow territory last.
 #
 # !! USER-OWNED REPO — USERNAMES, NOT TEAM SLUGS !!
-# `osxsystem/skills` is owned by a user account, and `@org/team` slugs only
+# `hugues-vnsgn/skills` is owned by a user account, and `@org/team` slugs only
 # exist under a GitHub organization — on this repo a team slug matches nothing
 # and the rule FAILS OPEN (GitHub requests no review at all). Until the repo
 # moves to an org, every owner below is a username with write access.
 #
-# Upgrade path, when the repo transfers to an `osxsystem` org:
+# Upgrade path, if this repo ever moves to a GitHub organization:
 #   1. Create teams: maintainers, mobile, platform (one per block below).
 #   2. Swap each username for its team slug — and, in the same change, the
 #      `owner:` field of every entry in `.fork/catalog.yaml`, which mirrors
@@ -17,32 +17,32 @@
 # column changes.
 
 # Default: anything not claimed below is a maintainers call.
-*                                   @osxsystem
+*                                   @hugues-vnsgn
 
 # --- Upstream territory (byte-frozen vendor files) --------------------------
 # Edits here are boundary changes, not content changes: every one of them has
 # to be sanctioned in `.fork/sanctioned-edits.txt` and survive a sync. Reviewed
 # by maintainers, who carry the sync context — see `.fork/sync-playbook.md`.
-/skills/engineering/                @osxsystem
-/skills/productivity/               @osxsystem
-/skills/misc/                       @osxsystem
-/skills/in-progress/                @osxsystem
-/skills/deprecated/                 @osxsystem
-/docs/engineering/                  @osxsystem
-/docs/productivity/                 @osxsystem
+/skills/engineering/                @hugues-vnsgn
+/skills/productivity/               @hugues-vnsgn
+/skills/misc/                       @hugues-vnsgn
+/skills/in-progress/                @hugues-vnsgn
+/skills/deprecated/                 @hugues-vnsgn
+/docs/engineering/                  @hugues-vnsgn
+/docs/productivity/                 @hugues-vnsgn
 
 # --- Fork control plane, harness, and CI ------------------------------------
-/.fork/                             @osxsystem
-/scripts/                           @osxsystem
-/.github/                           @osxsystem
+/.fork/                             @hugues-vnsgn
+/scripts/                           @hugues-vnsgn
+/.github/                           @hugues-vnsgn
 
 # --- Team domains -----------------------------------------------------------
 # One block per existing domain under `skills/team/`: the skills and the docs
 # tree that mirrors them. A new domain folder adds a block here, a matching
 # `owner:` in `.fork/catalog.yaml`, and nothing else. Add each discipline's
 # usernames here as they gain write access (space-separated on the same line).
-/skills/team/mobile/                @osxsystem
-/docs/team/mobile/                  @osxsystem
+/skills/team/mobile/                @hugues-vnsgn
+/docs/team/mobile/                  @hugues-vnsgn
 
-/skills/team/platform/              @osxsystem
-/docs/team/platform/                @osxsystem
+/skills/team/platform/              @hugues-vnsgn
+/docs/team/platform/                @hugues-vnsgn

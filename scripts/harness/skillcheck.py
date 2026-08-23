@@ -23,6 +23,37 @@ DOC_SECTIONS = [
 ]
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)")
 
+# --- Repo coordinates -------------------------------------------------------
+# The account migration moved this repo from `osxsystem` to `hugues-vnsgn`. It
+# deliberately did NOT rebrand: the package name `osxsystem-skills` and the
+# published `setup-osxsystem-skills` skill both keep the old token, because
+# renaming a published skill costs every consumer a reinstall. Neither string
+# contains `osxsystem/skills` or `@osxsystem`, so the two forms below are
+# precisely the *coordinates* (where the repo lives) and the *ownership
+# handle*, and only those. That is what makes this checkable at all.
+STALE_COORDINATE = "osxsystem/skills"
+STALE_HANDLE = "@osxsystem"
+# Where the stale forms legitimately survive, because they are a dated record
+# rather than a live coordinate. CHANGELOG.md keeps one prose mention of the old
+# install command (describing what the installer used to render) and its
+# `Thanks [@osxsystem]` attributions, whose target is a user profile that still
+# resolves even though the old repository does not.
+# The last two entries are here because a guard has to be allowed to name what
+# it forbids, and so does its test: the constants above and the comment you are
+# reading are themselves matches, and `test_coordinates.sh` seeds the forbidden
+# strings deliberately in order to prove the guard catches them. Exempting both
+# is unavoidable rather than convenient, so keep the list to exactly these two
+# and prefer adding a case to the test over adding an entry here.
+COORDINATE_ALLOWLIST = ("CHANGELOG.md", ".scratch/", ".out-of-scope/",
+                        os.path.join("scripts", "harness", "skillcheck.py"),
+                        os.path.join("scripts", "harness", "test_coordinates.sh"))
+# Never scanned: VCS internals, dependencies, a second working tree, the Dolt
+# issue store, and gitignored local scratch. None of these ship, and most do not
+# exist in a clean CI checkout, so scanning them would fail only on dev machines.
+COORDINATE_SKIP = (".git/", "node_modules/", ".claude/", ".beads/",
+                   "isolated_test_workspace/", "prompts/", "CLAUDE.local.md")
+BINARY_SUFFIXES = (".png", ".jpg", ".jpeg", ".ico", ".gif", ".woff", ".woff2")
+
 
 def read(path):
     with open(path, encoding="utf-8") as fh:
@@ -368,7 +399,7 @@ def check_ask_matt_routing(repo, skills, beta):
 def check_install_block(repo):
     rows = []
     readme = read(os.path.join(repo, "README.md"))
-    canonical = "npx skills@latest add osxsystem/skills"
+    canonical = "npx skills@latest add hugues-vnsgn/skills"
     present = canonical in readme
     rows.append({"bucket": "-", "skill": "(repo)", "check": "install-block-in-readme",
                  "status": "PASS" if present else "FAIL",
@@ -418,6 +449,60 @@ def check_install_block(repo):
     return rows
 
 
+def check_repo_coordinates(repo):
+    """No live reference to the account this repo was migrated away from.
+
+    Sibling of `check_install_block`: same shape, a verbatim string assertion
+    over repository files with an explicitly scoped exception. The expected
+    result is not "zero hits repo-wide" — it is "hits only inside the
+    allowlist", because the changelog is a record we chose not to rewrite.
+
+    Fails closed: a file we cannot read is a FAIL, not a silent skip, so a
+    broken scan cannot masquerade as a clean one.
+    """
+    rows = []
+    offenders, unreadable = [], []
+    for root, dirs, files in os.walk(repo):
+        dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
+        for f in files:
+            full = os.path.join(root, f)
+            rel = os.path.relpath(full, repo)
+            if rel.startswith(COORDINATE_SKIP) or rel.startswith(COORDINATE_ALLOWLIST):
+                continue
+            if os.path.islink(full) or rel.endswith(BINARY_SUFFIXES):
+                continue
+            try:
+                text = read(full)
+            except UnicodeDecodeError:
+                # Binary content (a .DS_Store, an image with no suffix). It
+                # cannot carry a text coordinate, so skipping is not a gap.
+                continue
+            except OSError:
+                # A real I/O failure IS a gap: we cannot certify this file, so
+                # say so rather than passing over it.
+                unreadable.append(rel)
+                continue
+            hits = []
+            for form in (STALE_COORDINATE, STALE_HANDLE):
+                if form in text:
+                    hits.append(f"{form} x{text.count(form)}")
+            if hits:
+                offenders.append(f"{rel} ({', '.join(hits)})")
+
+    rows.append({"bucket": "-", "skill": "(repo)", "check": "no-stale-repo-coordinates",
+                 "status": "PASS" if not offenders else "FAIL",
+                 "notes": "" if not offenders else
+                          f"stale account reference outside the allowlist: "
+                          f"{', '.join(sorted(offenders))}",
+                 "file": "."})
+    rows.append({"bucket": "-", "skill": "(repo)", "check": "coordinate-scan-readable",
+                 "status": "PASS" if not unreadable else "FAIL",
+                 "notes": "" if not unreadable else
+                          f"could not read, so cannot certify: {', '.join(sorted(unreadable))}",
+                 "file": "."})
+    return rows
+
+
 def main():
     skills = find_skills(REPO)
     beta = load_beta(REPO)
@@ -428,6 +513,7 @@ def main():
     rows.extend(check_bucket_readmes(REPO, skills, beta))
     rows.extend(check_ask_matt_routing(REPO, skills, beta))
     rows.extend(check_install_block(REPO))
+    rows.extend(check_repo_coordinates(REPO))
 
     if JSON_OUT:
         print(json.dumps(rows, indent=2))

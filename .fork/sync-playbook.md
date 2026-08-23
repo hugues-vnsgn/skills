@@ -109,7 +109,7 @@ New upstream skills stay where upstream put them — a sync never re-homes a ven
     origin: upstream
     domain: <bucket>
     audience: [engineer]          # every role it genuinely serves
-    owner: "@osxsystem"               # mirror CODEOWNERS — username now, team slug after an org transfer
+    owner: "@hugues-vnsgn"               # mirror CODEOWNERS — username now, team slug after an org transfer
 ```
 
 Then regenerate the view and refresh the role pages the new audiences touch:
@@ -144,7 +144,7 @@ The complete set of paths where upstream and this fork can both write — the sy
 |---|---|---|---|
 | Plugin route removed | `.claude-plugin/`, `scripts/sync-plugin-version.mjs` | modify/delete | [Keep the deletion](./divergence.md#claude-plugin--deleted-and-scriptssync-plugin-versionmjs); drop any `sync-plugin-version` script upstream re-adds to `package.json` |
 | Setup skill re-homed | `skills/engineering/setup-matt-pocock-skills/`, `docs/engineering/setup-matt-pocock-skills.md` | modify/delete | [Keep the deletion](./divergence.md#skillsengineeringsetup-matt-pocock-skills--deleted); port upstream's changes by hand into `skills/team/platform/setup-osxsystem-skills/` |
-| Fork framing in prose | `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.agents/writing-docs.md`, `.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md`, `skills/{engineering,in-progress,misc}/README.md`, `docs/engineering/*.md`, `docs/productivity/wait-what.md` | both modified | [Keep both](./divergence.md#prose-files--readmemd-claudemd-contextmd-maintenancemd-adjacent-conventions), then verify install commands say `osxsystem/skills`, the fork README framing and its Mobile and Platform sections survived, and no fork skill was re-added to an upstream bucket README. rerere absorbs these after the first sync |
+| Fork framing in prose | `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.agents/writing-docs.md`, `.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md`, `skills/{engineering,in-progress,misc}/README.md`, `docs/engineering/*.md`, `docs/productivity/wait-what.md` | both modified | [Keep both](./divergence.md#prose-files--readmemd-claudemd-contextmd-maintenancemd-adjacent-conventions), then verify install commands say `hugues-vnsgn/skills`, the fork README framing and its Mobile and Platform sections survived, and no fork skill was re-added to an upstream bucket README. rerere absorbs these after the first sync |
 | Fork identity in tooling | `package.json`, `package-lock.json`, `.changeset/config.json`, `.gitignore` | both modified | [Take upstream's dependency and tooling changes](./divergence.md#packagejson-package-lockjson-changesetconfigjson-gitignore); keep the fork's `name`, `description`, `repository`, changeset `repo`, and ignore entries |
 | Hardened git guardrail | `skills/misc/git-guardrails-claude-code/` | both modified | [Keep both](./divergence.md#skillsmiscgit-guardrails-claude-code--hardened), then re-run `bash scripts/harness/test_guardrail.sh` — the tests are the arbiter, not the diff |
 | Released changeset re-edited | `.changeset/<name>.md` | modify/delete | [Keep the deletion](./divergence.md#additions-sync-inert) (`git rm --ignore-unmatch`): the fork consumed it with `changeset version`, so its content already sits in `CHANGELOG.md`. Restoring it re-releases shipped work |

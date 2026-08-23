@@ -65,7 +65,7 @@ Every one of these looked like breakage during the 2026-08-20 sync.
 
 **`test_forkcheck.sh` fails right after the merge.** Its "clean tree" fixture runs `forkcheck` with the *default* upstream ref, which is the SHA in `upstream.lock`, and the merge just made that stale. Three failures, none real. Advance the lock (playbook step 8) and re-run: it returns to `pass=25 fail=0`. Do step 8 before this test, not after it.
 
-**`gh pr create` fails with "must be a collaborator."** `git push` and `gh` authenticate separately. The push goes over SSH while `gh` may be active as an account with only READ here. Check with `gh auth status`, switch with `gh auth switch -u <account>`, and switch back once the PR is merged so the machine is left as you found it. Every `gh` command here also needs `--repo osxsystem/skills`, `create` and `merge` alike, or it addresses the wrong repository.
+**`gh pr create` fails with "must be a collaborator."** `git push` and `gh` authenticate separately. The push goes over SSH while `gh` may be active as an account with only READ here. Check with `gh auth status`, switch with `gh auth switch -u <account>`, and switch back once the PR is merged so the machine is left as you found it. Every `gh` command here also needs `--repo hugues-vnsgn/skills`, `create` and `merge` alike, or it addresses the wrong repository.
 
 **The PR must land as a merge commit.** `gh pr merge --merge`, never `--squash` or `--rebase`. The lock's invariant is that `upstream_sha` is an ancestor of `main`. Squashing collapses the merge, breaks that, and makes the next sync replay everything already merged. Confirm after landing:
 

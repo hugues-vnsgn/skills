@@ -42,7 +42,7 @@ Verified 2026-08-05, on Claude Code 2.1.222, against the live listing:
 
 ## Fork update, 2026-08-17 — `.claude-plugin/marketplace.json` comes back, as picker metadata
 
-This fork reversed the decision above: `.claude-plugin/` was deleted and [skills.sh](https://skills.sh/osxsystem/skills) is the only install route. `forkcheck.py` enforced that with a `no-plugin-dir` assertion.
+This fork reversed the decision above: `.claude-plugin/` was deleted and [skills.sh](https://skills.sh/hugues-vnsgn/skills) is the only install route. `forkcheck.py` enforced that with a `no-plugin-dir` assertion.
 
 One file is now restored, and the reason has nothing to do with plugins. The skills.sh installer ([vercel-labs/skills](https://github.com/vercel-labs/skills)) renders its interactive picker as a flat list unless skills carry a group, and it derives groups from exactly one source: `getPluginGroupings()`, which reads `.claude-plugin/marketplace.json` (or `plugin.json`). With a manifest present it renders collapsible headings, each with a "select all" row — the difference between ticking 35 skills one at a time and ticking six domains. `plugin.json` can only ever express a single group, so grouping requires `marketplace.json` specifically.
 

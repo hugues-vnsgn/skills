@@ -8,56 +8,56 @@ Every skill in this repo: 53 total — 34 upstream, 19 fork-authored.
 
 | Skill | Origin | Domain | Audience | Owner |
 |---|---|---|---|---|
-| [ask-matt](skills/engineering/ask-matt/SKILL.md) | upstream | engineering | engineer, staff | @osxsystem |
-| [code-review](skills/engineering/code-review/SKILL.md) | upstream | engineering | engineer, qa, staff | @osxsystem |
-| [codebase-design](skills/engineering/codebase-design/SKILL.md) | upstream | engineering | engineer, staff | @osxsystem |
-| [diagnosing-bugs](skills/engineering/diagnosing-bugs/SKILL.md) | upstream | engineering | engineer, qa | @osxsystem |
-| [domain-modeling](skills/engineering/domain-modeling/SKILL.md) | upstream | engineering | engineer, analyst, staff | @osxsystem |
-| [grill-with-docs](skills/engineering/grill-with-docs/SKILL.md) | upstream | engineering | engineer, analyst, staff | @osxsystem |
-| [implement](skills/engineering/implement/SKILL.md) | upstream | engineering | engineer | @osxsystem |
-| [improve-codebase-architecture](skills/engineering/improve-codebase-architecture/SKILL.md) | upstream | engineering | engineer, staff | @osxsystem |
-| [prototype](skills/engineering/prototype/SKILL.md) | upstream | engineering | engineer, designer | @osxsystem |
-| [research](skills/engineering/research/SKILL.md) | upstream | engineering | engineer, analyst, staff | @osxsystem |
-| [resolving-merge-conflicts](skills/engineering/resolving-merge-conflicts/SKILL.md) | upstream | engineering | engineer | @osxsystem |
-| [tdd](skills/engineering/tdd/SKILL.md) | upstream | engineering | engineer, qa | @osxsystem |
-| [to-spec](skills/engineering/to-spec/SKILL.md) | upstream | engineering | engineer, analyst, staff | @osxsystem |
-| [to-tickets](skills/engineering/to-tickets/SKILL.md) | upstream | engineering | engineer, analyst, staff | @osxsystem |
-| [triage](skills/engineering/triage/SKILL.md) | upstream | engineering | engineer, qa, staff | @osxsystem |
-| [wayfinder](skills/engineering/wayfinder/SKILL.md) | upstream | engineering | engineer, staff | @osxsystem |
-| [wizard](skills/engineering/wizard/SKILL.md) | upstream | engineering | engineer | @osxsystem |
-| [grill-me](skills/productivity/grill-me/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @osxsystem |
-| [grilling](skills/productivity/grilling/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @osxsystem |
-| [handoff](skills/productivity/handoff/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @osxsystem |
-| [teach](skills/productivity/teach/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @osxsystem |
-| [to-questionnaire](skills/productivity/to-questionnaire/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @osxsystem |
-| [wait-what](skills/productivity/wait-what/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @osxsystem |
-| [writing-for-agents](skills/productivity/writing-for-agents/SKILL.md) | upstream | productivity | engineer, staff | @osxsystem |
-| [git-guardrails-claude-code](skills/misc/git-guardrails-claude-code/SKILL.md) | upstream | misc | engineer | @osxsystem |
-| [migrate-to-shoehorn](skills/misc/migrate-to-shoehorn/SKILL.md) | upstream | misc | engineer | @osxsystem |
-| [scaffold-exercises](skills/misc/scaffold-exercises/SKILL.md) | upstream | misc | engineer | @osxsystem |
-| [setup-pre-commit](skills/misc/setup-pre-commit/SKILL.md) | upstream | misc | engineer | @osxsystem |
-| [claude-handoff](skills/in-progress/claude-handoff/SKILL.md) | upstream | in-progress | engineer, designer, analyst, qa, staff | @osxsystem |
-| [loop-me](skills/in-progress/loop-me/SKILL.md) | upstream | in-progress | engineer, staff | @osxsystem |
-| [setup-ts-deep-modules](skills/in-progress/setup-ts-deep-modules/SKILL.md) | upstream | in-progress | engineer | @osxsystem |
-| [writing-beats](skills/in-progress/writing-beats/SKILL.md) | upstream | in-progress | analyst, designer | @osxsystem |
-| [writing-fragments](skills/in-progress/writing-fragments/SKILL.md) | upstream | in-progress | analyst, designer | @osxsystem |
-| [writing-shape](skills/in-progress/writing-shape/SKILL.md) | upstream | in-progress | analyst, designer | @osxsystem |
-| [compose-multiplatform-ui](skills/team/mobile/compose-multiplatform-ui/SKILL.md) | fork | mobile | engineer, designer | @osxsystem |
-| [kmp-boundaries](skills/team/mobile/kmp-boundaries/SKILL.md) _(beta)_ | fork | mobile | engineer | @osxsystem |
-| [kmp-ios-integration](skills/team/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @osxsystem |
-| [kmp-ktor](skills/team/mobile/kmp-ktor/SKILL.md) _(beta)_ | fork | mobile | engineer | @osxsystem |
-| [kmp-module-setup](skills/team/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @osxsystem |
-| [kmp-release-and-publish](skills/team/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @osxsystem |
-| [kmp-test-seams](skills/team/mobile/kmp-test-seams/SKILL.md) | fork | mobile | engineer, qa | @osxsystem |
-| [herdr](skills/team/platform/herdr/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @osxsystem |
-| [port-from-repo](skills/team/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @osxsystem |
-| [setup-osxsystem-skills](skills/team/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @osxsystem |
-| [sync-upstream](skills/team/platform/sync-upstream/SKILL.md) _(beta)_ | fork | platform | staff | @osxsystem |
-| [when-stuck](skills/team/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @osxsystem |
-| [cook](skills/team/delivery/cook/SKILL.md) _(beta)_ | fork | delivery | engineer | @osxsystem |
-| [project-organization](skills/team/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @osxsystem |
-| [to-prd](skills/team/discovery/to-prd/SKILL.md) | fork | discovery | analyst, staff | @osxsystem |
-| [do-test](skills/team/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @osxsystem |
-| [bro](skills/team/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @osxsystem |
-| [improve-claude-md](skills/team/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @osxsystem |
-| [show-me](skills/team/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @osxsystem |
+| [ask-matt](skills/engineering/ask-matt/SKILL.md) | upstream | engineering | engineer, staff | @hugues-vnsgn |
+| [code-review](skills/engineering/code-review/SKILL.md) | upstream | engineering | engineer, qa, staff | @hugues-vnsgn |
+| [codebase-design](skills/engineering/codebase-design/SKILL.md) | upstream | engineering | engineer, staff | @hugues-vnsgn |
+| [diagnosing-bugs](skills/engineering/diagnosing-bugs/SKILL.md) | upstream | engineering | engineer, qa | @hugues-vnsgn |
+| [domain-modeling](skills/engineering/domain-modeling/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
+| [grill-with-docs](skills/engineering/grill-with-docs/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
+| [implement](skills/engineering/implement/SKILL.md) | upstream | engineering | engineer | @hugues-vnsgn |
+| [improve-codebase-architecture](skills/engineering/improve-codebase-architecture/SKILL.md) | upstream | engineering | engineer, staff | @hugues-vnsgn |
+| [prototype](skills/engineering/prototype/SKILL.md) | upstream | engineering | engineer, designer | @hugues-vnsgn |
+| [research](skills/engineering/research/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
+| [resolving-merge-conflicts](skills/engineering/resolving-merge-conflicts/SKILL.md) | upstream | engineering | engineer | @hugues-vnsgn |
+| [tdd](skills/engineering/tdd/SKILL.md) | upstream | engineering | engineer, qa | @hugues-vnsgn |
+| [to-spec](skills/engineering/to-spec/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
+| [to-tickets](skills/engineering/to-tickets/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
+| [triage](skills/engineering/triage/SKILL.md) | upstream | engineering | engineer, qa, staff | @hugues-vnsgn |
+| [wayfinder](skills/engineering/wayfinder/SKILL.md) | upstream | engineering | engineer, staff | @hugues-vnsgn |
+| [wizard](skills/engineering/wizard/SKILL.md) | upstream | engineering | engineer | @hugues-vnsgn |
+| [grill-me](skills/productivity/grill-me/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
+| [grilling](skills/productivity/grilling/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
+| [handoff](skills/productivity/handoff/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
+| [teach](skills/productivity/teach/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
+| [to-questionnaire](skills/productivity/to-questionnaire/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
+| [wait-what](skills/productivity/wait-what/SKILL.md) | upstream | productivity | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
+| [writing-for-agents](skills/productivity/writing-for-agents/SKILL.md) | upstream | productivity | engineer, staff | @hugues-vnsgn |
+| [git-guardrails-claude-code](skills/misc/git-guardrails-claude-code/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
+| [migrate-to-shoehorn](skills/misc/migrate-to-shoehorn/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
+| [scaffold-exercises](skills/misc/scaffold-exercises/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
+| [setup-pre-commit](skills/misc/setup-pre-commit/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
+| [claude-handoff](skills/in-progress/claude-handoff/SKILL.md) | upstream | in-progress | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
+| [loop-me](skills/in-progress/loop-me/SKILL.md) | upstream | in-progress | engineer, staff | @hugues-vnsgn |
+| [setup-ts-deep-modules](skills/in-progress/setup-ts-deep-modules/SKILL.md) | upstream | in-progress | engineer | @hugues-vnsgn |
+| [writing-beats](skills/in-progress/writing-beats/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
+| [writing-fragments](skills/in-progress/writing-fragments/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
+| [writing-shape](skills/in-progress/writing-shape/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
+| [compose-multiplatform-ui](skills/team/mobile/compose-multiplatform-ui/SKILL.md) | fork | mobile | engineer, designer | @hugues-vnsgn |
+| [kmp-boundaries](skills/team/mobile/kmp-boundaries/SKILL.md) _(beta)_ | fork | mobile | engineer | @hugues-vnsgn |
+| [kmp-ios-integration](skills/team/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
+| [kmp-ktor](skills/team/mobile/kmp-ktor/SKILL.md) _(beta)_ | fork | mobile | engineer | @hugues-vnsgn |
+| [kmp-module-setup](skills/team/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
+| [kmp-release-and-publish](skills/team/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
+| [kmp-test-seams](skills/team/mobile/kmp-test-seams/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
+| [herdr](skills/team/platform/herdr/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
+| [port-from-repo](skills/team/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
+| [setup-osxsystem-skills](skills/team/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
+| [sync-upstream](skills/team/platform/sync-upstream/SKILL.md) _(beta)_ | fork | platform | staff | @hugues-vnsgn |
+| [when-stuck](skills/team/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
+| [cook](skills/team/delivery/cook/SKILL.md) _(beta)_ | fork | delivery | engineer | @hugues-vnsgn |
+| [project-organization](skills/team/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @hugues-vnsgn |
+| [to-prd](skills/team/discovery/to-prd/SKILL.md) | fork | discovery | analyst, staff | @hugues-vnsgn |
+| [do-test](skills/team/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @hugues-vnsgn |
+| [bro](skills/team/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
+| [improve-claude-md](skills/team/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
+| [show-me](skills/team/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |

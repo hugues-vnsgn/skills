@@ -38,7 +38,7 @@ Each row is a recurring conflict, and together they are the fork's entire expect
 
 ### `.claude-plugin/` — `marketplace.json` regenerated, everything else deleted, and `scripts/sync-plugin-version.mjs`
 
-**Why:** this fork ships via [skills.sh](https://skills.sh/osxsystem/skills) only; the Claude Code plugin *install route* was removed. See [ADR 0002](../.agents/adr/0002-ship-as-a-claude-code-plugin.md) for the upstream decision this fork reverses, and its 2026-08-17 update for why one file came back.
+**Why:** this fork ships via [skills.sh](https://skills.sh/hugues-vnsgn/skills) only; the Claude Code plugin *install route* was removed. See [ADR 0002](../.agents/adr/0002-ship-as-a-claude-code-plugin.md) for the upstream decision this fork reverses, and its 2026-08-17 update for why one file came back.
 
 `.claude-plugin/marketplace.json` is **not** an install route here. The skills.sh installer groups its picker — the collapsible headings with a per-group "select all" — only from that file, reading `plugins[].name` and `plugins[].skills[]` and nothing else. Without it every skill lands in one flat, ungrouped list. The fork's copy is generated from [`catalog.yaml`](./catalog.yaml) by [`scripts/generate-marketplace.py`](../scripts/generate-marketplace.py) and shares nothing with upstream's but the path. `plugin.json` — the file that actually makes the directory installable — stays deleted, and `forkcheck`'s `plugin-dir-marketplace-only` assertion fails if a sync brings it back.
 
@@ -69,17 +69,17 @@ Then port any upstream change to the deleted files into `skills/team/platform/se
 
 Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.agents/writing-docs.md`, `.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md`, `skills/{engineering,in-progress,misc}/README.md`, `docs/engineering/*.md`, `docs/productivity/wait-what.md`.
 
-**Why:** fork framing (osxsystem, not mattpocock), the team tree's sections, the fork's setup-skill name, and install commands pointing at `osxsystem/skills`. `skills/engineering/README.md` and `skills/in-progress/README.md` now diverge by *omission* — the fork skills they used to list live under `skills/team/platform/`.
+**Why:** fork framing (osxsystem, not mattpocock), the team tree's sections, the fork's setup-skill name, and install commands pointing at `hugues-vnsgn/skills`. `skills/engineering/README.md` and `skills/in-progress/README.md` now diverge by *omission* — the fork skills they used to list live under `skills/team/platform/`.
 
 **Recipe:** keep both sides — these are appended sections and entries, not rewrites. Then verify:
 
-- install commands say `osxsystem/skills`, not `mattpocock/skills` (source of truth: [`.agents/install-block.md`](../.agents/install-block.md));
+- install commands say `hugues-vnsgn/skills`, not `mattpocock/skills` (source of truth: [`.agents/install-block.md`](../.agents/install-block.md));
 - the fork README framing and its Mobile and Platform sections survived;
 - no fork skill has been re-added to an upstream bucket README.
 
 ### `package.json`, `package-lock.json`, `.changeset/config.json`, `.gitignore`
 
-**Why:** fork package name/description/repository, the removed `sync-plugin-version` script, changelog pointing at `osxsystem/skills`, and the ignored `isolated_test_workspace/`.
+**Why:** fork package name/description/repository, the removed `sync-plugin-version` script, changelog pointing at `hugues-vnsgn/skills`, and the ignored `isolated_test_workspace/`.
 
 **Recipe:** take upstream's dependency and tooling changes; keep the fork's identity fields (`name`, `description`, `repository`, changeset `repo`) and the fork's ignore entries.
 

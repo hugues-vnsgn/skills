@@ -42,6 +42,13 @@ jobs:
       - name: Installer manifest is current
         run: python3 scripts/generate-marketplace.py --check
 
+      # CATALOG.md is generated from .fork/catalog.yaml the same way, and its
+      # generator has always had a --check flag. CI simply never called it, so
+      # a forgotten regeneration drifted silently. It bit during the account
+      # migration, which rewrote 53 `owner:` fields in the catalog source.
+      - name: Catalog is current
+        run: python3 scripts/generate-catalog.py --check
+
       - name: Structural validation
         run: python3 scripts/harness/skillcheck.py
 
@@ -53,3 +60,6 @@ jobs:
 
       - name: Fork boundary guard fail-closed tests
         run: bash scripts/harness/test_forkcheck.sh
+
+      - name: Repo coordinate fail-closed tests
+        run: bash scripts/harness/test_coordinates.sh

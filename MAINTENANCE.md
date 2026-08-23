@@ -1,6 +1,6 @@
 # Maintaining this fork
 
-This repo (`osxsystem/skills`) is a team fork of [`mattpocock/skills`](https://github.com/mattpocock/skills), customized for mobile development with **Kotlin Multiplatform + Compose Multiplatform** (Android + iOS/Swift).
+This repo (`hugues-vnsgn/skills`) is a team fork of [`mattpocock/skills`](https://github.com/mattpocock/skills), customized for mobile development with **Kotlin Multiplatform + Compose Multiplatform** (Android + iOS/Swift).
 
 ## What the fork adds
 

@@ -1,5 +1,32 @@
 # mattpocock-skills
 
+## 1.6.0
+
+### Minor Changes
+
+- [`36c463a`](https://github.com/osxsystem/skills/commit/36c463abffbaa2150a76696d4896b8e3dd9a5f13) Thanks [@osxsystem](https://github.com/osxsystem)! - Add `to-prd` and open the `discovery` team domain.
+
+  **Skills**
+
+  - New skill `to-prd` (`skills/team/discovery/`) — turn the current conversation into a Product Requirements Document. Synthesis first: it drafts every section it can defend from what was already discussed, asks one batched round of questions only for the decisions no agent can make (Key Result targets, contacts, the release cut), and marks deferred decisions `⚠ TBD` instead of inventing them. Unripe ideas are refused and routed to `grill-with-docs`. Adapted from the ecosystem's `create-prd` (phuryn/pm-skills) into this repo's synthesis idiom. Smoke-tested in isolation on both paths: rich post-grilling context (full PRD, zero invented numbers) and a two-line idea (refusal with routing).
+  - `discovery` is the first skill's landing that opens the reserved domain folder — bucket README, top-level README section, docs page, and analyst/staff role-page entries all added.
+
+  **Flow**
+
+  - `ask-matt`'s main flow gains a step: `grill-with-docs → to-prd (initiative-scale only) → to-spec → to-tickets → implement`. A single well-scoped feature skips the PRD step.
+
+### Patch Changes
+
+- [#25](https://github.com/osxsystem/skills/pull/25) [`6747567`](https://github.com/osxsystem/skills/commit/6747567b75b54446c0ebff510b8632d0445f9257) Thanks [@osxsystem](https://github.com/osxsystem)! - Add `sync-upstream`, a maintainer skill that drives an upstream merge. It defers to `.fork/sync-playbook.md` for the steps and carries what the playbook cannot: how to read the delta, how to classify a conflict before resolving it, how to handle a repo-wide style sweep, and the failures that look like breakage and are not. Beta, and marked internal so the installer does not offer a skill that only works in this repo.
+
+- [#24](https://github.com/osxsystem/skills/pull/24) [`4f28947`](https://github.com/osxsystem/skills/commit/4f289474bad013fe2be8f8769d733f59d9103d6b) Thanks [@osxsystem](https://github.com/osxsystem)! - Quote the `description` front matter in `to-spec`, `code-review`, `setup-matt-pocock-skills`, `writing-fragments`, `writing-shape`, and `wait-what`. An unquoted colon-space left over from the em-dash sweep in [#905](https://github.com/osxsystem/skills/issues/905) made each block invalid YAML, so `skills.sh` skipped all six during discovery and they couldn't be listed or installed via `npx skills`.
+
+- [#24](https://github.com/osxsystem/skills/pull/24) [`85f83d3`](https://github.com/osxsystem/skills/commit/85f83d3fde1d3a90d5c9a657f6998c79a6c37308) Thanks [@osxsystem](https://github.com/osxsystem)! - grilling: update the round template so consecutive questions are separated by a horizontal rule (`---`) instead of running together.
+
+- [#24](https://github.com/osxsystem/skills/pull/24) [`e6e9577`](https://github.com/osxsystem/skills/commit/e6e957797d8cceb5b351c0dc840369523f9fb8fb) Thanks [@osxsystem](https://github.com/osxsystem)! - Remove every em-dash from the repo's prose (docs, `SKILL.md` files, ADRs, `README.md`, scripts, JSON/YAML metadata), hand-rewriting each sentence with a comma, colon, period, parentheses, or conjunction rather than mechanically substituting the character. `CLAUDE.md`/`AGENTS.md` now says not to reintroduce them.
+
+- [#24](https://github.com/osxsystem/skills/pull/24) [`594f0f8`](https://github.com/osxsystem/skills/commit/594f0f83188921a60d45d63d6cdac509de20df2c) Thanks [@osxsystem](https://github.com/osxsystem)! - wait-what: follow `CONTEXT-MAP.md` to the right `CONTEXT.md` when a repo indexes multiple contexts that way instead of keeping a single root `CONTEXT.md`.
+
 ## 1.5.0
 
 ### Minor Changes

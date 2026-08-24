@@ -76,7 +76,7 @@ Tests from Step 3.T document the current behavior. If any fail after Step 3.I, t
 **All modes:**
 - Mark tracker items in-progress when picked up and complete immediately when done
 - Execute phase tasks sequentially (Step 3.1, 3.2, etc.)
-- UI work follows the team design skills — `compose-multiplatform-ui`, and `html-design-to-compose` when implementing from a design spec
+- UI work follows the house design skills — `compose-multiplatform-ui`, and `html-design-to-compose` when implementing from a design spec
 - Run type checking after each file
 
 **Parallel mode:**

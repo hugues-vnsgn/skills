@@ -123,7 +123,7 @@ def render(entries, domains):
         "",
         "`Origin` says who owns the bytes (`upstream` = "
         "[mattpocock/skills](https://github.com/mattpocock/skills), which may "
-        "rewrite them in any sync; `fork` = this team). `Audience` is who the "
+        "rewrite them in any sync; `fork` = this repo). `Audience` is who the "
         "skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no "
         "docs page, and not listed in the top-level README. Edit "
         "[.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit "

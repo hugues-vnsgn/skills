@@ -1,6 +1,6 @@
 # Platform
 
-Team skills for working on the toolchain itself — configuring a repo for the engineering flow, bringing capabilities across from other codebases, and unsticking a design. Fork-authored: upstream owns none of these bytes.
+House skills for working on the toolchain itself — configuring a repo for the engineering flow, bringing capabilities across from other codebases, and unsticking a design. Fork-authored: upstream owns none of these bytes.
 
 ## User-invoked
 

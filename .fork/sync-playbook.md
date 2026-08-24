@@ -2,7 +2,7 @@
 
 The mechanical procedure for merging [`mattpocock/skills`](https://github.com/mattpocock/skills) into this fork. [MAINTENANCE.md](../MAINTENANCE.md) says *what* the fork is and why; this file says *what to type*. Every conflict you can expect is enumerated below in [Residual conflict surface](#residual-conflict-surface), with its resolution recipe in [`divergence.md`](./divergence.md); anything else that conflicts is a stop-and-investigate.
 
-The procedure is written to be boring on purpose. It is the one this fork's 2026-08-13 restructure proved out, and the boundary it assumes — upstream buckets byte-frozen, every fork skill under `skills/team/` — is enforced by `scripts/harness/forkcheck.py`, so a sync that drifts fails CI rather than landing quietly.
+The procedure is written to be boring on purpose. It is the one this fork's 2026-08-13 restructure proved out, and the boundary it assumes — upstream buckets byte-frozen, every fork skill under `skills/house/` — is enforced by `scripts/harness/forkcheck.py`, so a sync that drifts fails CI rather than landing quietly.
 
 ## One-time setup
 
@@ -143,18 +143,18 @@ The complete set of paths where upstream and this fork can both write — the sy
 | Conflict | Paths | Shape | Recipe |
 |---|---|---|---|
 | Plugin route removed | `.claude-plugin/`, `scripts/sync-plugin-version.mjs` | modify/delete | [Keep the deletion](./divergence.md#claude-plugin--deleted-and-scriptssync-plugin-versionmjs); drop any `sync-plugin-version` script upstream re-adds to `package.json` |
-| Setup skill re-homed | `skills/engineering/setup-matt-pocock-skills/`, `docs/engineering/setup-matt-pocock-skills.md` | modify/delete | [Keep the deletion](./divergence.md#skillsengineeringsetup-matt-pocock-skills--deleted); port upstream's changes by hand into `skills/team/platform/setup-osxsystem-skills/` |
+| Setup skill re-homed | `skills/engineering/setup-matt-pocock-skills/`, `docs/engineering/setup-matt-pocock-skills.md` | modify/delete | [Keep the deletion](./divergence.md#skillsengineeringsetup-matt-pocock-skills--deleted); port upstream's changes by hand into `skills/house/platform/setup-osxsystem-skills/` |
 | Fork framing in prose | `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.agents/writing-docs.md`, `.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md`, `skills/{engineering,in-progress,misc}/README.md`, `docs/engineering/*.md`, `docs/productivity/wait-what.md` | both modified | [Keep both](./divergence.md#prose-files--readmemd-claudemd-contextmd-maintenancemd-adjacent-conventions), then verify install commands say `hugues-vnsgn/skills`, the fork README framing and its Mobile and Platform sections survived, and no fork skill was re-added to an upstream bucket README. rerere absorbs these after the first sync |
 | Fork identity in tooling | `package.json`, `package-lock.json`, `.changeset/config.json`, `.gitignore` | both modified | [Take upstream's dependency and tooling changes](./divergence.md#packagejson-package-lockjson-changesetconfigjson-gitignore); keep the fork's `name`, `description`, `repository`, changeset `repo`, and ignore entries |
 | Hardened git guardrail | `skills/misc/git-guardrails-claude-code/` | both modified | [Keep both](./divergence.md#skillsmiscgit-guardrails-claude-code--hardened), then re-run `bash scripts/harness/test_guardrail.sh` — the tests are the arbiter, not the diff |
 | Released changeset re-edited | `.changeset/<name>.md` | modify/delete | [Keep the deletion](./divergence.md#additions-sync-inert) (`git rm --ignore-unmatch`): the fork consumed it with `changeset version`, so its content already sits in `CHANGELOG.md`. Restoring it re-releases shipped work |
 | Router and cross-references | `skills/engineering/{ask-matt,code-review,to-spec,to-tickets,triage,wayfinder}/SKILL.md` | both modified | [Keep both](./divergence.md#skillsengineeringask-mattcode-reviewto-specto-ticketstriagewayfinderskillmd), then re-read `ask-matt` and confirm every fork skill still appears and every upstream skill it routes to still exists under that name |
 
-Everything else the fork owns — `skills/team/`, `docs/team/`, `docs/roles/`, `research/`, `.fork/`, the harness, `MAINTENANCE.md`, `CUSTOMIZING.md` — is sync-inert. Upstream has never written those paths, so a merge cannot conflict there; they need only to survive, which `forkcheck` confirms.
+Everything else the fork owns — `skills/house/`, `docs/house/`, `docs/roles/`, `research/`, `.fork/`, the harness, `MAINTENANCE.md`, `CUSTOMIZING.md` — is sync-inert. Upstream has never written those paths, so a merge cannot conflict there; they need only to survive, which `forkcheck` confirms.
 
-## Promoting an upstream skill to the team
+## Promoting an upstream skill to a house domain
 
-Sometimes an upstream skill becomes core to a team domain. **Promotion is a catalog and docs edit. It is never a file move.**
+Sometimes an upstream skill becomes core to a house domain. **Promotion is a catalog and docs edit. It is never a file move.**
 
 Moving the directory out of its upstream bucket would delete an upstream path and add a fork one — which means a modify/delete conflict on every future upstream edit to that skill, a new `sanctioned-edits.txt` entry, and a rename in the flat install namespace. The fork spent the 2026-08-13 restructure removing divergences of exactly that shape.
 
@@ -164,4 +164,4 @@ To promote, leave the bytes alone and change how the skill is described:
 2. `python3 scripts/generate-catalog.py` to refresh `CATALOG.md`.
 3. Add it to each `docs/roles/<audience>.md` page in the right reading position — the role pages are the promotion.
 
-If the team needs *different behaviour*, that is not a promotion: write a fork skill under `skills/team/<domain>/` that cross-references the upstream skill by name, exactly as `kmp-test-seams` does with `tdd`. That is the pattern the retired TDD append was converted into.
+If the fork needs *different behaviour*, that is not a promotion: write a fork skill under `skills/house/<domain>/` that cross-references the upstream skill by name, exactly as `kmp-test-seams` does with `tdd`. That is the pattern the retired TDD append was converted into.

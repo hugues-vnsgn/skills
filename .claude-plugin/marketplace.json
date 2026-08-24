@@ -5,6 +5,19 @@
   },
   "plugins": [
     {
+      "name": "delivery",
+      "skills": [
+        "./skills/house/delivery/cook",
+        "./skills/house/delivery/project-organization"
+      ]
+    },
+    {
+      "name": "discovery",
+      "skills": [
+        "./skills/house/discovery/to-prd"
+      ]
+    },
+    {
       "name": "engineering",
       "skills": [
         "./skills/engineering/ask-matt",
@@ -27,6 +40,28 @@
       ]
     },
     {
+      "name": "mobile",
+      "skills": [
+        "./skills/house/mobile/compose-multiplatform-ui",
+        "./skills/house/mobile/kmp-boundaries",
+        "./skills/house/mobile/kmp-ios-integration",
+        "./skills/house/mobile/kmp-ktor",
+        "./skills/house/mobile/kmp-module-setup",
+        "./skills/house/mobile/kmp-release-and-publish",
+        "./skills/house/mobile/kmp-test-seams"
+      ]
+    },
+    {
+      "name": "platform",
+      "skills": [
+        "./skills/house/platform/herdr",
+        "./skills/house/platform/port-from-repo",
+        "./skills/house/platform/setup-osxsystem-skills",
+        "./skills/house/platform/sync-upstream",
+        "./skills/house/platform/when-stuck"
+      ]
+    },
+    {
       "name": "productivity",
       "skills": [
         "./skills/productivity/grill-me",
@@ -39,44 +74,9 @@
       ]
     },
     {
-      "name": "team-delivery",
+      "name": "quality",
       "skills": [
-        "./skills/team/delivery/cook",
-        "./skills/team/delivery/project-organization"
-      ]
-    },
-    {
-      "name": "team-discovery",
-      "skills": [
-        "./skills/team/discovery/to-prd"
-      ]
-    },
-    {
-      "name": "team-mobile",
-      "skills": [
-        "./skills/team/mobile/compose-multiplatform-ui",
-        "./skills/team/mobile/kmp-boundaries",
-        "./skills/team/mobile/kmp-ios-integration",
-        "./skills/team/mobile/kmp-ktor",
-        "./skills/team/mobile/kmp-module-setup",
-        "./skills/team/mobile/kmp-release-and-publish",
-        "./skills/team/mobile/kmp-test-seams"
-      ]
-    },
-    {
-      "name": "team-platform",
-      "skills": [
-        "./skills/team/platform/herdr",
-        "./skills/team/platform/port-from-repo",
-        "./skills/team/platform/setup-osxsystem-skills",
-        "./skills/team/platform/sync-upstream",
-        "./skills/team/platform/when-stuck"
-      ]
-    },
-    {
-      "name": "team-quality",
-      "skills": [
-        "./skills/team/quality/do-test"
+        "./skills/house/quality/do-test"
       ]
     }
   ]

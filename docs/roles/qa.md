@@ -9,9 +9,9 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 ## The loop
 
 - **[tdd](../engineering/tdd.md)** _(auto)_ — red-green-refactor, one vertical slice at a time. It owns the loop and the standard for what makes a test worth keeping.
-- **[kmp-test-seams](../team/mobile/kmp-test-seams.md)** _(auto)_ — on a Kotlin Multiplatform repo, the two questions `/tdd` cannot answer: does this test belong in `commonTest` or a platform source set, and which Gradle task actually proves the slice green.
+- **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_ — on a Kotlin Multiplatform repo, the two questions `/tdd` cannot answer: does this test belong in `commonTest` or a platform source set, and which Gradle task actually proves the slice green.
 - **[code-review](../engineering/code-review.md)** _(auto)_ — review a diff on two axes at once: standards, and whether it does what the originating ticket asked. The second axis is the one that catches shipped-but-wrong.
-- **[do-test](../../skills/team/quality/do-test/SKILL.md)** _(auto)_ — verify a feature or a bug fix: derive a test matrix, run it, read every surface, and report a SHIP/BLOCKED/UNVERIFIED verdict backed by evidence. Beta.
+- **[do-test](../../skills/house/quality/do-test/SKILL.md)** _(auto)_ — verify a feature or a bug fix: derive a test matrix, run it, read every surface, and report a SHIP/BLOCKED/UNVERIFIED verdict backed by evidence. Beta.
 
 ## When something is broken
 
@@ -20,7 +20,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Getting a build to test
 
-- **[kmp-release-and-publish](../team/mobile/kmp-release-and-publish.md)** _(auto)_ — how the Android and iOS builds are actually produced: R8 over shared code, archive and TestFlight, and the CI task split. Read it when a build behaves differently from a debug run.
+- **[kmp-release-and-publish](../house/mobile/kmp-release-and-publish.md)** _(auto)_ — how the Android and iOS builds are actually produced: R8 over shared code, archive and TestFlight, and the CI task split. Read it when a build behaves differently from a debug run.
 
 ## Sharpen and communicate
 

@@ -58,9 +58,9 @@ def find_skills(repo):
     """Yield {bucket, name, description, model_invoked} for every skill.
 
     Walks rather than listing one level deep: upstream buckets sit directly
-    under skills/, but fork skills are grouped by domain under skills/team/,
+    under skills/, but fork skills are grouped by domain under skills/house/,
     so a skill's bucket is its directory's parent path (`engineering`,
-    `team/mobile`). Every skill competes in the same flat trigger namespace
+    `house/mobile`). Every skill competes in the same flat trigger namespace
     however deep it is nested.
     """
     root = os.path.join(repo, "skills")

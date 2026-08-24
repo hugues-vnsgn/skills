@@ -1,6 +1,6 @@
 # Mobile
 
-Team skills for Kotlin Multiplatform + Compose Multiplatform development targeting Android and iOS (Swift). Built from the official kotlinlang.org docs (researched 2026-08); each skill bundles its research as reference files.
+House skills for Kotlin Multiplatform + Compose Multiplatform development targeting Android and iOS (Swift). Built from the official kotlinlang.org docs (researched 2026-08); each skill bundles its research as reference files.
 
 ## Model-invoked
 

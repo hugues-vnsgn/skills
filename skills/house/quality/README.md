@@ -1,6 +1,6 @@
 # Quality
 
-Team skills for proving a change works — testing, verification, and the evidence a verdict stands on. Fork-authored: upstream owns none of these bytes.
+House skills for proving a change works — testing, verification, and the evidence a verdict stands on. Fork-authored: upstream owns none of these bytes.
 
 ## Beta
 

@@ -13,7 +13,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 ## Shape the work
 
 - **[grill-with-docs](../engineering/grill-with-docs.md)** — the interview that turns a direction into decided architecture, leaving ADRs and a glossary behind as evidence of *why*.
-- **[to-prd](../team/discovery/to-prd.md)** — for initiative-scale work, anchor the *why* in a PRD before anyone specs: the document non-engineering stakeholders sign, which every spec that follows references. Skip it for a single well-scoped feature.
+- **[to-prd](../house/discovery/to-prd.md)** — for initiative-scale work, anchor the *why* in a PRD before anyone specs: the document non-engineering stakeholders sign, which every spec that follows references. Skip it for a single well-scoped feature.
 - **[to-spec](../engineering/to-spec.md)** — publish the decided conversation as a spec, without a second interview.
 - **[to-tickets](../engineering/to-tickets.md)** — split it into tracer-bullet tickets with explicit blocking edges, so parallel work is safe.
 - **[wayfinder](../engineering/wayfinder.md)** — for work too big for one agent session: a shared map of decision tickets, resolved one at a time. This is the one that scales past a spec.
@@ -23,7 +23,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[codebase-design](../engineering/codebase-design.md)** _(auto)_ — the shared vocabulary: deep modules, seams, what belongs behind an interface. Adopt it and reviews stop being taste arguments.
 - **[improve-codebase-architecture](../engineering/improve-codebase-architecture.md)** — periodic maintenance: scan the codebase for deepening opportunities, get an HTML report, grill through the one you pick.
-- **[when-stuck](../../skills/team/platform/when-stuck/SKILL.md)** _(auto)_ — five moves for a design that will not resolve: inversion, the scale game, the simplification cascade, meta-pattern, collision. For design stuck-ness only — a bug goes to `/diagnosing-bugs`.
+- **[when-stuck](../../skills/house/platform/when-stuck/SKILL.md)** _(auto)_ — five moves for a design that will not resolve: inversion, the scale game, the simplification cascade, meta-pattern, collision. For design stuck-ness only — a bug goes to `/diagnosing-bugs`.
 - **[domain-modeling](../engineering/domain-modeling.md)** _(auto)_ — pin down a term the team is using two ways, and record the decision where the next person will find it.
 - **[research](../engineering/research.md)** _(auto)_ — delegate the reading to a background agent; get back cited primary sources instead of a plausible answer.
 
@@ -33,13 +33,13 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Grow the toolchain
 
-- **[setup-osxsystem-skills](../team/platform/setup-osxsystem-skills.md)** — run once per repo to configure the tracker, triage labels and docs layout every other skill assumes.
-- **[port-from-repo](../team/platform/port-from-repo.md)** — bring a capability across from another codebase: study it, argue against it, then adapt it to this codebase's idiom rather than transplanting it.
-- **[sync-upstream](../../skills/team/platform/sync-upstream/SKILL.md)** — drive the upstream merge: read the delta, classify each conflict before resolving it, and land the sync PR without breaking the lock. Maintainers only. Beta.
-- **[writing-for-agents](../productivity/writing-for-agents.md)** _(auto)_ — how to write a skill, an `AGENTS.md`, or any document an agent reaches by pointer. Read before authoring a team skill.
-- **[project-organization](../../skills/team/delivery/project-organization/SKILL.md)** _(auto)_ — the conventions every output file follows: where plans, reports, journals and assets live, and their markdown templates. Beta.
+- **[setup-osxsystem-skills](../house/platform/setup-osxsystem-skills.md)** — run once per repo to configure the tracker, triage labels and docs layout every other skill assumes.
+- **[port-from-repo](../house/platform/port-from-repo.md)** — bring a capability across from another codebase: study it, argue against it, then adapt it to this codebase's idiom rather than transplanting it.
+- **[sync-upstream](../../skills/house/platform/sync-upstream/SKILL.md)** — drive the upstream merge: read the delta, classify each conflict before resolving it, and land the sync PR without breaking the lock. Maintainers only. Beta.
+- **[writing-for-agents](../productivity/writing-for-agents.md)** _(auto)_ — how to write a skill, an `AGENTS.md`, or any document an agent reaches by pointer. Read before authoring a house skill.
+- **[project-organization](../../skills/house/delivery/project-organization/SKILL.md)** _(auto)_ — the conventions every output file follows: where plans, reports, journals and assets live, and their markdown templates. Beta.
 - **[loop-me](../../skills/in-progress/loop-me/SKILL.md)** — get the spec for a workflow you want to build grilled out of you first.
-- **[herdr](../../skills/team/platform/herdr/SKILL.md)** _(auto)_ — drive Herdr's panes, tabs and workspaces from an agent when you are fanning work out across terminals. Requires `HERDR_ENV=1`. Beta.
+- **[herdr](../../skills/house/platform/herdr/SKILL.md)** _(auto)_ — drive Herdr's panes, tabs and workspaces from an agent when you are fanning work out across terminals. Requires `HERDR_ENV=1`. Beta.
 
 ## Interview and communicate
 

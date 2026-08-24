@@ -10,11 +10,11 @@ import yaml
 _args = [a for a in sys.argv[1:] if not a.startswith("-")]
 REPO = _args[0] if _args else "."
 JSON_OUT = "--json" in sys.argv[1:]
-# Upstream's two promoted buckets, plus every domain under the fork's team
-# tree — `team/mobile`, `team/platform`, and their future siblings are promoted
+# Upstream's two promoted buckets, plus every domain under the fork's house
+# tree — `house/mobile`, `house/platform`, and their future siblings are promoted
 # by construction, skill by skill unless the catalog marks one beta.
 PROMOTED = {"engineering", "productivity"}
-TEAM_TREE = "team"
+HOUSE_TREE = "house"
 DOC_SECTIONS = [
     "What it does",
     "When to reach for it",
@@ -47,6 +47,22 @@ STALE_HANDLE = "@osxsystem"
 COORDINATE_ALLOWLIST = ("CHANGELOG.md", ".scratch/", ".out-of-scope/",
                         os.path.join("scripts", "harness", "skillcheck.py"),
                         os.path.join("scripts", "harness", "test_coordinates.sh"))
+
+# --- Stale tree name ---------------------------------------------------------
+# The house tree used to be `skills/team/` (renamed 2026-08: there is no team;
+# `house` states the tree's real meaning, in-house authorship). An upstream
+# sync or an old habit can reintroduce the pre-rename paths, so this guard is
+# permanent, like the coordinate check above. Only *path-like* forms are
+# forbidden; the bare word "team" is legal prose everywhere ("one team ran a
+# 26-ticket stack"), and Xcode's "Team ID" is Apple's own term. The `team-`
+# group names are the picker prefixes the rename retired alongside the tree.
+STALE_TREE_FORMS = ("skills/team/", "docs/team/",
+                    "team-mobile", "team-platform", "team-delivery",
+                    "team-discovery", "team-quality", "team-design")
+# Same files as the coordinate allowlist, for the same reasons: dated records
+# we chose not to rewrite, plus the guard and the test that must both name
+# what they forbid.
+TREE_ALLOWLIST = COORDINATE_ALLOWLIST
 # Never scanned: VCS internals, dependencies, a second working tree, the Dolt
 # issue store, and gitignored local scratch. None of these ship, and most do not
 # exist in a clean CI checkout, so scanning them would fail only on dev machines.
@@ -108,7 +124,7 @@ def resolve(base_dir, target):
 def load_beta(repo):
     """Skill names the fork catalog marks `status: beta`.
 
-    A team domain groups by capability, not maturity, so a beta team skill is
+    A house domain groups by capability, not maturity, so a beta house skill is
     marked in the catalog rather than parked in a beta folder. Reads fail
     closed: an unreadable catalog raises rather than yielding an empty set,
     which would silently demand promotion of every beta skill.
@@ -122,19 +138,19 @@ def is_promoted(bucket, name, beta):
     """Promoted skills carry a docs page and a top-level README entry.
 
     A bucket is a *path* under skills/: upstream buckets are one segment
-    (`engineering`), fork domains are two (`team/mobile`). Every team domain is
+    (`engineering`), fork domains are two (`house/mobile`). Every house domain is
     promoted by construction — except the skills its catalog entry marks beta.
     """
     if name in beta:
         return False
-    return bucket in PROMOTED or bucket.split("/")[0] == TEAM_TREE
+    return bucket in PROMOTED or bucket.split("/")[0] == HOUSE_TREE
 
 
 def find_skills(repo):
     """Every skill dir under skills/, with its bucket as a path under skills/.
 
-    Walked, not listed one level deep, because the fork's team tree groups
-    skills by domain: `skills/team/mobile/<name>` has bucket `team/mobile`.
+    Walked, not listed one level deep, because the fork's house tree groups
+    skills by domain: `skills/house/mobile/<name>` has bucket `house/mobile`.
     Bucket doubles as the path segment for docs/<bucket>/<name>.md and
     skills/<bucket>/README.md, so both conventions follow the nesting.
     """
@@ -327,7 +343,7 @@ def check_bucket_readmes(repo, skills, beta):
                          "file": f"skills/{bucket}/README.md"})
         if any(is_promoted(bucket, n, beta) for n in names):
             # A grouping heading is only required if that group is non-empty.
-            # team/mobile has zero user-invoked skills today, so no
+            # house/mobile has zero user-invoked skills today, so no
             # ## User-invoked heading is expected there - CLAUDE.md requires
             # the *split*, not both headings unconditionally.
             has_user = "## User-invoked" in text
@@ -450,8 +466,10 @@ def check_install_block(repo):
 
 
 def check_repo_coordinates(repo):
-    """No live reference to the account this repo was migrated away from.
+    """No live reference to a name this repo was migrated away from.
 
+    Two renames share one walk: the account move (`osxsystem` ->
+    `hugues-vnsgn`) and the tree rename (`skills/team/` -> `skills/house/`).
     Sibling of `check_install_block`: same shape, a verbatim string assertion
     over repository files with an explicitly scoped exception. The expected
     result is not "zero hits repo-wide" — it is "hits only inside the
@@ -461,13 +479,17 @@ def check_repo_coordinates(repo):
     broken scan cannot masquerade as a clean one.
     """
     rows = []
-    offenders, unreadable = [], []
+    coordinate_offenders, tree_offenders, unreadable = [], [], []
     for root, dirs, files in os.walk(repo):
         dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
         for f in files:
             full = os.path.join(root, f)
             rel = os.path.relpath(full, repo)
-            if rel.startswith(COORDINATE_SKIP) or rel.startswith(COORDINATE_ALLOWLIST):
+            if rel.startswith(COORDINATE_SKIP):
+                continue
+            scan_coordinates = not rel.startswith(COORDINATE_ALLOWLIST)
+            scan_tree = not rel.startswith(TREE_ALLOWLIST)
+            if not (scan_coordinates or scan_tree):
                 continue
             if os.path.islink(full) or rel.endswith(BINARY_SUFFIXES):
                 continue
@@ -482,18 +504,32 @@ def check_repo_coordinates(repo):
                 # say so rather than passing over it.
                 unreadable.append(rel)
                 continue
-            hits = []
-            for form in (STALE_COORDINATE, STALE_HANDLE):
-                if form in text:
-                    hits.append(f"{form} x{text.count(form)}")
-            if hits:
-                offenders.append(f"{rel} ({', '.join(hits)})")
+
+            def hits_for(forms):
+                return [f"{form} x{text.count(form)}" for form in forms
+                        if form in text]
+
+            if scan_coordinates:
+                hits = hits_for((STALE_COORDINATE, STALE_HANDLE))
+                if hits:
+                    coordinate_offenders.append(f"{rel} ({', '.join(hits)})")
+            if scan_tree:
+                hits = hits_for(STALE_TREE_FORMS)
+                if hits:
+                    tree_offenders.append(f"{rel} ({', '.join(hits)})")
 
     rows.append({"bucket": "-", "skill": "(repo)", "check": "no-stale-repo-coordinates",
-                 "status": "PASS" if not offenders else "FAIL",
-                 "notes": "" if not offenders else
+                 "status": "PASS" if not coordinate_offenders else "FAIL",
+                 "notes": "" if not coordinate_offenders else
                           f"stale account reference outside the allowlist: "
-                          f"{', '.join(sorted(offenders))}",
+                          f"{', '.join(sorted(coordinate_offenders))}",
+                 "file": "."})
+    rows.append({"bucket": "-", "skill": "(repo)", "check": "no-stale-tree-name",
+                 "status": "PASS" if not tree_offenders else "FAIL",
+                 "notes": "" if not tree_offenders else
+                          f"pre-rename tree path outside the allowlist "
+                          f"(the house tree used to be team/): "
+                          f"{', '.join(sorted(tree_offenders))}",
                  "file": "."})
     rows.append({"bucket": "-", "skill": "(repo)", "check": "coordinate-scan-readable",
                  "status": "PASS" if not unreadable else "FAIL",

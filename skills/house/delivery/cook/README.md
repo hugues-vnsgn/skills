@@ -41,4 +41,4 @@ The skill detects your intent (flags, plan paths, keywords, feature count) and r
 
 ## Version
 
-1.0.0 - initial osxsystem release: pipeline built on this fork's skills (`do-test`, `code-review`, `simplify`, `project-organization`, team design skills) and native agent types (`Explore`, `Plan`, `general-purpose`)
+1.0.0 - initial osxsystem release: pipeline built on this fork's skills (`do-test`, `code-review`, `simplify`, `project-organization`, house design skills) and native agent types (`Explore`, `Plan`, `general-purpose`)

@@ -1,6 +1,6 @@
 # Delivery
 
-Team skills for shipping a piece of work end to end — the implementation pipeline and the output conventions it writes with. Fork-authored: upstream owns none of these bytes.
+House skills for shipping a piece of work end to end — the implementation pipeline and the output conventions it writes with. Fork-authored: upstream owns none of these bytes.
 
 ## Beta
 

@@ -4,7 +4,7 @@
 
 ## When to reach for it
 
-The agent reaches for it automatically when touching the Xcode↔Gradle boundary: `embedAndSignAppleFrameworkForXcode`, the `cocoapods {}` block, Podfiles, or exported `commonMain` API that Swift consumes. Reach for it yourself when Xcode "builds" but the Kotlin framework never updates, when a pod won't cinterop, or before publishing shared API to the iOS team. For module structure and the framework block itself, use [kmp-module-setup](../../../skills/team/mobile/kmp-module-setup/SKILL.md).
+The agent reaches for it automatically when touching the Xcode↔Gradle boundary: `embedAndSignAppleFrameworkForXcode`, the `cocoapods {}` block, Podfiles, or exported `commonMain` API that Swift consumes. Reach for it yourself when Xcode "builds" but the Kotlin framework never updates, when a pod won't cinterop, or before publishing shared API to the iOS team. For module structure and the framework block itself, use [kmp-module-setup](../../../skills/house/mobile/kmp-module-setup/SKILL.md).
 
 ## The checklist it carries
 

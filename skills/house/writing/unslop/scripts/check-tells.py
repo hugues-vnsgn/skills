@@ -43,7 +43,7 @@ AI_VOCABULARY = [
     "additionally", "crucial", "delve", "enduring", "enhance", "fostering",
     "garner", "interplay", "intricate", "landscape", "pivotal", "showcase",
     "showcasing", "tapestry", "testament", "underscore", "underscores",
-    "moreover", "furthermore", "myriad", "realm", "harness", "unlock",
+    "moreover", "furthermore", "myriad", "realm", "unlock",
     "unlocking", "elevate", "empower", "navigate", "navigating",
 ]
 
@@ -61,10 +61,14 @@ PLAIN_WORD_SWAPS = [
     "prior to", "subsequent to", "in the event that", "a plethora of",
 ]
 
+# The three most likely to be a project's real vocabulary (harness, surface,
+# primitive) sit here deliberately: candidate tier puts the decision in front
+# of the agent instead of letting a regex rename something searchable.
 ABSTRACT_METAPHOR_NOUNS = [
     "substrate", "wedge", "vector", "locus", "vantage", "nexus", "primitive",
-    "primitives", "bedrock", "scaffolding", "modality", "paradigm",
-    "gold-plating", "ratchet", "north star", "flywheel", "endgame",
+    "primitives", "harness", "surface", "surfaces", "bedrock", "scaffolding",
+    "modality", "paradigm", "gold-plating", "ratchet", "north star",
+    "flywheel", "endgame", "evacuate", "evacuating",
 ]
 
 WEAK_ADVERBS = [
@@ -87,7 +91,7 @@ PATTERNS = [
     ("spaced-hyphen", CANDIDATE, re.compile(r"(?<=\w) - (?=\w)"),
      "reads as a dash substitute unless it is a range or a literal"),
     ("curly-quote", STRICT, re.compile(r"[‘’“”]"),
-     "use straight quotes"),
+     "use straight quotes; inside a quotation only the marks are yours to change"),
     ("decorative-symbol", STRICT, re.compile(
         r"[☀-➿⬀-⯿\U0001f000-\U0001faff‼⁉]️?"),
      "drop it; arrows used as real notation are not matched"),

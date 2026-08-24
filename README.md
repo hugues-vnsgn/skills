@@ -116,7 +116,7 @@ House skills for prose a human reads, as opposed to the agent-facing documents `
 
 **Model-invoked**
 
-- **[unslop](./skills/house/writing/unslop/SKILL.md)** cuts the AI tells out of a draft and gives it a voice back. Sets the register first (reference, argument, conversation), holds back any edit that would change a claim, and ships a checker that finds the mechanical tells so judgment goes to the rest.
+- **[unslop](./skills/house/writing/unslop/SKILL.md)** cuts the AI tells out of a draft and gives it a voice back. Sets the register first (reference, argument, conversation, instruction), never changes a claim without telling you, and ships a checker that finds the mechanical tells so judgment goes to the rest.
 
 ## Repository layout
 

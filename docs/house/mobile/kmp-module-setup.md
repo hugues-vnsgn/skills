@@ -4,7 +4,7 @@
 
 ## When to reach for it
 
-The agent reaches for it automatically when creating or modifying a shared module's `build.gradle.kts`, adding targets, or deciding where platform-specific code should live. Reach for it yourself when starting a new shared module, reviewing one, or planning a Kotlin/AGP/CMP version bump. For wiring the built framework into Xcode, use [kmp-ios-integration](../../../skills/team/mobile/kmp-ios-integration/SKILL.md) instead.
+The agent reaches for it automatically when creating or modifying a shared module's `build.gradle.kts`, adding targets, or deciding where platform-specific code should live. Reach for it yourself when starting a new shared module, reviewing one, or planning a Kotlin/AGP/CMP version bump. For wiring the built framework into Xcode, use [kmp-ios-integration](../../../skills/house/mobile/kmp-ios-integration/SKILL.md) instead.
 
 ## The decision it encodes
 

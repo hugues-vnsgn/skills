@@ -12,10 +12,14 @@ metadata, NOT an install route: this fork ships via skills.sh only, and
 `forkcheck.py`'s plugin-dir-marketplace-only rule keeps `plugin.json` out so
 the plugin route stays closed. See .agents/adr/0002-ship-as-a-claude-code-plugin.md.
 
-Group naming: an upstream bucket keeps its name (`engineering`); a fork domain
-is prefixed (`mobile` -> `team-mobile`). The installer renders a name by
-splitting on `-` and capitalising, so `team-mobile` shows as "Team Mobile".
-Group order is not ours to choose — the installer sorts alphabetically.
+Group naming: every domain keeps its bare name, `engineering` and `mobile`
+alike. The installer renders a name by splitting on `-` and capitalising, so
+`mobile` shows as "Mobile" beside "Engineering". House domains render as peers
+of the upstream buckets on purpose; the old `team-` prefix is gone. Because a
+group name is now just the domain, a fork domain that collides with an
+upstream bucket name would silently merge two groups, so that is an error
+here, not a merge. Group order is not ours to choose — the installer sorts
+alphabetically.
 
 Unshipped buckets (`misc`, `in-progress`, `deprecated`) are deliberately left
 out. The installer pools every skill it cannot find in a group under a
@@ -32,7 +36,8 @@ import sys
 import yaml
 
 # Buckets upstream owns. Everything else in the catalog's `domains` list is a
-# fork capability domain and lives under skills/team/.
+# house capability domain and lives under skills/house/. Group names are bare
+# domain names, so a house domain may never reuse one of these.
 UPSTREAM_BUCKETS = ("engineering", "productivity", "misc", "in-progress", "deprecated")
 
 # Buckets we do not offer in the installer. `misc` and `in-progress` are
@@ -69,15 +74,24 @@ def load_catalog(repo):
     return data
 
 
-def group_name(domain):
-    """`engineering` stays; a fork domain becomes `team-<domain>`."""
-    return domain if domain in UPSTREAM_BUCKETS else f"team-{domain}"
-
-
 def build(repo, catalog):
     domains = catalog.get("domains") or []
     if not domains:
         die("catalog.yaml must declare `domains`")
+
+    # A house domain named like an upstream bucket would produce one picker
+    # group holding both trees' skills: silent, and wrong on both sides.
+    # `domains` lists the upstream buckets too, so collide on paths: a domain
+    # is a house domain iff a skill entry under skills/house/ claims it.
+    house_domains = {e.get("domain") for e in catalog["skills"]
+                     if (e.get("path") or "").startswith("skills/house/")}
+    collisions = sorted(house_domains & set(UPSTREAM_BUCKETS))
+    if collisions:
+        die(
+            f"house domain(s) collide with upstream bucket name(s): "
+            f"{', '.join(collisions)}: picker groups are bare domain names, "
+            f"so rename the house domain"
+        )
 
     errors = []
     by_group = {}
@@ -97,7 +111,7 @@ def build(repo, catalog):
         if not os.path.isfile(os.path.join(repo, path, "SKILL.md")):
             errors.append(f"{where}: no SKILL.md at {path}")
             continue
-        by_group.setdefault(group_name(domain), []).append(f"./{path}")
+        by_group.setdefault(domain, []).append(f"./{path}")
 
     if errors:
         for err in errors:

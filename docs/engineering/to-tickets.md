@@ -20,7 +20,7 @@ Tickets that `to-tickets` produced are agent-ready by construction. Don't run [t
 
 ## Prerequisites
 
-`to-tickets` publishes into a tracker, so [setup-osxsystem-skills](../../skills/team/platform/setup-osxsystem-skills/SKILL.md) must have configured one for this repo, along with the triage-label vocabulary. Either kind works: a real tracker like GitHub or Linear, or local markdown files under `.scratch/`, which is supported out of the box.
+`to-tickets` publishes into a tracker, so [setup-osxsystem-skills](../../skills/house/platform/setup-osxsystem-skills/SKILL.md) must have configured one for this repo, along with the triage-label vocabulary. Either kind works: a real tracker like GitHub or Linear, or local markdown files under `.scratch/`, which is supported out of the box.
 
 ## Tracer bullets, not layers
 

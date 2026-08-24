@@ -10,8 +10,8 @@ Type `/kmp-test-seams`, or the agent reaches for it automatically when a KMP rep
 |---|---|
 | What should I test, and what makes this test worth keeping? | [tdd](https://aihero.dev/skills-tdd) — it owns the loop |
 | Does this test live in `commonTest` or a platform source set? | here |
-| Which Gradle task do I run to call this slice green? | here, then the task map in [kmp-release-and-publish](../../../skills/team/mobile/kmp-release-and-publish/SKILL.md) |
-| Should this platform service be `expect`/`actual` or an interface? | [kmp-module-setup](../../../skills/team/mobile/kmp-module-setup/SKILL.md) — it owns that fork |
+| Which Gradle task do I run to call this slice green? | here, then the task map in [kmp-release-and-publish](../../../skills/house/mobile/kmp-release-and-publish/SKILL.md) |
+| Should this platform service be `expect`/`actual` or an interface? | [kmp-module-setup](../../../skills/house/mobile/kmp-module-setup/SKILL.md) — it owns that fork |
 
 ## Seams are a placement decision, not just a design one
 
@@ -41,4 +41,4 @@ No. `jvmTest` never compiled the `actual` you changed. A platform-touching slice
 
 ## Where it fits
 
-A reach-for-it-anytime reference that runs *beneath* the flow rather than as a step in it — the platform layer under [tdd](https://aihero.dev/skills-tdd), which stays the step. Its neighbours are [kmp-module-setup](../../../skills/team/mobile/kmp-module-setup/SKILL.md), because a seam you can fake in `commonTest` is a module-shape decision made earlier, and [kmp-release-and-publish](../../../skills/team/mobile/kmp-release-and-publish/SKILL.md), because it owns the full Gradle task map this skill picks from. For the whole map, see [ask-matt](https://aihero.dev/skills-ask-matt).
+A reach-for-it-anytime reference that runs *beneath* the flow rather than as a step in it — the platform layer under [tdd](https://aihero.dev/skills-tdd), which stays the step. Its neighbours are [kmp-module-setup](../../../skills/house/mobile/kmp-module-setup/SKILL.md), because a seam you can fake in `commonTest` is a module-shape decision made earlier, and [kmp-release-and-publish](../../../skills/house/mobile/kmp-release-and-publish/SKILL.md), because it owns the full Gradle task map this skill picks from. For the whole map, see [ask-matt](https://aihero.dev/skills-ask-matt).

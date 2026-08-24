@@ -11,7 +11,7 @@
 #             grouped by capability domain
 #   audience  which roles the skill serves — one skill may serve several
 #   owner     GitHub team with approval authority (mirrors CODEOWNERS)
-#   status    optional: `beta` exempts a team skill from promotion (no docs
+#   status    optional: `beta` exempts a house skill from promotion (no docs
 #             page, out of the top-level README, flat `## Beta` list in its
 #             bucket README). Omit it for a promoted skill.
 #
@@ -25,7 +25,7 @@ version: 1
 audiences: [engineer, designer, analyst, qa, staff]
 
 # Domain vocabulary. `design`, `discovery`, and `quality` are reserved for
-# future team domains — their folders are created when the first skill lands.
+# future house domains — their folders are created when the first skill lands.
 domains:
   - engineering
   - productivity
@@ -258,45 +258,45 @@ skills:
 
   # --- fork: mobile ---
   - name: compose-multiplatform-ui
-    path: skills/team/mobile/compose-multiplatform-ui
+    path: skills/house/mobile/compose-multiplatform-ui
     origin: fork
     domain: mobile
     audience: [engineer, designer]
     owner: "@hugues-vnsgn"
   - name: kmp-boundaries
-    path: skills/team/mobile/kmp-boundaries
+    path: skills/house/mobile/kmp-boundaries
     origin: fork
     domain: mobile
     audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta
   - name: kmp-ios-integration
-    path: skills/team/mobile/kmp-ios-integration
+    path: skills/house/mobile/kmp-ios-integration
     origin: fork
     domain: mobile
     audience: [engineer]
     owner: "@hugues-vnsgn"
   - name: kmp-module-setup
-    path: skills/team/mobile/kmp-module-setup
+    path: skills/house/mobile/kmp-module-setup
     origin: fork
     domain: mobile
     audience: [engineer]
     owner: "@hugues-vnsgn"
   - name: kmp-ktor
-    path: skills/team/mobile/kmp-ktor
+    path: skills/house/mobile/kmp-ktor
     origin: fork
     domain: mobile
     audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta
   - name: kmp-release-and-publish
-    path: skills/team/mobile/kmp-release-and-publish
+    path: skills/house/mobile/kmp-release-and-publish
     origin: fork
     domain: mobile
     audience: [engineer, qa]
     owner: "@hugues-vnsgn"
   - name: kmp-test-seams
-    path: skills/team/mobile/kmp-test-seams
+    path: skills/house/mobile/kmp-test-seams
     origin: fork
     domain: mobile
     audience: [engineer, qa]
@@ -304,33 +304,33 @@ skills:
 
   # --- fork: platform ---
   - name: herdr
-    path: skills/team/platform/herdr
+    path: skills/house/platform/herdr
     origin: fork
     domain: platform
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
     status: beta
   - name: port-from-repo
-    path: skills/team/platform/port-from-repo
+    path: skills/house/platform/port-from-repo
     origin: fork
     domain: platform
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
   - name: setup-osxsystem-skills
-    path: skills/team/platform/setup-osxsystem-skills
+    path: skills/house/platform/setup-osxsystem-skills
     origin: fork
     domain: platform
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
   - name: sync-upstream
-    path: skills/team/platform/sync-upstream
+    path: skills/house/platform/sync-upstream
     origin: fork
     domain: platform
     audience: [staff]
     owner: "@hugues-vnsgn"
     status: beta
   - name: when-stuck
-    path: skills/team/platform/when-stuck
+    path: skills/house/platform/when-stuck
     origin: fork
     domain: platform
     audience: [engineer, staff]
@@ -339,14 +339,14 @@ skills:
 
   # --- fork: delivery ---
   - name: cook
-    path: skills/team/delivery/cook
+    path: skills/house/delivery/cook
     origin: fork
     domain: delivery
     audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta
   - name: project-organization
-    path: skills/team/delivery/project-organization
+    path: skills/house/delivery/project-organization
     origin: fork
     domain: delivery
     audience: [engineer, staff]
@@ -355,7 +355,7 @@ skills:
 
   # --- fork: discovery ---
   - name: to-prd
-    path: skills/team/discovery/to-prd
+    path: skills/house/discovery/to-prd
     origin: fork
     domain: discovery
     audience: [analyst, staff]
@@ -363,7 +363,7 @@ skills:
 
   # --- fork: quality ---
   - name: do-test
-    path: skills/team/quality/do-test
+    path: skills/house/quality/do-test
     origin: fork
     domain: quality
     audience: [engineer, qa]
@@ -377,25 +377,32 @@ skills:
   # the matching `docs/roles/` page and its docs page only on the move to a real
   # domain — listing a skill nobody can install yet in a role's reading order
   # sends the reader at a dead end. See the shipping checklist in
-  # `skills/team/in-development/README.md`.
+  # `skills/house/in-development/README.md`.
   - name: bro
-    path: skills/team/in-development/bro
+    path: skills/house/in-development/bro
     origin: fork
     domain: in-development
     audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta
   - name: improve-claude-md
-    path: skills/team/in-development/improve-claude-md
+    path: skills/house/in-development/improve-claude-md
     origin: fork
     domain: in-development
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
     status: beta
   - name: show-me
-    path: skills/team/in-development/show-me
+    path: skills/house/in-development/show-me
     origin: fork
     domain: in-development
     audience: [engineer, designer]
+    owner: "@hugues-vnsgn"
+    status: beta
+  - name: unslop
+    path: skills/house/in-development/unslop
+    origin: fork
+    domain: in-development
+    audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta

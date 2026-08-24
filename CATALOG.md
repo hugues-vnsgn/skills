@@ -2,9 +2,9 @@
 
 # Skill catalog
 
-Every skill in this repo: 53 total — 34 upstream, 19 fork-authored.
+Every skill in this repo: 54 total — 34 upstream, 20 fork-authored.
 
-`Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this team). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
+`Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this repo). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
 | Skill | Origin | Domain | Audience | Owner |
 |---|---|---|---|---|
@@ -42,22 +42,23 @@ Every skill in this repo: 53 total — 34 upstream, 19 fork-authored.
 | [writing-beats](skills/in-progress/writing-beats/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
 | [writing-fragments](skills/in-progress/writing-fragments/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
 | [writing-shape](skills/in-progress/writing-shape/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
-| [compose-multiplatform-ui](skills/team/mobile/compose-multiplatform-ui/SKILL.md) | fork | mobile | engineer, designer | @hugues-vnsgn |
-| [kmp-boundaries](skills/team/mobile/kmp-boundaries/SKILL.md) _(beta)_ | fork | mobile | engineer | @hugues-vnsgn |
-| [kmp-ios-integration](skills/team/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
-| [kmp-ktor](skills/team/mobile/kmp-ktor/SKILL.md) _(beta)_ | fork | mobile | engineer | @hugues-vnsgn |
-| [kmp-module-setup](skills/team/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
-| [kmp-release-and-publish](skills/team/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
-| [kmp-test-seams](skills/team/mobile/kmp-test-seams/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
-| [herdr](skills/team/platform/herdr/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
-| [port-from-repo](skills/team/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
-| [setup-osxsystem-skills](skills/team/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
-| [sync-upstream](skills/team/platform/sync-upstream/SKILL.md) _(beta)_ | fork | platform | staff | @hugues-vnsgn |
-| [when-stuck](skills/team/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
-| [cook](skills/team/delivery/cook/SKILL.md) _(beta)_ | fork | delivery | engineer | @hugues-vnsgn |
-| [project-organization](skills/team/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @hugues-vnsgn |
-| [to-prd](skills/team/discovery/to-prd/SKILL.md) | fork | discovery | analyst, staff | @hugues-vnsgn |
-| [do-test](skills/team/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @hugues-vnsgn |
-| [bro](skills/team/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
-| [improve-claude-md](skills/team/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
-| [show-me](skills/team/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |
+| [compose-multiplatform-ui](skills/house/mobile/compose-multiplatform-ui/SKILL.md) | fork | mobile | engineer, designer | @hugues-vnsgn |
+| [kmp-boundaries](skills/house/mobile/kmp-boundaries/SKILL.md) _(beta)_ | fork | mobile | engineer | @hugues-vnsgn |
+| [kmp-ios-integration](skills/house/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
+| [kmp-ktor](skills/house/mobile/kmp-ktor/SKILL.md) _(beta)_ | fork | mobile | engineer | @hugues-vnsgn |
+| [kmp-module-setup](skills/house/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
+| [kmp-release-and-publish](skills/house/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
+| [kmp-test-seams](skills/house/mobile/kmp-test-seams/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
+| [herdr](skills/house/platform/herdr/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
+| [port-from-repo](skills/house/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
+| [setup-osxsystem-skills](skills/house/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
+| [sync-upstream](skills/house/platform/sync-upstream/SKILL.md) _(beta)_ | fork | platform | staff | @hugues-vnsgn |
+| [when-stuck](skills/house/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
+| [cook](skills/house/delivery/cook/SKILL.md) _(beta)_ | fork | delivery | engineer | @hugues-vnsgn |
+| [project-organization](skills/house/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @hugues-vnsgn |
+| [to-prd](skills/house/discovery/to-prd/SKILL.md) | fork | discovery | analyst, staff | @hugues-vnsgn |
+| [do-test](skills/house/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @hugues-vnsgn |
+| [bro](skills/house/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
+| [improve-claude-md](skills/house/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
+| [show-me](skills/house/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |
+| [unslop](skills/house/in-development/unslop/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |

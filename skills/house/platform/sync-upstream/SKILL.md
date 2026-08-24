@@ -40,14 +40,14 @@ Sort each path into one of three buckets, and do not start resolving until every
 
 **Not in the table.** Stop. Do not resolve it yet. Either the fork acquired a divergence nobody recorded, or upstream started writing a path the fork thought was its own. `git log upstream/main -- <path>` settles which: commits there mean the path is upstream's and the fork drifted onto it, while silence means the fork placed something in upstream territory without recording it. Then land the record, a `divergence.md` row plus a `sanctioned-edits.txt` line plus the matching row in the playbook's table, as part of this sync. The next maintainer should meet a documented conflict instead of your surprise.
 
-**A fork-owned path conflicted.** `skills/team/`, `docs/team/`, `docs/roles/`, `research/`, `scripts/harness/` and `.fork/` are paths upstream has never written, so a merge cannot conflict there on its own. If one does, git followed a rename: a file the fork re-homed out of upstream territory is still recognisably upstream's. That is a real merge and usually the outcome you want, but verify it (see Gotchas).
+**A fork-owned path conflicted.** `skills/house/`, `docs/house/`, `docs/roles/`, `research/`, `scripts/harness/` and `.fork/` are paths upstream has never written, so a merge cannot conflict there on its own. If one does, git followed a rename: a file the fork re-homed out of upstream territory is still recognisably upstream's. That is a real merge and usually the outcome you want, but verify it (see Gotchas).
 
 ## Resolving a repo-wide sweep
 
 "Keep both" is the recipe for the fork's appended sections. It is the wrong answer when upstream has rewritten the very sentence the fork rewrote for its own reasons. Decide per hunk:
 
 - The fork had **not** rewritten this passage: take upstream's version, then re-apply the fork's substitutions (the setup skill's name, `osxsystem` links, fork-local paths).
-- The fork **had** rewritten this passage, because the plugin route is gone or the team tree exists: keep the fork's. Upstream's edit was stylistic and applies to text this fork no longer carries.
+- The fork **had** rewritten this passage, because the plugin route is gone or the house tree exists: keep the fork's. Upstream's edit was stylistic and applies to text this fork no longer carries.
 
 Verify per file rather than trusting the resolution:
 
@@ -75,7 +75,7 @@ git merge-base --is-ancestor "$(awk '/^upstream_sha:/ {print $2}' .fork/upstream
 
 Say so in the PR body too, so nobody lands it from the web UI with the wrong button.
 
-**Rename detection is doing you a favour.** Upstream's edits to a file this fork re-homed, such as `setup-matt-pocock-skills` into `skills/team/platform/setup-osxsystem-skills`, arrive merged into the fork's copy rather than as a modify/delete. Take them, then confirm the only differences left are the intended ones:
+**Rename detection is doing you a favour.** Upstream's edits to a file this fork re-homed, such as `setup-matt-pocock-skills` into `skills/house/platform/setup-osxsystem-skills`, arrive merged into the fork's copy rather than as a modify/delete. Take them, then confirm the only differences left are the intended ones:
 
 ```bash
 git show upstream/main:<upstream-path> | diff - <fork-path>

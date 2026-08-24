@@ -72,14 +72,14 @@ seed_undeclared_fork_tree() {
 seed_stale_sanctioned_entry() { git show "$(lock_sha):.gitignore" > .gitignore; }
 
 # --- assertion 2: unique skill names ---
-seed_duplicate_skill_name() { cp -R skills/engineering/tdd skills/team/mobile/tdd; }
+seed_duplicate_skill_name() { cp -R skills/engineering/tdd skills/house/mobile/tdd; }
 
 # --- assertion 3: catalog completeness ---
-seed_catalogued_not_on_disk() { rm -rf skills/team/mobile/kmp-module-setup; }
+seed_catalogued_not_on_disk() { rm -rf skills/house/mobile/kmp-module-setup; }
 seed_on_disk_not_catalogued() {
-  mkdir -p skills/team/mobile/uncatalogued
+  mkdir -p skills/house/mobile/uncatalogued
   printf -- '---\nname: uncatalogued\ndescription: x\n---\n' \
-    > skills/team/mobile/uncatalogued/SKILL.md
+    > skills/house/mobile/uncatalogued/SKILL.md
 }
 
 # --- assertion 4: no plugin directory ---
@@ -92,8 +92,8 @@ seed_plugin_dir_restored() {
 
 # A plugin directory anywhere but the repo root: the rule permits exactly one.
 seed_nested_plugin_dir() {
-  mkdir -p skills/team/platform/.claude-plugin
-  echo '{}' > skills/team/platform/.claude-plugin/marketplace.json
+  mkdir -p skills/house/platform/.claude-plugin
+  echo '{}' > skills/house/platform/.claude-plugin/marketplace.json
 }
 
 # --- assertion 6: the installer manifest matches the catalog ---
@@ -117,6 +117,48 @@ with open(path, "w") as fh:
     json.dump(manifest, fh, indent=2)
     fh.write("\n")
 PY
+}
+
+# --- generator guard: house domains never reuse an upstream bucket name ---
+# Picker groups are bare domain names since the old prefix was dropped, so a
+# house domain named like an upstream bucket would silently merge two groups.
+# The generator must refuse, not merge.
+seed_house_domain_collides_with_bucket() {
+  python3 - <<'PY'
+import pathlib
+p = pathlib.Path(".fork/catalog.yaml"); t = p.read_text()
+old = "    path: skills/house/mobile/kmp-module-setup\n    origin: fork\n    domain: mobile"
+assert t.count(old) == 1
+p.write_text(t.replace(old, old.replace("domain: mobile", "domain: engineering")))
+PY
+}
+
+# run_generator <name> <expected_exit> <expected_substring> <seed_fn>
+# Same contract as run(), but exercises generate-marketplace.py instead of
+# forkcheck.py: the collision guard lives in the generator, where the group
+# names are decided.
+run_generator() {
+  local name="$1" expected="$2" needle="$3" seed="$4"
+  rm -rf "$WORK"
+  cp -R "$TEMPLATE" "$WORK"
+  ( cd "$WORK" && "$seed" ) || { echo "error: seed $seed failed" >&2; exit 1; }
+
+  local out status verdict
+  out=$(python3 "$WORK/scripts/generate-marketplace.py" "$WORK" 2>&1)
+  status=$?
+
+  if [ "$status" -eq "$expected" ] && printf '%s' "$out" | grep -qF -- "$needle"; then
+    verdict=PASS; pass=$((pass + 1))
+  else
+    verdict=FAIL; fail=$((fail + 1))
+  fi
+  printf '%s\t%s\t%s\t%s\t%s\n' \
+    "$name" "$expected" "$status" "$verdict" "${out//$'\n'/ }" >> "$RESULTS"
+  printf '%-34s expected=%s actual=%s  %s\n' "$name" "$expected" "$status" "$verdict"
+  if [ "$verdict" = FAIL ]; then
+    printf '    wanted substring: %s\n' "$needle"
+    printf '    got: %s\n' "${out//$'\n'/ | }"
+  fi
 }
 
 # --- assertion 5: changesets address this fork's package ---
@@ -197,6 +239,10 @@ echo
 echo "=== ASSERTION 6: marketplace groups match the catalog (exit 1) ==="
 run "manifest missing"            1 "generate-marketplace.py" seed_rm_marketplace
 run "shipped skill ungrouped"     1 "in no marketplace.json group" seed_marketplace_drops_skill
+
+echo
+echo "=== GENERATOR GUARD: house domain vs upstream bucket collision (exit 1) ==="
+run_generator "house domain named as bucket" 1 "collide" seed_house_domain_collides_with_bucket
 
 echo
 echo "=== ASSERTION 5: changesets address this fork's package (exit 1) ==="

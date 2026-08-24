@@ -26,7 +26,7 @@ The same-session case is worth naming because the skill's own first line doesn't
 
 `implement` commits to the branch you are on. It does not create one, and it does not ask. Check you are on the branch you want the work on before you start.
 
-If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), the tracker they live on was configured by [setup-osxsystem-skills](../../skills/team/platform/setup-osxsystem-skills/SKILL.md). `code-review` reads the same configuration to find the originating spec at close-out.
+If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), the tracker they live on was configured by [setup-osxsystem-skills](../../skills/house/platform/setup-osxsystem-skills/SKILL.md). `code-review` reads the same configuration to find the originating spec at close-out.
 
 ## What one run does
 

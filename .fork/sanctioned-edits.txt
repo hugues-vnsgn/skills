@@ -5,10 +5,10 @@
 #   (b) is a fork file placed inside an upstream-owned folder
 #       (`skills/{engineering,productivity,misc,in-progress,deprecated}/`,
 #        `docs/{engineering,productivity}/`). Every fork-authored *skill* lives
-#       under `skills/team/`, so the only case (b) entries are the two
+#       under `skills/house/`, so the only case (b) entries are the two
 #       `skills/engineering/ask-matt/references/` files — reference material
 #       split out of an already-sanctioned upstream `SKILL.md`.
-# Fork-owned trees (`skills/team/`, `docs/team/`, `research/`, `scripts/harness/`,
+# Fork-owned trees (`skills/house/`, `docs/house/`, `research/`, `scripts/harness/`,
 # `.fork/`, and the other paths listed under Additions in `divergence.md`) are
 # sync-inert and are NOT listed here — upstream never writes them, so they cannot drift.
 #
@@ -68,7 +68,7 @@ skills/misc/git-guardrails-claude-code/SKILL.md
 skills/misc/git-guardrails-claude-code/scripts/block-dangerous-git.sh
 
 # --- Deleted upstream files (must stay absent) ---
-# The setup skill is the fork's, re-homed under `skills/team/platform/`;
+# The setup skill is the fork's, re-homed under `skills/house/platform/`;
 # upstream's copy stays deleted rather than restored — see `divergence.md`.
 .claude-plugin/plugin.json
 docs/engineering/setup-matt-pocock-skills.md

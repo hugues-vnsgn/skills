@@ -65,7 +65,7 @@ Each phase runs in the agent or skill built for it — never improvised inline:
 | Research | `Explore` agents, in parallel | Optional in fast/code |
 | Plan | `Plan` agent; plan files per the `project-organization` skill | Optional in code |
 | Implement | Main loop; parallel `general-purpose` agents with file ownership in parallel mode | Every run |
-| UI work | Team design skills: `compose-multiplatform-ui`, `html-design-to-compose` | If Compose UI work |
+| UI work | House design skills: `compose-multiplatform-ui`, `html-design-to-compose` | If Compose UI work |
 | Simplify | `simplify` skill | When the diff breaches thresholds |
 | Test | `do-test` skill | Every run except no-test |
 | Review | `code-review` skill | Every run |

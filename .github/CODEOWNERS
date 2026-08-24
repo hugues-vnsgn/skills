@@ -36,13 +36,13 @@
 /scripts/                           @hugues-vnsgn
 /.github/                           @hugues-vnsgn
 
-# --- Team domains -----------------------------------------------------------
-# One block per existing domain under `skills/team/`: the skills and the docs
+# --- House domains -----------------------------------------------------------
+# One block per existing domain under `skills/house/`: the skills and the docs
 # tree that mirrors them. A new domain folder adds a block here, a matching
 # `owner:` in `.fork/catalog.yaml`, and nothing else. Add each discipline's
 # usernames here as they gain write access (space-separated on the same line).
-/skills/team/mobile/                @hugues-vnsgn
-/docs/team/mobile/                  @hugues-vnsgn
+/skills/house/mobile/               @hugues-vnsgn
+/docs/house/mobile/                 @hugues-vnsgn
 
-/skills/team/platform/              @hugues-vnsgn
-/docs/team/platform/                @hugues-vnsgn
+/skills/house/platform/             @hugues-vnsgn
+/docs/house/platform/               @hugues-vnsgn

@@ -362,7 +362,10 @@ def check_plugin_dir_marketplace_only(repo):
     failures = []
     root_plugin_dir = os.path.join(repo, PLUGIN_DIR)
     for dirpath, dirnames, filenames in os.walk(repo):
-        for skip in (".git", "node_modules", "isolated_test_workspace"):
+        # `.worktrees/` and `.claude/` each hold a full checkout of another
+        # branch, whose own root `.claude-plugin/` is legitimate there.
+        for skip in (".git", "node_modules", ".claude", ".worktrees",
+                     "isolated_test_workspace"):
             if skip in dirnames:
                 dirnames.remove(skip)
         if PLUGIN_DIR not in dirnames:

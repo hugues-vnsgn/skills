@@ -1,3 +1,3 @@
 interface:
   display_name: "Show Me"
-  short_description: "Explain the current topic with diagrams and sketches"
+  short_description: "Draw the topic as the smallest true picture, then the smaller shape it exposes"

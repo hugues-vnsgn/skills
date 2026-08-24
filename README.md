@@ -4,7 +4,7 @@
 
 What this fork adds on top of upstream:
 
-- **`skills/house/`** — the fork's own skills, grouped by domain: [`mobile/`](./skills/house/mobile/README.md) for Kotlin Multiplatform + Compose Multiplatform development, [`platform/`](./skills/house/platform/README.md) for the toolchain itself
+- **`skills/house/`**: the fork's own skills, grouped by domain: [`mobile/`](./skills/house/mobile/README.md) for Kotlin Multiplatform + Compose Multiplatform development, [`platform/`](./skills/house/platform/README.md) for the toolchain itself
 - Fork conventions in [MAINTENANCE.md](./MAINTENANCE.md) and [CUSTOMIZING.md](./CUSTOMIZING.md)
 
 ## Installation (30-second setup)
@@ -95,11 +95,11 @@ House skills for Kotlin Multiplatform + Compose Multiplatform development (Andro
 
 **Model-invoked**
 
-- **[kmp-module-setup](./skills/house/mobile/kmp-module-setup/SKILL.md)** — Scaffold or audit a shared KMP module: targets, source-set hierarchy, version catalog (Kotlin/AGP/CMP pinned together), framework block, expect/actual vs interfaces + DI.
-- **[kmp-ios-integration](./skills/house/mobile/kmp-ios-integration/SKILL.md)** — Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
-- **[compose-multiplatform-ui](./skills/house/mobile/compose-multiplatform-ui/SKILL.md)** — Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
-- **[kmp-release-and-publish](./skills/house/mobile/kmp-release-and-publish/SKILL.md)** — Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
-- **[kmp-test-seams](./skills/house/mobile/kmp-test-seams/SKILL.md)** — The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green.
+- **[kmp-module-setup](./skills/house/mobile/kmp-module-setup/SKILL.md)**: Scaffold or audit a shared KMP module: targets, source-set hierarchy, version catalog (Kotlin/AGP/CMP pinned together), framework block, expect/actual vs interfaces + DI.
+- **[kmp-ios-integration](./skills/house/mobile/kmp-ios-integration/SKILL.md)**: Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
+- **[compose-multiplatform-ui](./skills/house/mobile/compose-multiplatform-ui/SKILL.md)**: Shared Compose UI: per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
+- **[kmp-release-and-publish](./skills/house/mobile/kmp-release-and-publish/SKILL.md)**: Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
+- **[kmp-test-seams](./skills/house/mobile/kmp-test-seams/SKILL.md)**: The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green.
 
 ### Platform
 
@@ -107,7 +107,7 @@ House skills for the toolchain itself — repo configuration, porting capabiliti
 
 **User-invoked**
 
-- **[setup-osxsystem-skills](./skills/house/platform/setup-osxsystem-skills/SKILL.md)** — Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
+- **[setup-osxsystem-skills](./skills/house/platform/setup-osxsystem-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[port-from-repo](./skills/house/platform/port-from-repo/SKILL.md)** — Bring a capability across from another codebase — study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
 
 ### Writing

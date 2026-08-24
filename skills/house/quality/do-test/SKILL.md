@@ -83,9 +83,9 @@ Every FAIL goes through `references/triage.md`: classify it (environment, test, 
 
 Write the report with `references/report-format.md`; path and naming from the `project-organization` skill. Lead with the verdict:
 
-- **SHIP** — every row PASS
-- **BLOCKED** — one or more FAIL, each with a confirmed cause
-- **UNVERIFIED** — coverage gaps, or a fix whose reproduction never went red
+- **SHIP**: every row PASS
+- **BLOCKED**: one or more FAIL, each with a confirmed cause
+- **UNVERIFIED**: coverage gaps, or a fix whose reproduction never went red
 
 Hand back the diagnosis and the recommended fix; the caller decides whether you implement it.
 

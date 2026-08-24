@@ -22,9 +22,9 @@ The issue tracker should have been provided to you. If not, tell the user to run
 
 3. Identify the genuine gaps. Some sections can't be invented on the user's behalf, because they're decisions, not facts:
 
-   - **Key Results** — the targets and their numbers are the user's call.
-   - **Contacts** — who owns this, who must be consulted.
-   - **Release cut** — what's in the first version versus later.
+   - **Key Results**: the targets and their numbers are the user's call.
+   - **Contacts**: who owns this, who must be consulted.
+   - **Release cut**: what's in the first version versus later.
 
    Ask about these in **one batched round** of questions, and only for the ones the conversation didn't already answer. Facts are your job to find; decisions are the user's to make. If the user defers, keep the section with a `⚠ TBD — <who decides>` marker so the gap survives into the document instead of vanishing.
 
@@ -60,7 +60,7 @@ Who owns this, who must be consulted, who just needs to know.
 - How does it benefit the company and the customers?
 - How does it align with the vision and strategy?
 
-**Key Results** — how success will be measured, in SMART format. Numbers and deadlines are decisions, not guesses; if the user hasn't made them, mark them `⚠ TBD`.
+**Key Results**: how success will be measured, in SMART format. Numbers and deadlines are decisions, not guesses; if the user hasn't made them, mark them `⚠ TBD`.
 
 ## 5. Market Segment(s)
 
@@ -74,10 +74,10 @@ For whom are we building this, and what constraints exist? Define segments by th
 
 ## 7. Solution
 
-- **7.1 UX** — user flows, wireframes or prototype references if any exist.
-- **7.2 Key Features** — what the product does, feature by feature.
+- **7.1 UX**: user flows, wireframes or prototype references if any exist.
+- **7.2 Key Features**: what the product does, feature by feature.
 - **7.3 Technology** *(optional)* — only where a technical choice shapes the product.
-- **7.4 Assumptions** — what we believe but haven't proven. Every flagged assumption from the drafting step lands here so the team can validate or kill it.
+- **7.4 Assumptions**: what we believe but haven't proven. Every flagged assumption from the drafting step lands here so the team can validate or kill it.
 
 ## 8. Release
 

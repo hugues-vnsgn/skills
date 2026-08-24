@@ -293,10 +293,10 @@ class GrepTest {
 
 **Gradle tasks:**
 
-- `./gradlew allTests` — every target's tests, with an aggregated HTML report at `build/reports/tests/allTests/index.html` (Android unit-test reports are generated separately and not merged in).
-- `./gradlew iosSimulatorArm64Test` — **runs iOS tests on an actual iOS Simulator directly from Gradle**; Gradle boots the default simulator itself, no Xcode invocation needed (macOS + Xcode installed required). The simulator device can be overridden per-test-run in the target's testRuns configuration if you need a specific device/OS.
+- `./gradlew allTests`: every target's tests, with an aggregated HTML report at `build/reports/tests/allTests/index.html` (Android unit-test reports are generated separately and not merged in).
+- `./gradlew iosSimulatorArm64Test`: **runs iOS tests on an actual iOS Simulator directly from Gradle**; Gradle boots the default simulator itself, no Xcode invocation needed (macOS + Xcode installed required). The simulator device can be overridden per-test-run in the target's testRuns configuration if you need a specific device/OS.
 - `./gradlew testDebugUnitTest` / `testReleaseUnitTest` — Android local unit tests.
-- `./gradlew jvmTest` — if you keep a JVM target, the cheapest way to run all common tests in CI.
+- `./gradlew jvmTest`: if you keep a JVM target, the cheapest way to run all common tests in CI.
 
 Best practices from the docs: only multiplatform libraries in `commonTest`; don't touch the `Asserter` type directly; run the suite on every framework/target you ship, since runtime behavior (and physics like scrolling/inertia in UI tests) differs per platform.
 

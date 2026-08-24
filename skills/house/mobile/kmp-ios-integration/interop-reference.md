@@ -188,7 +188,7 @@ Kotlin exports to iOS through an **Objective-C framework header** (Swift Export,
 - **Coroutines:** `suspend` maps to completion handlers / basic `async` with **no proper cancellation**, and suspend functions are only callable from the main thread in the default interop. `Flow` exports as an opaque generic object. Fix: **SKIE** (suspend ↔ `async` with cancellation; `Flow` → `AsyncSequence`) or KMP-NativeCoroutines — use exactly one, they conflict.
 - **Default arguments disappear.** ObjC has no default args; Swift callers must pass every parameter. Mitigate with overloads or SKIE (which regenerates default-argument overloads).
 - **Generics are crippled:** type parameters surface as nullable unless constrained `<T : Any>`; interfaces lose generics entirely; variance is dropped.
-- **Enums aren't Swift enums** — no `switch` exhaustiveness, no `CaseIterable` (SKIE fixes this too).
+- **Enums aren't Swift enums**: no `switch` exhaustiveness, no `CaseIterable` (SKIE fixes this too).
 - **Primitives box:** `Int?` becomes `KotlinInt?`; `List<Int>` becomes `[KotlinInt]`.
 - **Collection bridging overhead** on hot paths — cast to `NSDictionary`/`NSArray` when profiling shows it matters.
 - **Exceptions:** un-`@Throws`-annotated Kotlin exceptions **crash** the app when they cross into Swift. Annotate throwing API with `@Throws(Exception::class)`.
@@ -236,8 +236,8 @@ kotlin {
 
 ### Static vs dynamic
 
-- **Static (`isStatic = true`)** — linked into the app binary. Simpler embedding (no dylib signing/copying), no dynamic-linker startup cost, and the usual choice for Compose Multiplatform templates. App binary is larger.
-- **Dynamic (`isStatic = false`, the default of `binaries.framework`)** — required if several app targets/extensions must share one copy at runtime; otherwise adds embedding complexity.
+- **Static (`isStatic = true`)**: linked into the app binary. Simpler embedding (no dylib signing/copying), no dynamic-linker startup cost, and the usual choice for Compose Multiplatform templates. App binary is larger.
+- **Dynamic (`isStatic = false`, the default of `binaries.framework`)**: required if several app targets/extensions must share one copy at runtime; otherwise adds embedding complexity.
 - Recommendation: **static for a single-app setup**; dynamic only with a concrete reason (app extensions, multiple frameworks sharing the runtime).
 
 ### Exporting dependencies into the framework

@@ -7,9 +7,9 @@ description: Use when common code needs to reach a platform API and you are pick
 
 Core rules for any KMP boundary:
 
-- **Keep `commonMain` semantic** — describe *what* the product needs, not Android/iOS mechanics: `currentRegion()`, never `currentRegionFromAndroidLocale(context)`.
-- **Split by capability** — `Clipboard`, `ShareSheet`, `Haptics`, `Biometrics` as separate interfaces, not one `Platform` god object.
-- **Keep actuals thin** — they translate, they don't decide; a business `if`/`when` inside an actual belongs in common, tested with a fake.
+- **Keep `commonMain` semantic**: describe *what* the product needs, not Android/iOS mechanics: `currentRegion()`, never `currentRegionFromAndroidLocale(context)`.
+- **Split by capability**: `Clipboard`, `ShareSheet`, `Haptics`, `Biometrics` as separate interfaces, not one `Platform` god object.
+- **Keep actuals thin**: they translate, they don't decide; a business `if`/`when` inside an actual belongs in common, tested with a fake.
 - **Prefer a common `interface` + per-platform binding over `expect class`.** JetBrains' own guidance: using expect/actual classes "for simple cases where interfaces would suffice is not recommended. Interfaces offer greater flexibility, allowing for multiple implementations per platform and easier substitution in tests." Reach for an interface whenever you need fakes / DI / lifecycle / runtime selection.
 - **`expect`/`actual` *functions and properties* are still the standard way to reach a platform API.** The rule above is about *classes*, not the mechanism as a whole. A one-off `expect fun currentTimeSeconds(): Long` needs no interface.
 - **`expect`/`actual` classes are Beta.** They compile with a warning unless you opt in with `freeCompilerArgs.add("-Xexpect-actual-classes")`, and JetBrains warn they "may require future migration steps." One more reason an interface is the cheaper default.
@@ -92,19 +92,19 @@ kotlin {
 
 Two failure modes this is meant to head off, in both directions:
 
-- **Premature abstraction** — building `expect`/`actual` before a second target actually needs it, which fixes the boundary in the wrong place. Wait for the second caller.
-- **Under-sharing** — duplicating domain logic across `androidMain` and `jvmMain`, so every bug is fixed twice and every test written twice. That's what `commonMain` (or an intermediate set) is for.
+- **Premature abstraction**: building `expect`/`actual` before a second target actually needs it, which fixes the boundary in the wrong place. Wait for the second caller.
+- **Under-sharing**: duplicating domain logic across `androidMain` and `jvmMain`, so every bug is fixed twice and every test written twice. That's what `commonMain` (or an intermediate set) is for.
 
 ## AGP-9 KMP-library constraints (structural — they shape what can live in shared code)
 
 AGP 9 replaces `com.android.library` with **`com.android.kotlin.multiplatform.library`** for the Android side of a KMP module, and rejects `com.android.application` + `kotlin.multiplatform` outright. The new plugin enforces a single-variant architecture:
 
-- **`BuildConfig` is unavailable** — compile-time constants come from [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) or an injected `AppConfiguration` interface. Don't design `commonMain` APIs that assume `BuildConfig.X` exists.
-- **No build variants** — variant-specific deps/resources/signing live in the app module; a debug/release decision surfaces as a runtime config value injected into common code, not a build-variant split inside the KMP module.
-- **No NDK / JNI** — extract native (C/C++) into a separate `com.android.library` module, wrapped behind a common interface the KMP module consumes.
+- **`BuildConfig` is unavailable**: compile-time constants come from [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) or an injected `AppConfiguration` interface. Don't design `commonMain` APIs that assume `BuildConfig.X` exists.
+- **No build variants**: variant-specific deps/resources/signing live in the app module; a debug/release decision surfaces as a runtime config value injected into common code, not a build-variant split inside the KMP module.
+- **No NDK / JNI**: extract native (C/C++) into a separate `com.android.library` module, wrapped behind a common interface the KMP module consumes.
 - **Compose-MP resources need explicit enable** — add `androidResources { enable = true }` inside `kotlin { android { … } }`, or `Res.string.*` / `Res.drawable.*` crash at runtime on Android (the build still succeeds — easy to miss).
-- **Consumer ProGuard rules need migration** — `consumerProguardFiles("rules.pro")` from the old `android {}` block is silently dropped; use `consumerProguardFiles.add(file("rules.pro"))` in the new DSL.
-- **The KMP module can't also be `com.android.application`** — the Android entry point (`MainActivity`, Application class, launcher manifest, `applicationId` / `targetSdk` / `versionCode` / `versionName`) moves to a separate `androidApp` module that depends on the shared library. `MainActivity`, app-level Hilt setup, and nav-host wiring all move out of the shared `androidMain`.
+- **Consumer ProGuard rules need migration**: `consumerProguardFiles("rules.pro")` from the old `android {}` block is silently dropped; use `consumerProguardFiles.add(file("rules.pro"))` in the new DSL.
+- **The KMP module can't also be `com.android.application`**: the Android entry point (`MainActivity`, Application class, launcher manifest, `applicationId` / `targetSdk` / `versionCode` / `versionName`) moves to a separate `androidApp` module that depends on the shared library. `MainActivity`, app-level Hilt setup, and nav-host wiring all move out of the shared `androidMain`.
 - **kapt is incompatible** with AGP 9's built-in Kotlin — migrate annotation processors to KSP (2.3.1+), or fall back to `com.android.legacy-kapt` for processors with no KSP equivalent.
 
 | Concern | Pre-AGP-9 (monolithic) | AGP 9 KMP library |

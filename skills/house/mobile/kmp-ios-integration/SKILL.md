@@ -38,7 +38,7 @@ Wire the shared Kotlin framework into the iOS app, and keep the Kotlin→Swift A
 
 When editing exported `commonMain` API, check each item — these fail silently at the boundary:
 
-- **`@Throws(Exception::class)` on anything that throws** — otherwise a Kotlin exception **crashes** the app instead of surfacing as a Swift `throws`.
+- **`@Throws(Exception::class)` on anything that throws**: otherwise a Kotlin exception **crashes** the app instead of surfacing as a Swift `throws`.
 - **Sealed classes** lose exhaustiveness in Swift (`default:` required). Fix with SKIE, or keep them behind a facade.
 - **`suspend`/`Flow`**: default interop gives no cancellation and opaque Flow objects. Use **SKIE** or KMP-NativeCoroutines — exactly one, never both.
 - **Default arguments disappear** (ObjC); add overloads or SKIE.

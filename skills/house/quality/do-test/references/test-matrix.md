@@ -19,12 +19,12 @@ Worked example — fix for "discount code applies twice when Apply is double-cli
 
 Take a row from each class the behaviour reaches:
 
-- **Happy path** — the behaviour exactly as the oracle states it.
-- **Boundary** — the values where logic changes: 0, 1, n−1, n, n+1, empty, single, max, over max, negative, absent/null, duplicate, very long, unicode/emoji, timezone edge, month and year rollover.
-- **Error & invalid** — every error branch visible in the diff, plus the input that reaches it: wrong type, malformed, unauthorized, missing dependency, downstream timeout or failure.
-- **State & ordering** — retry, double-submit, out-of-order arrival, partial failure mid-transaction, concurrent writers, stale cache.
-- **Permission** — each role that may reach the behaviour, and each role that may not.
-- **Seam** — the contract at every boundary the change crosses: serialized payload, DB schema, public API, platform bridge.
+- **Happy path**: the behaviour exactly as the oracle states it.
+- **Boundary**: the values where logic changes: 0, 1, n−1, n, n+1, empty, single, max, over max, negative, absent/null, duplicate, very long, unicode/emoji, timezone edge, month and year rollover.
+- **Error & invalid**: every error branch visible in the diff, plus the input that reaches it: wrong type, malformed, unauthorized, missing dependency, downstream timeout or failure.
+- **State & ordering**: retry, double-submit, out-of-order arrival, partial failure mid-transaction, concurrent writers, stale cache.
+- **Permission**: each role that may reach the behaviour, and each role that may not.
+- **Seam**: the contract at every boundary the change crosses: serialized payload, DB schema, public API, platform bridge.
 
 ## Blast radius
 

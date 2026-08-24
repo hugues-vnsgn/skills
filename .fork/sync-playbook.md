@@ -35,10 +35,10 @@ git diff --stat "$LAST"..upstream/main
 
 Read it before merging, not after. What you are looking for:
 
-- **New upstream skills** — they need a catalog entry (step 7).
-- **Renamed or removed upstream skills** — anything the fork's skills or `ask-matt` cross-reference by name now points at nothing.
-- **Touches to paths in [`sanctioned-edits.txt`](./sanctioned-edits.txt)** — that is your conflict list, known in advance.
-- **A new upstream skill whose directory basename collides with a fork skill** — `forkcheck`'s unique-skill-names assertion will fail the merge; decide the rename before you start rather than mid-conflict.
+- **New upstream skills**: they need a catalog entry (step 7).
+- **Renamed or removed upstream skills**: anything the fork's skills or `ask-matt` cross-reference by name now points at nothing.
+- **Touches to paths in [`sanctioned-edits.txt`](./sanctioned-edits.txt)**: that is your conflict list, known in advance.
+- **A new upstream skill whose directory basename collides with a fork skill**: `forkcheck`'s unique-skill-names assertion will fail the merge; decide the rename before you start rather than mid-conflict.
 
 ### 3. Branch — sync-only
 

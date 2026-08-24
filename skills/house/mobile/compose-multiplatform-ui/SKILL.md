@@ -43,7 +43,7 @@ ViewModel gotcha: **on iOS you cannot call `viewModel()` with no arguments** (no
 
 ## Iteration & verification loop
 
-- **Hot reload is desktop/JVM-only** — use the desktop target as the fast sandbox for common UI, then verify Android/iOS.
+- **Hot reload is desktop/JVM-only**: use the desktop target as the fast sandbox for common UI, then verify Android/iOS.
 - Judge iOS scrolling/animation performance on **release** builds on a real device; debug Kotlin/Native is much slower.
 - `Modifier.testTag` maps to `accessibilityIdentifier` → XCTest UI automation and `performAccessibilityAudit()` work against Compose.
 

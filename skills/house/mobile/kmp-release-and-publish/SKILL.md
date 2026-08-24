@@ -25,7 +25,7 @@ Archive from Xcode as usual — the build phase transparently runs the Gradle fr
 OSSRH is gone; use the **Central Portal** (central.sonatype.com) with the **vanniktech `com.vanniktech.maven.publish`** plugin: namespace verification, GPG key (`generatePgpKeys`/`uploadPublicPgpKey`), required POM blocks (license/developers/scm), user-token credentials via `ORG_GRADLE_PROJECT_*` env vars, then `./gradlew publishToMavenCentral --no-configuration-cache`.
 
 Rules that bite:
-- **Publish everything from one macOS host** — Apple targets need it, and duplicate root-module uploads from two hosts are forbidden.
+- **Publish everything from one macOS host**: Apple targets need it, and duplicate root-module uploads from two hosts are forbidden.
 - No `-SNAPSHOT` versions on Central; use an internal repo for pre-releases.
 - One version for all targets, tag ⇔ Gradle `version`; guard the common API with binary-compatibility-validator (klib ABI support included).
 

@@ -6,7 +6,7 @@ How to change, extend, or add skills in this repo. Companion to [MAINTENANCE.md]
 
 Each skill is a folder `skills/<bucket>/<name>/` containing:
 
-- **`SKILL.md`** — the file the agent loads when the skill fires. YAML frontmatter with exactly two required fields: `name` and `description`.
+- **`SKILL.md`**: the file the agent loads when the skill fires. YAML frontmatter with exactly two required fields: `name` and `description`.
 - **Reference files** (optional, e.g. `reference.md`, `tests.md`) — heavy detail the agent opens only when needed. The mobile skills use this: SKILL.md is a ~60-line distillation, and the full research sits beside it.
 
 The single most important line is the **`description`**. It is the *pointer* the agent reads on every turn to decide whether to load the skill, so it must contain **only triggering conditions** — symptoms, error messages, situations — never a summary of the workflow.

@@ -16,11 +16,11 @@ Prefer the project's auth helper or fixture. Where none exists, have the user lo
 
 ## Read per row
 
-- **Console** — errors and warnings raised during the interaction.
-- **Network** — failed requests, 4xx/5xx, requests fired twice.
-- **Layout** — screenshot against the expectation, at each viewport in the row.
-- **Interaction** — the flow completes: validation messages, disabled states, focus after action.
-- **Accessibility** — keyboard reachability, focus order, labels, contrast.
+- **Console**: errors and warnings raised during the interaction.
+- **Network**: failed requests, 4xx/5xx, requests fired twice.
+- **Layout**: screenshot against the expectation, at each viewport in the row.
+- **Interaction**: the flow completes: validation messages, disabled states, focus after action.
+- **Accessibility**: keyboard reachability, focus order, labels, contrast.
 
 Screenshot every row and read the image back with the `Read` tool — the render is the evidence. Save screenshots beside the report and cite their paths in the row.
 

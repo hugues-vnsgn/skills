@@ -24,9 +24,9 @@ A sync is a merge plus assertions, not an act of curation. Upstream owns its buc
 
 Three habits carry most of the value, and the playbook is mostly scaffolding around them:
 
-- **Merge, never rebase** — rebasing replays every fork commit against every upstream change and rewrites published history.
-- **Sync-only branches** — a reviewer should be able to read every non-upstream hunk as a conflict resolution. Improvements the sync inspires go in a follow-up PR.
-- **`git config rerere.enabled true`, once per clone** — the recurring prose conflicts (fork framing in `README.md`, `CLAUDE.md`, the bucket READMEs) are always "keep both", and rerere replays that resolution for free after the first time.
+- **Merge, never rebase**: rebasing replays every fork commit against every upstream change and rewrites published history.
+- **Sync-only branches**: a reviewer should be able to read every non-upstream hunk as a conflict resolution. Improvements the sync inspires go in a follow-up PR.
+- **`git config rerere.enabled true`, once per clone**: the recurring prose conflicts (fork framing in `README.md`, `CLAUDE.md`, the bucket READMEs) are always "keep both", and rerere replays that resolution for free after the first time.
 
 CI's `forkcheck` guard holds the boundary between syncs; at sync time run it against the merged ref (`--upstream-ref upstream/main`). Advance [`.fork/upstream.lock`](./.fork/upstream.lock) as part of the sync — it's what makes the next one's "what changed since?" a single `git log`.
 

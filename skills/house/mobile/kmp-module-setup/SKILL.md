@@ -59,7 +59,7 @@ Exporting types from other modules requires `api(...)` + `export(...)`; `impleme
 
 ## Verification
 
-- `./gradlew :shared:compileKotlinIosSimulatorArm64 :shared:compileDebugKotlinAndroid` — both targets compile.
+- `./gradlew :shared:compileKotlinIosSimulatorArm64 :shared:compileDebugKotlinAndroid`: both targets compile.
 - `./gradlew allTests` or `iosSimulatorArm64Test` + `testDebugUnitTest` — common tests run on every target.
 
 ## Common mistakes

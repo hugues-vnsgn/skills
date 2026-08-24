@@ -77,9 +77,9 @@ Finalize always ends with a full-plan sync-back (every phase file, not just the 
 
 ## References
 
-- `references/intent-detection.md` — detection rules and routing logic
-- `references/workflow-steps.md` — step definitions for all modes, including agent prompts
-- `references/review-cycle.md` — interactive and auto review processes
+- `references/intent-detection.md`: detection rules and routing logic
+- `references/workflow-steps.md`: step definitions for all modes, including agent prompts
+- `references/review-cycle.md`: interactive and auto review processes
 
 ## Workflow Position
 

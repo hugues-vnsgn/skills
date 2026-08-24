@@ -31,9 +31,9 @@ A pass is evidence only where the test ran and asserted:
 
 ## What a failure carries into the report
 
-- **Repro** — exact steps and commands, from a clean state.
-- **Expected vs observed** — quoted from output, not paraphrased.
-- **Evidence** — command, output excerpt, surface readings.
-- **Class** — from the ladder above.
-- **Cause** — the confirmed one, with what made it flip.
-- **Fix** — the recommendation, and its own blast radius.
+- **Repro**: exact steps and commands, from a clean state.
+- **Expected vs observed**: quoted from output, not paraphrased.
+- **Evidence**: command, output excerpt, surface readings.
+- **Class**: from the ladder above.
+- **Cause**: the confirmed one, with what made it flip.
+- **Fix**: the recommendation, and its own blast radius.

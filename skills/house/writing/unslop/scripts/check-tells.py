@@ -78,7 +78,8 @@ WEAK_ADVERBS = [
 
 PATTERNS = [
     ("em-dash", STRICT, re.compile(r"—"),
-     "end the sentence or use a comma; parentheses just trade one tell for another"),
+     "pick what the sentence wants: period, semicolon, comma, colon, or the "
+     "conjunction the dash hid. Swapping in another separator keeps the tell"),
     ("en-dash", STRICT, re.compile(r"–"),
      "an en dash as a connector is the same tell wearing a smaller hat"),
     ("hyphen-as-dash", STRICT, re.compile(r"(?<=\w)\s--\s(?=\w)"),

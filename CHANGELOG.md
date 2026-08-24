@@ -1,5 +1,80 @@
 # osxsystem-skills
 
+## 1.7.0
+
+### Minor Changes
+
+- [#6](https://github.com/hugues-vnsgn/skills/pull/6) [`3e05621`](https://github.com/hugues-vnsgn/skills/commit/3e056212ec11f3541431c3b4db8f7383af970c67) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Promote `unslop` out of `in-development/` into a new `house/writing/` domain, for prose a human reads (the counterpart to `writing-for-agents`, which covers documents an agent reads).
+
+  The skill was rewritten around three gaps. It now sets a **register** (reference, argument, conversation) before editing, because the voice advice that saves an essay ruins a config doc. It holds back any edit that would change a claim, reporting the problem instead of smoothing it, along with code, quoted material, and terms of art the project actually uses. And the 31 flat rules are regrouped into ten sections ranked by yield, led by the tell no pattern can find: a sentence that says nothing.
+
+  It also ships `scripts/check-tells.py`, a stdlib-only checker for the tells that are pattern matching rather than judgment. It masks code, links, and fenced blocks before matching, and splits results into `strict` (fix every hit) and `candidate` (the agent decides, because some of those words are the project's real vocabulary).
+
+- [#5](https://github.com/hugues-vnsgn/skills/pull/5) [`7345fa1`](https://github.com/hugues-vnsgn/skills/commit/7345fa15d38abc216f14bf23ebdd4a1c699a6a31) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Rewrite `show-me` around two gaps: it was anchored on TypeScript and it stopped at "understand".
+
+  The eight notation forms were never language-bound (a structure tree describes a Compose screen, a SwiftUI body, or a Terraform module equally well), but three of them were written in TS/React and every example lived in the same imaginary TS monorepo, so the agent pattern-matched the examples and emitted JSX-shaped trees for code that was not JSX. Notation now defaults to pseudocode and plain trees, with real syntax licensed for exactly two cases: the user needs something copyable, or the syntax is itself the point.
+
+  The skill also gained the second half its name implies. **Compress** cuts every element the current question does not need, replacing the old "don't overwhelm the user" (a negation, which makes the unwanted behaviour more available, not less) with a checkable bar. **Collapse** then reads the picture back, because complexity is often only visible once drawn: five named shapes (hub, repeat, pass-through, round trip, fan-out on load) tell the agent what to look for, and when one appears it draws the smaller shape beside the current one. It draws only, handing off to `codebase-design`, `improve-codebase-architecture`, and `when-stuck`, and it says so plainly when the picture is already clean rather than inventing a smell to have something to collapse.
+
+  Two smaller fixes: a question-to-form table replaces the flat list of eight peers, so picking a form is no longer a coin flip; and the HTML branch no longer assumes a web product, so it still works for a CLI, a library, or a native app with no web surface.
+
+- [#7](https://github.com/hugues-vnsgn/skills/pull/7) [`28f950f`](https://github.com/hugues-vnsgn/skills/commit/28f950f9326f51ab5b7a6bd9352bb45c25a3d278) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Rebuild `use-git-worktree` around the maintainer's actual habit, register it, and fix two bugs the old version shipped.
+
+  The skill had drifted from how the worktree gets made in practice. It ordered native harness tools ahead of plain git, which reads sensibly but meant the documented `.worktrees/` fallback was dead code in Claude Code: `EnterWorktree` always won and always landed in `.claude/worktrees/`. The recipe now runs the other way. `git worktree add .worktrees/<branch>` creates the worktree, then `EnterWorktree` is called with `path:` to move the session into it, which keeps the `.worktrees/` layout while still letting later tool calls read and write the worktree rather than the main checkout. Branch names are `feat/<slug>` and `fix/<slug>`, matching the fork's conventional-commit subjects, and the worktree path mirrors the branch.
+
+  Two guards were quietly broken, both found by running the commands rather than reading them:
+
+  - `git check-ignore -q .worktrees` reports "not ignored" whenever the directory does not exist yet, because a directory-only pattern cannot match a path git has not seen on disk. On a fresh repo the guard therefore appended `.worktrees/` to `.gitignore` on every single invocation. Querying `.worktrees/` with the trailing slash matches under every pattern style, present directory or not.
+  - Appending the rule with a bare `echo` corrupts a `.gitignore` that ends without a newline, fusing the two lines into `node_modules.worktrees/`. The `printf` now leads with a newline.
+
+  The submodule guard was wrong rather than merely redundant: it claimed the git dir and the common git dir differ inside a submodule, and they are identical, because submodules do not use the worktree mechanism at all. So a submodule never tripped the test the guard existed to disambiguate, and the guard was dead code justified by a false premise. Detection is now the one comparison that is actually true (`--git-dir` against `--git-common-dir`), which classifies a submodule as a plain checkout and a worktree _of_ a submodule as a worktree, both correct, and folds four `rev-parse` calls into one.
+
+  That call carries `--path-format=absolute`, which is load-bearing rather than tidy. Git answers `--git-common-dir` relative to the cwd, so from a subdirectory an unnormalised comparison sees `/repo/.git` against `../../.git`: one directory, two spellings, which a string test calls a worktree. The skill would then announce "already isolated" from any subdirectory and create nothing. The previous version normalised with `cd "$(git rev-parse --git-dir)" && pwd -P`; dropping that as a token saving reintroduced the bug, and the flag is the cheap way to keep it fixed.
+
+  `git worktree add` now names its base ref explicitly. Without one git branches from the main checkout's current `HEAD`, and this skill's entire premise is that the checkout was left parked wherever the user had it, so a new feature branch silently forks from whatever stale work was checked out. Verified: with `HEAD` on an unrelated branch, the new worktree inherited that branch's files.
+
+  Scope shrank to match the recipe, which stops at a ready workspace. Dependency install and the baseline test suite are gone: they were the bulk of the skill's cost, they ran a full install and a full suite on every worktree however small the task, and a dirty baseline is the next step's problem to report. `SKILL.md` is 78 lines against 167, and the detection phase is one shell call against five.
+
+  The description gained a size floor and a stand-down clause. It fires on features, fixes, refactors, upgrades, and plans that span more than one file, and explicitly stands down for one-line edits and for a user who says to work on the current branch. Without those, "picks up a bug fix" claimed a worktree, a branch, and a permanent `.gitignore` edit for fixing a typo in a README. Refactors and upgrades now map to `feat/` by an explicit rule, so the agent stops improvising a third prefix.
+
+  Registration was missing entirely, which is why none of this was reachable: the skill had no `.fork/catalog.yaml` entry, no line in the `in-development` bucket README, no `agents/openai.yaml`, and no `metadata.internal: true`. All four are in place, `status: beta`, so it stays out of the installer picker, the top-level README, `docs/`, and `ask-matt` until it is promoted.
+
+### Patch Changes
+
+- [#8](https://github.com/hugues-vnsgn/skills/pull/8) [`84b5ee5`](https://github.com/hugues-vnsgn/skills/commit/84b5ee5afd738b6a3484e62509b84b3b573c5be3) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Add the `implement-spec` skill (in-progress bucket, user-invoked). It takes a spec and its tickets and drives them to a single PR: the tickets are read as a task graph with blocking edges, so implementer subagents run in background worktrees across the ready frontier for concurrency, a merger subagent folds each one back into the PR branch, and the flow closes with `/code-review` before the PR is marked ready.
+
+- [#7](https://github.com/hugues-vnsgn/skills/pull/7) [`28f950f`](https://github.com/hugues-vnsgn/skills/commit/28f950f9326f51ab5b7a6bd9352bb45c25a3d278) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Teach `forkcheck` and `skillcheck` to skip nested worktrees, found by smoke testing `use-git-worktree` against this repo.
+
+  Creating `.worktrees/feat/<slug>` put a full checkout of `main` inside the repo, and three repo-wide assertions walk the tree with `os.walk` rather than asking git what is tracked. They found every file twice and reported the copy against the original: `plugin-dir-marketplace-only` flagged the worktree's own root `.claude-plugin/` as a forbidden second plugin directory, while `no-stale-repo-coordinates` and `no-stale-tree-name` flagged the `.scratch/` records and `CHANGELOG.md` entries that legitimately exist at that commit. Four checks failed across the two scripts, `test_forkcheck.sh` dropped to 23/26, and none of it was real drift.
+
+  `skillcheck.py` gains a `WALK_SKIP_DIRS` constant shared by both of its walks, and `.worktrees/` joins `COORDINATE_SKIP`. `forkcheck.py`'s plugin walk gains the same two entries. Both now also skip `.claude/`, which is where a harness puts a worktree when it picks the location itself: `skillcheck`'s comment already claimed "a second working tree" was never scanned, and that was true only of the coordinate walk, not the plugin walk beside it.
+
+  The wider skip list does not soften the guards. A stray `.claude-plugin/` planted at `docs/.claude-plugin/` and a pre-rename tree reference planted at `docs/stray-probe.md` are both still caught, and both scripts return to PASS once removed. Writing that second probe out longhand here would trip `no-stale-tree-name` on this very file, which is its own small proof the guard reaches changeset prose.
+
+- [#6](https://github.com/hugues-vnsgn/skills/pull/6) [`3e05621`](https://github.com/hugues-vnsgn/skills/commit/3e056212ec11f3541431c3b4db8f7383af970c67) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Reconcile `unslop`'s em-dash rule with the one in `CLAUDE.md`. The skill said parentheses only trade one tell for another; the repo rule lists parentheses as a legitimate rewrite. Both were defensible in isolation and contradicted each other in the same repo, with the skill being the copy an agent actually reads.
+
+  The rule now names what the sentence can actually want (period, semicolon, comma, colon, or the conjunction the dash was hiding) and locates the real tell in mechanical substitution rather than in any one mark. A parenthesis earns its place around a genuine aside; it fails when it is dropped in wherever the dash sat, because the sentence keeps the dash's shape. The checker's fix hint says the same thing.
+
+  Wording drawn from doing this 682 times by hand across the fork's own prose.
+
+- [#6](https://github.com/hugues-vnsgn/skills/pull/6) [`3e05621`](https://github.com/hugues-vnsgn/skills/commit/3e056212ec11f3541431c3b4db8f7383af970c67) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Remove every em dash from fork-owned prose, closing the rule `CLAUDE.md` has stated since upstream's 2026-08-20 sync without anything enforcing it. 682 occurrences across 57 files, rewritten rather than substituted: a colon where a list or definition follows, a semicolon between independent clauses, a comma for an appositive, a period where the clause was really a second sentence, and a conjunction where the dash was hiding the logical connective.
+
+  Three things changed beyond punctuation. The `⚠ TBD` marker `to-prd` writes into a PRD is now `⚠ TBD: <who decides>` in both the skill and its docs page, so the two still agree. `CUSTOMIZING.md` no longer claims the promoted house domains are mobile and platform, which stopped being true when delivery, discovery, quality and writing landed. Empty Sync note cells in `.fork/divergence.md` read `None` instead of a bare dash.
+
+  Seven skill descriptions were rewritten. Four are unquoted YAML scalars where a colon-space would have made the front matter invalid and dropped the skill from skills.sh discovery silently, which is the same failure a changeset already fixed once before; each was parsed to confirm.
+
+  Upstream territory is untouched: the three en dashes in `docs/engineering/diagnosing-bugs.md` are upstream's own bytes and stay as they are.
+
+- [#6](https://github.com/hugues-vnsgn/skills/pull/6) [`3e05621`](https://github.com/hugues-vnsgn/skills/commit/3e056212ec11f3541431c3b4db8f7383af970c67) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Rework `unslop` against its own eval results. The body loses a quarter of its words, the claim rule gains a third move, and the register set gains a fourth entry.
+
+  Splitting the tell list follows the seam the skill already had. Everything `check-tells.py` matches now lives in `references/tells.md` and is reprinted with its fix in the checker's own output, so `SKILL.md` carries only the tells that need a person's judgment. That is what a skill body costs: it rides along on every turn once the skill fires, so the half a regex can do for you does not belong in it.
+
+  The claim rule used to have two settings, leave it or cut it, and both produce a thinner page than the one the author wanted. It now has three, and the new one is to write the missing explanation and mark it in place as the skill's own inference, so the reader gets the mechanism and the author can confirm or delete it in one keystroke. What stays banned is the quiet version, where a claim changes and nobody is told.
+
+  A commit body moves from Reference to Argument, because it argues that this was the right fix rather than reporting what moved. A new Instruction register covers documents an agent reads, which makes the `writing-for-agents` relationship a layering rather than a handoff: that skill owns the structure, this one owns the prose inside it.
+
+  Also: the description carries non-triggers so the skill stops firing on chat replies and one-line commit subjects, `surface` joins `harness` and `primitive` as a checker candidate so the leave-alone examples are actually enforced, quoting rules now say the source's words are untouchable while the marks around them are yours, and `evacuate` returns to the abstract-noun list it fell out of.
+
 ## 1.6.1
 
 ### Patch Changes

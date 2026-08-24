@@ -1,4 +1,4 @@
-# Compose Multiplatform — Reference
+# Compose Multiplatform: Reference
 
 Compiled from official kotlinlang.org docs (2026-08).
 
@@ -11,7 +11,7 @@ Compiled from official kotlinlang.org docs (2026-08).
 Two official routes:
 
 - **Kotlin Multiplatform IDE plugin** in IntelliJ IDEA / Android Studio: *File | New | Project → Kotlin Multiplatform*, pick targets (Android, iOS, Desktop, Web) and enable the **Share UI** option for iOS/web.
-- **KMP web wizard** at [kmp.jetbrains.com](https://kmp.jetbrains.com/) — generates a downloadable project with the same layout.
+- **KMP web wizard** at [kmp.jetbrains.com](https://kmp.jetbrains.com/) generates a downloadable project with the same layout.
 
 ### Module layout
 
@@ -37,7 +37,7 @@ Inside the shared module, source sets split by platform: `commonMain` (shared Ko
 fun MainViewController(): UIViewController = ComposeUIViewController { App() }
 ```
 
-The Swift side (`iosApp`) hosts this view controller — via SwiftUI's `UIViewControllerRepresentable` or directly in UIKit (see §4).
+The Swift side (`iosApp`) hosts this view controller, via SwiftUI's `UIViewControllerRepresentable` or directly in UIKit (see §4).
 
 - **Desktop:** a `main()` using `application { Window { App() } }` in `jvmMain`.
 - **Web:** `ComposeViewport(document.body) { App() }`.
@@ -72,16 +72,16 @@ fun App() {
 
 - **Android:** run the `androidApp` configuration against an emulator/device.
 - **iOS:** run the `iosApp` configuration against a simulator; for physical devices set the Team ID in Xcode and enable developer mode on the phone.
-- **Desktop:** `desktopApp [hot] 🔥` configuration — ships with Compose Hot Reload by default (CMP 1.10.0+).
+- **Desktop:** `desktopApp [hot] 🔥` configuration ships with Compose Hot Reload by default (CMP 1.10.0+).
 - **Web:** `webApp[js]` / `webApp[wasmJs]`, serves at `http://localhost:8080/`. For cross-browser compatibility builds: `./gradlew composeCompatibilityBrowserDistribution`.
 
 ---
 
 ## 2. Compose Multiplatform vs Jetpack Compose
 
-**Relationship:** Compose Multiplatform (JetBrains) builds directly on Jetpack Compose (Google) — same compiler, runtime, and core APIs (`@Composable`, `remember`, modifiers, layout, animation, Material/Material3). Jetpack Compose knowledge transfers directly.
+**Relationship:** Compose Multiplatform (JetBrains) builds directly on Jetpack Compose (Google), sharing the same compiler, runtime, and core APIs (`@Composable`, `remember`, modifiers, layout, animation, Material/Material3). Jetpack Compose knowledge transfers directly.
 
-**Key mechanism:** on the Android target, CMP resolves to **Google's official Jetpack artifacts** (`androidx.compose.material3:material3`); on other targets it uses JetBrains' ports (`org.jetbrains.compose.material3:material3`). Gradle Module Metadata handles the swap automatically — Android builds are literally running Jetpack Compose.
+**Key mechanism:** on the Android target, CMP resolves to **Google's official Jetpack artifacts** (`androidx.compose.material3:material3`); on other targets it uses JetBrains' ports (`org.jetbrains.compose.material3:material3`). Gradle Module Metadata handles the swap automatically, so Android builds are literally running Jetpack Compose.
 
 **Differences:**
 - Platforms: CMP = Android + iOS + desktop + web; Jetpack Compose = Android only.
@@ -91,7 +91,7 @@ fun App() {
 
 **Versioning (as of 2026):**
 - **Current stable Compose Multiplatform: 1.11.1**, mapping to **Jetpack Compose 1.11.2**.
-- CMP releases ship separately from Kotlin/Jetpack Compose, typically **1–3 months after** the corresponding Jetpack Compose release.
+- CMP releases ship separately from Kotlin/Jetpack Compose, typically **1-3 months after** the corresponding Jetpack Compose release.
 - Kotlin: minimum 2.1.0; K2 compiler mandatory since CMP 1.8.0; Kotlin 2.2.20+ recommended for iOS/web.
 - Recent mapping table (CMP → Jetpack Compose): 1.11.1 → 1.11.2; 1.10.3 → 1.10.5; 1.9.3 → 1.9.4; 1.8.2 → 1.8.2; 1.7.3 → 1.7.6.
 - Supported platforms at 1.11.1: Android 5.0+ (API 21), **iOS 14+**, macOS 13 arm64+, Windows 10+, Ubuntu 20.04+, WasmGC browsers. 64-bit only.
@@ -126,8 +126,8 @@ val uri = Res.getUri("files/video.mp4")                    // for platform APIs 
 
 Notes:
 - Qualifiers supported for language, screen density, theme.
-- **Multi-module resources** work with Kotlin 2.0+ and Gradle 7.6+ — resources can live in any module/source set.
-- Web resource loading is async; most other reads are synchronous on the caller thread. Large-file streaming isn't supported — use `Res.getUri()` and hand it to system APIs.
+- **Multi-module resources** work with Kotlin 2.0+ and Gradle 7.6+, so resources can live in any module/source set.
+- Web resource loading is async; most other reads are synchronous on the caller thread. Large-file streaming isn't supported, so use `Res.getUri()` and hand it to system APIs.
 
 ### Navigation
 
@@ -177,7 +177,7 @@ fun CupcakeApp(viewModel: OrderViewModel = viewModel { OrderViewModel() }) {
 ```
 
 Gotchas:
-- On non-JVM platforms (iOS in particular) you **cannot call `viewModel()` with no arguments** — type reflection is unavailable, so always pass an initializer lambda or explicit factory.
+- On non-JVM platforms (iOS in particular) you **cannot call `viewModel()` with no arguments**, because type reflection is unavailable, so always pass an initializer lambda or explicit factory.
 - Desktop needs `kotlinx-coroutines-swing` so `Dispatchers.Main.immediate` works for ViewModel coroutines.
 
 ---
@@ -231,7 +231,7 @@ Main_iosKt.ComposeEntryPointWithUIViewController(createUIViewController: {
 
 ### UIKit both directions
 
-- Compose in UIKit: the `ComposeUIViewController` is just a `UIViewController` — drop it into a `UINavigationController`/`UITabBarController`.
+- Compose in UIKit: the `ComposeUIViewController` is just a `UIViewController`, so drop it into a `UINavigationController`/`UITabBarController`.
 - UIKit in Compose: `UIKitView(factory = { MKMapView() }, modifier = ..., update = { ... })`. `factory` creates the view, `update` runs when observed Compose state changes; `@ObjCAction` is needed for Objective-C target-action callbacks. Docs show worked examples for maps, `UITextField` two-way binding, `AVCaptureSession` camera, and `WKWebView`.
 
 ---
@@ -331,10 +331,10 @@ Multi-target (e.g. iOS + tvOS): repeat the `pod ... :path =>` line per target an
 ### Workflow
 
 1. Edit `build.gradle.kts` (pods, framework config).
-2. Run `pod install` — or preferably **`./gradlew podInstall`**, which also creates required directories/resources.
+2. Run `pod install`, or preferably **`./gradlew podInstall`**, which also creates required directories/resources.
 3. Open **`.xcworkspace`** (never `.xcodeproj` after pod install).
 4. In Xcode Build Settings, **disable "User Script Sandboxing"** for the app target.
-5. Build in Xcode — the Kotlin framework rebuilds automatically via the podspec's script phase. With multiple Xcode projects, run `pod install` manually for each.
+5. Build in Xcode. The Kotlin framework rebuilds automatically via the podspec's script phase. With multiple Xcode projects, run `pod install` manually for each.
 
 ⚠️ CocoaPods integration is **mutually exclusive with direct integration** (`embedAndSignAppleFrameworkForXcode`); pick one.
 
@@ -365,12 +365,12 @@ Multi-target (e.g. iOS + tvOS): repeat the `pod ... :path =>` line per target an
 ### iOS performance
 
 - Compose renders via its own canvas (Skia/Skiko) inside `ComposeUIViewController`. Add `CADisableMinimumFrameDurationOnPhone` to `Info.plist` or the app is capped below ProMotion refresh rates.
-- Debug Kotlin/Native builds are markedly slower than release — judge scrolling/animation performance on **release** builds on real devices.
+- Debug Kotlin/Native builds are markedly slower than release, so judge scrolling/animation performance on **release** builds on real devices.
 
 ### iOS accessibility
 
 - Compose semantics map automatically to iOS Accessibility (VoiceOver, screen readers); `Modifier.testTag` maps to `accessibilityIdentifier`, enabling **XCTest** UI automation and `performAccessibilityAudit()`.
-- Tune tree syncing via `ComposeUIViewController(configure = { accessibilitySyncOptions = AccessibilitySyncOptions.Always(...) })` — modes: `Never`, `WhenRequiredByAccessibilityServices`, `Always`, with an optional debug logger.
+- Tune tree syncing via `ComposeUIViewController(configure = { accessibilitySyncOptions = AccessibilitySyncOptions.Always(...) })`. Modes: `Never`, `WhenRequiredByAccessibilityServices`, `Always`, with an optional debug logger.
 - Material3 has no built-in high-contrast scheme: detect `UIAccessibilityDarkerSystemColorsEnabled` and supply custom palettes (WCAG 4.5:1 standard text, 7:1 for stricter compliance).
 - AssistiveTouch and Full Keyboard Access work with Compose content.
 

@@ -13,7 +13,7 @@ Claude Code injects a system reminder with every CLAUDE.md that says:
 
 > "this context may or may not be relevant to your tasks. You should not respond to this context unless it is highly relevant to your task."
 
-This means Claude will ignore parts of your CLAUDE.md it deems irrelevant. The more content that isn't applicable to the current task, the more likely Claude is to ignore everything — including the parts that matter.
+This means Claude will ignore parts of your CLAUDE.md it deems irrelevant. The more content that isn't applicable to the current task, the more likely Claude is to ignore everything, including the parts that matter.
 
 ## Solution: `<important if="condition">` Blocks
 
@@ -23,15 +23,15 @@ Wrap conditionally-relevant sections of the CLAUDE.md in `<important if="conditi
 
 ### 1. Foundational context stays bare, domain guidance gets wrapped
 
-Not everything should be in an `<important if>` block. Context that is relevant to virtually every task — project identity, project map, tech stack — should be left as plain markdown at the top of the file. This is onboarding context the agent always needs.
+Not everything should be in an `<important if>` block. Context that is relevant to virtually every task, such as project identity, project map and tech stack, should be left as plain markdown at the top of the file. This is onboarding context the agent always needs.
 
-Domain-specific guidance that only matters for certain tasks — testing patterns, API conventions, state management, i18n — gets wrapped in `<important if>` blocks with targeted conditions.
+Domain-specific guidance that only matters for certain tasks, such as testing patterns, API conventions, state management and i18n, gets wrapped in `<important if>` blocks with targeted conditions.
 
 The rule of thumb: if it's relevant to 90%+ of tasks, leave it bare. If it's relevant to a specific kind of work, wrap it.
 
 ### 2. Conditions must be specific and targeted
 
-Bad — overly broad conditions that match everything:
+Bad, overly broad conditions that match everything:
 ```
 <important if="you are writing or modifying any code">
 - Use absolute imports
@@ -40,7 +40,7 @@ Bad — overly broad conditions that match everything:
 </important>
 ```
 
-Good — each rule has its own narrow trigger:
+Good, each rule has its own narrow trigger:
 ```
 <important if="you are adding or modifying imports">
 - Use `@/` absolute imports (see tsconfig.json for path aliases)
@@ -60,7 +60,7 @@ Good — each rule has its own narrow trigger:
 
 Do not shard into separate files that require the agent to make tool calls to discover, unless the extra context is incredibly verbose or complex.
 
-The whole point of `<important if>` blocks is that everything is inline but conditionally weighted — the agent sees it all but only attends to what matches.
+The whole point of `<important if>` blocks is that everything is inline but conditionally weighted: the agent sees it all but only attends to what matches.
 
 Prefer to keep the file concise.
 
@@ -68,12 +68,12 @@ Prefer to keep the file concise.
 
 - Frontier models can reliably follow a few hundred. Claude Code's system prompt and tools already use ~50 of those. Your CLAUDE.md should be as lean as possible.
 - Cut any instruction that a linter, formatter, or pre-commit hook can enforce
-- Cut any instruction the agent can discover from existing code patterns. LLMs are in-context learners — if your codebase consistently uses a pattern, the agent will follow it after a few searches.
+- Cut any instruction the agent can discover from existing code patterns. LLMs are in-context learners, so if your codebase consistently uses a pattern, the agent will follow it after a few searches.
 - Cut code snippets. They go stale and bloat the file. Use file path references instead (e.g., "see `src/utils/example.ts` for the pattern").
 
 ### 5. Keep all commands
 
-Do not drop commands from the original file. The commands table is foundational reference — the agent needs to know what's available even if some commands are used less frequently.
+Do not drop commands from the original file. The commands table is foundational reference, because the agent needs to know what's available even if some commands are used less frequently.
 
 ## Output Structure
 
@@ -114,15 +114,15 @@ When rewriting a CLAUDE.md, produce this structure:
 
 When given an existing CLAUDE.md to improve:
 
-1. **Identify the project identity** — extract a single sentence describing what this is. Leave it bare at the top.
-2. **Extract the directory map** — keep it bare (no `<important if>` wrapper). This is foundational context.
-3. **Extract the tech stack** — if present, keep it bare near the top. Condense to one or two lines.
-4. **Extract commands** — keep ALL commands from the original. Wrap in a single `<important if>` block.
-5. **Break apart rules** — split any list of rules into individual `<important if>` blocks with specific conditions. You can group rules, but never group unrelated rules under one broad condition.
-6. **Wrap domain sections** — testing, API patterns, state management, i18n, etc. each get their own block with a condition describing when that knowledge matters.
-7. **Delete linter territory** — remove style guidelines, formatting rules, and anything enforceable by tooling. Suggest replacing with pre-push or pre-commit hooks.
-8. **Delete code snippets** — replace with file path references.
-9. **Delete vague instructions** — remove anything like "leverage the X agent" or "follow best practices" that isn't concrete and actionable.
+1. **Identify the project identity**: extract a single sentence describing what this is. Leave it bare at the top.
+2. **Extract the directory map**: keep it bare (no `<important if>` wrapper). This is foundational context.
+3. **Extract the tech stack**: if present, keep it bare near the top. Condense to one or two lines.
+4. **Extract commands**: keep ALL commands from the original. Wrap in a single `<important if>` block.
+5. **Break apart rules**: split any list of rules into individual `<important if>` blocks with specific conditions. You can group rules, but never group unrelated rules under one broad condition.
+6. **Wrap domain sections**: testing, API patterns, state management, i18n, etc. each get their own block with a condition describing when that knowledge matters.
+7. **Delete linter territory**: remove style guidelines, formatting rules, and anything enforceable by tooling. Suggest replacing with pre-push or pre-commit hooks.
+8. **Delete code snippets**: replace with file path references.
+9. **Delete vague instructions**: remove anything like "leverage the X agent" or "follow best practices" that isn't concrete and actionable.
 
 ## Example
 
@@ -252,8 +252,8 @@ Run with `turbo` from the repo root.
 ```
 
 What was removed and why:
-- camelCase/PascalCase, const vs let, strict equality, template literals, JSDoc, barrel exports — linter and formatter territory, or discoverable from existing code patterns
-- Coding Standards as a grouped section — split into targeted blocks by trigger condition
+- camelCase/PascalCase, const vs let, strict equality, template literals, JSDoc, barrel exports, which are linter and formatter territory, or discoverable from existing code patterns
+- Coding Standards as a grouped section, split into targeted blocks by trigger condition
 
 What was NOT removed:
 - All commands kept (including dev, storybook, analyze)

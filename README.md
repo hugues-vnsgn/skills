@@ -29,7 +29,7 @@ In your agent, run it once per repo. It will:
 - Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
 - Ask you where you want to save any docs we create
 
-### 3. Bam - you're ready to go.
+### 3. Bam, you're ready to go.
 
 ## Reference
 

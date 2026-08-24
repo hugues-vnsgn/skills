@@ -7,6 +7,7 @@ Every skill here carries `metadata.internal: true`, so none reaches the installe
 - **[bro](./bro/SKILL.md)**: Restate the last message in plain human language, with no jargon. User-invoked.
 - **[improve-claude-md](./improve-claude-md/SKILL.md)**: Improve a `CLAUDE.md` using `<important if>` blocks to raise instruction adherence.
 - **[show-me](./show-me/SKILL.md)**: Draw the current topic as the smallest true picture, then show the smaller shape it exposes.
+- **[use-git-worktree](./use-git-worktree/SKILL.md)**: Start every feature and fix in its own isolated worktree under `.worktrees/`.
 
 ## Shipping checklist
 

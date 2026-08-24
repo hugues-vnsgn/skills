@@ -24,3 +24,4 @@ CLAUDE.local.md
 .codex/
 prompts/
 .DS_Store
+/.worktrees/

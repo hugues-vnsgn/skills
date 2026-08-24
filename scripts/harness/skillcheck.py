@@ -66,8 +66,17 @@ TREE_ALLOWLIST = COORDINATE_ALLOWLIST
 # Never scanned: VCS internals, dependencies, a second working tree, the Dolt
 # issue store, and gitignored local scratch. None of these ship, and most do not
 # exist in a clean CI checkout, so scanning them would fail only on dev machines.
+# `.worktrees/` is the `use-git-worktree` convention and `.claude/` is where a
+# harness puts the same thing. Either holds a full checkout of another branch,
+# so scanning one reports that branch's history as this tree's drift.
 COORDINATE_SKIP = (".git/", "node_modules/", ".claude/", ".beads/",
-                   "isolated_test_workspace/", "prompts/", "CLAUDE.local.md")
+                   ".worktrees/", "isolated_test_workspace/", "prompts/",
+                   "CLAUDE.local.md")
+# Pruned from every os.walk below, by directory basename. A repo-shaped
+# directory nested inside the repo doubles every file, so a repo-wide assertion
+# finds the copy and reports it against the original.
+WALK_SKIP_DIRS = {".git", "node_modules", ".claude", ".worktrees",
+                  "isolated_test_workspace"}
 BINARY_SUFFIXES = (".png", ".jpg", ".jpeg", ".ico", ".gif", ".woff", ".woff2")
 
 
@@ -446,6 +455,7 @@ def check_install_block(repo):
     # scripts/generate-marketplace.py and ADR 0002's 2026-08-17 update.
     stray_plugin_files = []
     for root, dirs, _ in os.walk(repo):
+        dirs[:] = [d for d in dirs if d not in WALK_SKIP_DIRS]
         if ".claude-plugin" not in dirs:
             continue
         found = os.path.join(root, ".claude-plugin")
@@ -481,7 +491,7 @@ def check_repo_coordinates(repo):
     rows = []
     coordinate_offenders, tree_offenders, unreadable = [], [], []
     for root, dirs, files in os.walk(repo):
-        dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
+        dirs[:] = [d for d in dirs if d not in WALK_SKIP_DIRS]
         for f in files:
             full = os.path.join(root, f)
             rel = os.path.relpath(full, repo)

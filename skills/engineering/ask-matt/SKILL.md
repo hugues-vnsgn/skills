@@ -95,6 +95,7 @@ Off the main flow entirely.
 - **`/wait-what`** is the corrective for a message that didn't land. Use it mid-conversation, inside any other skill, and the agent re-pitches what it just said with the context you were missing, in plain English, using the `CONTEXT.md` vocabulary. It works after the fact; `/grill-with-docs` is the upfront cure, because a shared language agreed early is what stops the jargon arriving at all.
 - **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
+- **`/unslop`** is the same job for the other reader, prose a **human** consumes: a README, a PR description, release notes, an essay. It cuts the AI tells and then checks a voice survived the cutting, since beige reads as machine-made just as loudly as florid does. It sets the **register** first (reference, argument, conversation), because the voice half is wrong in a config doc, and it refuses to change what a sentence claims, flagging the problem rather than smoothing it away. Model-invoked, so the agent reaches for it as prose gets written; reach for it directly on any draft about to be published. The pair splits on **who reads the document**, so `/writing-for-agents` for the agent-facing one and this for the human-facing one.
 
 ## Precondition
 

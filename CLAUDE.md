@@ -40,6 +40,20 @@ To (re)link every skill into the local harness skill directories (`~/.claude/ski
 No em-dashes anywhere in this repo's prose (`SKILL.md` files, docs, `README.md`, `CHANGELOG.md`, ADRs, changesets, code comments). Where a sentence reaches for one, rewrite it instead with a comma, colon, period, parentheses, or a conjunction, whichever the sentence actually wants; never do a blind character substitution.
 
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:6cd5cc61 -->
+## Agent skills
+
+### Issue tracker
+
+Issues live in **beads (`bd`)**, a local Dolt-backed tracker, not GitHub Issues and not markdown checklists. See [`docs/agents/issue-tracker.md`](./docs/agents/issue-tracker.md).
+
+### Triage labels
+
+The five canonical roles, with label strings unchanged: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See [`docs/agents/triage-labels.md`](./docs/agents/triage-labels.md).
+
+### Domain docs
+
+Single-context: the glossary is [`CONTEXT.md`](./CONTEXT.md) at the root, and ADRs live in [`.agents/adr/`](./.agents/adr/) rather than the `docs/adr/` the skills assume by default. See [`docs/agents/domain.md`](./docs/agents/domain.md).
+
 ## Beads Issue Tracker
 
 This project uses **bd (beads)** for issue tracking. Run `bd prime` to see full workflow context and commands.

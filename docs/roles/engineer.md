@@ -72,6 +72,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 ## Working on the skills themselves
 
 - **[writing-for-agents](../productivity/writing-for-agents.md)** _(auto)_ — before you edit a `SKILL.md`, a `CLAUDE.md`, or any document an agent reaches by pointer: they are written for a reader who cannot ask a follow-up question.
+- **[unslop](../house/writing/unslop.md)** _(auto)_ does the same job for prose a *human* reads: the README, the PR description, the release notes. Cuts the AI tells, then checks a voice survived the cutting.
 - **[port-from-repo](../house/platform/port-from-repo.md)** — another repo does something well and you want it here. Study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
 - **[herdr](../../skills/house/platform/herdr/SKILL.md)** _(auto, beta)_ — drive Herdr's panes, tabs and workspaces from an agent. Only reaches for it when you name Herdr, and only with `HERDR_ENV=1` set.
 

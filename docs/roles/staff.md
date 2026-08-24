@@ -47,6 +47,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[grilling](../productivity/grilling.md)** _(auto)_ — the primitive the grill skills run on, and the one to reach for when another skill needs an interview.
 - **[to-questionnaire](../productivity/to-questionnaire.md)** — a decision that needs someone else's authority becomes a questionnaire, answered async or in one meeting.
 - **[wait-what](../productivity/wait-what.md)** — a message did not land. Re-pitch it in the project's own vocabulary rather than moving on.
+- **[unslop](../house/writing/unslop.md)** _(auto)_ is the last pass before anything is published. Sets the register first, so a decision doc keeps its opinions and a config doc loses them.
 - **[teach](../productivity/teach.md)** — a stateful workspace for taking someone (or yourself) through a concept across several sessions.
 
 ## Long sessions

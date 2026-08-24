@@ -78,6 +78,12 @@
       "skills": [
         "./skills/house/quality/do-test"
       ]
+    },
+    {
+      "name": "writing",
+      "skills": [
+        "./skills/house/writing/unslop"
+      ]
     }
   ]
 }

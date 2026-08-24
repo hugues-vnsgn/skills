@@ -110,6 +110,14 @@ House skills for the toolchain itself — repo configuration, porting capabiliti
 - **[setup-osxsystem-skills](./skills/house/platform/setup-osxsystem-skills/SKILL.md)** — Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[port-from-repo](./skills/house/platform/port-from-repo/SKILL.md)** — Bring a capability across from another codebase — study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
 
+### Writing
+
+House skills for prose a human reads, as opposed to the agent-facing documents `writing-for-agents` covers. Fork addition, see [skills/house/writing/README.md](./skills/house/writing/README.md).
+
+**Model-invoked**
+
+- **[unslop](./skills/house/writing/unslop/SKILL.md)** cuts the AI tells out of a draft and gives it a voice back. Sets the register first (reference, argument, conversation), holds back any edit that would change a claim, and ships a checker that finds the mechanical tells so judgment goes to the rest.
+
 ## Repository layout
 
 The tree is split by **provenance** — who owns the bytes — not by audience. If you're looking for *your* skills, use the [role pages](./docs/roles/engineer.md) or [CATALOG.md](./CATALOG.md) instead of walking the folders.

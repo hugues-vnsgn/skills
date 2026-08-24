@@ -24,8 +24,8 @@ version: 1
 # Role vocabulary. `docs/roles/` has one entry page per audience.
 audiences: [engineer, designer, analyst, qa, staff]
 
-# Domain vocabulary. `design`, `discovery`, and `quality` are reserved for
-# future house domains — their folders are created when the first skill lands.
+# Domain vocabulary. `design` is reserved for a future house domain: its folder
+# is created when the first skill lands.
 domains:
   - engineering
   - productivity
@@ -38,6 +38,7 @@ domains:
   - design
   - discovery
   - quality
+  - writing
   # Not a capability domain — the staging bucket for skills still being
   # written. Unshipped in `scripts/generate-marketplace.py`, so its skills
   # stay out of the installer picker until they move to a real domain.
@@ -370,6 +371,14 @@ skills:
     owner: "@hugues-vnsgn"
     status: beta
 
+  # --- fork: writing ---
+  - name: unslop
+    path: skills/house/writing/unslop
+    origin: fork
+    domain: writing
+    audience: [engineer, analyst, staff]
+    owner: "@hugues-vnsgn"
+
   # --- fork: in-development ---
   # Staging, not a capability domain. Every entry is `status: beta` and carries
   # `metadata.internal: true`, so none reaches the installer picker. The
@@ -397,12 +406,5 @@ skills:
     origin: fork
     domain: in-development
     audience: [engineer, designer]
-    owner: "@hugues-vnsgn"
-    status: beta
-  - name: unslop
-    path: skills/house/in-development/unslop
-    origin: fork
-    domain: in-development
-    audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta

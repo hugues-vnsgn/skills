@@ -27,11 +27,12 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Write it up
 
-Three passes over the same material, in this order — one workflow, not three options.
+Three passes over the same material, in this order: one workflow, not three options. Then a fourth over the finished draft.
 
 - **[writing-fragments](../../skills/in-progress/writing-fragments/SKILL.md)** — explore: mine the raw notes for what is actually being claimed, no structure yet.
 - **[writing-beats](../../skills/in-progress/writing-beats/SKILL.md)** — exploit: assemble the fragments into a journey, grounding each term before a beat leans on it.
 - **[writing-shape](../../skills/in-progress/writing-shape/SKILL.md)** — exploit: shape it into the finished document, paragraph by paragraph.
+- **[unslop](../house/writing/unslop.md)** _(auto)_ runs the edit pass: cut the AI tells from the finished draft, and refuse to soften a claim to do it. Anything unsourced comes back flagged rather than smoothed.
 
 ## Long sessions
 

@@ -107,3 +107,8 @@ This protocol applies when ending a Beads implementation workflow. It is subordi
 - Do not commit or push without clear authority from the active profile or the current user request.
 - If a required sync or push is blocked, stop and report the exact command and error.
 <!-- END BEADS INTEGRATION -->
+
+**Rules:** There is three simple rule before you write a new skill or update it
+1. Trigger
+2. Structure
+3. Steering

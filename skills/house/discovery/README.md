@@ -1,6 +1,6 @@
 # Discovery
 
-House skills for the phase before the spec — turning an idea into documents a CEO, BA, and engineer can all read and mean the same thing by. Fork-authored: upstream owns none of these bytes.
+House skills for the phase before the spec, turning an idea into documents a CEO, BA, and engineer can all read and mean the same thing by. Fork-authored, so upstream owns none of these bytes.
 
 ## User-invoked
 

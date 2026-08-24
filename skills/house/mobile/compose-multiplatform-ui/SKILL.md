@@ -1,6 +1,6 @@
 ---
 name: compose-multiplatform-ui
-description: Use when building shared UI with Compose Multiplatform — creating the app skeleton and per-platform entry points (MainActivity, MainViewController), using composeResources/Res, Navigation Compose or ViewModel in commonMain, embedding SwiftUI/UIKit in Compose (or vice versa), or debugging iOS-specific Compose issues (frame rate caps, accessibility, viewModel() crashes on iOS).
+description: Use when building shared UI with Compose Multiplatform, creating the app skeleton and per-platform entry points (MainActivity, MainViewController), using composeResources/Res, Navigation Compose or ViewModel in commonMain, embedding SwiftUI/UIKit in Compose (or vice versa), or debugging iOS-specific Compose issues (frame rate caps, accessibility, viewModel() crashes on iOS).
 ---
 
 # Compose Multiplatform UI
@@ -14,7 +14,7 @@ Shared Compose UI across Android and iOS: entry points, resources, navigation, V
 - **iOS**: `fun MainViewController(): UIViewController = ComposeUIViewController { App() }` in `iosMain`; Swift hosts it via `UIViewControllerRepresentable`.
 - **Required on iOS**: `CADisableMinimumFrameDurationOnPhone = true` in `Info.plist`, or Compose is capped below ProMotion refresh rates.
 
-CMP builds on Jetpack Compose — on Android it resolves to Google's real `androidx` artifacts; other targets use JetBrains ports. Jetpack knowledge transfers directly. Multiplatform ports of Lifecycle/ViewModel/Navigation live at `org.jetbrains.androidx.*` coordinates.
+CMP builds on Jetpack Compose. On Android it resolves to Google's real `androidx` artifacts; other targets use JetBrains ports. Jetpack knowledge transfers directly. Multiplatform ports of Lifecycle/ViewModel/Navigation live at `org.jetbrains.androidx.*` coordinates.
 
 ## Resources
 
@@ -33,13 +33,13 @@ implementation("org.jetbrains.androidx.navigation:navigation-compose:<version>")
 
 Same API as Jetpack: `rememberNavController()`, `NavHost`, type-safe `@Serializable` routes.
 
-ViewModel gotcha: **on iOS you cannot call `viewModel()` with no arguments** (no type reflection) — always pass an initializer: `viewModel { OrderViewModel() }`. Desktop needs `kotlinx-coroutines-swing` for `Dispatchers.Main.immediate`.
+ViewModel gotcha: **on iOS you cannot call `viewModel()` with no arguments** (no type reflection), so always pass an initializer: `viewModel { OrderViewModel() }`. Desktop needs `kotlinx-coroutines-swing` for `Dispatchers.Main.immediate`.
 
 ## Native UI interop (both directions)
 
 - SwiftUI **in** Compose: pass a `() -> UIViewController` factory (wrapping `UIHostingController`) from Swift into Kotlin, render with `UIKitViewController(factory = ...)`.
 - UIKit views in Compose: `UIKitView(factory = { MKMapView() }, update = { ... })`; `@ObjCAction` for target-action callbacks.
-- Compose in UIKit/SwiftUI: `ComposeUIViewController` is a plain `UIViewController` — push it, tab it, or wrap it in `UIViewControllerRepresentable`.
+- Compose in UIKit/SwiftUI: `ComposeUIViewController` is a plain `UIViewController`, so push it, tab it, or wrap it in `UIViewControllerRepresentable`.
 
 ## Iteration & verification loop
 

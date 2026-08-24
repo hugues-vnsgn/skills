@@ -15,9 +15,9 @@ What this fork adds on top of upstream:
 npx skills@latest add hugues-vnsgn/skills
 ```
 
-Skills are grouped by domain — **Engineering**, **Productivity**, and one group per house domain (**Mobile**, **Platform**, and so on) — and each group header takes a single keystroke to select everything under it. Pick the groups or the individual skills you want, then choose which coding agents to install them on. **Expand **Platform** and make sure `setup-osxsystem-skills` is ticked.**
+Skills are grouped by domain: **Engineering**, **Productivity**, and one group per house domain (**Mobile**, **Platform**, and so on). Each group header takes a single keystroke to select everything under it. Pick the groups or the individual skills you want, then choose which coding agents to install them on. **Expand **Platform** and make sure `setup-osxsystem-skills` is ticked.**
 
-Claude Code, Codex, Cursor, Pi and 70-odd other agents are offered by name. **[omp (oh-my-pi)](https://omp.sh) is not yet listed by name — choose the `agents` target**, which writes to `~/.agents/skills`, the location omp reads natively.
+Claude Code, Codex, Cursor, Pi and 70-odd other agents are offered by name. **[omp (oh-my-pi)](https://omp.sh) is not yet listed by name, so choose the `agents` target**, which writes to `~/.agents/skills`, the location omp reads natively.
 
 The installer writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull the latest changes when you want them with `npx skills update`.
 
@@ -83,15 +83,15 @@ General workflow tools, not code-specific.
 
 ### Discovery
 
-House skills for the phase before the spec — turning an idea into documents a CEO, BA, and engineer can all read the same way. Fork addition — see [skills/house/discovery/README.md](./skills/house/discovery/README.md).
+House skills for the phase before the spec, turning an idea into documents a CEO, BA, and engineer can all read the same way. Fork addition, see [skills/house/discovery/README.md](./skills/house/discovery/README.md).
 
 **User-invoked**
 
-- **[to-prd](./skills/house/discovery/to-prd/SKILL.md)** — Turn the current conversation into a Product Requirements Document — why it's worth building, for whom, and what success looks like. Synthesis first, one batched round of questions for the decisions only you can make; saved in the repo, linked from the tracker.
+- **[to-prd](./skills/house/discovery/to-prd/SKILL.md)**: Turn the current conversation into a Product Requirements Document, covering why it's worth building, for whom, and what success looks like. Synthesis first, one batched round of questions for the decisions only you can make; saved in the repo, linked from the tracker.
 
 ### Mobile
 
-House skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift). Fork addition — see [skills/house/mobile/README.md](./skills/house/mobile/README.md).
+House skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift). Fork addition, see [skills/house/mobile/README.md](./skills/house/mobile/README.md).
 
 **Model-invoked**
 
@@ -103,12 +103,12 @@ House skills for Kotlin Multiplatform + Compose Multiplatform development (Andro
 
 ### Platform
 
-House skills for the toolchain itself — repo configuration, porting capabilities in, unsticking a design. Fork addition — see [skills/house/platform/README.md](./skills/house/platform/README.md).
+House skills for the toolchain itself: repo configuration, porting capabilities in, unsticking a design. Fork addition, see [skills/house/platform/README.md](./skills/house/platform/README.md).
 
 **User-invoked**
 
 - **[setup-osxsystem-skills](./skills/house/platform/setup-osxsystem-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
-- **[port-from-repo](./skills/house/platform/port-from-repo/SKILL.md)** — Bring a capability across from another codebase — study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
+- **[port-from-repo](./skills/house/platform/port-from-repo/SKILL.md)**: Bring a capability across from another codebase. Study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
 
 ### Writing
 
@@ -120,7 +120,7 @@ House skills for prose a human reads, as opposed to the agent-facing documents `
 
 ## Repository layout
 
-The tree is split by **provenance** — who owns the bytes — not by audience. If you're looking for *your* skills, use the [role pages](./docs/roles/engineer.md) or [CATALOG.md](./CATALOG.md) instead of walking the folders.
+The tree is split by **provenance**, meaning who owns the bytes, rather than by audience. If you're looking for *your* skills, use the [role pages](./docs/roles/engineer.md) or [CATALOG.md](./CATALOG.md) instead of walking the folders.
 
 ```
 skills/
@@ -151,9 +151,9 @@ docs/
 CATALOG.md                # generated from .fork/catalog.yaml — do not hand-edit
 ```
 
-Skills install **flat by name** (`scripts/link-skills.sh`), so a skill's folder never changes how it's invoked — the layout exists for maintenance and upstream syncs, not for users. The sync procedure lives in [.fork/sync-playbook.md](./.fork/sync-playbook.md).
+Skills install **flat by name** (`scripts/link-skills.sh`), so a skill's folder never changes how it's invoked. The layout exists for maintenance and upstream syncs, not for users. The sync procedure lives in [.fork/sync-playbook.md](./.fork/sync-playbook.md).
 
 The **osxsystem fork** of [mattpocock/skills](https://github.com/mattpocock/skills): a personal setup, customized for mobile development with **Kotlin Multiplatform + Compose Multiplatform** (Android + iOS/Swift).
 
 > [!NOTE]
-> This project uses [mattpocock/skills](https://github.com/mattpocock/skills) — Matt Pocock's agent skills for real engineering. All credit for the engineering, productivity, and misc skills goes to the upstream author; read the [upstream README](https://github.com/mattpocock/skills#why-these-skills-exist) for the philosophy behind them.
+> This project uses [mattpocock/skills](https://github.com/mattpocock/skills), Matt Pocock's agent skills for real engineering. All credit for the engineering, productivity, and misc skills goes to the upstream author; read the [upstream README](https://github.com/mattpocock/skills#why-these-skills-exist) for the philosophy behind them.

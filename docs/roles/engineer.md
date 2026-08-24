@@ -1,6 +1,6 @@
 # Skills for software engineers
 
-The full daily set: shaping work, building it, reviewing it, and the mobile layer underneath. Read top to bottom the first time — the order is roughly the order you meet these skills on a real piece of work.
+The full daily set: shaping work, building it, reviewing it, and the mobile layer underneath. Read top to bottom the first time, since the order is roughly the order you meet these skills on a real piece of work.
 
 Every skill here is one whose `audience` names `engineer` in [`.fork/catalog.yaml`](../../.fork/catalog.yaml), the single source of truth for who a skill is for. Each entry links to its docs page, or straight to `SKILL.md` where the skill has none (beta, `misc/`, `in-progress/`).
 
@@ -40,10 +40,10 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[diagnosing-bugs](../engineering/diagnosing-bugs.md)** _(auto)_: a bug you cannot explain, or a performance regression. Builds a loop that goes red on *this* bug before anything is fixed.
 - **[when-stuck](../../skills/house/platform/when-stuck/SKILL.md)** _(auto)_: not a bug: the design will not resolve, every option feels forced, or special cases keep accreting.
-- **[resolving-merge-conflicts](../engineering/resolving-merge-conflicts.md)** _(auto)_ — work an in-progress merge or rebase hunk by hunk, by intent, and finish it — never `--abort`.
+- **[resolving-merge-conflicts](../engineering/resolving-merge-conflicts.md)** _(auto)_: work an in-progress merge or rebase hunk by hunk, by intent, and finish it, never `--abort`.
 - **[wait-what](../productivity/wait-what.md)**: the agent's last message did not land. Fire this instead of nodding along.
 
-## Mobile — Kotlin Multiplatform + Compose
+## Mobile: Kotlin Multiplatform + Compose
 
 - **[kmp-module-setup](../house/mobile/kmp-module-setup.md)** _(auto)_: targets, source sets, the version catalog, and the `expect`/`actual`-vs-interface call.
 - **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_: where a test lives (`commonTest` vs a platform source set) and the cheapest Gradle task that proves the slice. Sits underneath `/tdd`, not instead of it.

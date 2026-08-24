@@ -1,15 +1,15 @@
-# Fork catalog — the sidecar taxonomy for every skill in this repo.
+# Fork catalog: the sidecar taxonomy for every skill in this repo.
 #
 # Sidecar by design: upstream `SKILL.md` frontmatter is never edited to carry
 # fork metadata, because every such edit is a future merge conflict.
 #
 # Fields per skill:
-#   name      directory basename — also the flat install name, unique repo-wide
+#   name      directory basename, also the flat install name, unique repo-wide
 #   path      repo-relative skill directory
 #   origin    `upstream` (mattpocock/skills owns the bytes) | `fork` (we do)
 #   domain    upstream skills keep their upstream bucket; fork skills are
 #             grouped by capability domain
-#   audience  which roles the skill serves — one skill may serve several
+#   audience  which roles the skill serves, and one skill may serve several
 #   owner     GitHub team with approval authority (mirrors CODEOWNERS)
 #   status    optional: `beta` exempts a house skill from promotion (no docs
 #             page, out of the top-level README, flat `## Beta` list in its
@@ -39,7 +39,7 @@ domains:
   - discovery
   - quality
   - writing
-  # Not a capability domain — the staging bucket for skills still being
+  # Not a capability domain, but the staging bucket for skills still being
   # written. Unshipped in `scripts/generate-marketplace.py`, so its skills
   # stay out of the installer picker until they move to a real domain.
   - in-development
@@ -384,7 +384,7 @@ skills:
   # `metadata.internal: true`, so none reaches the installer picker. The
   # `audience` below records who the skill is *aimed at*; it earns its place in
   # the matching `docs/roles/` page and its docs page only on the move to a real
-  # domain — listing a skill nobody can install yet in a role's reading order
+  # domain. Listing a skill nobody can install yet in a role's reading order
   # sends the reader at a dead end. See the shipping checklist in
   # `skills/house/in-development/README.md`.
   - name: bro

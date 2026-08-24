@@ -15,7 +15,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## When something is broken
 
-- **[diagnosing-bugs](../engineering/diagnosing-bugs.md)** _(auto)_ — the discipline for a bug nobody can explain: build a loop that goes red on *this* bug, minimise it, then hypothesise — before anyone proposes a fix.
+- **[diagnosing-bugs](../engineering/diagnosing-bugs.md)** _(auto)_ is the discipline for a bug nobody can explain: build a loop that goes red on *this* bug, minimise it, then hypothesise, all before anyone proposes a fix.
 - **[triage](../engineering/triage.md)**: move incoming issues and external PRs through a state machine of triage roles, ending in a brief an agent can act on.
 
 ## Getting a build to test

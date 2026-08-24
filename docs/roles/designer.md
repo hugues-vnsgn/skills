@@ -20,7 +20,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Write it up
 
-Three passes over the same material, in this order — they are one workflow, not three options.
+Three passes over the same material, in this order: one workflow, not three options.
 
 - **[writing-fragments](../../skills/in-progress/writing-fragments/SKILL.md)**: explore: mine the raw material for what you actually think, with no structure yet.
 - **[writing-beats](../../skills/in-progress/writing-beats/SKILL.md)**: exploit: assemble the fragments into a journey, grounding each term before the argument leans on it.

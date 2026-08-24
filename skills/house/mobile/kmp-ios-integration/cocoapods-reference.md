@@ -93,10 +93,10 @@ Multi-target (e.g. iOS + tvOS): repeat the `pod ... :path =>` line per target an
 ### Workflow
 
 1. Edit `build.gradle.kts` (pods, framework config).
-2. Run `pod install` — or preferably **`./gradlew podInstall`**, which also creates required directories/resources.
+2. Run `pod install`, or preferably **`./gradlew podInstall`**, which also creates required directories/resources.
 3. Open **`.xcworkspace`** (never `.xcodeproj` after pod install).
 4. In Xcode Build Settings, **disable "User Script Sandboxing"** for the app target.
-5. Build in Xcode — the Kotlin framework rebuilds automatically via the podspec's script phase. With multiple Xcode projects, run `pod install` manually for each.
+5. Build in Xcode. The Kotlin framework rebuilds automatically via the podspec's script phase. With multiple Xcode projects, run `pod install` manually for each.
 
 ⚠️ CocoaPods integration is **mutually exclusive with direct integration** (`embedAndSignAppleFrameworkForXcode`); pick one.
 

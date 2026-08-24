@@ -1,6 +1,6 @@
 # Skills for staff engineers
 
-The skills that operate above a single ticket: shaping work other people will do, deciding architecture, reviewing, and growing the toolchain itself. The engineer page has the rest of the daily set — this one is what the role adds on top.
+The skills that operate above a single ticket: shaping work other people will do, deciding architecture, reviewing, and growing the toolchain itself. The engineer page has the rest of the daily set; this one is what the role adds on top.
 
 Every skill here is one whose `audience` names `staff` in [`.fork/catalog.yaml`](../../.fork/catalog.yaml), the single source of truth for who a skill is for. Each entry links to its docs page, or straight to `SKILL.md` where the skill has none (beta, `misc/`, `in-progress/`).
 
@@ -23,7 +23,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[codebase-design](../engineering/codebase-design.md)** _(auto)_: the shared vocabulary: deep modules, seams, what belongs behind an interface. Adopt it and reviews stop being taste arguments.
 - **[improve-codebase-architecture](../engineering/improve-codebase-architecture.md)**: periodic maintenance: scan the codebase for deepening opportunities, get an HTML report, grill through the one you pick.
-- **[when-stuck](../../skills/house/platform/when-stuck/SKILL.md)** _(auto)_ — five moves for a design that will not resolve: inversion, the scale game, the simplification cascade, meta-pattern, collision. For design stuck-ness only — a bug goes to `/diagnosing-bugs`.
+- **[when-stuck](../../skills/house/platform/when-stuck/SKILL.md)** _(auto)_ gives five moves for a design that will not resolve: inversion, the scale game, the simplification cascade, meta-pattern, collision. For design stuck-ness only; a bug goes to `/diagnosing-bugs`.
 - **[domain-modeling](../engineering/domain-modeling.md)** _(auto)_: pin down a term the team is using two ways, and record the decision where the next person will find it.
 - **[research](../engineering/research.md)** _(auto)_: delegate the reading to a background agent; get back cited primary sources instead of a plausible answer.
 
@@ -43,7 +43,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Interview and communicate
 
-- **[grill-me](../productivity/grill-me.md)** — get interviewed until every branch of a decision is resolved. A long session usually means the scope was too big — that is itself the finding.
+- **[grill-me](../productivity/grill-me.md)**: get interviewed until every branch of a decision is resolved. A long session usually means the scope was too big, which is itself the finding.
 - **[grilling](../productivity/grilling.md)** _(auto)_: the primitive the grill skills run on, and the one to reach for when another skill needs an interview.
 - **[to-questionnaire](../productivity/to-questionnaire.md)**: a decision that needs someone else's authority becomes a questionnaire, answered async or in one meeting.
 - **[wait-what](../productivity/wait-what.md)**: a message did not land. Re-pitch it in the project's own vocabulary rather than moving on.

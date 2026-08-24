@@ -61,9 +61,9 @@ LOOP:
 
 ## Severity Definitions
 
-- **Critical:** security vulnerabilities (XSS, injection, OWASP), correctness bugs, broken contracts — blocks approval
-- **Warning:** performance bottlenecks, architecture/pattern violations, coupling — fix expected, doesn't block auto-approve
-- **Suggestion:** simplifications, YAGNI/KISS/DRY improvements — optional
+- **Critical:** security vulnerabilities (XSS, injection, OWASP), correctness bugs, broken contracts. Blocks approval.
+- **Warning:** performance bottlenecks, architecture/pattern violations, coupling. Fix expected, but does not block auto-approve.
+- **Suggestion:** simplifications, YAGNI/KISS/DRY improvements. Optional.
 
 ## Output Formats
 

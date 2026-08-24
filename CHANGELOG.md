@@ -1,4 +1,4 @@
-# mattpocock-skills
+# osxsystem-skills
 
 ## 1.6.1
 

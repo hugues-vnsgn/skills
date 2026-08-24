@@ -226,6 +226,12 @@ skills:
     domain: in-progress
     audience: [engineer, designer, analyst, qa, staff]
     owner: "@hugues-vnsgn"
+  - name: implement-spec
+    path: skills/in-progress/implement-spec
+    origin: upstream
+    domain: in-progress
+    audience: [engineer]
+    owner: "@hugues-vnsgn"
   - name: loop-me
     path: skills/in-progress/loop-me
     origin: upstream

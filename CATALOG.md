@@ -2,7 +2,7 @@
 
 # Skill catalog
 
-Every skill in this repo: 55 total — 34 upstream, 21 fork-authored.
+Every skill in this repo: 56 total — 35 upstream, 21 fork-authored.
 
 `Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this repo). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
@@ -37,6 +37,7 @@ Every skill in this repo: 55 total — 34 upstream, 21 fork-authored.
 | [scaffold-exercises](skills/misc/scaffold-exercises/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
 | [setup-pre-commit](skills/misc/setup-pre-commit/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
 | [claude-handoff](skills/in-progress/claude-handoff/SKILL.md) | upstream | in-progress | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
+| [implement-spec](skills/in-progress/implement-spec/SKILL.md) | upstream | in-progress | engineer | @hugues-vnsgn |
 | [loop-me](skills/in-progress/loop-me/SKILL.md) | upstream | in-progress | engineer, staff | @hugues-vnsgn |
 | [setup-ts-deep-modules](skills/in-progress/setup-ts-deep-modules/SKILL.md) | upstream | in-progress | engineer | @hugues-vnsgn |
 | [writing-beats](skills/in-progress/writing-beats/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |

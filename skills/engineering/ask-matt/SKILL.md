@@ -15,7 +15,7 @@ A **flow** is a path through the skills. Most paths run along one **main flow**,
 The route most work travels. You have an idea and want it built.
 
 1. **`/grill-with-docs`** sharpens the idea by interview. Start here whenever you are **working in a working directory**: it's stateful, retaining what it learns in `CONTEXT.md` and ADRs. (No working directory? Use `/grill-me` instead, covered under Standalone. Both run the same `/grilling` primitive; `grill-with-docs` is the one that leaves a paper trail, which makes it the better of the two whenever a repo is there to leave it in.)
-2. **Branch — is this initiative-scale?** If the idea is bigger than one feature — several specs will grow out of it, or someone outside engineering needs to read and sign off on the *why* — **`/to-prd`** turns the grilled thread into a PRD: why it's worth building, for whom, and what success looks like, written in the `CONTEXT.md` vocabulary so a CEO, BA, and engineer read it the same way. Every spec that grows out of the initiative references it. A single well-scoped feature **skips this step** — and `/to-prd` itself refuses an unripe idea, routing you back to `/grill-with-docs` rather than interviewing a PRD into existence.
+2. **Branch: is this initiative-scale?** If the idea is bigger than one feature, because several specs will grow out of it or someone outside engineering needs to read and sign off on the *why*, then **`/to-prd`** turns the grilled thread into a PRD: why it's worth building, for whom, and what success looks like, written in the `CONTEXT.md` vocabulary so a CEO, BA, and engineer read it the same way. Every spec that grows out of the initiative references it. A single well-scoped feature **skips this step**, and `/to-prd` itself refuses an unripe idea, routing you back to `/grill-with-docs` rather than interviewing a PRD into existence.
 3. **Branch: can you settle every question in conversation?** If a question needs a runnable answer (state, business logic, a UI you have to see), detour through a prototype, bridged by **`/handoff`** in both directions (a prototype lives in its own directory, which is exactly what `/handoff` is for; see Phase boundaries):
    - **`/handoff`** out, then open a fresh session against that file,
    - **`/prototype`** to answer the question with throwaway code,
@@ -28,7 +28,7 @@ The route most work travels. You have an idea and want it built.
 
 ### Context hygiene
 
-Keep steps 1–4 in **one unbroken context window** (don't compact or clear until after `/to-tickets`) so the grilling, PRD, spec, and tickets all build on the same thinking. Each `/implement` then starts fresh, working from the ticket.
+Keep steps 1-4 in **one unbroken context window** (don't compact or clear until after `/to-tickets`) so the grilling, PRD, spec, and tickets all build on the same thinking. Each `/implement` then starts fresh, working from the ticket.
 
 The limit on this is the **[smart zone](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**: the window (~150k tokens on state-of-the-art models) within which the model still reasons sharply. If a session approaches it before `/to-tickets`, don't push on degraded; `/compact` at the nearest phase boundary and carry on (see Phase boundaries).
 
@@ -46,7 +46,7 @@ A starting situation that generates work, then merges onto the main flow.
 
   When the map clears, **it hands off, it doesn't build**: merge onto the main flow at **`/to-spec`**, which collapses the map's linked decisions into a buildable plan, then `/to-tickets` and `/implement` as usual. Looping the map straight into `/implement` skips that collapse and throws the linked detail away, so go straight to `/implement` only when the effort turned out genuinely small.
 
-- **Another codebase already solved this** → **`/port-from-repo`**. You saw a capability working somewhere else — an open-source project, a sample app, another repo of your own — and you want it here. It reads the source as a **primary source**, then runs `/grilling` on the question *should we bring this over at all*, which routinely cuts the scope to a fraction of what the source built. It then builds what survives itself — `/tdd` per slice, closing out with `/code-review` — ending where `/implement` does rather than handing off to it.
+- **Another codebase already solved this** → **`/port-from-repo`**. You saw a capability working somewhere else, in an open-source project, a sample app, or another repo of your own, and you want it here. It reads the source as a **primary source**, then runs `/grilling` on the question *should we bring this over at all*, which routinely cuts the scope to a fraction of what the source built. It then builds what survives itself, running `/tdd` per slice and closing out with `/code-review`, ending where `/implement` does rather than handing off to it.
 
   **Adapt, don't transplant** is the whole discipline: what crosses over is the approach, not the expression, because the source's dependency graph, error convention and platform assumptions are not yours. Reach for **`/research`** instead when you want to understand another codebase with no intention of building from it.
 
@@ -65,7 +65,7 @@ Two model-invoked references that run *beneath* the other skills, each the singl
 
 ## Platform knowledge
 
-Five model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/kmp-test-seams`, `/kmp-release-and-publish`. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it — the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
+Five model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/kmp-test-seams`, `/kmp-release-and-publish`. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it: the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
 
 Read [references/platform-knowledge.md](references/platform-knowledge.md) for what each one covers.
 
@@ -95,6 +95,7 @@ Off the main flow entirely.
 - **`/wait-what`** is the corrective for a message that didn't land. Use it mid-conversation, inside any other skill, and the agent re-pitches what it just said with the context you were missing, in plain English, using the `CONTEXT.md` vocabulary. It works after the fact; `/grill-with-docs` is the upfront cure, because a shared language agreed early is what stops the jargon arriving at all.
 - **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
+- **`/unslop`** is the prose half of the same job: cutting the AI tells out of a README, a PR description, release notes, an essay, then checking a voice survived the cutting, since beige reads as machine-made just as loudly as florid does. It sets the **register** first (reference, argument, conversation, instruction), because the voice half is wrong in a config doc, and it never changes what a sentence claims without telling you, either flagging the problem or writing the missing explanation and marking it inline as its own inference. Model-invoked, so the agent reaches for it as prose gets written; reach for it directly on any draft about to be published. The two are **layered rather than alternatives**: `/writing-for-agents` owns the structure of a document an agent reads, `/unslop` owns the prose inside it, and for an agent-facing doc you want the structural pass first.
 
 ## Precondition
 

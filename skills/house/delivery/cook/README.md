@@ -1,6 +1,6 @@
 # Cook Skill
 
-End-to-end feature implementation pipeline with intent detection. Modes, gates, and workflow are defined in [SKILL.md](./SKILL.md) — this file is only the human-facing quick start.
+End-to-end feature implementation pipeline with intent detection. Modes, gates, and workflow are defined in [SKILL.md](./SKILL.md); this file is only the human-facing quick start.
 
 ## Installation
 

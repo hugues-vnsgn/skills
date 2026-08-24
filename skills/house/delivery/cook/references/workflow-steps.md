@@ -1,6 +1,6 @@
 # Workflow Steps
 
-All modes share core steps with mode-specific variations. "Tracker" below means the project's own task tracker per the rule in SKILL.md (project tracker first — e.g. `bd` in beads repos; harness Task tools only where the project names none); every step remains functional whichever tracker is active.
+All modes share core steps with mode-specific variations. "Tracker" below means the project's own task tracker per the rule in SKILL.md (project tracker first, e.g. `bd` in beads repos; harness Task tools only where the project names none); every step remains functional whichever tracker is active.
 
 ## Step 0: Intent Detection & Setup
 
@@ -13,10 +13,10 @@ All modes share core steps with mode-specific variations. "Tracker" below means 
 
 ## Step 1: Research (skip if fast/code mode)
 
-- Spawn parallel `Explore` agents, one per question — codebase structure, existing patterns, external constraints:
+- Spawn parallel `Explore` agents, one per question: codebase structure, existing patterns, external constraints:
   `Agent(subagent_type="Explore", prompt="Find and summarize [topic]. Report ≤150 lines with file references.")`
 - Parallel mode: optional, max 2 explorers if complex
-- Save reports to the plan's `research/` folder — path and naming from the `project-organization` skill
+- Save reports to the plan's `research/` folder, with path and naming from the `project-organization` skill
 
 **Output:** `✓ Step 1: Research complete - [N] reports gathered`
 
@@ -27,10 +27,10 @@ All modes share core steps with mode-specific variations. "Tracker" below means 
 ## Step 2: Planning
 
 - Spawn a `Plan` agent with the research reports as context
-- Write `plan.md` + `phase-{NN}-{name}.md` under `plans/{date-slug}/` — paths, naming, and body templates from the `project-organization` skill
-- **Fast:** minimal plan from a single quick `Explore` pass — focus on action
+- Write `plan.md` + `phase-{NN}-{name}.md` under `plans/{date-slug}/`, with paths, naming, and body templates from the `project-organization` skill
+- **Fast:** minimal plan from a single quick `Explore` pass, focused on action
 - **Parallel:** plan must include a dependency graph and a file ownership matrix
-- **Code:** skip — plan exists; parse its phases
+- **Code:** skip, because a plan exists; parse its phases
 
 **Output:** `✓ Step 2: Plan created - [N] phases`
 
@@ -41,7 +41,7 @@ All modes share core steps with mode-specific variations. "Tracker" below means 
 ## Step 3: Implementation
 
 **Task hydration:**
-1. List the tracker first — check for existing tasks (hydrated by a planning session)
+1. List the tracker first, checking for existing tasks (hydrated by a planning session)
 2. If tasks exist → pick them up, skip re-creation
 3. If no tasks → read plan phases, create a tracker item for each unchecked `[ ]` item with priority order and metadata (`phase`, `planDir`, `phaseFile`)
 4. Declare blocking dependencies between items where the tracker supports them
@@ -76,7 +76,7 @@ Tests from Step 3.T document the current behavior. If any fail after Step 3.I, t
 **All modes:**
 - Mark tracker items in-progress when picked up and complete immediately when done
 - Execute phase tasks sequentially (Step 3.1, 3.2, etc.)
-- UI work follows the house design skills — `compose-multiplatform-ui`, and `html-design-to-compose` when implementing from a design spec
+- UI work follows the house design skills: `compose-multiplatform-ui`, and `html-design-to-compose` when implementing from a design spec
 - Run type checking after each file
 
 **Parallel mode:**
@@ -88,7 +88,7 @@ Tests from Step 3.T document the current behavior. If any fail after Step 3.I, t
 
 ### Step 3.S: Conditional Simplify (live-diff gated)
 
-Recompute signals from the live worktree — tracked changes **and** untracked files, so new files count:
+Recompute signals from the live worktree, both tracked changes **and** untracked files, so new files count:
 
 ```bash
 tracked=$(git diff --numstat HEAD --ignore-all-space)
@@ -103,7 +103,7 @@ maxFile=$(echo "$totals" | awk 'BEGIN{m=0} {if ($1+0>m) m=$1+0} END {print m+0}'
 
 Thresholds: 400 total LOC / 8 files / 200 LOC in a single file. If any is breached, invoke the `simplify` skill scoped to the union of `git diff --name-only HEAD` and `git ls-files --others --exclude-standard`.
 
-After it returns, log only — never re-run or block:
+After it returns, log only, never re-run or block:
 - `git diff --shortstat HEAD -- [file-list]` changed → "simplify made scoped edits"
 - unchanged → "simplify ran clean"
 
@@ -117,7 +117,7 @@ After it returns, log only — never re-run or block:
 
 - Write tests: happy path, edge cases, errors
 - Invoke the `do-test` skill with scope = the files/features changed this phase
-- 100% pass required. On failures: root-cause fix, then re-invoke `do-test` — repeat until green
+- 100% pass required. On failures: root-cause fix, then re-invoke `do-test`, repeating until green
 - **Forbidden:** fake mocks, commented-out tests, loosened assertions
 
 **Output:** `✓ Step 4: Tests [X/X passed] - do-test invoked`
@@ -135,9 +135,9 @@ After it returns, log only — never re-run or block:
 
 **Output:** `✓ Step 5: Review [C critical / W warnings] - [Approved|Auto-approved] - code-review invoked`
 
-## Step 6: Finalize (inline — every run, never skipped)
+## Step 6: Finalize (inline, every run, never skipped)
 
-1. **Sync-back:** sweep all `phase-XX-*.md` files in the plan directory; mark every completed item `[ ] → [x]` based on completed tasks (including earlier phases); update `plan.md` status/progress (`pending`/`in-progress`/`completed`) from actual checkbox state — change only the Status cells, preserve table structure. Note any completed task that cannot be matched to a phase file.
+1. **Sync-back:** sweep all `phase-XX-*.md` files in the plan directory; mark every completed item `[ ] → [x]` based on completed tasks (including earlier phases); update `plan.md` status/progress (`pending`/`in-progress`/`completed`) from actual checkbox state, changing only the Status cells, preserve table structure. Note any completed task that cannot be matched to a phase file.
 2. **Docs:** update `./docs` if the changes warrant it.
 3. Mark the tracker items complete after sync-back verification.
 4. **Onboarding check:** new API keys, env vars, setup steps the user must know about.

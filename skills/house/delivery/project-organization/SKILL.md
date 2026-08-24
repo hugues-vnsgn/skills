@@ -20,7 +20,7 @@ Single source of truth for file locations, naming conventions, directory structu
 | **Advisory** | Other skills/agents reference this skill | Return correct path + naming for requested file type |
 | **Organize** | User invokes directly with dirs/files | Scan → propose changes → execute after confirm |
 
-## Rule 1 — Directory Categories
+## Rule 1: Directory Categories
 
 To place a file, walk this table top to bottom and take the **first** matching row:
 
@@ -39,7 +39,7 @@ To place a file, walk this table top to bottom and take the **first** matching r
 
 Full per-category trees and rules: `references/directory-patterns.md`.
 
-## Rule 2 — Naming Patterns
+## Rule 2: Naming Patterns
 
 All filenames use **kebab-case**, self-documenting names. Three naming modes based on content temporality:
 
@@ -53,7 +53,7 @@ Slugs: lowercase, hyphens only, max 50 chars, readable without opening the file.
 
 Slug generation, date formats, variant and report naming in full: `references/naming-conventions.md`.
 
-## Rule 3 — Nesting Logic
+## Rule 3: Nesting Logic
 
 Decide between flat file vs folder based on output count:
 
@@ -67,7 +67,7 @@ Decide between flat file vs folder based on output count:
 
 **Empty directories:** Add `.gitkeep` to preserve in git.
 
-## Rule 4 — Markdown Body Standards
+## Rule 4: Markdown Body Standards
 
 Universal rules for all markdown:
 - Start with a `# Title` (H1)
@@ -97,14 +97,14 @@ Full templates: `references/markdown-body-templates.md`.
 
 When invoked directly with `/project-organization [targets]`:
 
-1. **Scan** — List all files in target dirs, categorize by type
-2. **Analyze** — Check naming violations, misplaced files, inconsistencies
-3. **Propose** — Present a migration plan (from → to) as a table
-4. **Confirm** — Ask user approval before any moves
-5. **Execute** — Move/rename files, create missing directories
-6. **Verify** — List final structure, flag any remaining issues
+1. **Scan**: List all files in target dirs, categorize by type
+2. **Analyze**: Check naming violations, misplaced files, inconsistencies
+3. **Propose**: Present a migration plan (from → to) as a table
+4. **Confirm**: Ask user approval before any moves
+5. **Execute**: Move/rename files, create missing directories
+6. **Verify**: List final structure, flag any remaining issues
 
-Completion criterion: every file in the targets is confirmed in place, in the migration table, or listed under Unmatched — none unaccounted for.
+Completion criterion: every file in the targets is confirmed in place, in the migration table, or listed under Unmatched, with none unaccounted for.
 
 **Safety:**
 - Never overwrite existing files (prompt on conflict)

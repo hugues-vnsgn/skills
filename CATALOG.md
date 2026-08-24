@@ -58,7 +58,7 @@ Every skill in this repo: 54 total — 34 upstream, 20 fork-authored.
 | [project-organization](skills/house/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @hugues-vnsgn |
 | [to-prd](skills/house/discovery/to-prd/SKILL.md) | fork | discovery | analyst, staff | @hugues-vnsgn |
 | [do-test](skills/house/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @hugues-vnsgn |
+| [unslop](skills/house/writing/unslop/SKILL.md) | fork | writing | engineer, analyst, staff | @hugues-vnsgn |
 | [bro](skills/house/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
 | [improve-claude-md](skills/house/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
 | [show-me](skills/house/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |
-| [unslop](skills/house/in-development/unslop/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |

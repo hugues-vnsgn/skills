@@ -1,4 +1,4 @@
-# iOS Integration & Swift Interop — Reference
+# iOS Integration & Swift Interop: Reference
 
 Compiled from official kotlinlang.org docs (2026-08).
 
@@ -10,7 +10,7 @@ Compiled from official kotlinlang.org docs (2026-08).
 
 - **Targets** declare which platforms Kotlin compiles to, inside the `kotlin {}` block: `androidTarget()`, `iosArm64()`, `iosSimulatorArm64()`, `iosX64()`, `jvm()`, etc. Each target determines binary format, available language constructs, and allowed dependencies.
 - **Source sets** are collections of sources with their own dependencies and compiler options:
-  - `commonMain` / `commonTest` — compiled to every target; can only use Kotlin stdlib + multiplatform libraries (no `java.io`, no `platform.Foundation`).
+  - `commonMain` / `commonTest` are compiled to every target; they can only use Kotlin stdlib + multiplatform libraries (no `java.io`, no `platform.Foundation`).
   - Per-target sets: `androidMain`, `iosArm64Main`, `iosSimulatorArm64Main`, plus matching `...Test` sets.
   - **Intermediate source sets** share code among a subset of targets: `iosMain` (device + simulator), `appleMain` (all Apple), `nativeMain` (all Kotlin/Native). In `iosMain` you can call Apple APIs like `platform.Foundation.NSUUID` because every target below it is an Apple target.
 - **Visibility is one-way:** platform source sets see common code; common never sees platform code. Compiling `iosArm64` merges `commonMain → appleMain → iosMain → iosArm64Main` into one binary.
@@ -26,7 +26,7 @@ commonMain
 
 ### Default hierarchy template
 
-Since Kotlin 1.9.20 the **default hierarchy template** is applied automatically when you declare targets — declaring `iosArm64()` + `iosSimulatorArm64()` gives you `iosMain`/`iosTest` (and `appleMain`, `nativeMain`) for free. Only wire `dependsOn` manually for custom groupings:
+Since Kotlin 1.9.20 the **default hierarchy template** is applied automatically when you declare targets, so declaring `iosArm64()` + `iosSimulatorArm64()` gives you `iosMain`/`iosTest` (and `appleMain`, `nativeMain`) for free. Only wire `dependsOn` manually for custom groupings:
 
 ```kotlin
 kotlin {
@@ -82,7 +82,7 @@ Conventions: since Kotlin 2.0 the Compose compiler ships with Kotlin itself (`ko
 
 ---
 
-## 2. expect/actual — and when to prefer interfaces + DI
+## 2. expect/actual, and when to prefer interfaces + DI
 
 ### Mechanism
 
@@ -133,12 +133,12 @@ From the [iOS integration overview](https://kotlinlang.org/docs/multiplatform/mu
 
 | Method | Local/Remote | How | Pick when |
 |---|---|---|---|
-| **Direct integration** (`embedAndSignAppleFrameworkForXcode`) | Local | Run-script build phase invokes Gradle; Kotlin build becomes part of the Xcode build | Mono-repo, no CocoaPods needed. **Default** — this is what the KMP IDE plugin and wizard set up |
+| **Direct integration** (`embedAndSignAppleFrameworkForXcode`) | Local | Run-script build phase invokes Gradle; Kotlin build becomes part of the Xcode build | Mono-repo, no CocoaPods needed. **Default**, and what the KMP IDE plugin and wizard set up |
 | **CocoaPods (local)** | Local | Kotlin CocoaPods Gradle plugin + Podfile | You need CocoaPods *dependencies inside the KMP module*, or the iOS app is already Pod-based |
 | **SPM (local package)** | Local | Wrap the framework in a local Swift package | Mono-repo where the iOS team is SwiftPM-first and there are no CocoaPods deps |
 | **SPM + XCFramework (remote)** | Remote | Publish an XCFramework as a remote Swift package | Separate repos / shared code distributed as a versioned third-party dependency; SwiftPM-preferring iOS team |
 | **CocoaPods + XCFramework (remote)** | Remote | `podPublish*XCFramework` tasks produce XCFramework + podspec | Same as above but the consuming ecosystem is CocoaPods |
-| **KMMBridge** (Touchlab, third-party — not in the official overview) | Remote | Gradle tooling that automates building, versioning, and publishing XCFrameworks as SPM/CocoaPods packages (GitHub releases, S3, etc.) | Larger orgs where the iOS team should consume shared code as a normal binary dependency without running Gradle at all |
+| **KMMBridge** (Touchlab, third-party, not in the official overview) | Remote | Gradle tooling that automates building, versioning, and publishing XCFrameworks as SPM/CocoaPods packages (GitHub releases, S3, etc.) | Larger orgs where the iOS team should consume shared code as a normal binary dependency without running Gradle at all |
 
 ### Direct integration details (the default choice)
 
@@ -168,7 +168,7 @@ The `OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED=YES` guard prevents double-building whe
 
 ## 4. Swift/Kotlin interop
 
-Kotlin exports to iOS through an **Objective-C framework header** (Swift Export, the future ObjC-free path, is Alpha — see §6). Consequences:
+Kotlin exports to iOS through an **Objective-C framework header** (Swift Export, the future ObjC-free path, is Alpha; see §6). Consequences:
 
 ### What maps well
 
@@ -185,12 +185,12 @@ Kotlin exports to iOS through an **Objective-C framework header** (Swift Export,
 ### Common pitfalls
 
 - **Sealed classes lose exhaustiveness.** They export as a plain class hierarchy; Swift `switch` needs a `default` case and gives no compile-time completeness check. Fix: SKIE (generates a wrapping Swift enum + `onEnum(of:)`), or Swift Export ≥ 2.4.20 (see §6).
-- **Coroutines:** `suspend` maps to completion handlers / basic `async` with **no proper cancellation**, and suspend functions are only callable from the main thread in the default interop. `Flow` exports as an opaque generic object. Fix: **SKIE** (suspend ↔ `async` with cancellation; `Flow` → `AsyncSequence`) or KMP-NativeCoroutines — use exactly one, they conflict.
+- **Coroutines:** `suspend` maps to completion handlers / basic `async` with **no proper cancellation**, and suspend functions are only callable from the main thread in the default interop. `Flow` exports as an opaque generic object. Fix: **SKIE** (suspend ↔ `async` with cancellation; `Flow` → `AsyncSequence`) or KMP-NativeCoroutines; use exactly one, because they conflict.
 - **Default arguments disappear.** ObjC has no default args; Swift callers must pass every parameter. Mitigate with overloads or SKIE (which regenerates default-argument overloads).
 - **Generics are crippled:** type parameters surface as nullable unless constrained `<T : Any>`; interfaces lose generics entirely; variance is dropped.
-- **Enums aren't Swift enums** — no `switch` exhaustiveness, no `CaseIterable` (SKIE fixes this too).
+- **Enums aren't Swift enums**: no `switch` exhaustiveness, no `CaseIterable` (SKIE fixes this too).
 - **Primitives box:** `Int?` becomes `KotlinInt?`; `List<Int>` becomes `[KotlinInt]`.
-- **Collection bridging overhead** on hot paths — cast to `NSDictionary`/`NSArray` when profiling shows it matters.
+- **Collection bridging overhead** on hot paths, so cast to `NSDictionary`/`NSArray` when profiling shows it matters.
 - **Exceptions:** un-`@Throws`-annotated Kotlin exceptions **crash** the app when they cross into Swift. Annotate throwing API with `@Throws(Exception::class)`.
 - **Subclassing:** only `final`-friendly patterns; overriding ObjC initializers needs `@OverrideInit`; clashing overrides need `@ObjCSignatureOverride`. Inline/value classes don't export properly.
 
@@ -213,7 +213,7 @@ KDoc is exported into the header (Xcode autocomplete shows it); disable with `ex
 
 **SKIE** (Touchlab, [skie.touchlab.co](https://skie.touchlab.co/)) is the de-facto standard polish layer: sealed-class enums, real async/await with cancellation, `Flow` → `AsyncSequence`, default arguments, exhaustive enums. Caveats: don't mix its coroutine interop with KMP-NativeCoroutines, and completion-handler call sites stop compiling once SKIE's async interop is on.
 
-**Design advice:** keep the exported surface deliberately small and ObjC-friendly — a thin facade in `commonMain` (view models / repositories returning simple types), `@HiddenFromObjC` on the rest. With Compose Multiplatform the surface often shrinks to one `fun MainViewController(): UIViewController`.
+**Design advice:** keep the exported surface deliberately small and ObjC-friendly, a thin facade in `commonMain` (view models / repositories returning simple types), with `@HiddenFromObjC` on the rest. With Compose Multiplatform the surface often shrinks to one `fun MainViewController(): UIViewController`.
 
 ---
 
@@ -236,8 +236,8 @@ kotlin {
 
 ### Static vs dynamic
 
-- **Static (`isStatic = true`)** — linked into the app binary. Simpler embedding (no dylib signing/copying), no dynamic-linker startup cost, and the usual choice for Compose Multiplatform templates. App binary is larger.
-- **Dynamic (`isStatic = false`, the default of `binaries.framework`)** — required if several app targets/extensions must share one copy at runtime; otherwise adds embedding complexity.
+- **Static (`isStatic = true`)**: linked into the app binary. Simpler embedding (no dylib signing/copying), no dynamic-linker startup cost, and the usual choice for Compose Multiplatform templates. App binary is larger.
+- **Dynamic (`isStatic = false`, the default of `binaries.framework`)**: required if several app targets/extensions must share one copy at runtime; otherwise adds embedding complexity.
 - Recommendation: **static for a single-app setup**; dynamic only with a concrete reason (app extensions, multiple frameworks sharing the runtime).
 
 ### Exporting dependencies into the framework
@@ -305,8 +305,8 @@ binaries.framework {
 6. `transitiveExport = true` as a shortcut → binary-size and build-time bloat; export explicitly.
 7. Unconstrained generics (`<T>`) → everything nullable in Swift; constrain `<T : Any>` where possible.
 8. Big Kotlin API surface exported wholesale → slow header generation, ugly Swift; use `@HiddenFromObjC` and a facade.
-9. Assuming iOS unit tests run like Android's — run `./gradlew iosSimulatorArm64Test`; keep logic in `commonTest` against interfaces.
-10. Version drift between Kotlin, AGP, and Compose Multiplatform — pin via the version catalog and consult the official compatibility table when bumping.
+9. Assuming iOS unit tests run like Android's. Run `./gradlew iosSimulatorArm64Test`; keep logic in `commonTest` against interfaces.
+10. Version drift between Kotlin, AGP, and Compose Multiplatform. Pin via the version catalog and consult the official compatibility table when bumping.
 
 ---
 

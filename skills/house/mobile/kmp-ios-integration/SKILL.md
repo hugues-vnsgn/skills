@@ -1,6 +1,6 @@
 ---
 name: kmp-ios-integration
-description: Use when connecting a Kotlin Multiplatform shared module to an iOS/Xcode app — choosing between direct integration, CocoaPods, SPM, or KMMBridge; setting up embedAndSignAppleFrameworkForXcode or the cocoapods plugin; debugging "pod not found", script-sandboxing, or framework-not-found Xcode errors; or reviewing Kotlin API that Swift will consume (sealed classes, suspend functions, @Throws, generics).
+description: Use when connecting a Kotlin Multiplatform shared module to an iOS/Xcode app, choosing between direct integration, CocoaPods, SPM, or KMMBridge; setting up embedAndSignAppleFrameworkForXcode or the cocoapods plugin; debugging "pod not found", script-sandboxing, or framework-not-found Xcode errors; or reviewing Kotlin API that Swift will consume (sealed classes, suspend functions, @Throws, generics).
 ---
 
 # KMP iOS Integration
@@ -11,7 +11,7 @@ Wire the shared Kotlin framework into the iOS app, and keep the Kotlin→Swift A
 
 | Pick | When |
 |---|---|
-| **Direct integration** (`embedAndSignAppleFrameworkForXcode`) | Mono-repo, no CocoaPods deps — the **default**; what the KMP wizard generates |
+| **Direct integration** (`embedAndSignAppleFrameworkForXcode`) | Mono-repo, no CocoaPods deps; the **default**, and what the KMP wizard generates |
 | **CocoaPods plugin** | The KMP module needs Pod dependencies, or the iOS app is already Pod-based |
 | **SPM local / remote XCFramework** | SwiftPM-first iOS team; remote when shared code ships as a versioned binary |
 | **KMMBridge** | Separate iOS team that must never run Gradle |
@@ -27,7 +27,7 @@ Wire the shared Kotlin framework into the iOS app, and keep the Kotlin→Swift A
    cd "$SRCROOT/.."
    ./gradlew :shared:embedAndSignAppleFrameworkForXcode
    ```
-3. **Disable "User Script Sandboxing"** in Build Settings; run `./gradlew --stop` if the daemon started sandboxed. (Silent failure otherwise — the #1 support question.)
+3. **Disable "User Script Sandboxing"** in Build Settings; run `./gradlew --stop` if the daemon started sandboxed. (Silent failure otherwise, and the #1 support question.)
 4. Custom Xcode configurations need a user-defined `KOTLIN_FRAMEWORK_BUILD_TYPE`.
 
 ## CocoaPods quick path
@@ -36,16 +36,16 @@ Wire the shared Kotlin framework into the iOS app, and keep the Kotlin→Swift A
 
 ## Swift-facing API review checklist
 
-When editing exported `commonMain` API, check each item — these fail silently at the boundary:
+When editing exported `commonMain` API, check each item, because these fail silently at the boundary:
 
-- **`@Throws(Exception::class)` on anything that throws** — otherwise a Kotlin exception **crashes** the app instead of surfacing as a Swift `throws`.
+- **`@Throws(Exception::class)` on anything that throws**: otherwise a Kotlin exception **crashes** the app instead of surfacing as a Swift `throws`.
 - **Sealed classes** lose exhaustiveness in Swift (`default:` required). Fix with SKIE, or keep them behind a facade.
-- **`suspend`/`Flow`**: default interop gives no cancellation and opaque Flow objects. Use **SKIE** or KMP-NativeCoroutines — exactly one, never both.
+- **`suspend`/`Flow`**: default interop gives no cancellation and opaque Flow objects. Use **SKIE** or KMP-NativeCoroutines, exactly one, never both.
 - **Default arguments disappear** (ObjC); add overloads or SKIE.
 - **Generics**: unconstrained `<T>` becomes nullable-everything; constrain `<T : Any>`.
-- **Enums** are classes in Swift, not Swift enums (no exhaustive switch) — SKIE fixes.
+- **Enums** are classes in Swift, not Swift enums (no exhaustive switch), which SKIE fixes.
 - Keep the surface small: `@HiddenFromObjC` internals, `@ObjCName` for Swift-idiomatic names, thin facade in `commonMain`. With Compose Multiplatform the surface is often just `fun MainViewController(): UIViewController`.
-- **Swift Export** (ObjC-free interop) is Alpha — track it, don't ship on it; re-evaluate at each Kotlin release.
+- **Swift Export** (ObjC-free interop) is Alpha, so track it and don't ship on it; re-evaluate at each Kotlin release.
 
 ## Common mistakes
 

@@ -1,4 +1,4 @@
-# KMP Release & Publish — Reference
+# KMP Release & Publish: Reference
 
 Compiled from official kotlinlang.org docs (2026-08).
 
@@ -33,13 +33,13 @@ android {
 ```
 
 - Build the Play Store artifact with `./gradlew :androidApp:bundleRelease` (AAB is mandatory for new Play Store apps; `assembleRelease` gives an APK for sideload/QA).
-- Play Store specifics (tracks, listings, review) are unchanged by KMP or Compose Multiplatform — Google can't tell the difference from a Jetpack Compose app.
+- Play Store specifics (tracks, listings, review) are unchanged by KMP or Compose Multiplatform, and Google can't tell the difference from a Jetpack Compose app.
 
 ### ProGuard / R8 with Compose Multiplatform
 
-R8 runs only on the Android target (it operates on class files; KMP has no ProGuard equivalent for iOS — Kotlin/Native release binaries get their own dead-code elimination instead). Points that bite KMP teams specifically:
+R8 runs only on the Android target (it operates on class files; KMP has no ProGuard equivalent for iOS, since Kotlin/Native release binaries get their own dead-code elimination instead). Points that bite KMP teams specifically:
 
-- **Shared-module code is shrunk too.** Anything in `commonMain`/`androidMain` reached via reflection, kotlinx.serialization, Ktor, Room, Koin etc. needs keep rules just like in a single-platform app. R8 failures typically only surface in release builds — always QA a minified build, and read R8's `missing_rules.txt` when it fails.
+- **Shared-module code is shrunk too.** Anything in `commonMain`/`androidMain` reached via reflection, kotlinx.serialization, Ktor, Room, Koin etc. needs keep rules just like in a single-platform app. R8 failures typically only surface in release builds, so always QA a minified build, and read R8's `missing_rules.txt` when it fails.
 - **Shipping consumer rules from a KMP library module** changed with the new [`com.android.kotlin.multiplatform.library` plugin](https://developer.android.com/kotlin/multiplatform/plugin): the old `consumerProguardFiles` in `android.defaultConfig` (published by default with `com.android.library`) is replaced by an explicit opt-in:
 
 ```kotlin
@@ -63,18 +63,18 @@ The iOS app is a normal Xcode project; publishing follows the standard [Apple su
 
 **Embedded shared framework.** The shared Kotlin module compiles to a native `.framework` that must be linked and embedded in the app. Two supported integration routes:
 
-1. **Kotlin CocoaPods Gradle plugin** — exposes the shared module as a pod dependency.
-2. **Manual/direct integration** — an Xcode build phase runs `./gradlew :shared:embedAndSignAppleFrameworkForXcode`, which builds the framework for the active architecture/configuration and lets Xcode sign it along with the app. This is what the default KMP project wizard generates. Signing and provisioning are then entirely standard: the embedded framework is signed with the app's certificate during archiving — no separate provisioning for the framework.
+1. **Kotlin CocoaPods Gradle plugin**: exposes the shared module as a pod dependency.
+2. **Manual/direct integration**: an Xcode build phase runs `./gradlew :shared:embedAndSignAppleFrameworkForXcode`, which builds the framework for the active architecture/configuration and lets Xcode sign it along with the app. This is what the default KMP project wizard generates. Signing and provisioning are then entirely standard: the embedded framework is signed with the app's certificate during archiving, with no separate provisioning for the framework.
 
-**Archiving.** Xcode's Release configuration triggers the `linkReleaseFramework*` Gradle tasks (optimized Kotlin/Native binary — noticeably slower to build than debug). Archive from `iosApp/iosApp.xcworkspace` (or `.xcodeproj`), not from Gradle.
+**Archiving.** Xcode's Release configuration triggers the `linkReleaseFramework*` Gradle tasks (optimized Kotlin/Native binary, noticeably slower to build than debug). Archive from `iosApp/iosApp.xcworkspace` (or `.xcodeproj`), not from Gradle.
 
 **App config without Xcode.** The KMP template routes bundle ID and app name through `iosApp/Configuration/Config.xcconfig` (`BUNDLE_ID`, `APP_NAME`); everything else (icons, capabilities, entitlements) is edited in Xcode.
 
 **Symbols and crash reporting.** Release iOS frameworks built from Kotlin include `.dSYM` files by default, so crash reports symbolicate down to Kotlin source lines. Upload dSYMs (including the shared framework's) to your crash reporter / App Store Connect as usual. See [Kotlin/Native debugging](https://kotlinlang.org/docs/native-debugging.html#debug-ios-applications).
 
-**Bitcode:** not a consideration anymore — Apple deprecated and removed bitcode (Xcode 14+); Kotlin/Native no longer embeds it. Nothing to configure.
+**Bitcode:** not a consideration anymore, since Apple deprecated and removed bitcode (Xcode 14+); Kotlin/Native no longer embeds it. Nothing to configure.
 
-**Privacy manifests (real rejection risk).** Since Apple's Spring 2024 policy, missing/incomplete privacy manifests can get the app rejected, and KMP apps need special attention because Kotlin/Native and common libraries touch "required-reason" APIs. Follow [Privacy manifest for iOS apps](https://kotlinlang.org/docs/apple-privacy-manifest.html) — typically you add a `PrivacyInfo.xcprivacy` to the app covering the shared framework's API usage.
+**Privacy manifests (real rejection risk).** Since Apple's Spring 2024 policy, missing/incomplete privacy manifests can get the app rejected, and KMP apps need special attention because Kotlin/Native and common libraries touch "required-reason" APIs. Follow [Privacy manifest for iOS apps](https://kotlinlang.org/docs/apple-privacy-manifest.html): typically you add a `PrivacyInfo.xcprivacy` to the app covering the shared framework's API usage.
 
 **TestFlight automation:** the docs point at a [TeamCity pipeline guide](https://kotlinlang.org/docs/multiplatform/ios-ci-cd-teamcity.html); GitHub Actions + Fastlane equivalents are covered in §4.
 
@@ -102,7 +102,7 @@ publishing {
 
 For `group = "test"`, project `lib`, targets `jvm()` + `iosArm64()` you get:
 
-- Target publications: `test:lib-jvm:1.0`, `test:lib-iosarm64:1.0` — these contain the platform artifact; non-JVM targets ship the **klib** format (Kotlin's serialized IR + metadata, the portable library format for Native/JS/Wasm and common metadata).
+- Target publications: `test:lib-jvm:1.0`, `test:lib-iosarm64:1.0`, which contain the platform artifact; non-JVM targets ship the **klib** format (Kotlin's serialized IR + metadata, the portable library format for Native/JS/Wasm and common metadata).
 - Root publication `test:lib:1.0` (`kotlinMultiplatform`): the entry point consumers depend on. It carries Gradle Module Metadata referencing every target publication (variant-aware resolution picks the right one), plus an empty-ish JAR without classifier so Maven Central's "must have a JAR" rule is satisfied.
 
 Useful tasks: `publishAllPublicationsTo<RepoName>Repository`, `publishToMavenLocal`, or per-target `publishJvmPublicationTo<RepoName>`.
@@ -130,8 +130,8 @@ kotlin {
 
 Legacy OSSRH is gone; accounts go through [central.sonatype.com](https://central.sonatype.com). The official tutorial standardizes on the **vanniktech `com.vanniktech.maven.publish` plugin**, which wraps `maven-publish`, signing, and the Central Portal upload API:
 
-1. **Namespace verification** — claim `io.github.<username>` (verify by creating a repo named after the verification key) or a reverse-DNS domain (verify via TXT record) at [Maven Central Namespaces](https://central.sonatype.com/publishing/namespaces).
-2. **GPG key pair** — either `gpg --full-generate-key` or the Kotlin Gradle plugin's built-in: `./gradlew -Psigning.password=... generatePgpKeys --name "Name <email>"`. Upload the public key (`gpg --keyserver keyserver.ubuntu.com --send-keys <ID>` or `./gradlew uploadPublicPgpKey`), export the private key with `gpg --armor --export-secret-keys <ID> > key.gpg`.
+1. **Namespace verification**: claim `io.github.<username>` (verify by creating a repo named after the verification key) or a reverse-DNS domain (verify via TXT record) at [Maven Central Namespaces](https://central.sonatype.com/publishing/namespaces).
+2. **GPG key pair**: either `gpg --full-generate-key` or the Kotlin Gradle plugin's built-in: `./gradlew -Psigning.password=... generatePgpKeys --name "Name <email>"`. Upload the public key (`gpg --keyserver keyserver.ubuntu.com --send-keys <ID>` or `./gradlew uploadPublicPgpKey`), export the private key with `gpg --armor --export-secret-keys <ID> > key.gpg`.
 3. **Plugin config**:
 
 ```kotlin
@@ -158,7 +158,7 @@ mavenPublishing {
    License, developers, and scm blocks are **required** by [Central's POM rules](https://central.sonatype.org/publish/requirements/). Versions cannot end in `-SNAPSHOT`.
 4. **Pre-flight checks**: `./gradlew checkSigningConfiguration` (public key reachable on keyservers) and `./gradlew checkPomFileForMavenPublication`.
 5. **Credentials**: generate a [user token](https://central.sonatype.com/usertoken) (not your portal password) and feed everything via `ORG_GRADLE_PROJECT_*` env vars: `mavenCentralUsername`, `mavenCentralPassword`, `signingInMemoryKeyId` (last 8 chars of key ID), `signingInMemoryKeyPassword`, `signingInMemoryKey` (armored private key contents).
-6. **Publish**: `./gradlew publishToMavenCentral --no-configuration-cache` (the plugin doesn't support configuration cache), then manually press **Publish** on the [Deployments dashboard](https://central.sonatype.com/publishing/deployments) once validated — or use `publishAndReleaseToMavenCentral` for full automation. Availability takes ~15–30 min (search indexing longer).
+6. **Publish**: `./gradlew publishToMavenCentral --no-configuration-cache` (the plugin doesn't support configuration cache), then manually press **Publish** on the [Deployments dashboard](https://central.sonatype.com/publishing/deployments) once validated, or use `publishAndReleaseToMavenCentral` for full automation. Availability takes ~15-30 min (search indexing longer).
 
 Official publish workflow from the tutorial (release-triggered, macOS runner because of the Apple targets):
 
@@ -194,7 +194,7 @@ Reference implementation: [Kotlin/multiplatform-library-template](https://github
 
 ### Job topology (official recommendation)
 
-The [official GitHub Actions guide](https://kotlinlang.org/docs/multiplatform/github-actions-for-kmp.html) recommends a **composite action** for shared JDK/Gradle setup plus three jobs — cheap Ubuntu runners for everything except the iOS build (macOS runners cost ~10× per minute):
+The [official GitHub Actions guide](https://kotlinlang.org/docs/multiplatform/github-actions-for-kmp.html) recommends a **composite action** for shared JDK/Gradle setup plus three jobs: cheap Ubuntu runners for everything except the iOS build (macOS runners cost ~10× per minute):
 
 ```yaml
 # .github/actions/gradle-setup/action.yml
@@ -233,13 +233,13 @@ jobs:
 
 Cost-control patterns from the community ([KMP Bits](https://www.kmpbits.com/posts/drafts/kmp-github-actions), [Marco Gomiero's series](https://www.marcogomiero.com/posts/2024/kmp-ci-ios/)):
 
-- Run `commonTest` on the JVM (`jvmTest`) on Ubuntu; reserve macOS for framework linking (`linkDebugFrameworkIosSimulatorArm64` — fast) and optionally `linkReleaseFrameworkIosSimulatorArm64` to catch release-only linker/DCE issues.
+- Run `commonTest` on the JVM (`jvmTest`) on Ubuntu; reserve macOS for framework linking (`linkDebugFrameworkIosSimulatorArm64`, which is fast) and optionally `linkReleaseFrameworkIosSimulatorArm64` to catch release-only linker/DCE issues.
 - Run `iosSimulatorArm64Test` on macOS when you have iOS-specific `actual` code worth testing on the simulator (see §5).
 
 ### Caching
 
 - **Gradle**: `gradle/actions/setup-gradle` handles it; add `gradle-home-cache-cleanup: true` to keep the cache lean.
-- **Konan** (`~/.konan` — Kotlin/Native prebuilt compiler + platform dependencies, hundreds of MB, re-downloaded otherwise on every macOS job):
+- **Konan** (`~/.konan`, the Kotlin/Native prebuilt compiler + platform dependencies, hundreds of MB, re-downloaded otherwise on every macOS job):
 
 ```yaml
 - uses: actions/cache@v4
@@ -254,7 +254,7 @@ Keying on the version catalog hash makes the cache roll over automatically on Ko
 
 The official docs don't cover Fastlane (they show raw `xcodebuild`, plus a TeamCity tutorial); the de-facto community pattern ([Gomiero](https://www.marcogomiero.com/posts/2024/kmp-ci-ios/), [Android variant](https://www.marcogomiero.com/posts/2024/kmp-ci-android/)) is:
 
-- **iOS → TestFlight**: Fastlane `match` (or manual keychain import of cert + provisioning profile in the workflow) → `gym`/`build_app` to archive — the Xcode build phase transparently runs the Gradle framework build, so Fastlane needs no KMP awareness → `pilot`/`upload_to_testflight` with an **App Store Connect API key** (no 2FA headaches). Runs on `macos-latest`.
+- **iOS → TestFlight**: Fastlane `match` (or manual keychain import of cert + provisioning profile in the workflow) → `gym`/`build_app` to archive, because the Xcode build phase transparently runs the Gradle framework build, so Fastlane needs no KMP awareness → `pilot`/`upload_to_testflight` with an **App Store Connect API key** (no 2FA headaches). Runs on `macos-latest`.
 - **Android → Play internal track**: `./gradlew :androidApp:bundleRelease` with the keystore decoded from a base64 secret → Fastlane `supply` (`upload_to_play_store(track: "internal")`) with a Play service-account JSON, or the `r0adkll/upload-google-play` action. Runs on Ubuntu.
 - Keep secrets in GitHub Actions secrets: base64 keystore, keystore passwords, ASC API key, match repo token, Play service-account JSON.
 
@@ -266,7 +266,7 @@ The one genuinely KMP-specific CI fact: **anything touching Apple targets (frame
 
 From the [testing docs](https://kotlinlang.org/docs/multiplatform/multiplatform-run-tests.html):
 
-**Common tests** live in `commonTest`, use the `kotlin.test` library (platform-agnostic `@Test`, `assertEquals`, `assertContains`, …), and run on **every** target with that target's native runner — JUnit on JVM/Android host tests, the Kotlin/Native test runner on iOS:
+**Common tests** live in `commonTest`, use the `kotlin.test` library (platform-agnostic `@Test`, `assertEquals`, `assertContains`, …), and run on **every** target with that target's native runner: JUnit on JVM/Android host tests, the Kotlin/Native test runner on iOS:
 
 ```kotlin
 // shared/build.gradle.kts
@@ -293,10 +293,10 @@ class GrepTest {
 
 **Gradle tasks:**
 
-- `./gradlew allTests` — every target's tests, with an aggregated HTML report at `build/reports/tests/allTests/index.html` (Android unit-test reports are generated separately and not merged in).
-- `./gradlew iosSimulatorArm64Test` — **runs iOS tests on an actual iOS Simulator directly from Gradle**; Gradle boots the default simulator itself, no Xcode invocation needed (macOS + Xcode installed required). The simulator device can be overridden per-test-run in the target's testRuns configuration if you need a specific device/OS.
-- `./gradlew testDebugUnitTest` / `testReleaseUnitTest` — Android local unit tests.
-- `./gradlew jvmTest` — if you keep a JVM target, the cheapest way to run all common tests in CI.
+- `./gradlew allTests`: every target's tests, with an aggregated HTML report at `build/reports/tests/allTests/index.html` (Android unit-test reports are generated separately and not merged in).
+- `./gradlew iosSimulatorArm64Test`: **runs iOS tests on an actual iOS Simulator directly from Gradle**; Gradle boots the default simulator itself, no Xcode invocation needed (macOS + Xcode installed required). The simulator device can be overridden per-test-run in the target's testRuns configuration if you need a specific device/OS.
+- `./gradlew testDebugUnitTest` / `testReleaseUnitTest`: Android local unit tests.
+- `./gradlew jvmTest`: if you keep a JVM target, the cheapest way to run all common tests in CI.
 
 Best practices from the docs: only multiplatform libraries in `commonTest`; don't touch the `Asserter` type directly; run the suite on every framework/target you ship, since runtime behavior (and physics like scrolling/inertia in UI tests) differs per platform.
 
@@ -306,11 +306,11 @@ Best practices from the docs: only multiplatform libraries in `commonTest`; don'
 
 (The official docs prescribe mechanics more than strategy; this synthesizes the docs' constraints with established ecosystem practice.)
 
-- **One version for all targets.** The `kotlinMultiplatform` root module and every target publication share `group:version` and are published atomically from one host. Never version `-jvm`/`-iosarm64` artifacts independently — consumers resolve through the root module and Gradle metadata; skew breaks resolution.
+- **One version for all targets.** The `kotlinMultiplatform` root module and every target publication share `group:version` and are published atomically from one host. Never version `-jvm`/`-iosarm64` artifacts independently, because consumers resolve through the root module and Gradle metadata; skew breaks resolution.
 - **SemVer, driven by the common API.** The shared library's public API surface in `commonMain` is the contract both apps consume. Breaking `expect`/public API → major; additive → minor. Enforce mechanically with JetBrains' **binary-compatibility-validator** (now with klib ABI support for non-JVM targets) so accidental breaks fail CI rather than surprise the iOS build.
 - **Mind klib/ABI coupling to the Kotlin version.** klibs are more tightly coupled to compiler versions than JARs; document the Kotlin version each release is built with, and bump at least a minor when upgrading Kotlin. (Kotlin 2.x forward compatibility has improved this, but consumers on older Kotlin can still fail to read newer klibs.)
 - **No `-SNAPSHOT` to Maven Central** (Portal rejects it). For internal pre-releases use an internal repo (GitHub Packages, Artifactory) or `-alpha.N`/`-rc.N` semver pre-release tags; `mavenLocal` for day-to-day iteration.
-- **Apps consuming the shared code:** if the shared module lives in the same repo (typical for a KMP app), version it with the app via git — library versioning only becomes real when teams split repos or ship the shared SDK to third parties. In that split-repo world, the iOS side consumes either the Maven klib (via KMP tooling) or a distributed XCFramework — an XCFramework release should carry the same version number as the Maven release, published from the same tag, ideally via SPM (`Package.swift` pinned per release).
+- **Apps consuming the shared code:** if the shared module lives in the same repo (typical for a KMP app), version it with the app via git; library versioning only becomes real when teams split repos or ship the shared SDK to third parties. In that split-repo world, the iOS side consumes either the Maven klib (via KMP tooling) or a distributed XCFramework, and an XCFramework release should carry the same version number as the Maven release, published from the same tag, ideally via SPM (`Package.swift` pinned per release).
 - Match the release tag to the Gradle `version` (the official workflow triggers publishing off GitHub Releases, so tag `1.2.0` ⇔ `version = "1.2.0"` is the natural invariant to enforce in CI).
 
 ---

@@ -1,6 +1,6 @@
 ---
 name: kmp-module-setup
-description: Use when creating, auditing, or upgrading a Kotlin Multiplatform shared module — declaring targets/source sets, wiring the version catalog (Kotlin/AGP/Compose Multiplatform), configuring the iOS framework block, or deciding between expect/actual and interfaces + DI for platform-specific code.
+description: Use when creating, auditing, or upgrading a Kotlin Multiplatform shared module, declaring targets/source sets, wiring the version catalog (Kotlin/AGP/Compose Multiplatform), configuring the iOS framework block, or deciding between expect/actual and interfaces + DI for platform-specific code.
 ---
 
 # KMP Module Setup
@@ -9,7 +9,7 @@ Scaffold or audit a shared Kotlin Multiplatform module: targets, source-set hier
 
 ## Source-set hierarchy
 
-Declaring `androidTarget()`, `iosArm64()`, `iosSimulatorArm64()` gives you the default hierarchy free (Kotlin ≥1.9.20) — no manual `dependsOn`:
+Declaring `androidTarget()`, `iosArm64()`, `iosSimulatorArm64()` gives you the default hierarchy free (Kotlin ≥1.9.20), with no manual `dependsOn`:
 
 ```
 commonMain ─┬─ androidMain
@@ -21,7 +21,7 @@ Visibility is one-way: platform code sees common; common never sees platform. `c
 
 ## Version catalog (the compatibility contract)
 
-Pin Kotlin, AGP, and Compose Multiplatform together in `gradle/libs.versions.toml` and bump them together against the official compatibility table — version drift between the three is the top setup failure.
+Pin Kotlin, AGP, and Compose Multiplatform together in `gradle/libs.versions.toml` and bump them together against the official compatibility table, because version drift between the three is the top setup failure.
 
 ```toml
 [versions]
@@ -55,16 +55,16 @@ Exporting types from other modules requires `api(...)` + `export(...)`; `impleme
 |---|---|
 | Leaf utility (UUID, clock, platform name) | `expect fun` / `actual fun` |
 | Anything with behavior, state, deps, or that tests fake | interface in common + platform impls via DI (Koin etc.), or `expect fun createX(): X` factory |
-| expect/actual **classes** | Avoid — still Beta, warns without `-Xexpect-actual-classes`; official docs recommend interfaces |
+| expect/actual **classes** | Avoid: still Beta, warns without `-Xexpect-actual-classes`; official docs recommend interfaces |
 
 ## Verification
 
-- `./gradlew :shared:compileKotlinIosSimulatorArm64 :shared:compileDebugKotlinAndroid` — both targets compile.
-- `./gradlew allTests` or `iosSimulatorArm64Test` + `testDebugUnitTest` — common tests run on every target.
+- `./gradlew :shared:compileKotlinIosSimulatorArm64 :shared:compileDebugKotlinAndroid`: both targets compile.
+- `./gradlew allTests` or `iosSimulatorArm64Test` + `testDebugUnitTest`, since common tests run on every target.
 
 ## Common mistakes
 
-- Manual `dependsOn` wiring for standard layouts — the default hierarchy template already does it.
+- Manual `dependsOn` wiring for standard layouts, which the default hierarchy template already does.
 - `implementation` + `export()` → build error or mangled Swift types; must be `api`.
 - Unpinned versions ("latest everything") → Kotlin/AGP/CMP incompatibility; always go through the catalog.
 - Writing `expect class` for services → rigid, untestable; prefer interfaces.

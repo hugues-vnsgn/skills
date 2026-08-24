@@ -113,7 +113,7 @@ Pattern: `{name}-v{N}.{ext}`
 
 ## Report File Naming
 
-Pattern: `{agent-type}-{YYMMDD-HHmm}-{slug}.md` — the same pattern whether the report is standalone (`plans/reports/`) or plan-scoped (`plans/{plan}/reports/`).
+Pattern: `{agent-type}-{YYMMDD-HHmm}-{slug}.md`, the same whether the report is standalone (`plans/reports/`) or plan-scoped (`plans/{plan}/reports/`).
 
 Examples:
 - `scout-260304-1530-auth-module-analysis.md`

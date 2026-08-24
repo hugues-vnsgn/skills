@@ -1,15 +1,15 @@
-# Fork catalog — the sidecar taxonomy for every skill in this repo.
+# Fork catalog: the sidecar taxonomy for every skill in this repo.
 #
 # Sidecar by design: upstream `SKILL.md` frontmatter is never edited to carry
 # fork metadata, because every such edit is a future merge conflict.
 #
 # Fields per skill:
-#   name      directory basename — also the flat install name, unique repo-wide
+#   name      directory basename, also the flat install name, unique repo-wide
 #   path      repo-relative skill directory
 #   origin    `upstream` (mattpocock/skills owns the bytes) | `fork` (we do)
 #   domain    upstream skills keep their upstream bucket; fork skills are
 #             grouped by capability domain
-#   audience  which roles the skill serves — one skill may serve several
+#   audience  which roles the skill serves, and one skill may serve several
 #   owner     GitHub team with approval authority (mirrors CODEOWNERS)
 #   status    optional: `beta` exempts a house skill from promotion (no docs
 #             page, out of the top-level README, flat `## Beta` list in its
@@ -24,8 +24,8 @@ version: 1
 # Role vocabulary. `docs/roles/` has one entry page per audience.
 audiences: [engineer, designer, analyst, qa, staff]
 
-# Domain vocabulary. `design`, `discovery`, and `quality` are reserved for
-# future house domains — their folders are created when the first skill lands.
+# Domain vocabulary. `design` is reserved for a future house domain: its folder
+# is created when the first skill lands.
 domains:
   - engineering
   - productivity
@@ -38,7 +38,8 @@ domains:
   - design
   - discovery
   - quality
-  # Not a capability domain — the staging bucket for skills still being
+  - writing
+  # Not a capability domain, but the staging bucket for skills still being
   # written. Unshipped in `scripts/generate-marketplace.py`, so its skills
   # stay out of the installer picker until they move to a real domain.
   - in-development
@@ -370,12 +371,20 @@ skills:
     owner: "@hugues-vnsgn"
     status: beta
 
+  # --- fork: writing ---
+  - name: unslop
+    path: skills/house/writing/unslop
+    origin: fork
+    domain: writing
+    audience: [engineer, analyst, staff]
+    owner: "@hugues-vnsgn"
+
   # --- fork: in-development ---
   # Staging, not a capability domain. Every entry is `status: beta` and carries
   # `metadata.internal: true`, so none reaches the installer picker. The
   # `audience` below records who the skill is *aimed at*; it earns its place in
   # the matching `docs/roles/` page and its docs page only on the move to a real
-  # domain — listing a skill nobody can install yet in a role's reading order
+  # domain. Listing a skill nobody can install yet in a role's reading order
   # sends the reader at a dead end. See the shipping checklist in
   # `skills/house/in-development/README.md`.
   - name: bro
@@ -397,12 +406,5 @@ skills:
     origin: fork
     domain: in-development
     audience: [engineer, designer]
-    owner: "@hugues-vnsgn"
-    status: beta
-  - name: unslop
-    path: skills/house/in-development/unslop
-    origin: fork
-    domain: in-development
-    audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta

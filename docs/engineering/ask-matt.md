@@ -30,7 +30,7 @@ The word the skill gives you to think with is **flow**: a path *through* the ski
 - **On-ramps**, for a situation that generates work and then merges onto the main flow: incoming bug reports, something broken, an effort too foggy and too large to hold in one session, or a capability another codebase already has.
 - **Standalones**, off every flow, reached for on their own terms: the prototype, the questionnaire, the merge conflict you are already sitting in.
 - **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
-- **A platform-knowledge layer underneath**, five Kotlin Multiplatform / Compose Multiplatform references the implementation skills reach for when the platform rather than the process is the problem. One of them, test-seams, sits directly under the TDD loop — where the seam goes and which Gradle task proves it; another, release-and-publish, sits at ship time and owns the full task map.
+- **A platform-knowledge layer underneath**, five Kotlin Multiplatform / Compose Multiplatform references the implementation skills reach for when the platform rather than the process is the problem. One of them, test-seams, sits directly under the TDD loop, deciding where the seam goes and which Gradle task proves it; another, release-and-publish, sits at ship time and owns the full task map.
 
 ## The phase boundary
 

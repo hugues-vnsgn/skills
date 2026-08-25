@@ -26,6 +26,8 @@ The route most work travels. You have an idea and want it built.
 
    Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/code-review`**, a two-axis review (Standards + Spec) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
 
+   Where that building happens is **`/use-git-worktree`**: a worktree under `.worktrees/` on a `feat/` or `fix/` branch, so the main checkout keeps its branch and its uncommitted state. It is model-invoked and fires **per change rather than per step**, so it lands here only because this is where code first gets written; it applies just as much to a fix that arrives through `/diagnosing-bugs` or a refactor nobody wrote a ticket for. One-line and single-file edits skip it, and so does any change you have said to make on the current branch.
+
 ### Context hygiene
 
 Keep steps 1-4 in **one unbroken context window** (don't compact or clear until after `/to-tickets`) so the grilling, PRD, spec, and tickets all build on the same thinking. Each `/implement` then starts fresh, working from the ticket.

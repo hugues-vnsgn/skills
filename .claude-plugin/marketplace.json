@@ -58,6 +58,7 @@
         "./skills/house/platform/port-from-repo",
         "./skills/house/platform/setup-osxsystem-skills",
         "./skills/house/platform/sync-upstream",
+        "./skills/house/platform/use-git-worktree",
         "./skills/house/platform/when-stuck"
       ]
     },

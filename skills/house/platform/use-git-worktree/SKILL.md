@@ -1,8 +1,6 @@
 ---
 name: use-git-worktree
 description: Create an isolated git worktree under `.worktrees/` before starting work, via `git worktree add` on a `feat/` or `fix/` branch. Use when beginning a feature, a bug fix, a refactor, a dependency upgrade, or an implementation plan that will touch more than one file, even when the user never says "worktree". Skip it for one-line and single-file edits, and stay in place when the user says to work on the current branch. Also use when unsure whether the session is already inside a worktree.
-metadata:
-  internal: true
 ---
 
 # Use Git Worktree
@@ -23,7 +21,7 @@ git rev-parse --path-format=absolute --git-dir --git-common-dir --abbrev-ref HEA
 
 `--path-format=absolute` is the load-bearing flag. Without it, git answers the second question relative to your cwd, so from a subdirectory you get `/repo/.git` against `../../.git`: the same directory, spelled two ways, which a string comparison calls a worktree. The skill would then report "already isolated" from an ordinary subdirectory and never create anything.
 
-Two cases this deliberately does not special-case. A submodule reports both paths as its own `.git/modules/<name>`, equal, so it reads as a plain checkout, which is what you want. A worktree *of* a submodule reports them differently, so it reads as a worktree, which is also what you want. Earlier versions of this skill carried a submodule guard built on the claim that the two paths differ inside a submodule; that claim is false, and the guard it justified was dead code.
+Two cases this deliberately does not special-case. A submodule reports both paths as its own `.git/modules/<name>`, equal, so it reads as a plain checkout, which is what you want. A worktree *of* a submodule reports them differently, so it reads as a worktree, which is also what you want. Do not add a submodule guard here: the two paths are identical inside a submodule, so any guard built on them differing is dead code.
 
 ## 2. Name the branch
 

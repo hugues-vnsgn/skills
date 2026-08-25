@@ -336,6 +336,12 @@ skills:
     audience: [staff]
     owner: "@hugues-vnsgn"
     status: beta
+  - name: use-git-worktree
+    path: skills/house/platform/use-git-worktree
+    origin: fork
+    domain: platform
+    audience: [engineer]
+    owner: "@hugues-vnsgn"
   - name: when-stuck
     path: skills/house/platform/when-stuck
     origin: fork
@@ -412,12 +418,5 @@ skills:
     origin: fork
     domain: in-development
     audience: [engineer, designer]
-    owner: "@hugues-vnsgn"
-    status: beta
-  - name: use-git-worktree
-    path: skills/house/in-development/use-git-worktree
-    origin: fork
-    domain: in-development
-    audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta

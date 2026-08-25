@@ -11,7 +11,7 @@ This is the **osxsystem fork** of mattpocock/skills: a personal setup, customize
 Every fork-authored skill lives under `skills/house/`, grouped by capability **domain**. Upstream never writes there, so it is conflict-free:
 
 - `house/mobile/` holds the Kotlin Multiplatform / Compose Multiplatform skills
-- `house/platform/` holds the skill toolchain itself: repo setup, porting capabilities in, unsticking a design
+- `house/platform/` holds the workbench rather than the code: the workspace a change is built in, repo setup, porting capabilities in, unsticking a design
 
 A domain folder is created when its first skill lands, so there are no empty growth slots. Each house domain is **promoted** and carries the same registration as an upstream promoted bucket: a bucket `README.md`, an entry in the top-level `README.md`, and a docs page.
 

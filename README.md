@@ -4,7 +4,7 @@
 
 What this fork adds on top of upstream:
 
-- **`skills/house/`**: the fork's own skills, grouped by domain: [`mobile/`](./skills/house/mobile/README.md) for Kotlin Multiplatform + Compose Multiplatform development, [`platform/`](./skills/house/platform/README.md) for the toolchain itself
+- **`skills/house/`**: the fork's own skills, grouped by domain: [`mobile/`](./skills/house/mobile/README.md) for Kotlin Multiplatform + Compose Multiplatform development, [`platform/`](./skills/house/platform/README.md) for the workbench around the code
 - Fork conventions in [MAINTENANCE.md](./MAINTENANCE.md) and [CUSTOMIZING.md](./CUSTOMIZING.md)
 
 ## Installation (30-second setup)
@@ -103,12 +103,16 @@ House skills for Kotlin Multiplatform + Compose Multiplatform development (Andro
 
 ### Platform
 
-House skills for the toolchain itself: repo configuration, porting capabilities in, unsticking a design. Fork addition, see [skills/house/platform/README.md](./skills/house/platform/README.md).
+House skills for the workbench rather than the code: the workspace a change is built in, repo configuration, porting capabilities in, unsticking a design. Fork addition, see [skills/house/platform/README.md](./skills/house/platform/README.md).
 
 **User-invoked**
 
 - **[setup-osxsystem-skills](./skills/house/platform/setup-osxsystem-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[port-from-repo](./skills/house/platform/port-from-repo/SKILL.md)**: Bring a capability across from another codebase. Study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
+
+**Model-invoked**
+
+- **[use-git-worktree](./skills/house/platform/use-git-worktree/SKILL.md)**: Start a feature or a fix in its own worktree under `.worktrees/`, on a `feat/` or `fix/` branch, so the main checkout keeps its branch and its uncommitted state while the work happens somewhere else.
 
 ### Writing
 

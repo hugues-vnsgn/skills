@@ -19,6 +19,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[grill-with-docs](../engineering/grill-with-docs.md)**: the interview that hardens a vague plan into a decided one, writing the glossary and ADRs as it goes.
 - **[to-spec](../engineering/to-spec.md)**: the conversation is decided; turn it into a spec on the tracker. It does not re-interview you.
 - **[to-tickets](../engineering/to-tickets.md)**: break the spec into tracer-bullet tickets with their blocking edges declared.
+- **[use-git-worktree](../house/platform/use-git-worktree.md)** _(auto)_: before the first edit lands, the change gets its own worktree under `.worktrees/` on a `feat/` or `fix/` branch, so the main checkout keeps its branch and its uncommitted state.
 - **[implement](../engineering/implement.md)**: build a ticket or spec end to end, driving `/tdd` at the agreed seams and closing with `/code-review`.
 - **[implement-spec](../../skills/in-progress/implement-spec/SKILL.md)**: the whole spec at once rather than a ticket at a time: reads the tickets as a task graph and runs implementer subagents across the ready frontier, landing one PR.
 - **[cook](../../skills/house/delivery/cook/SKILL.md)** _(auto)_: the gated alternative to `/implement`: a research → plan → implement → test → review pipeline that stops for your approval between steps. Beta.

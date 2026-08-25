@@ -54,6 +54,7 @@ Every skill in this repo: 56 total — 35 upstream, 21 fork-authored.
 | [port-from-repo](skills/house/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
 | [setup-osxsystem-skills](skills/house/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
 | [sync-upstream](skills/house/platform/sync-upstream/SKILL.md) _(beta)_ | fork | platform | staff | @hugues-vnsgn |
+| [use-git-worktree](skills/house/platform/use-git-worktree/SKILL.md) | fork | platform | engineer | @hugues-vnsgn |
 | [when-stuck](skills/house/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
 | [cook](skills/house/delivery/cook/SKILL.md) _(beta)_ | fork | delivery | engineer | @hugues-vnsgn |
 | [project-organization](skills/house/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @hugues-vnsgn |
@@ -63,4 +64,3 @@ Every skill in this repo: 56 total — 35 upstream, 21 fork-authored.
 | [bro](skills/house/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
 | [improve-claude-md](skills/house/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
 | [show-me](skills/house/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |
-| [use-git-worktree](skills/house/in-development/use-git-worktree/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |

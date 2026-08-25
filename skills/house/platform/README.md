@@ -1,6 +1,6 @@
 # Platform
 
-House skills for working on the toolchain itself, covering repo configuration for the engineering flow, bringing capabilities across from other codebases, and unsticking a design. Fork-authored, so upstream owns none of these bytes.
+House skills for the workbench rather than the code: the workspace a change is built in, the repo configured for the engineering flow, capabilities brought across from other codebases, and unsticking a design. Fork-authored, so upstream owns none of these bytes.
 
 ## User-invoked
 
@@ -8,6 +8,12 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 
 - **[setup-osxsystem-skills](./setup-osxsystem-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo.
 - **[port-from-repo](./port-from-repo/SKILL.md)**: Bring a capability across from another codebase. Study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
+
+## Model-invoked
+
+Model- or user-reachable (rich trigger phrasing so the model can reach for them).
+
+- **[use-git-worktree](./use-git-worktree/SKILL.md)**: Start a feature or a fix in its own worktree under `.worktrees/`, on a `feat/` or `fix/` branch, so the main checkout keeps its branch and its uncommitted state.
 
 ## Beta
 

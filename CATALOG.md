@@ -2,7 +2,7 @@
 
 # Skill catalog
 
-Every skill in this repo: 56 total — 35 upstream, 21 fork-authored.
+Every skill in this repo: 57 total — 35 upstream, 22 fork-authored.
 
 `Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this repo). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
@@ -62,5 +62,6 @@ Every skill in this repo: 56 total — 35 upstream, 21 fork-authored.
 | [do-test](skills/house/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @hugues-vnsgn |
 | [unslop](skills/house/writing/unslop/SKILL.md) | fork | writing | engineer, analyst, staff | @hugues-vnsgn |
 | [bro](skills/house/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
+| [ddd](skills/house/in-development/ddd/SKILL.md) _(beta)_ | fork | in-development | engineer, analyst, staff | @hugues-vnsgn |
 | [improve-claude-md](skills/house/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
 | [show-me](skills/house/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |

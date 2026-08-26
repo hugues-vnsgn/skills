@@ -5,6 +5,7 @@ Fork-authored skills still under development, not registered in the top-level RE
 Every skill here carries `metadata.internal: true`, so none reaches the installer picker, and every catalog entry is `status: beta`. Earlier residents shipped as beta: `cook` and `project-organization` to [`house/delivery/`](../delivery/README.md), `do-test` to [`house/quality/`](../quality/README.md). Two went further, straight to promoted: `unslop` to [`house/writing/`](../writing/README.md), and `use-git-worktree` to [`house/platform/`](../platform/README.md), which it joined as that domain's first model-invoked skill.
 
 - **[bro](./bro/SKILL.md)**: Restate the last message in plain human language, with no jargon. User-invoked.
+- **[ddd](./ddd/SKILL.md)**: Run a domain-driven design session end to end: crunch the code, interrogate the gaps in rounds, then land the context map, model, events, and glossary.
 - **[improve-claude-md](./improve-claude-md/SKILL.md)**: Improve a `CLAUDE.md` using `<important if>` blocks to raise instruction adherence.
 - **[show-me](./show-me/SKILL.md)**: Draw the current topic as the smallest true picture, then show the smaller shape it exposes.
 

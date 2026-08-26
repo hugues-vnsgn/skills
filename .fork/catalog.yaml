@@ -406,6 +406,13 @@ skills:
     audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta
+  - name: ddd
+    path: skills/house/in-development/ddd
+    origin: fork
+    domain: in-development
+    audience: [engineer, analyst, staff]
+    owner: "@hugues-vnsgn"
+    status: beta
   - name: improve-claude-md
     path: skills/house/in-development/improve-claude-md
     origin: fork

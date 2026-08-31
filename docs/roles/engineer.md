@@ -59,6 +59,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[wayfinder](../engineering/wayfinder.md)**: the work is too big to hold in one session: map it as decision tickets and resolve them one at a time.
 - **[improve-codebase-architecture](../engineering/improve-codebase-architecture.md)**: periodic: scan for deepening opportunities, then grill through the one you pick.
+- **[retro](../../skills/in-progress/retro/SKILL.md)**: after a coding session, rank the navigation, checks, standards, tooling, and information-access changes that would improve the next run.
 - **[triage](../engineering/triage.md)**: move issues and external PRs through the triage state machine into agent-ready briefs.
 - **[handoff](../productivity/handoff.md)**: compact this conversation into a document the next agent can pick up.
 - **[claude-handoff](../../skills/in-progress/claude-handoff/SKILL.md)**: same idea, but hands off to a fresh background agent that starts immediately.

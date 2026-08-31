@@ -14,20 +14,22 @@ You invoke this by typing `/ask-matt`; the agent won't reach for it on its own.
 | Bugs and requests arriving from other people | The [triage](https://aihero.dev/skills-triage) on-ramp, and why [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) you generated yourself don't belong on it |
 | Two skills that look interchangeable | The line between them, and it is usually one concrete test rather than a matter of taste. [grill-me](https://aihero.dev/skills-grill-me) or [grill-with-docs](https://aihero.dev/skills-grill-with-docs) turns on whether you are in a working directory; [grill-with-docs](https://aihero.dev/skills-grill-with-docs) or [wayfinder](https://aihero.dev/skills-wayfinder) turns on whether the effort fits one session |
 | A long session and a decision about the [context](https://www.aihero.dev/ai-coding-dictionary/context) | The ordered tree over the five options at a phase boundary |
+| A completed coding session that exposed friction in the agent's environment | The `retro` maintenance route, which turns the session into ranked improvement candidates |
 | A skill you have already picked | Nothing useful. Invoke that skill directly. |
 
 ## Prerequisites
 
-The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable, and it only knows the promoted skills in this repo.
+The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable, and it only knows the skills this hand-written map names.
 
 The tracker-dependent routes (triage, `to-spec`, `to-tickets`, `implement`) assume [setup-osxsystem-skills](../../skills/house/platform/setup-osxsystem-skills/SKILL.md) has already configured an issue tracker in the repo. The router will happily recommend them before that has happened.
 
 ## Flows, not skills
 
-The word the skill gives you to think with is **flow**: a path *through* the skills, not a single one. Naming your situation places you on a flow at a step, which is a different answer from "here is the skill that matches your keywords". Five kinds of route exist, and the skill itself carries them in full:
+The word the skill gives you to think with is **flow**: a path *through* the skills, not a single one. Naming your situation places you on a flow at a step, which is a different answer from "here is the skill that matches your keywords". Six kinds of route exist, and the skill itself carries them in full:
 
 - **The main flow**, idea to ship. Grill, spec, tickets, implement, review, with two branches inside it: a prototype detour when a question needs runnable code to settle, and the spec-and-tickets split, which only earns its cost when the build spans more than one session.
 - **On-ramps**, for a situation that generates work and then merges onto the main flow: incoming bug reports, something broken, an effort too foggy and too large to hold in one session, or a capability another codebase already has.
+- **Codebase health**, for maintenance rather than feature work: finding architectural opportunities or reviewing a completed coding session for improvements to the agent's environment.
 - **Standalones**, off every flow, reached for on their own terms: the prototype, the questionnaire, the merge conflict you are already sitting in.
 - **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
 - **A platform-knowledge layer underneath**, five Kotlin Multiplatform / Compose Multiplatform references the implementation skills reach for when the platform rather than the process is the problem. One of them, test-seams, sits directly under the TDD loop, deciding where the seam goes and which Gradle task proves it; another, release-and-publish, sits at ship time and owns the full task map.
@@ -86,6 +88,6 @@ Check the changelog for a rename before assuming it is gone. `writing-great-skil
 
 ## Where it fits
 
-`ask-matt` is a **standalone router** that sits over the whole set. It is never a step in a chain; it points into every chain, and it is the node the other docs pages link back to so none of them has to redraw the graph. From here you most often land on [grill-with-docs](https://aihero.dev/skills-grill-with-docs), the head of the main flow, or [triage](https://aihero.dev/skills-triage), the on-ramp for work that arrived rather than work you started.
+`ask-matt` is a **standalone router** that sits over the whole set. It is never a step in a chain; it points into every chain, and it is the node the other docs pages link back to so none of them has to redraw the graph. From here you most often land on [grill-with-docs](https://aihero.dev/skills-grill-with-docs), the head of the main flow, [triage](https://aihero.dev/skills-triage), the on-ramp for work that arrived rather than work you started, or `retro` after a coding session worth learning from.
 
 It is a [secondary source](https://www.aihero.dev/ai-coding-dictionary/secondary-source) over the skills it describes. Where the router and a `SKILL.md` disagree, the `SKILL.md` is right.

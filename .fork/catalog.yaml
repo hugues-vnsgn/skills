@@ -238,6 +238,12 @@ skills:
     domain: in-progress
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
+  - name: retro
+    path: skills/in-progress/retro
+    origin: upstream
+    domain: in-progress
+    audience: [engineer, staff]
+    owner: "@hugues-vnsgn"
   - name: setup-ts-deep-modules
     path: skills/in-progress/setup-ts-deep-modules
     origin: upstream

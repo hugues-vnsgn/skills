@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 You don't remember every skill, so ask.
 
-A **flow** is a path through the skills. Most paths run along one **main flow**, and several **on-ramps** merge onto it. Everything else is standalone, or one of two layers that run underneath: **vocabulary**, and **platform knowledge**.
+A **flow** is a path through the skills. Most paths run along one **main flow**, and several **on-ramps** merge onto it. Everything else is maintenance, standalone, or one of two layers that run underneath: **vocabulary**, and **platform knowledge**.
 
 ## The main flow: idea → ship
 
@@ -57,6 +57,7 @@ A starting situation that generates work, then merges onto the main flow.
 Not feature work, just upkeep.
 
 - **`/improve-codebase-architecture`** runs whenever you have a spare moment to keep the codebase good for agents to operate in. It surfaces **deepening opportunities**; picking one _generates an idea_ you can take into the main flow at `/grill-with-docs`. It's the survey that finds the candidates; **`/codebase-design`** (below) is the bench you design the chosen one on.
+- **`/retro`** reads a completed coding session and finds changes that would improve the next run: navigation pointers, automated checks, coding standards, global instructions, tool economy, and information access. It recommends candidates in severity order and stops; the resulting work enters the main flow separately.
 
 ## Vocabulary underneath
 

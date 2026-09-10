@@ -1,5 +1,11 @@
 # osxsystem-skills
 
+## 1.9.1
+
+### Patch Changes
+
+- [#17](https://github.com/hugues-vnsgn/skills/pull/17) [`693c465`](https://github.com/hugues-vnsgn/skills/commit/693c46595687085d128265cb0fdcf9ebfc7979c5) Thanks [@hugues-vnsgn](https://github.com/hugues-vnsgn)! - Publish the fork after verifying parity with `mattpocock/skills` through upstream commit `3cca18b`.
+
 ## 1.9.0
 
 ### Minor Changes

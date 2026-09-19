@@ -26,6 +26,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[tdd](../engineering/tdd.md)** _(auto)_: the red-green-refactor loop itself, one vertical slice at a time.
 - **[do-test](../../skills/house/quality/do-test/SKILL.md)** _(auto)_: after the build: derive a test matrix from the change, run it, and get a SHIP/BLOCKED/UNVERIFIED verdict backed by evidence. Beta.
 - **[code-review](../engineering/code-review.md)** _(auto)_: review the diff since a fixed point on two axes at once: does it follow the repo's standards, and does it do what the spec asked?
+- **[pr](../../skills/in-progress/pr/SKILL.md)** _(auto)_: write the PR body from the issue or spec, then show the change, before and after evidence, and the merge danger in a format built for fast review.
 
 ## While you are building
 

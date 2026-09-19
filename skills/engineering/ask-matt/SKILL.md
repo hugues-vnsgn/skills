@@ -28,6 +28,8 @@ The route most work travels. You have an idea and want it built.
 
    Where that building happens is **`/use-git-worktree`**: a worktree under `.worktrees/` on a `feat/` or `fix/` branch, so the main checkout keeps its branch and its uncommitted state. It is model-invoked and fires **per change rather than per step**, so it lands here only because this is where code first gets written; it applies just as much to a fix that arrives through `/diagnosing-bugs` or a refactor nobody wrote a ticket for. One-line and single-file edits skip it, and so does any change you have said to make on the current branch.
 
+   **`/pr`** is the final presentation layer when the finished change needs a pull request body. It takes the summary from the issue or spec rather than inventing one from the diff, shows the smallest useful view of the change, pairs before and after evidence, and states the merge danger. It is model-invoked and belongs after implementation and review, not as another step that changes the code.
+
 ### Context hygiene
 
 Keep steps 1-4 in **one unbroken context window** (don't compact or clear until after `/to-tickets`) so the grilling, PRD, spec, and tickets all build on the same thinking. Each `/implement` then starts fresh, working from the ticket.

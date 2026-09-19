@@ -30,6 +30,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 ## Review
 
 - **[code-review](../engineering/code-review.md)** _(auto)_: standards and spec-fidelity reviewed as parallel sub-agents, so neither pollutes the other. The spec axis is the one a human reviewer usually skips.
+- **[pr](../../skills/in-progress/pr/SKILL.md)** _(auto)_: write the PR body from the primary source, with the smallest useful view, before and after evidence, and an explicit merge-danger call.
 
 ## Grow the toolchain
 

@@ -238,6 +238,12 @@ skills:
     domain: in-progress
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
+  - name: pr
+    path: skills/in-progress/pr
+    origin: upstream
+    domain: in-progress
+    audience: [engineer, staff]
+    owner: "@hugues-vnsgn"
   - name: retro
     path: skills/in-progress/retro
     origin: upstream

@@ -1,11 +1,19 @@
 # Platform knowledge
 
-Seven model-invoked references cover **Kotlin Multiplatform / Compose Multiplatform** and native SwiftUI/UIKit. They supply platform detail beneath the flow. `/tdd-kmp` owns the KMP/CMP red-green loop; `/kmp-test-seams` is a quick lookup for test location and task choice.
+Nine model-invoked references support KMP/CMP and native iOS work. Choose by the immediate question; a feature can need several at different stages.
 
-- **`/kmp-module-setup`** — the shared module's *shape*: targets and the source-set hierarchy you get free from `androidTarget()` + `iosArm64()`, the version catalog that pins Kotlin, AGP and Compose Multiplatform together, the iOS framework block, and the `expect`/`actual` vs interfaces-plus-DI call.
-- **`/kmp-ios-integration`** — the *Xcode seam*: direct integration vs CocoaPods vs SPM vs KMMBridge, `embedAndSignAppleFrameworkForXcode`, and the framework-not-found and script-sandboxing errors — plus a review checklist for the Kotlin API Swift has to consume (`@Throws`, sealed classes, suspend functions, generics).
-- **`/compose-multiplatform-ui`**, *shared UI*: the full-Compose vs native-SwiftUI shell decision (the one call that has to come before screens get written, and the only route to iOS 26 Liquid Glass), per-platform entry points, `composeResources`/`Res`, Navigation Compose and Navigation 3 with ViewModel in `commonMain`, SwiftUI/UIKit interop both directions, and the iOS-only deltas (frame-rate caps, interop touch and accessibility defaults, `viewModel()` crashes).
-- **`/swiftui-expert-skill`**, *native SwiftUI*: state and `@Observable` data flow, view composition and identity, adaptive layout, accessibility, API migration, and Instruments trace diagnosis. Use it for the SwiftUI views in a native shell; `/compose-multiplatform-ui` owns the shared-vs-native shell decision and Compose screens.
-- **`/uikit-expert`**, *native UIKit*: view-controller lifecycle, Auto Layout, collection views, navigation, memory, accessibility, and SwiftUI interop. Use it for UIKit-owned screens; `/swiftui-expert-skill` owns SwiftUI views and `/compose-multiplatform-ui` owns shared Compose screens.
-- **`/kmp-test-seams`** — the quick platform lookup: which source set a test belongs in and which Gradle task proves it. For the full KMP/CMP loop, use `/tdd-kmp`.
-- **`/kmp-release-and-publish`** — the odd one out: it runs at **ship time**, at the *end* of the flow — though `/kmp-test-seams` points into it mid-loop for the full Gradle task map. R8 over shared code, iOS archive and TestFlight, Maven Central, and the CI runner split.
+| Question | Skill |
+|---|---|
+| Which Gradle plugin, target, source set or framework configuration? | `/kmp-module-setup` |
+| How should common code call a platform capability, with what lifetime and completion contract? | `/kmp-boundaries` (beta) |
+| How does Xcode consume shared code, and what does Swift see? | `/kmp-ios-integration` |
+| How should shared screens, native UI interop and navigation ownership work? | `/compose-multiplatform-ui` |
+| How should native SwiftUI views handle state, layout, accessibility or an Instruments trace? | `/swiftui-expert-skill` |
+| How should a UIKit-owned screen handle lifecycle, Auto Layout, collection views or SwiftUI interop? | `/uikit-expert` |
+| How should the Ktor client handle engines, credentials, retries and HTTP errors? | `/kmp-ktor` (beta) |
+| Where should a test live and which existing task proves this change? | `/kmp-test-seams` |
+| How should the release artifact be verified, signed and published? | `/kmp-release-and-publish` |
+
+`/tdd-kmp` owns the KMP/CMP red-green loop, and `/tdd` owns the generic one. `/kmp-test-seams` supplies platform placement and task discovery without requiring a new JVM target. Release CI consumes those selected checks; release/publish does not own a second test-task map.
+
+Module setup owns build mechanics. Boundaries owns the capability API. iOS integration owns the Swift/Xcode consumer. Compose owns shared UI behavior and the shared-vs-native shell decision, and preserves an existing shell unless the requested change requires different ownership. SwiftUI owns native SwiftUI views, and UIKit owns UIKit-owned screens.

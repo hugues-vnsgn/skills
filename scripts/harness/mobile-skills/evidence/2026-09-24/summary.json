@@ -1,0 +1,162 @@
+{
+  "recorded_at_utc": "2026-09-24T07:06:16.383559+00:00",
+  "base_commit": "55998a81772eea25d38a571d127af7f0fc2d8aee",
+  "issue": "skills-2zv",
+  "package_digest_algorithm": "SHA256 of sorted package-relative path UTF-8 + NUL + file bytes + NUL for every file",
+  "packages": {
+    "compose-multiplatform-ui": {
+      "sha256": "b5a397db3f63ea24a6b03549f41dc78258c9d25f0c3d7b606f12ea6c8aca0bd0",
+      "files": {
+        "SKILL.md": "069827195ad60d8e240d4b17d1ae8311ce8a462438770fa917393d0e70c462f6",
+        "agents/openai.yaml": "d3e5038e56b06caf1fb5e77e8300a83c94e3530979446ef6133e19b874ca1cda",
+        "reference.md": "3f4245fe7314e53464c0b67b308caa7cc3aded8df7efbe6fc9f1328a6b1cdd57"
+      }
+    },
+    "kmp-boundaries": {
+      "sha256": "d1293fc6d63bd2a482a3c7534cc7e3c360243ee82cb87faa626410f8ff867013",
+      "files": {
+        "SKILL.md": "38187c43458d6e51617b473c0aa5225edf1fc8ac37d7bc09495eb6b4a8ce1455",
+        "agents/openai.yaml": "7e3f23b1c90fc51c7f9d183965a6c538dd96af43b75a2c5a540a893cbd052d38"
+      }
+    },
+    "kmp-ios-integration": {
+      "sha256": "34f188d4b75a945e34e0114db7105aec2f6bb0bd8baff1b10a2ccd9076cdfb9b",
+      "files": {
+        "SKILL.md": "0ad543e4fb6adfe82d8dd2f474c1cd5c293b86ac268b66903ff5fe7e003dbdb2",
+        "agents/openai.yaml": "9a82f6995eb8ec6c14f2e93fe8df708cec764e83ae23839e8bc1cecd1ac09f36",
+        "cocoapods-reference.md": "5921efe7db7c00de1978514f85ee95d671c9b3460d262e5a2f2e489956d272be",
+        "interop-reference.md": "95d92b74df1b297edefb257a148f2c64c4109fe2dec261c191e34c118f5713bb"
+      }
+    },
+    "kmp-ktor": {
+      "sha256": "98398865d9941d322f6ac12f0ec16d8ef2bb3506e666901ffbd1830a2b5f3372",
+      "files": {
+        "SKILL.md": "f932cb733e2ef57c5bd6ec7ffea5a5a8918f966962ffae1f378da31a2f4e4ef7",
+        "agents/openai.yaml": "49a556072ca4ce355bbce1f25a8691b20981a9fd5f1092490aff05a172496452",
+        "client-reference.md": "85f09ec6228ae6ef31cb6e464e4e651648dcc2d8e62aa71154bb5a91d4879a0f",
+        "streaming-reference.md": "50f2b424b7172a0a3461c2f3a95ec099cca485490367a2e1af931107b179dda7"
+      }
+    },
+    "kmp-module-setup": {
+      "sha256": "0aa5dee4998dcb5a64b4c946664e17a5ff9e51f9fa002eb3866133f0971e9d0a",
+      "files": {
+        "SKILL.md": "341e6a9210125bfd23c3e8f3d82077950eaa902d46031547295016ce5242ad15",
+        "agents/openai.yaml": "2fb86efcc80593576ca9039ab84d577fb1af6019bb12af09115ba7c4a6638b30",
+        "reference.md": "b0e99a9c1b7c1f495567609476e2487c05aa2c0f0afd70d69c3e94e5e41f8bd1"
+      }
+    },
+    "kmp-release-and-publish": {
+      "sha256": "2754e0244408cdd657d4bb1cc7bab8a0a1be345e354e7d82db5e30df56cec1ed",
+      "files": {
+        "SKILL.md": "d3bc023ae0149757767358e36466076a249e8f464690309cbf385a3c80730537",
+        "agents/openai.yaml": "091b262d5a34ed38261aab628154e5549d903a8521e73a20d7965d6fba01a75e",
+        "reference.md": "0eaa86104c1043f7fc155f27b4c61031201861f5c18ce05d8160f55dbfd397bf"
+      }
+    },
+    "kmp-test-seams": {
+      "sha256": "ac62458749becd022d9d9d12b88c8d5eadcfd6e92a21356dc99debda6236bb77",
+      "files": {
+        "SKILL.md": "b158efba764aa2b2330c518378a986a0dfaa086c1ee52695c770407b00283731",
+        "agents/openai.yaml": "2648b6d90fe83db3b2291bd80492468b28a7dbeed3628cfe1d4addba25e26473"
+      }
+    }
+  },
+  "validation": [
+    {
+      "command": [
+        "python3",
+        "scripts/harness/skillcheck.py",
+        ".",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "counts": {
+        "PASS": 701
+      },
+      "failures": []
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/harness/forkcheck.py"
+      ],
+      "exit_code": 0,
+      "stdout": "7 checks over .\n  PASS  frozen-upstream\n  PASS  declared-trees-exist\n  PASS  unique-skill-names\n  PASS  catalog-completeness\n  PASS  plugin-dir-marketplace-only\n  PASS  marketplace-groups\n  PASS  changeset-package\nPASS\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/generate-marketplace.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "marketplace.json is up to date (42 skills in 8 groups)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/generate-catalog.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "CATALOG.md is up to date (59 skills)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/check-confusable-skills.py"
+      ],
+      "exit_code": 0,
+      "stdout": "59 skills: 33 model-invoked, 26 user-invoked (excluded)\nPASS \u2014 no pair at or above 0.80 (highest: 0.295)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "selection": {
+    "passed": 24,
+    "total": 24,
+    "method": "Independent description-only selection; exact evaluator model variant unavailable"
+  },
+  "executable_checks": {
+    "ktor_mockengine": {
+      "passed": 9,
+      "failed": 0
+    },
+    "modern_android_common": {
+      "passed": 2,
+      "failed": 0
+    },
+    "ios_simulator_common": {
+      "passed": 2,
+      "failed": 0
+    },
+    "legacy_android_common": {
+      "passed": 2,
+      "failed": 0
+    }
+  },
+  "standalone_install": "All seven mobile symlinks resolved in both harness directories under a disposable home; existing installed links were not changed.",
+  "limitations": [
+    "No before/after model baseline; no regression_verified claim.",
+    "Description selection is an explicit constrained exercise, not automatic invocation in every agent host.",
+    "Exact evaluator model variants were not exposed; raw answers, family identity when available and timestamps retained.",
+    "Retrieval hashes record their actual reviewed draft; final UI/release re-read retained after wording fixes. Test-seams later clarified block version and hardware-device scope; compile fixture verifies selected task DSL.",
+    "Native Ktor engines/TLS/credential storage, concurrent refresh/logout, Swift coroutine bridges and native UI back navigation were not executed in a production app.",
+    "AGP 8.10/8.11, custom Desktop hierarchy, explicit framework dependency export, device tests/signing and R8 consumer app remain outside fixture coverage.",
+    "No network publication, commits or pushes performed."
+  ]
+}

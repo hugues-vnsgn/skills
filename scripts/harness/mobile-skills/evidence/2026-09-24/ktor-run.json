@@ -1,0 +1,17 @@
+{
+  "started_at_utc": "2026-09-24T07:02:06.169323+00:00",
+  "package_files": {
+    "SKILL.md": "f932cb733e2ef57c5bd6ec7ffea5a5a8918f966962ffae1f378da31a2f4e4ef7",
+    "agents/openai.yaml": "49a556072ca4ce355bbce1f25a8691b20981a9fd5f1092490aff05a172496452",
+    "client-reference.md": "85f09ec6228ae6ef31cb6e464e4e651648dcc2d8e62aa71154bb5a91d4879a0f",
+    "streaming-reference.md": "50f2b424b7172a0a3461c2f3a95ec099cca485490367a2e1af931107b179dda7"
+  },
+  "command": [
+    "gradle",
+    "--no-daemon",
+    "test"
+  ],
+  "scope": "JVM compilation and MockEngine behavior; no native engine or live API verification",
+  "exit_code": 0,
+  "finished_at_utc": "2026-09-24T07:02:14.802776+00:00"
+}

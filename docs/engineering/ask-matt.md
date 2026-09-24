@@ -32,7 +32,7 @@ The word the skill gives you to think with is **flow**: a path *through* the ski
 - **Codebase health**, for maintenance rather than feature work: finding architectural opportunities or reviewing a completed coding session for improvements to the agent's environment.
 - **Standalones**, off every flow, reached for on their own terms: the prototype, the questionnaire, the merge conflict you are already sitting in.
 - **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
-- **A platform-knowledge layer underneath**, five Kotlin Multiplatform / Compose Multiplatform references plus native SwiftUI and UIKit references. Use `/tdd-kmp` for the KMP/CMP test-first loop; `/kmp-test-seams` is the quick source-set and task lookup, while release-and-publish owns the ship-time task map.
+- **A platform-knowledge layer underneath**, seven Kotlin Multiplatform / Compose Multiplatform references plus native SwiftUI and UIKit references. Module setup owns Gradle configuration; boundaries (beta) owns capability contracts; iOS integration owns the Xcode and Swift consumer; Compose owns shared UI; SwiftUI and UIKit own native iOS screens; Ktor (beta) owns HTTP clients; test-seams owns test placement and task discovery; release-and-publish owns release artifacts and publication. Use `/tdd-kmp` for the KMP/CMP test-first loop.
 
 ## The phase boundary
 

@@ -1,0 +1,44 @@
+{
+  "task": "A",
+  "skill": "kmp-module-setup",
+  "recorded_at_utc": "2026-09-24T06:56:21.250744+00:00",
+  "model_identity": "Not exposed to this evaluator; no model identifier claimed.",
+  "consulted_files": [
+    {
+      "path": "/Users/hugues_mini/Codes/skills/.worktrees/feat/mobile-skills-upgrade/skills/house/mobile/kmp-module-setup/SKILL.md",
+      "sha256": "341e6a9210125bfd23c3e8f3d82077950eaa902d46031547295016ce5242ad15"
+    },
+    {
+      "path": "/Users/hugues_mini/Codes/skills/.worktrees/feat/mobile-skills-upgrade/skills/house/mobile/kmp-module-setup/reference.md",
+      "sha256": "b0e99a9c1b7c1f495567609476e2487c05aa2c0f0afd70d69c3e94e5e41f8bd1"
+    }
+  ],
+  "questions_and_raw_answers": [
+    {
+      "question": "An existing AGP 8.10 Android-KMP library needs resources, is androidTarget() the right addition?",
+      "answer": "No. For com.android.kotlin.multiplatform.library on AGP 8.10/8.11 use kotlin { androidLibrary { ... } }, not androidTarget(). Enable androidResources { enable = true } inside that target, subject to checking the installed DSL. androidTarget() is the legacy com.android.library path. Inspect current plugins and version first."
+    },
+    {
+      "question": "Our legacy Android+Desktop module needs shared JVM-only parsing code but iOS must still compile; what changes?",
+      "answer": "Retain legacy androidTarget() and the existing Desktop JVM target. Explicitly retain applyDefaultHierarchyTemplate(), create jvmAndroidMain depending on commonMain, put the JVM parser dependency and implementation there, and connect androidMain and the actual Desktop target main source set to jvmAndroidMain. The sample uses jvmMain because its target is jvm(); use the real target name. iOS stays on the default hierarchy and must not depend on that JVM-only layer. Sync and verify relevant Android and iOS simulator compilation/link tasks."
+    },
+    {
+      "question": "An iOS extension was added; do we have to make every Kotlin framework dynamic?",
+      "answer": "No. An extension alone does not establish a dynamic-linkage requirement. Retain working linkage unless the integration requirements provide a concrete reason to change it. Static frameworks link into the app binary; dynamic frameworks require embedding and signing."
+    },
+    {
+      "question": "Kotlin upgrade is requested; must CMP and AGP always be bumped in lockstep, and what verifies completion?",
+      "answer": "No. Kotlin, AGP, Gradle, Xcode and CMP have compatibility ranges. Resolve existing versions; match the Compose compiler plugin to Kotlin, check Kotlin toolchain compatibility and CMP compatibility separately, and change other versions only when required. Discover tasks using ./gradlew :<module>:tasks --all, then execute relevant Android compilation and Apple simulator compilation/link tasks on capable hosts. Report the selected plugin/version branch, actual configuration changes and exact results, including unavailable SDK/host limits. Inspection alone is not successful compilation. Under this offline evaluation I cannot validate the external compatibility tables."
+    }
+  ],
+  "ambiguities_or_gaps": [
+    "reference.md, Android library configuration: the resources example is explicitly AGP 8.12+; AGP 8.10 target naming is given but resource enabling on 8.10 is not shown independently. The instruction to inspect installed API mitigates this but requires project evidence.",
+    "reference.md, Compatibility: precise version compatibility is delegated to official online tables. Standalone retrieval gives the decision process but cannot choose a verified version combination offline."
+  ],
+  "limitations": [
+    "Standalone package retrieval only. No repository rules, issue contents, other skill contents, network sources, or application builds consulted.",
+    "Directory file names were enumerated for the three assigned directories; agents/openai.yaml files were not opened.",
+    "Read order was Task A package, Task B package, Task C package; answers use only their assigned package.",
+    "No platform code or Gradle tasks executed. Timestamp records evidence capture, not individual read instants."
+  ]
+}

@@ -72,7 +72,7 @@ Two model-invoked references that run *beneath* the other skills, each the singl
 
 ## Platform knowledge
 
-Seven model-invoked references cover mobile platform questions: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/swiftui-expert-skill`, `/uikit-expert`, `/kmp-test-seams`, and `/kmp-release-and-publish`. They sit beneath the flow, while `/tdd-kmp` drives its KMP/CMP test-first step. Reach for `/kmp-test-seams` alone when the question is just source-set placement or Gradle task choice.
+Nine model-invoked references supply mobile platform knowledge as the work needs it: `/kmp-module-setup` for build configuration, `/kmp-boundaries` (beta) for capability contracts, `/kmp-ios-integration` for Xcode and Swift APIs, `/compose-multiplatform-ui` for shared UI, `/swiftui-expert-skill` and `/uikit-expert` for native iOS screens, `/kmp-ktor` (beta) for HTTP clients, `/kmp-test-seams` for test placement and task selection, and `/kmp-release-and-publish` for release artifacts and publication. They sit beneath the flow, while `/tdd-kmp` drives its KMP/CMP test-first step. Reach for `/kmp-test-seams` alone when the question is just source-set placement or Gradle task choice.
 
 Read [references/platform-knowledge.md](references/platform-knowledge.md) for what each one covers.
 

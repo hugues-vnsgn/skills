@@ -5,7 +5,7 @@ description: Use when connecting a Kotlin Multiplatform shared module to an iOS/
 
 # KMP iOS Integration
 
-Wire the shared Kotlin framework into the iOS app, and keep the Kotlin→Swift API surface safe. Deep detail: [interop-reference.md](interop-reference.md) (integration methods, Swift interop), [cocoapods-reference.md](cocoapods-reference.md) (CocoaPods setup + troubleshooting table).
+Wire the shared Kotlin framework into the iOS app. Inspect Kotlin/Xcode versions, the existing integration route and generated framework/module name first. Read [interop-reference.md](interop-reference.md) when choosing integration or reviewing Swift API behavior; read [cocoapods-reference.md](cocoapods-reference.md) only for Pod-based builds.
 
 ## Choosing an integration method
 
@@ -16,7 +16,7 @@ Wire the shared Kotlin framework into the iOS app, and keep the Kotlin→Swift A
 | **SPM local / remote XCFramework** | SwiftPM-first iOS team; remote when shared code ships as a versioned binary |
 | **KMMBridge** | Separate iOS team that must never run Gradle |
 
-⚠️ Direct integration and CocoaPods are **mutually exclusive**. Migrating off CocoaPods: `pod deintegrate` + remove the `cocoapods {}` block first.
+Direct integration and CocoaPods framework integration are **mutually exclusive for the same shared module**. Migrating off CocoaPods: `pod deintegrate` + remove the `cocoapods {}` block first.
 
 ## Direct integration checklist
 
@@ -32,20 +32,20 @@ Wire the shared Kotlin framework into the iOS app, and keep the Kotlin→Swift A
 
 ## CocoaPods quick path
 
-`kotlin("native.cocoapods")` plugin (version = Kotlin version) → `cocoapods { version; summary; homepage; ios.deploymentTarget; framework { baseName } }` → `./gradlew podInstall` (not raw `pod install`) → open the **`.xcworkspace`** → disable script sandboxing. Pod deps from Kotlin via `pod("Name") { version = ... }`; `@import`-style headers need `extraOpts += listOf("-compiler-option", "-fmodules")`. Error→fix table in [cocoapods-reference.md](cocoapods-reference.md).
+`kotlin("native.cocoapods")` plugin (version = Kotlin version) → `cocoapods { version; summary; homepage; ios.deploymentTarget; framework { baseName } }` → `./gradlew podInstall` for the configured Podfile (inspect project-specific Bundler/multi-project commands before substituting it) → open the **`.xcworkspace`** → disable script sandboxing. Pod deps from Kotlin via `pod("Name") { version = ... }`; `@import`-style headers need `extraOpts += listOf("-compiler-option", "-fmodules")`. Error→fix table in [cocoapods-reference.md](cocoapods-reference.md).
 
 ## Swift-facing API review checklist
 
 When editing exported `commonMain` API, check each item, because these fail silently at the boundary:
 
-- **`@Throws(Exception::class)` on anything that throws**: otherwise a Kotlin exception **crashes** the app instead of surfacing as a Swift `throws`.
+- **Declare expected errors with `@Throws`** at the Objective-C export boundary. Prefer the specific exception types callers can handle; unexpected exceptions crossing that boundary terminate the process. Suspend cancellation has special behavior, so test the selected bridge.
 - **Sealed classes** lose exhaustiveness in Swift (`default:` required). Fix with SKIE, or keep them behind a facade.
-- **`suspend`/`Flow`**: default interop gives no cancellation and opaque Flow objects. Use **SKIE** or KMP-NativeCoroutines, exactly one, never both.
+- **`suspend`/`Flow`**: default interop gives no cancellation and opaque Flow objects. Preserve the existing **SKIE**, KMP-NativeCoroutines or explicit bridge, and verify cancellation; avoid overlapping transformations of the same API.
 - **Default arguments disappear** (ObjC); add overloads or SKIE.
 - **Generics**: unconstrained `<T>` becomes nullable-everything; constrain `<T : Any>`.
 - **Enums** are classes in Swift, not Swift enums (no exhaustive switch), which SKIE fixes.
 - Keep the surface small: `@HiddenFromObjC` internals, `@ObjCName` for Swift-idiomatic names, thin facade in `commonMain`. With Compose Multiplatform the surface is often just `fun MainViewController(): UIViewController`.
-- **Swift Export** (ObjC-free interop) is Alpha, so track it and don't ship on it; re-evaluate at each Kotlin release.
+- **Swift export** is a separate Alpha path with different mappings and build integration. Evaluate it explicitly against the installed Kotlin release; do not silently replace a working Objective-C bridge.
 
 ## Common mistakes
 
@@ -54,3 +54,9 @@ When editing exported `commonMain` API, check each item, because these fail sile
 - Opening `.xcodeproj` after `pod install` instead of `.xcworkspace`.
 - Exporting the whole module API instead of a facade → slow header generation, ugly Swift.
 - Un-annotated throwing API crossing into Swift → production crashes.
+
+## Verify the consumer
+
+Build the actual Xcode scheme/configuration after integration changes. For exported API changes, compile a Swift caller and exercise expected errors, cancellation and stream termination where relevant. Report the integration route, generated module name and observed build/test results; a Kotlin compile alone does not verify Swift consumption.
+
+Checked 2026-09-24: [direct integration](https://kotlinlang.org/docs/multiplatform/multiplatform-direct-integration.html), [Objective-C interop](https://kotlinlang.org/docs/native-objc-interop.html), [Swift export](https://kotlinlang.org/docs/native-swift-export.html). `kmp-module-setup`, when installed, owns framework production; this skill owns its Xcode consumer.

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "setup-new",
+    "selected_primary": "kmp-module-setup",
+    "reason": "Creating targets and an Apple framework is module Gradle configuration."
+  },
+  {
+    "id": "setup-agp",
+    "selected_primary": "kmp-module-setup",
+    "reason": "Android-KMP plugin migration is explicitly covered."
+  },
+  {
+    "id": "setup-subset",
+    "selected_primary": "kmp-module-setup",
+    "reason": "Restricting dependency visibility to a target subset requires Gradle source-set hierarchy configuration."
+  },
+  {
+    "id": "boundary-choice",
+    "selected_primary": "kmp-boundaries",
+    "reason": "The decision concerns a platform-capability API shape: common interface versus expect/actual."
+  },
+  {
+    "id": "boundary-lifetime",
+    "selected_primary": "kmp-boundaries",
+    "reason": "A destroyed Activity retained by a capability binding is a platform binding lifecycle issue."
+  },
+  {
+    "id": "boundary-contract",
+    "selected_primary": "kmp-boundaries",
+    "reason": "The request defines completion and cancellation contracts for a platform capability."
+  },
+  {
+    "id": "ios-link",
+    "selected_primary": "kmp-ios-integration",
+    "reason": "A missing shared framework and Xcode build phase are direct integration concerns."
+  },
+  {
+    "id": "ios-api",
+    "selected_primary": "kmp-ios-integration",
+    "reason": "The request reviews a Kotlin suspend bridge consumed by Swift, including caller cancellation."
+  },
+  {
+    "id": "ios-pod",
+    "selected_primary": "kmp-ios-integration",
+    "reason": "The description explicitly covers pod-not-found errors in KMP CocoaPods integration."
+  },
+  {
+    "id": "ui-touch",
+    "selected_primary": "compose-multiplatform-ui",
+    "reason": "Touch behavior of embedded UIKit views is Compose UI interop."
+  },
+  {
+    "id": "ui-shell",
+    "selected_primary": "compose-multiplatform-ui",
+    "reason": "This chooses native iOS navigation ownership around Compose destination screens."
+  },
+  {
+    "id": "ui-resources",
+    "selected_primary": "compose-multiplatform-ui",
+    "reason": "Generated Compose Res strings are shared UI resources; no build wiring failure is specified."
+  },
+  {
+    "id": "ktor-auth",
+    "selected_primary": "kmp-ktor",
+    "reason": "Ktor bearer token refresh is explicitly covered."
+  },
+  {
+    "id": "ktor-engines",
+    "selected_primary": "kmp-ktor",
+    "reason": "Platform engine selection and binding are Ktor client configuration."
+  },
+  {
+    "id": "ktor-errors",
+    "selected_primary": "kmp-ktor",
+    "reason": "The request exercises Ktor serialization and HTTP handling through MockEngine repository tests."
+  },
+  {
+    "id": "tests-task",
+    "selected_primary": "kmp-test-seams",
+    "reason": "The request selects an existing Gradle task that executes common tests."
+  },
+  {
+    "id": "tests-placement",
+    "selected_primary": "kmp-test-seams",
+    "reason": "Choosing Android host versus device tests is test placement."
+  },
+  {
+    "id": "tests-skipped",
+    "selected_primary": "kmp-test-seams",
+    "reason": "The request checks whether an iOS simulator test task actually verified the tests."
+  },
+  {
+    "id": "release-artifacts",
+    "selected_primary": "kmp-release-and-publish",
+    "reason": "Preparing signed Android and iOS release artifacts is explicitly covered."
+  },
+  {
+    "id": "release-snapshot",
+    "selected_primary": "kmp-release-and-publish",
+    "reason": "Publishing a KMP library snapshot is library publishing."
+  },
+  {
+    "id": "release-ci",
+    "selected_primary": "kmp-release-and-publish",
+    "reason": "Release CI for Android bundles and Apple archives is explicitly covered."
+  },
+  {
+    "id": "negative-jvm",
+    "selected_primary": "none",
+    "reason": "Java-only server thread-pool optimization is outside the mobile KMP candidates."
+  },
+  {
+    "id": "negative-swift",
+    "selected_primary": "none",
+    "reason": "A SwiftUI-only application without Kotlin or Compose does not require KMP integration or Compose interop."
+  },
+  {
+    "id": "negative-tdd",
+    "selected_primary": "none",
+    "reason": "Generic red-green-refactor explanation does not concern KMP test placement or task selection."
+  }
+]

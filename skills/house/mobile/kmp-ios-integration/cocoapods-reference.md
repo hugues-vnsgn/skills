@@ -1,13 +1,10 @@
-## 5. CocoaPods Integration
+# CocoaPods integration
+
+Checked 2026-09-24 against [CocoaPods setup](https://kotlinlang.org/docs/native-cocoapods.html) and [Gradle integration](https://kotlinlang.org/docs/multiplatform/multiplatform-cocoapods-overview.html).
 
 ### Environment setup
 
-CocoaPods needs Ruby (1.9+; docs use 3.4.7 via rvm/rbenv). Avoid the Homebrew CocoaPods install (Xcodeproj compatibility issues):
-
-```bash
-rbenv install 3.4.7 && rbenv global 3.4.7
-sudo gem install -n /usr/local/bin cocoapods
-```
+Inspect the project's Gemfile/lockfile, Ruby manager and working `pod` executable. Use the pinned bundle or existing toolchain; avoid changing the machine's global Ruby or updating every gem to fix a project error. If provisioning is needed, choose a user-managed Ruby and project-pinned CocoaPods version compatible with Xcode, then verify the executable Gradle resolves.
 
 ### Plugin setup
 
@@ -28,7 +25,7 @@ plugins {
 kotlin {
     iosArm64(); iosSimulatorArm64()
     cocoapods {
-        // required — feed the generated podspec
+        // Required podspec metadata
         version = "1.0"
         summary = "Shared KMP module"
         homepage = "https://example.com"
@@ -82,9 +79,9 @@ Podfile in `iosApp/`:
 
 ```ruby
 target 'iosApp' do
-  use_frameworks!            # or use_modular_headers! — one is required
+  use_frameworks!            # use_modular_headers! is the alternative
   platform :ios, '16.0'      # deployment target required on every target
-  pod 'shared', :path => '../shared'   # local path to the Kotlin module
+  pod 'MyCocoaPod', :path => '../shared'   # local path to the Kotlin module
 end
 ```
 
@@ -98,14 +95,14 @@ Multi-target (e.g. iOS + tvOS): repeat the `pod ... :path =>` line per target an
 4. In Xcode Build Settings, **disable "User Script Sandboxing"** for the app target.
 5. Build in Xcode. The Kotlin framework rebuilds automatically via the podspec's script phase. With multiple Xcode projects, run `pod install` manually for each.
 
-⚠️ CocoaPods integration is **mutually exclusive with direct integration** (`embedAndSignAppleFrameworkForXcode`); pick one.
+CocoaPods integration is **mutually exclusive with direct integration** (`embedAndSignAppleFrameworkForXcode`); pick one.
 
 ### Common errors and fixes
 
 | Symptom | Fix |
 |---|---|
 | Xcode build can't find `pod` | Set `kotlin.apple.cocoapods.bin=/Users/you/.rbenv/shims/pod` in `local.properties` |
-| Module/framework not found | `gem update --system && gem update`; check `use_frameworks!` and deployment targets present |
+| Module/framework not found | Inspect the first failing build step, generated podspec, framework name and deployment targets; use a targeted dependency repair if the log identifies one |
 | Framework name mismatch | `pod("X/Sub") { moduleName = "..." }` |
 | Pod has no `.modulemap` | `headers = "SomeHeader.h"` in the `pod()` block |
 | Resources missing from app bundle | Use `./gradlew podInstall` instead of raw `pod install` |

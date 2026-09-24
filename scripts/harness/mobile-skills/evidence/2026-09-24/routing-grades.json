@@ -1,0 +1,151 @@
+{
+  "method": "Single independent description-only selection, not automatic host invocation",
+  "cases": [
+    {
+      "id": "setup-new",
+      "expected": "kmp-module-setup",
+      "actual": "kmp-module-setup",
+      "passed": true
+    },
+    {
+      "id": "setup-agp",
+      "expected": "kmp-module-setup",
+      "actual": "kmp-module-setup",
+      "passed": true
+    },
+    {
+      "id": "setup-subset",
+      "expected": "kmp-module-setup",
+      "actual": "kmp-module-setup",
+      "passed": true
+    },
+    {
+      "id": "boundary-choice",
+      "expected": "kmp-boundaries",
+      "actual": "kmp-boundaries",
+      "passed": true
+    },
+    {
+      "id": "boundary-lifetime",
+      "expected": "kmp-boundaries",
+      "actual": "kmp-boundaries",
+      "passed": true
+    },
+    {
+      "id": "boundary-contract",
+      "expected": "kmp-boundaries",
+      "actual": "kmp-boundaries",
+      "passed": true
+    },
+    {
+      "id": "ios-link",
+      "expected": "kmp-ios-integration",
+      "actual": "kmp-ios-integration",
+      "passed": true
+    },
+    {
+      "id": "ios-api",
+      "expected": "kmp-ios-integration",
+      "actual": "kmp-ios-integration",
+      "passed": true
+    },
+    {
+      "id": "ios-pod",
+      "expected": "kmp-ios-integration",
+      "actual": "kmp-ios-integration",
+      "passed": true
+    },
+    {
+      "id": "ui-touch",
+      "expected": "compose-multiplatform-ui",
+      "actual": "compose-multiplatform-ui",
+      "passed": true
+    },
+    {
+      "id": "ui-shell",
+      "expected": "compose-multiplatform-ui",
+      "actual": "compose-multiplatform-ui",
+      "passed": true
+    },
+    {
+      "id": "ui-resources",
+      "expected": "compose-multiplatform-ui",
+      "actual": "compose-multiplatform-ui",
+      "passed": true
+    },
+    {
+      "id": "ktor-auth",
+      "expected": "kmp-ktor",
+      "actual": "kmp-ktor",
+      "passed": true
+    },
+    {
+      "id": "ktor-engines",
+      "expected": "kmp-ktor",
+      "actual": "kmp-ktor",
+      "passed": true
+    },
+    {
+      "id": "ktor-errors",
+      "expected": "kmp-ktor",
+      "actual": "kmp-ktor",
+      "passed": true
+    },
+    {
+      "id": "tests-task",
+      "expected": "kmp-test-seams",
+      "actual": "kmp-test-seams",
+      "passed": true
+    },
+    {
+      "id": "tests-placement",
+      "expected": "kmp-test-seams",
+      "actual": "kmp-test-seams",
+      "passed": true
+    },
+    {
+      "id": "tests-skipped",
+      "expected": "kmp-test-seams",
+      "actual": "kmp-test-seams",
+      "passed": true
+    },
+    {
+      "id": "release-artifacts",
+      "expected": "kmp-release-and-publish",
+      "actual": "kmp-release-and-publish",
+      "passed": true
+    },
+    {
+      "id": "release-snapshot",
+      "expected": "kmp-release-and-publish",
+      "actual": "kmp-release-and-publish",
+      "passed": true
+    },
+    {
+      "id": "release-ci",
+      "expected": "kmp-release-and-publish",
+      "actual": "kmp-release-and-publish",
+      "passed": true
+    },
+    {
+      "id": "negative-jvm",
+      "expected": "none",
+      "actual": "none",
+      "passed": true
+    },
+    {
+      "id": "negative-swift",
+      "expected": "none",
+      "actual": "none",
+      "passed": true
+    },
+    {
+      "id": "negative-tdd",
+      "expected": "none",
+      "actual": "none",
+      "passed": true
+    }
+  ],
+  "passed": 24,
+  "total": 24
+}

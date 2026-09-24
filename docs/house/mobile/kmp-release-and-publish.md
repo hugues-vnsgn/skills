@@ -1,35 +1,46 @@
 ## What it does
 
-`kmp-release-and-publish` ships KMP work: Android release builds through Play, iOS archives through TestFlight/App Store, libraries to Maven Central, and the CI that runs it all. Its organizing rule: **only Apple-touching jobs run on macOS**, and everything else stays on Ubuntu at a tenth of the cost.
+`kmp-release-and-publish` prepares and verifies Android/iOS release artifacts and KMP library publications. It distinguishes preparation, upload and public release, carrying the user's authorization through the requested stage.
 
 ## When to reach for it
 
-The agent reaches for it automatically for release configs, signing, store submission, `maven-publish`/Central Portal setup, or GitHub Actions workflows in a KMP repo. Reach for it yourself when a crash appears only in release builds (R8 over shared code), when App Store review flags privacy, or when deciding which Gradle task tests what.
+Type `/kmp-release-and-publish`, or the agent reaches for it automatically for release builds, signing, archives, publication and release CI.
 
-## The traps it disarms
+| Work | Skill |
+|---|---|
+| Minified release checks, Apple archives, signing or publication | This skill |
+| Individual test placement and task selection | [kmp-test-seams](kmp-test-seams.md) |
+| Framework production or Android plugin configuration | [kmp-module-setup](kmp-module-setup.md) |
 
-R8 strips reflection-using shared code (serialization, Ktor, Koin), so QA a minified build and read `missing_rules.txt`. The privacy manifest must cover the shared framework or Apple rejects. Maven Central 2026 = Central Portal + vanniktech plugin, one macOS host, no `-SNAPSHOT`. `~/.konan` gets cached keyed on the version-catalog hash.
+## Match evidence to the artifact
+
+Test the minified Android artifact and inspect the actual Apple archive. For libraries, verify target publications, coordinates, signing and API compatibility. A build result establishes neither an upload nor a public release.
 
 ## Common questions
 
-**The app works fine in debug but crashes only in the release build. Where do I even start?**
+**Does using Ktor or serialization mean I should keep the whole shared package from shrinking?**
 
-R8 shrinking the shared module, almost certainly. `commonMain` code that leans on reflection, such as kotlinx.serialization, Ktor, Koin and Room, needs keep rules, or R8 strips something it can't see is used. Read `missing_rules.txt` from the failing build first; it names what got stripped. This is exactly why a minified build needs its own QA pass rather than trusting that debug behavior transfers.
+No. Inspect supplied consumer rules, the failing path and R8 diagnostics before adding targeted rules. A release-only failure needs investigation, not blanket retention.
 
-**Do I need to sign or configure the iOS app differently because it has a KMP framework in it?**
+**Can testers consume snapshots through Central Portal?**
 
-No. The framework builds transparently as part of the normal Xcode archive step and gets signed with the app's own certificate, so there's no separate provisioning to set up. What *is* KMP-specific: a privacy manifest covering the shared framework's required-reason API usage (a real App Store rejection risk), and uploading the framework's dSYMs so crashes symbolicate back to Kotlin lines instead of showing up as unreadable native frames.
+Yes, through its separate snapshot repository after enabling snapshots for the namespace. Immutable Central releases and snapshots have different endpoints and consumer configuration.
 
-**Why does publishing to Maven Central need a specific host?**
+**The upload timed out. Should I run it again?**
 
-Because Apple targets can only be built and signed on macOS, and the Central Portal forbids duplicate root-module uploads from two different hosts. So the whole publish, every target and not just the Apple ones, has to run from one macOS machine in one job, rather than splitting targets across runners the way test jobs do.
+First check the destination for the deployment/version. An ambiguous result can mean the upload succeeded. Resume a known deployment where supported instead of blindly repeating publication.
 
-**Why is CI only using a macOS runner for some jobs?**
+**Does every Apple-related job need macOS?**
 
-Because macOS runners cost roughly 10x what Ubuntu runners do, and most of a KMP CI pipeline doesn't touch Apple targets at all. `commonTest` logic and Android assemble/bundle run fine on Ubuntu; only the iOS link, `iosSimulatorArm64Test`, and archive steps need macOS. Routing everything to macOS "to be safe" is the mistake this splits you away from, and it's a cost problem with no correctness benefit.
+Apple binary linking, simulator tests and app archiving do. Pure klib publication has different host constraints. Choose from the actual targets and cinterop requirements, and coordinate publication to avoid duplicate root artifacts.
 
 ## It's working if
 
-- iOS tests run locally via `./gradlew iosSimulatorArm64Test` with Xcode closed.
-- The CI bill shows macOS minutes only for link/test/archive jobs.
-- Release-only crashes are rare because minified builds are QA'd before rollout.
+- The report names the artifact, platform/variant and validation results.
+- A preparation request stops before an unauthorized upload.
+- Signing material stays outside source control and logs.
+- Upload status and public-release status are reported separately.
+
+## Where it fits
+
+A release-stage reference. [kmp-test-seams](kmp-test-seams.md) owns test selection; [kmp-ios-integration](kmp-ios-integration.md) owns the framework's Xcode integration. [ask-matt](https://aihero.dev/skills-ask-matt) places it in the wider workflow.

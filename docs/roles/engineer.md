@@ -49,16 +49,16 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Mobile: Kotlin Multiplatform, Compose, and SwiftUI
 
-- **[kmp-module-setup](../house/mobile/kmp-module-setup.md)** _(auto)_: targets, source sets, the version catalog, and the `expect`/`actual`-vs-interface call.
+- **[kmp-module-setup](../house/mobile/kmp-module-setup.md)** _(auto)_: Gradle plugins, targets, source sets, compatible versions and framework production.
 - **[tdd-kmp](../house/mobile/tdd-kmp.md)** _(auto)_: red-green-refactor for KMP/CMP features and bug fixes, testing at the layer that owns the behavior.
-- **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_: quick lookup for test source sets and the Gradle task that proves a slice green.
+- **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_: where a test lives (`commonTest` vs a platform source set) and the cheapest Gradle task that proves the slice. Sits underneath `/tdd-kmp`, not instead of it.
 - **[compose-multiplatform-ui](../house/mobile/compose-multiplatform-ui.md)** _(auto)_: shared UI: entry points per platform, resources, navigation and ViewModel in common code, SwiftUI/UIKit interop.
 - **[swiftui-expert-skill](../house/mobile/swiftui-expert-skill.md)** _(auto)_: native SwiftUI state, adaptive layout, accessibility, API migration, and Instruments trace diagnosis. Use after the shared-vs-native shell decision.
 - **[uikit-expert](../house/mobile/uikit-expert.md)** _(auto)_: native UIKit lifecycle, Auto Layout, collection views, navigation, accessibility, and SwiftUI interop.
 - **[kmp-ios-integration](../house/mobile/kmp-ios-integration.md)** _(auto)_: getting the framework into Xcode, and the Swift-facing API review that stops Kotlin idioms leaking awkwardly.
 - **[kmp-release-and-publish](../house/mobile/kmp-release-and-publish.md)** _(auto)_: Android release with R8 over shared code, iOS archive and TestFlight, Maven Central, CI runner split.
-- **[kmp-boundaries](../../skills/house/mobile/kmp-boundaries/SKILL.md)** _(auto, beta)_: common code needs a platform API and you are picking the boundary shape: `expect`/`actual`, a common interface with platform bindings, or separate screens.
-- **[kmp-ktor](../../skills/house/mobile/kmp-ktor/SKILL.md)** _(auto, beta)_: the HTTP layer: engine per platform, serialization, bearer auth with refresh, `MockEngine` in tests, error mapping at the repository edge.
+- **[kmp-boundaries](../../skills/house/mobile/kmp-boundaries/SKILL.md)** _(auto, beta)_: capability interfaces, expect/actual choices, binding lifetimes and completion semantics.
+- **[kmp-ktor](../../skills/house/mobile/kmp-ktor/SKILL.md)** _(auto, beta)_: HTTP engines, trusted-origin credentials, bounded retries and repository verification.
 
 ## Work bigger than one session
 

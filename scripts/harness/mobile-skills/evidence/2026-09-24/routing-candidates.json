@@ -1,0 +1,30 @@
+[
+  {
+    "name": "compose-multiplatform-ui",
+    "description": "Use when implementing Compose Multiplatform screens, choosing Compose versus native iOS navigation ownership, using shared resources or ViewModels, or debugging UIKit/SwiftUI interop, touch, accessibility and rendering behavior. Gradle and Xcode build wiring belong to the KMP setup/integration skills."
+  },
+  {
+    "name": "kmp-boundaries",
+    "description": "Use when designing the API between common Kotlin code and Android or iOS capabilities, choosing interfaces versus expect/actual, or fixing platform binding lifecycle and cancellation contracts. Gradle source-set and plugin configuration belongs to kmp-module-setup."
+  },
+  {
+    "name": "kmp-ios-integration",
+    "description": "Use when connecting a Kotlin Multiplatform shared module to an iOS/Xcode app, choosing between direct integration, CocoaPods, SPM, or KMMBridge; setting up embedAndSignAppleFrameworkForXcode or the cocoapods plugin; debugging \"pod not found\", script-sandboxing, or framework-not-found Xcode errors; or reviewing Kotlin API that Swift will consume (sealed classes, suspend functions, @Throws, generics)."
+  },
+  {
+    "name": "kmp-ktor",
+    "description": "Use when configuring or debugging a Ktor client in KMP or Android, including platform engines, serialization, bearer refresh, retries, streaming, and repository tests with MockEngine. General test-task selection belongs to kmp-test-seams."
+  },
+  {
+    "name": "kmp-module-setup",
+    "description": "Use when creating or changing a Kotlin Multiplatform module's Gradle plugins, targets, source-set hierarchy, version catalog, or Apple framework configuration, including Android-KMP plugin migration. For platform-capability API design, use kmp-boundaries."
+  },
+  {
+    "name": "kmp-release-and-publish",
+    "description": "Use when preparing KMP Android/iOS release artifacts, configuring signing or release CI, validating minified builds and Apple archives, or publishing a KMP library. For test placement and individual Gradle test-task selection, use kmp-test-seams."
+  },
+  {
+    "name": "kmp-test-seams",
+    "description": "Use when choosing a Kotlin Multiplatform test source set or the existing Gradle task that verifies a change, including common tests, Android host versus device tests, and iOS simulator tests. Use kmp-boundaries for designing the platform capability API itself."
+  }
+]

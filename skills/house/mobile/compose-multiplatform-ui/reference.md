@@ -1,6 +1,6 @@
 # Compose Multiplatform: Reference
 
-Compiled from official kotlinlang.org and JetBrains multiplatform-dev docs (2026-08), against Compose Multiplatform 1.11.x.
+Examples originated against Compose Multiplatform 1.11.x. Scope and source links checked 2026-09-24. Check each API against the installed release before copying; this is not a recommendation to upgrade a working project.
 
 1. [Creating a Compose Multiplatform App](#1-creating-a-compose-multiplatform-app): project creation, module layout, per-platform entry points, running
 2. [Compose Multiplatform vs Jetpack Compose](#2-compose-multiplatform-vs-jetpack-compose): relationship, differences, version table, breaking changes
@@ -50,32 +50,6 @@ The Swift side (`iosApp`) hosts this view controller, via SwiftUI's `UIViewContr
 - **Desktop:** a `main()` using `application { Window { App() } }` in `jvmMain`.
 - **Web:** `ComposeViewport(document.body) { App() }`.
 
-Template `App.kt` (abbreviated, from the docs):
-
-```kotlin
-@Composable
-@Preview
-fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) { Text("Click me!") }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Image(painterResource(Res.drawable.compose_multiplatform), null)
-                Text("Compose: $greeting")
-            }
-        }
-    }
-}
-```
-
 ### Running
 
 - **Android:** run the `androidApp` configuration against an emulator/device.
@@ -97,8 +71,10 @@ fun App() {
 - Jetpack-only ecosystem pieces (e.g. Maps Compose) need Android-specific handling; CMP libraries are consumable from plain Android Jetpack apps (backward compatible).
 - Jetpack multiplatform ports available from JetBrains: Lifecycle, ViewModel, Navigation Compose (`org.jetbrains.androidx.*` coordinates).
 
-**Versioning (as of 2026):**
-- **Current stable Compose Multiplatform: 1.11.1**, mapping to **Jetpack Compose 1.11.2**.
+**Versioning (1.11 example baseline):**
+
+The compatibility page checked 2026-09-24 also lists CMP 1.12.1. Resolve the project's supported combination rather than treating the sample baseline as current.
+- **Example baseline Compose Multiplatform: 1.11.1**, mapping to **Jetpack Compose 1.11.2**.
 - CMP releases ship separately from Kotlin/Jetpack Compose, typically **1-3 months after** the corresponding Jetpack Compose release.
 - Kotlin: the compatibility page states minimum 2.1.0, but the 1.10.0 release notes state Kotlin **2.2 is required for native and web targets**. For an iOS-first project treat 2.2+ as the floor and do not rely on the 2.1.0 figure. K2 compiler mandatory since CMP 1.8.0.
 - Recent mapping table (CMP → Jetpack Compose): 1.11.1 → 1.11.2; 1.10.3 → 1.10.5; 1.9.3 → 1.9.4; 1.8.2 → 1.8.2; 1.7.3 → 1.7.6.
@@ -223,7 +199,7 @@ NavDisplay(
 )
 ```
 
-⚠️ Without `entryDecorators`, **ViewModels are not scoped to navigation entries**: they stay tied to the Activity and survive navigation, so state leaks into the next visit to a destination. Nothing warns about it. In a multiplatform project the ViewModel decorator comes from `org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3` (the JetBrains port), and the saveable one from `androidx.navigation3:navigation3-runtime`, which Google publishes multiplatform; there is no `org.jetbrains` runtime artifact, since JetBrains ships only `navigation3-ui`.
+⚠️ Without `entryDecorators`, **ViewModels are not scoped to navigation entries**: they inherit the surrounding owner and may survive navigation, so state leaks into the next visit to a destination. Nothing warns about it. In a multiplatform project the ViewModel decorator comes from `org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3` (the JetBrains port), and the saveable one from `androidx.navigation3:navigation3-runtime`, which Google publishes multiplatform; there is no `org.jetbrains` runtime artifact, since JetBrains ships only `navigation3-ui`.
 
 ### ViewModel / Lifecycle in common code
 
@@ -370,16 +346,7 @@ fun NativeMap(modifier: Modifier = Modifier) {
 
 ### iOS text input
 
-`PlatformImeOptions` reaches the native UIKit text input traits from common code:
-
-```kotlin
-BasicTextField(
-    value = "", onValueChange = {},
-    keyboardOptions = KeyboardOptions(
-        platformImeOptions = PlatformImeOptions { keyboardType(UIKeyboardTypeEmailAddress) }
-    )
-)
-```
+Use common `KeyboardOptions(keyboardType = KeyboardType.Email)` for a portable email field. Native UIKit-specific input traits belong in `iosMain` or a platform binding; an Apple `UIKeyboardType` constant cannot be imported into `commonMain`. Check the installed Compose input API before adding a native customization.
 
 Compose adopts the Compose window-insets model and imitates it on iOS for safe areas, so the software keyboard sits slightly differently than on Android. Check on both platforms that it does not cover anything important.
 
@@ -387,9 +354,9 @@ Compose adopts the Compose window-insets model and imitates it on iOS for safe a
 
 ## 5. The iOS Shell: Full-Compose vs Native SwiftUI (Liquid Glass)
 
-**The decision.** In the standard setup a single `ComposeUIViewController` owns the whole UI, navigation and tabs included. **Liquid Glass** (the iOS 26 translucency/fluidity design system) is rendered by the system through native containers, `TabView` and `NavigationStack`, so there is no Compose API and no shader that reproduces it. Getting it means inverting ownership: SwiftUI owns the navigation chrome, Compose renders individual screens.
+**The decision.** In the standard setup a single `ComposeUIViewController` owns the whole UI, navigation and tabs included. **Liquid Glass** (the iOS 26 translucency/fluidity design system) is rendered by the system through native containers, `TabView` and `NavigationStack`, so use native containers when the requirement is system-rendered navigation chrome. One integration is SwiftUI owning navigation while Compose renders individual screens; adopt it when the task needs that ownership change.
 
-Requires Xcode 26+ and the iOS 26 SDK. No Liquid-Glass-specific code is needed once the native containers are in place: the system applies the effects. The pattern scales to any number of tabs.
+System-rendered Liquid Glass requires a build with the iOS 26 SDK (Xcode 26+) and an iOS 26 runtime. Native navigation can target earlier iOS versions: `NavigationStack` requires iOS 16; an app supporting iOS 14/15 needs an available navigation container or an availability branch. The pattern scales to multiple tabs.
 
 ```text
 Before                          After
@@ -436,7 +403,7 @@ val LocalUseNativeNavigation = staticCompositionLocalOf { false }
 
 **Swift side:** a `TabView` of `NavigationStack`s, plus two `UIViewControllerRepresentable` bridges, one for tab roots and one for detail screens, each wiring the Kotlin callbacks into a coordinator that owns `push` / `pop` / `popToRoot` / `activateTab`.
 
-**Keep the fallback.** The full-Compose route stays as the pre-26 path, and the two coexist behind an availability check:
+**Optional dual-shell fallback.** If the product deliberately retains the full-Compose route on older iOS, the two can coexist behind an availability check. Native navigation itself does not require iOS 26; keeping one native shell may be simpler:
 
 ```swift
 struct ContentView: View {
@@ -454,7 +421,7 @@ fun MainViewController(topLevelRoute: TopLevelRoute): UIViewController = Compose
 ) { App(appGraph, topLevelRoute) }
 ```
 
-**Cost.** A navigation bridge in both directions, two exported entry points instead of one, and route metadata that only the native shell reads. Worth it when the app has to feel current on iOS 26; not worth it for an app whose navigation is a single stack.
+**Cost.** A navigation bridge in both directions, two exported entry points instead of one, and route metadata that only the native shell reads. Choose based on required native chrome and existing navigation ownership, not OS version alone. The sketch omits coordinator/state-restoration details; verify those in the real app before adopting it.
 
 ---
 
@@ -493,10 +460,20 @@ Two facts worth carrying here, because they change what Compose code can assume:
 ### iOS accessibility
 
 - Compose semantics map automatically to iOS Accessibility (VoiceOver, screen readers); `Modifier.testTag` maps to `accessibilityIdentifier`, enabling **XCTest** UI automation and `performAccessibilityAudit()`.
-- Native views embedded via `UIKitView`/`UIKitViewController` are the exception: `isNativeAccessibilityEnabled` is off by default (§4), so VoiceOver skipping an interop view is a properties problem, not a semantics problem.
-- **There is nothing to configure.** Since **1.8.0** the tree is built lazily on the first request from the iOS accessibility engine and disposed when interaction stops, which is fully compatible with VoiceOver and Voice Control. The old `AccessibilitySyncOptions` knob (`Never` / `WhenRequiredByAccessibilityServices` / `Always`, plus a debug logger) was **removed in 1.8.0**, so any snippet still passing it does not compile. Some doc pages still describe it.
+- Native views embedded via `UIKitView`/`UIKitViewController` are the exception: `isNativeAccessibilityEnabled` is off by default (§4), so check that setting alongside the view's accessibility content when VoiceOver skips it.
+- **Accessibility-tree synchronization is automatic.** Since **1.8.0** the tree is built lazily on the first request from the iOS accessibility engine and disposed when interaction stops, which is fully compatible with VoiceOver and Voice Control. The old `AccessibilitySyncOptions` knob (`Never` / `WhenRequiredByAccessibilityServices` / `Always`, plus a debug logger) was **removed in 1.8.0**, so any snippet still passing it does not compile. Some doc pages still describe it.
 - Material3 has no built-in high-contrast scheme: detect `UIAccessibilityDarkerSystemColorsEnabled` and supply custom palettes (WCAG 4.5:1 standard text, 7:1 for stricter compliance).
 - AssistiveTouch and Full Keyboard Access work with Compose content.
 
 ---
 
+
+## Sources by topic
+
+- Versions: [CMP compatibility](https://kotlinlang.org/docs/multiplatform/compose-compatibility-and-versioning.html)
+- Resources: [setup](https://kotlinlang.org/docs/multiplatform/compose-multiplatform-resources-setup.html), [usage](https://kotlinlang.org/docs/multiplatform/compose-multiplatform-resources-usage.html)
+- Navigation: [Navigation Compose](https://kotlinlang.org/docs/multiplatform/compose-navigation-routing.html), [Navigation 3](https://kotlinlang.org/docs/multiplatform/compose-navigation-3.html)
+- Lifecycle: [ViewModel](https://kotlinlang.org/docs/multiplatform/compose-viewmodel.html)
+- Native shell availability: [Apple NavigationStack](https://developer.apple.com/documentation/swiftui/navigationstack)
+- Native UI: [SwiftUI](https://kotlinlang.org/docs/multiplatform/compose-swiftui-integration.html), [UIKit](https://kotlinlang.org/docs/multiplatform/compose-uikit-integration.html)
+- Verification: [accessibility](https://kotlinlang.org/docs/multiplatform/compose-accessibility.html), [Hot Reload](https://kotlinlang.org/docs/multiplatform/compose-hot-reload.html)

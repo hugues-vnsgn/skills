@@ -95,11 +95,11 @@ House skills for Kotlin Multiplatform + Compose Multiplatform development (Andro
 
 **Model-invoked**
 
-- **[kmp-module-setup](./skills/house/mobile/kmp-module-setup/SKILL.md)**: Scaffold or audit a shared KMP module: targets, source-set hierarchy, version catalog (Kotlin/AGP/CMP pinned together), framework block, expect/actual vs interfaces + DI.
-- **[kmp-ios-integration](./skills/house/mobile/kmp-ios-integration/SKILL.md)**: Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
-- **[compose-multiplatform-ui](./skills/house/mobile/compose-multiplatform-ui/SKILL.md)**: Shared Compose UI: the full-Compose vs native SwiftUI shell decision, per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
-- **[kmp-release-and-publish](./skills/house/mobile/kmp-release-and-publish/SKILL.md)**: Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
-- **[kmp-test-seams](./skills/house/mobile/kmp-test-seams/SKILL.md)**: The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green.
+- **[kmp-module-setup](./skills/house/mobile/kmp-module-setup/SKILL.md)**: Configure shared-module plugins, targets, source sets, compatible versions and Apple frameworks for the installed toolchain.
+- **[kmp-ios-integration](./skills/house/mobile/kmp-ios-integration/SKILL.md)**: Connect shared code to Xcode and verify Swift-facing APIs, errors and coroutine behavior.
+- **[compose-multiplatform-ui](./skills/house/mobile/compose-multiplatform-ui/SKILL.md)**: Build shared screens and verify native iOS interop, navigation ownership, resources, touch and accessibility.
+- **[kmp-release-and-publish](./skills/house/mobile/kmp-release-and-publish/SKILL.md)**: Prepare and verify release artifacts, signing, CI and library publication with explicit upload/release scope.
+- **[kmp-test-seams](./skills/house/mobile/kmp-test-seams/SKILL.md)**: Choose common or platform test placement and discover the existing task that verifies the change.
 
 ### Platform
 

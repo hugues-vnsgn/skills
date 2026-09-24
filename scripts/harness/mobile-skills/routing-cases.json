@@ -1,0 +1,122 @@
+[
+  {
+    "id": "setup-new",
+    "query": "Create an Android and iOS shared library with Gradle targets and an Apple framework.",
+    "expected_primary": "kmp-module-setup"
+  },
+  {
+    "id": "setup-agp",
+    "query": "Migrate shared build configuration from com.android.library to the Android-KMP plugin.",
+    "expected_primary": "kmp-module-setup"
+  },
+  {
+    "id": "setup-subset",
+    "query": "Make an existing JVM-only parser dependency visible to Android and Desktop but not iOS.",
+    "expected_primary": "kmp-module-setup"
+  },
+  {
+    "id": "boundary-choice",
+    "query": "Should this platform biometrics capability be an expect class or a common interface?",
+    "expected_primary": "kmp-boundaries"
+  },
+  {
+    "id": "boundary-lifetime",
+    "query": "Our long-lived repository holds a destroyed Activity in its share capability binding.",
+    "expected_primary": "kmp-boundaries"
+  },
+  {
+    "id": "boundary-contract",
+    "query": "Define what completion and cancellation mean for a cross-platform share operation.",
+    "expected_primary": "kmp-boundaries"
+  },
+  {
+    "id": "ios-link",
+    "query": "Xcode cannot find the shared framework; inspect direct integration and the build phase.",
+    "expected_primary": "kmp-ios-integration"
+  },
+  {
+    "id": "ios-api",
+    "query": "A Swift caller cancels a Kotlin suspend request but the work continues. Review our bridge.",
+    "expected_primary": "kmp-ios-integration"
+  },
+  {
+    "id": "ios-pod",
+    "query": "Gradle cannot find pod in this KMP CocoaPods integration.",
+    "expected_primary": "kmp-ios-integration"
+  },
+  {
+    "id": "ui-touch",
+    "query": "Our embedded UIKit map is slow to receive touches inside a Compose screen.",
+    "expected_primary": "compose-multiplatform-ui"
+  },
+  {
+    "id": "ui-shell",
+    "query": "SwiftUI should own iOS navigation chrome while Compose renders destination screens.",
+    "expected_primary": "compose-multiplatform-ui"
+  },
+  {
+    "id": "ui-resources",
+    "query": "Why is the generated Compose Res string missing for this resources directory?",
+    "expected_primary": "compose-multiplatform-ui"
+  },
+  {
+    "id": "ktor-auth",
+    "query": "Set up Ktor bearer token refresh for our shared API client.",
+    "expected_primary": "kmp-ktor"
+  },
+  {
+    "id": "ktor-engines",
+    "query": "Choose and bind Android and iOS engines for the Ktor client factory.",
+    "expected_primary": "kmp-ktor"
+  },
+  {
+    "id": "ktor-errors",
+    "query": "MockEngine should exercise serialization and HTTP error handling in our repository.",
+    "expected_primary": "kmp-ktor"
+  },
+  {
+    "id": "tests-task",
+    "query": "Which existing Gradle task proves commonTest in an Android+iOS project without JVM?",
+    "expected_primary": "kmp-test-seams"
+  },
+  {
+    "id": "tests-placement",
+    "query": "Does an Android biometric prompt test belong in host or device tests?",
+    "expected_primary": "kmp-test-seams"
+  },
+  {
+    "id": "tests-skipped",
+    "query": "iosSimulatorArm64Test reports NO-SOURCE; did our tests actually run?",
+    "expected_primary": "kmp-test-seams"
+  },
+  {
+    "id": "release-artifacts",
+    "query": "Prepare signed Android and iOS release artifacts, without uploading them.",
+    "expected_primary": "kmp-release-and-publish"
+  },
+  {
+    "id": "release-snapshot",
+    "query": "Publish a KMP library snapshot through Central Portal.",
+    "expected_primary": "kmp-release-and-publish"
+  },
+  {
+    "id": "release-ci",
+    "query": "Configure release CI runners for Android bundles and Apple archives.",
+    "expected_primary": "kmp-release-and-publish"
+  },
+  {
+    "id": "negative-jvm",
+    "query": "Optimize a Java-only server thread pool.",
+    "expected_primary": "none"
+  },
+  {
+    "id": "negative-swift",
+    "query": "Write a SwiftUI-only screen in an app with no Kotlin or Compose.",
+    "expected_primary": "none"
+  },
+  {
+    "id": "negative-tdd",
+    "query": "Explain red-green-refactor without changing any platform configuration.",
+    "expected_primary": "none"
+  }
+]

@@ -1,113 +1,36 @@
 ---
 name: kmp-ktor
-description: Use when setting up or working with Ktor client in KMP or Android projects, covering HttpClient configuration, per-platform engine selection, kotlinx.serialization, bearer auth with refresh, MockEngine testing, and error mapping at the repository boundary.
+description: Use when configuring or debugging a Ktor client in KMP or Android, including platform engines, serialization, bearer refresh, retries, streaming, and repository tests with MockEngine. General test-task selection belongs to kmp-test-seams.
 ---
 
 # Ktor Client for KMP and Android
 
-This reference covers the Ktor client configuration traps: plugin install order, serialization flags, auth refresh, and error mapping. It does not cover the basics of a shared `HttpClient`, engine selection, or `ContentNegotiation` setup. **Related:** [`kmp-boundaries`](../kmp-boundaries/SKILL.md) (where the network boundary sits relative to common code), [`kmp-test-seams`](../kmp-test-seams/SKILL.md) (which source set the `MockEngine` tests below belong in).
+Inspect the installed Ktor version, API origins, token storage, client ownership and server contract before changing configuration. Preserve the project's response/error convention. For a concrete factory and auth example, read [client-reference.md](client-reference.md); for WebSocket/SSE work, read [streaming-reference.md](streaming-reference.md).
 
-## Plugin install order: `HttpRequestRetry` BEFORE `HttpTimeout`
+## Engine and lifetime
 
-The install order most often gotten wrong: installing `HttpTimeout` before `HttpRequestRetry`. Plugins run in install order for outgoing requests; retries must be able to catch timeout errors, so retry has to wrap timeout.
+Put `ktor-client-core`, content negotiation and serialization dependencies in `commonMain`; keep their versions aligned with the project's Ktor version. Put `ktor-client-okhttp` or the chosen Android engine in `androidMain`, `ktor-client-darwin` in `iosMain`, and `ktor-client-mock` in the test source set. Inject an `HttpClientEngine` into the shared factory so tests run the production plugin configuration.
 
-```kotlin
-val json = Json { ignoreUnknownKeys = true; coerceInputValues = true; encodeDefaults = true }  // encodeDefaults: see the section below
+Create a client at the application's or feature's intended lifetime, reuse it, and close it when its owner ends. An injected engine is caller-owned and must also be closed by its owner. Avoid constructing a client per request. Read the chosen engine's timeout/streaming support before assuming every knob behaves identically.
 
-HttpClient(engine) {
-    install(ContentNegotiation) { json(json) }
-    install(Auth) { bearer { /* loadTokens / refreshTokens */ } }
-    install(HttpRequestRetry) {                 // BEFORE HttpTimeout
-        retryOnServerErrors(maxRetries = 3)
-        exponentialDelay()
-    }
-    install(HttpTimeout) {                       // AFTER HttpRequestRetry
-        requestTimeoutMillis = 30_000; connectTimeoutMillis = 15_000; socketTimeoutMillis = 15_000
-    }
-}
-```
+## Credentials and refresh
 
-Reversed, `HttpTimeout` resolves the request as failed before the retry plugin sees it, so timeouts are never retried. (Separately, the `Auth` plugin handles 401 refresh independently, so let `HttpRequestRetry` cover transient/5xx failures; don't chain the two around the same status code.)
+Use a dedicated authenticated client restricted to the trusted HTTPS origin, including its port. `sendWithoutRequest` controls preemptive authentication; it does not alone prevent authentication after a foreign server's challenge. Reject requests outside the allowed origin and disable automatic redirects unless a reviewed redirect policy enforces the same boundary. Use a separate unauthenticated client for public or presigned URLs.
 
-## `encodeDefaults = true`, or protocol-constant fields silently vanish
+Refresh through `markAsRefreshTokenRequest()` inside the request builder, or a dedicated unauthenticated refresh client. Handle refresh rejection without recursively refreshing. Clear stored credentials only on a terminal rejection according to the server contract; preserve cancellation and avoid treating a transient outage as logout. Store tokens using the project's protected credential facility, and redact auth headers and token bodies from logs.
 
-`kotlinx.serialization` defaults to `encodeDefaults = false`, which **strips any property whose value equals its declared default** from the serialized output. A `jsonrpc: String = "2.0"` (or `version = "1.0"`, `type = "..."`) disappears from the payload; the server rejects every request with a generic "invalid request," and the fix is a one-line flag, found only after hours chasing HTTP-layer red herrings. Always set it for client APIs; the `val json` defined at the top of this file does, alongside `ignoreUnknownKeys` and `coerceInputValues`. That one configured instance is what the whole client shares: `install(ContentNegotiation) { json(json) }` and the WebSocket converter both take it.
+## Serialization and response handling
 
-## `expectSuccess`: pick one model, consistently
+Choose `encodeDefaults` from the wire contract. For a required constant field, use a targeted `@EncodeDefault` or configure the API's `Json` instance; optional fields may need omission. `ignoreUnknownKeys` and `coerceInputValues` change validation semantics too, so preserve deliberate strictness.
 
-`expectSuccess = true` makes Ktor throw `ClientRequestException` (4xx) / `ServerResponseException` (5xx) on non-2xx, and that throw **runs before any manual status check**, so an `if (response.status == OK)` branch after it is dead code. Pick one model project-wide: `expectSuccess = true` + `try/catch` (matches the repository pattern), or `expectSuccess = false` + explicit `response.status.isSuccess()` inspection. Never mix them.
+With `expectSuccess = true`, non-2xx responses throw before a later manual error-status branch; successful response checks still run. With `false`, inspect status before decoding a success DTO. Map transport, HTTP and decoding failures at the repository boundary, preserving `CancellationException`. A domain error can retain diagnostic causes internally, but callers should not need Ktor types to select UI behavior.
 
-## Bearer refresh: `markAsRefreshTokenRequest()` or it loops
+## Retries
 
-In the `Auth` `bearer { refreshTokens { … } }` block, mark the refresh POST with `markAsRefreshTokenRequest()` so it isn't intercepted by the same `Auth` plugin. Without it, a failing refresh triggers another refresh, looping infinitely. It's an `HttpRequestBuilder` extension: call it **inside the request builder block**, not bare in `refreshTokens { }` (where it doesn't compile).
+Install `HttpRequestRetry` before `HttpTimeout`. Installation order alone does not enable timeout retries: configure the intended exception/status conditions. Bound attempts and allow automatic replay only for operations whose contract permits it. The reference defaults to GET/HEAD 5xx retries; a POST needs explicit idempotency semantics and a replayable body before opting in. Keep auth refresh separate from the transient failure policy.
 
-```kotlin
-install(Auth) {
-    bearer {
-        loadTokens { tokenStorage.getTokens()?.let { BearerTokens(it.access, it.refresh) } }
-        refreshTokens {
-            val refresh = oldTokens?.refreshToken ?: return@refreshTokens null
-            val r = client.post("auth/refresh") {
-                markAsRefreshTokenRequest()                      // skip the Auth plugin for this call
-                setBody(RefreshRequestDto(refresh))
-            }.body<TokenResponseDto>()
-            tokenStorage.save(r.accessToken, r.refreshToken); BearerTokens(r.accessToken, r.refreshToken)
-        }
-        sendWithoutRequest { it.url.pathSegments.none { seg -> seg in listOf("login", "register") } }
-    }
-}
-```
+## Verify
 
-Keep `BearerTokens` at the plugin boundary; the rest of the app uses your own token type. `TokenStorage` is project-defined (DataStore on Android/JVM, Keychain on iOS).
+Use the same factory with `MockEngine` to exercise success, non-2xx, malformed payloads, rejected refresh, cancellation, untrusted origins and replay behavior. Verify native engine behavior on Android/iOS where the change depends on it; a mock cannot prove TLS, OS networking or streaming support. Report the configured origin, client owner, error/retry choices and actual tests run.
 
-## WebSockets & SSE: use the serialization converter
-
-For real-time transports, install the kotlinx-serialization converter so typed messages flow over the same `Json` config as `ContentNegotiation`; without it you hand-encode/decode `Frame.Text`. (SSE = server→client only, plain HTTP, built-in reconnect; WebSocket = bidirectional, manual reconnect, binary frames, so default to SSE when the client only consumes.)
-
-```kotlin
-val client = HttpClient(engine) {
-    install(WebSockets) {
-        pingIntervalMillis = 30_000
-        contentConverter = KotlinxWebsocketSerializationConverter(json)  // the shared configured instance — bare `Json` reverts to encodeDefaults = false
-    }
-    install(SSE)
-}
-
-client.webSocket("wss://api.example.com/ws") {
-    sendSerialized(SubscribeMessage(topic = "items"))
-    while (true) { val msg = receiveDeserialized<ServerMessage>(); /* handle */ }
-}
-
-// SSE — incoming is a Flow<ServerSentEvent>
-client.sse("https://api.example.com/events") { incoming.collect { event -> /* event.event / event.data / event.id */ } }
-```
-
-Wrap SSE/WebSocket collection in a `LaunchedEffect` or repository coroutine so cancellation closes the HTTP connection when the consumer goes away.
-
-## Error mapping + testing
-
-Catch **specific** Ktor types at the repository (`ClientRequestException` / `ServerResponseException` / `HttpRequestTimeoutException` / `IOException`) and map them to a domain error type; `catch (e: Exception)` would swallow `CancellationException` and break structured concurrency.
-
-The error type is yours to define; the point is that Ktor types stop at the repository and never reach a ViewModel. A minimal shape:
-
-```kotlin
-// commonMain — no Ktor types in the signature, so callers stay engine-agnostic
-sealed interface DataError {
-    data class Network(val cause: Throwable) : DataError   // IOException, timeouts
-    data class Http(val status: Int) : DataError           // 4xx / 5xx
-    data class Serialization(val cause: Throwable) : DataError
-}
-```
-
-For richer per-error UI states (`Unauthorized`, `RateLimited`, `Forbidden`, …), a sealed `ApiResult<T>` plus a `safeRequest` wrapper with `expectSuccess = false` is the alternative shape, so pick one per project and apply it consistently.
-
-Inject `HttpClientEngine` so tests swap in `MockEngine`, reusing the production `createHttpClient` factory so plugin config matches:
-
-```kotlin
-val mockEngine = MockEngine { request ->
-    assertEquals("/users/42", request.url.encodedPath)
-    respond("""{"id":"42","name":"Ada","created_at":1700000000000}""",
-        HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))
-}
-val repo = UserRepository(UserService(createHttpClient(mockEngine, baseUrl = "https://api.example.com/")))
-```
+Checked 2026-09-24 against Ktor 3.x documentation: [engines](https://ktor.io/docs/client-engines.html), [bearer auth](https://ktor.io/docs/client-bearer-auth.html), [retries](https://ktor.io/docs/client-request-retry.html), [response validation](https://ktor.io/docs/client-response-validation.html), [serialization defaults](https://kotlinlang.org/api/kotlinx.serialization/kotlinx-serialization-json/kotlinx.serialization.json/-json-builder/encode-defaults.html).

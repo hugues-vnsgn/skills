@@ -70,7 +70,7 @@ Two model-invoked references that run *beneath* the other skills, each the singl
 
 ## Platform knowledge
 
-Five model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/kmp-test-seams`, `/kmp-release-and-publish`. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it: the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
+Seven model-invoked references supply **Kotlin Multiplatform / Compose Multiplatform** knowledge as the work needs it: `/kmp-module-setup` for build configuration, `/kmp-boundaries` (beta) for capability contracts, `/kmp-ios-integration` for Xcode and Swift APIs, `/compose-multiplatform-ui` for UI, `/kmp-ktor` (beta) for HTTP clients, `/kmp-test-seams` for test placement and task selection, and `/kmp-release-and-publish` for release artifacts and publication. They support the workflow rather than replacing its steps.
 
 Read [references/platform-knowledge.md](references/platform-knowledge.md) for what each one covers.
 

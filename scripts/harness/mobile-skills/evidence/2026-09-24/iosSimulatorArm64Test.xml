@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fixture.shared.ValidatorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-09-24T06:59:17.033Z" hostname="Dos-Mac-mini.local" time="0.001">
+  <properties/>
+  <testcase name="rejectsBlankAndShortValues[iosSimulatorArm64]" classname="fixture.shared.ValidatorTest" time="0.001"/>
+  <testcase name="acceptsTrimmedThreeCharacterValues[iosSimulatorArm64]" classname="fixture.shared.ValidatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

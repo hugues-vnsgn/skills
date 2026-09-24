@@ -1,35 +1,41 @@
 ## What it does
 
-`kmp-ios-integration` connects the shared Kotlin framework to the iOS app and keeps the Kotlin→Swift API surface safe. It forces one choice up front, between direct integration, CocoaPods, SPM, and KMMBridge, because two of them (direct and CocoaPods) are mutually exclusive and mixing them is the classic broken setup.
+`kmp-ios-integration` connects shared Kotlin code to Xcode and checks the API Swift consumes. It preserves the existing integration route unless the task calls for migration, and verifies the Swift caller rather than treating a Kotlin compile as sufficient.
 
 ## When to reach for it
 
-The agent reaches for it automatically when touching the Xcode↔Gradle boundary: `embedAndSignAppleFrameworkForXcode`, the `cocoapods {}` block, Podfiles, or exported `commonMain` API that Swift consumes. Reach for it yourself when Xcode "builds" but the Kotlin framework never updates, when a pod won't cinterop, or before publishing shared API to the iOS team. For module structure and the framework block itself, use [kmp-module-setup](../../../skills/house/mobile/kmp-module-setup/SKILL.md).
+Type `/kmp-ios-integration`, or the agent reaches for it automatically for Xcode framework integration, Pod failures, exported Kotlin APIs and coroutine bridges.
 
-## The checklist it carries
+| Work | Skill |
+|---|---|
+| Direct integration, CocoaPods, SPM or Swift API behavior | This skill |
+| Producing the framework and configuring targets | [kmp-module-setup](kmp-module-setup.md) |
+| Embedding native UI or Compose screens | [compose-multiplatform-ui](compose-multiplatform-ui.md) |
 
-The Swift-facing API review: `@Throws` on throwing functions (missing it = production crash, not a Swift error), sealed classes behind SKIE or a facade, one coroutine-interop layer only, constrained generics, `@HiddenFromObjC` on internals. Plus the #1 support answer: **disable Xcode's User Script Sandboxing** or the framework build silently no-ops.
+## Check the consumer boundary
+
+Objective-C framework export and Swift export have different mappings and build integration. The skill identifies the selected path before reasoning about exceptions, generics or coroutine cancellation. References load separately for interop and CocoaPods work.
 
 ## Common questions
 
-**Xcode says the build succeeded, but the app is running old Kotlin code. What's wrong?**
+**The app runs old Kotlin code after an Xcode build. Where should I look?**
 
-User Script Sandboxing is almost certainly still on. It's the #1 support answer because the failure is silent: the Gradle build phase runs, reports success, and produces nothing, so nothing in the Xcode log points at it. Disable "User Script Sandboxing" in Build Settings, and if the Gradle daemon already started under a sandboxed run, stop it with `./gradlew --stop` before rebuilding.
+Inspect the active scheme, build phase, generated framework and script log. Direct integration also needs the documented script-sandboxing setting; stop a Gradle daemon started under the sandbox before retrying. The symptom alone does not establish a cause.
 
-**A Kotlin exception is crashing the app instead of arriving in Swift as a normal error. Why?**
+**A Kotlin exception crashes Swift instead of being catchable. What changes?**
 
-Missing `@Throws(Exception::class)` on the throwing Kotlin function. Without it, the exception crosses into Swift as an uncaught Objective-C exception, which is a crash rather than a `throws`-able Swift error. It's the one item on the review checklist that fails in production rather than at build time.
+At the Objective-C export boundary, declare the expected exception types with `@Throws`, then exercise the error from Swift. Suspend cancellation needs its own check with the selected bridge.
 
-**Should I use SKIE or KMP-NativeCoroutines for suspend functions and Flow?**
+**Should I replace the existing coroutine bridge with Swift export?**
 
-Pick exactly one. Both solve the same problem, since default `suspend`/`Flow` interop gives no cancellation and an opaque Flow type in Swift, and running both at once is an unsupported combination rather than a stronger fix. SKIE additionally covers sealed-class exhaustiveness and default arguments, so it's the more common default unless the project already commits to KMP-NativeCoroutines.
-
-**I have both CocoaPods and direct integration set up. Now what?**
-
-Pick one; they're mutually exclusive in the same module. Moving off CocoaPods means `pod deintegrate` and removing the `cocoapods {}` block *before* wiring up `embedAndSignAppleFrameworkForXcode`, not alongside it. Mixing the two is a listed common mistake because the symptoms (duplicate frameworks, workspace confusion) don't obviously point back to "two integration methods are both active."
+A working bridge stays unless migration is part of the task. Swift export is still Alpha in the checked documentation. Test cancellation and Flow termination with the actual generated API when evaluating a change.
 
 ## It's working if
 
-- Kotlin edits show up in the next Xcode build without manual Gradle runs.
-- Kotlin exceptions surface as catchable Swift `throws`, never crashes.
-- The exported header is a small facade, not the whole module.
+- Kotlin edits appear in the actual Xcode scheme's next build.
+- Swift can call the exported API and handle its declared errors.
+- Cancellation and stream termination have observed results where used.
+
+## Where it fits
+
+A standalone integration reference between [kmp-module-setup](kmp-module-setup.md) and [compose-multiplatform-ui](compose-multiplatform-ui.md). The first produces binaries; the second handles UI ownership and interop. [ask-matt](https://aihero.dev/skills-ask-matt) carries the wider workflow map.

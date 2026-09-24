@@ -1,0 +1,40 @@
+{
+  "task": "B",
+  "skill": "kmp-boundaries",
+  "recorded_at_utc": "2026-09-24T06:56:21.250744+00:00",
+  "model_identity": "Not exposed to this evaluator; no model identifier claimed.",
+  "consulted_files": [
+    {
+      "path": "/Users/hugues_mini/Codes/skills/.worktrees/feat/mobile-skills-upgrade/skills/house/mobile/kmp-boundaries/SKILL.md",
+      "sha256": "38187c43458d6e51617b473c0aa5225edf1fc8ac37d7bc09495eb6b4a8ce1455"
+    }
+  ],
+  "questions_and_raw_answers": [
+    {
+      "question": "Design a share capability callable by a long-lived repository while foreground screens recreate.",
+      "answer": "Expose a common ShareSheet interface such as suspend fun requestShare(text: String). Give the Android UI binding Activity scope and let the long-lived caller access it through a lifecycle-aware provider; never retain an Activity in the repository. Resolve the current foreground owner at use time, define an explicit unavailable-owner outcome, and release callbacks with the owner. On iOS use the active presenter. Specify main-dispatcher use, cancellation propagation, owner destruction behavior, and whether completion means launch requested, presented, or user finished. For the sample contract it means request accepted. Verify common fake behavior and real binding lifecycle/cancellation on each affected platform."
+    },
+    {
+      "question": "What does returning from Android startActivity establish for callers?",
+      "answer": "Only that launch was requested. It does not prove presentation or user completion. If a user result is needed, define a separate callback/result contract supported by the platform."
+    },
+    {
+      "question": "Native SwiftUI tabs host Compose screens; which route/state code may remain common?",
+      "answer": "Business state, validation, and route data may remain common when their semantics agree. Assign visual navigation, permission presentation and chrome according to this UI architecture. SwiftUI can own the outer tab/back-stack navigation while Compose owns an agreed inner navigation scope; each event must have one owner so it cannot produce duplicate pushes. A native shell does not prohibit all shared navigation."
+    },
+    {
+      "question": "A stateless platform name is needed; which boundary shape and what evidence verifies it?",
+      "answer": "Use an expect function/property with per-target actual implementations for this stateless leaf utility. Check that target implementations return the intended platform values on affected platforms and that common callers compile against the declaration. The skill requires reporting the chosen boundary, lifetime and observable semantics and verifying real bindings, rather than treating common fake tests as proof. It does not prescribe concrete Gradle tasks for this utility."
+    }
+  ],
+  "ambiguities_or_gaps": [
+    "SKILL.md, Define lifetime and completion: lifecycle-aware provider is recommended without an example of attach/detach or stale-owner protection. It establishes required decisions but leaves concrete provider implementation open.",
+    "SKILL.md, final testing paragraph: evidence is stated for capability bindings; there is no explicit compilation/task recipe for expect/actual leaf utilities. Platform verification remains an inferred application of the general rule."
+  ],
+  "limitations": [
+    "Standalone package retrieval only. No repository rules, issue contents, other skill contents, network sources, or application builds consulted.",
+    "Directory file names were enumerated for the three assigned directories; agents/openai.yaml files were not opened.",
+    "Read order was Task A package, Task B package, Task C package; answers use only their assigned package.",
+    "No platform code or Gradle tasks executed. Timestamp records evidence capture, not individual read instants."
+  ]
+}

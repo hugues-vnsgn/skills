@@ -1,3 +1,3 @@
 interface:
   display_name: "KMP Release & Publish"
-  short_description: "Ship KMP apps and publish libraries"
+  short_description: "Verify KMP release artifacts and publication scope"

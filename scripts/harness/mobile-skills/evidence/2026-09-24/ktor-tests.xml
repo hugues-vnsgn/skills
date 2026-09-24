@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ClientTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-09-24T07:02:10.217Z" hostname="Dos-Mac-mini.local" time="4.093">
+  <properties/>
+  <testcase name="failedCreateOrderIsNotRetried" classname="ClientTest" time="0.088"/>
+  <testcase name="foreignOriginBlockedBeforeEngine" classname="ClientTest" time="0.002"/>
+  <testcase name="expiredCredentialsRefreshAndReplay" classname="ClientTest" time="0.019"/>
+  <testcase name="readServerErrorsHaveBoundedRetries" classname="ClientTest" time="3.944"/>
+  <testcase name="cancellationDuringRefreshPreservesCredentials" classname="ClientTest" time="0.022"/>
+  <testcase name="redirectIsNotFollowed" classname="ClientTest" time="0.004"/>
+  <testcase name="rejectedRefreshClearsStoreAndTerminates" classname="ClientTest" time="0.007"/>
+  <testcase name="downloadUsesSeparateUnauthenticatedClient" classname="ClientTest" time="0.003"/>
+  <testcase name="foreignSchemeAndPortBlocked" classname="ClientTest" time="0.002"/>
+  <system-out><![CDATA[refresh sequence: [GET /orders Bearer expired, POST /auth/refresh null, GET /orders Bearer fresh]
+rejection request: GET https://api.example.com/orders Bearer expired
+rejection request: POST https://api.example.com/auth/refresh null
+rejection request: GET https://api.example.com/orders Bearer expired
+]]></system-out>
+  <system-err><![CDATA[SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+]]></system-err>
+</testsuite>

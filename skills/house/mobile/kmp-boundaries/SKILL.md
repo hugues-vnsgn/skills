@@ -1,117 +1,48 @@
 ---
 name: kmp-boundaries
-description: Use when common code needs to reach a platform API and you are picking the boundary shape, whether a common interface with per-platform bindings, expect/actual, or separate platform implementations. Covers capability granularity, keeping actuals thin, the Activity-owned platform-UI binding, declaring a custom intermediate source set to share code across a target subset (such as Android + Desktop JVM), and the AGP-9 constraints that shape what can live in shared code.
+description: Use when designing the API between common Kotlin code and Android or iOS capabilities, choosing interfaces versus expect/actual, or fixing platform binding lifecycle and cancellation contracts. Gradle source-set and plugin configuration belongs to kmp-module-setup.
 ---
 
-# Kotlin Multiplatform Boundary Design
+# KMP Boundary Design
 
-Core rules for any KMP boundary:
+Inspect the caller, required platforms and existing dependency lifetime before choosing an abstraction. Describe a product capability in common code and keep platform mechanics in the implementation.
 
-- **Keep `commonMain` semantic**: describe *what* the product needs, not Android/iOS mechanics: `currentRegion()`, never `currentRegionFromAndroidLocale(context)`.
-- **Split by capability**: `Clipboard`, `ShareSheet`, `Haptics`, `Biometrics` as separate interfaces, not one `Platform` god object.
-- **Keep actuals thin**: they translate, they don't decide; a business `if`/`when` inside an actual belongs in common, tested with a fake.
-- **Prefer a common `interface` + per-platform binding over `expect class`.** JetBrains' own guidance: using expect/actual classes "for simple cases where interfaces would suffice is not recommended. Interfaces offer greater flexibility, allowing for multiple implementations per platform and easier substitution in tests." Reach for an interface whenever you need fakes / DI / lifecycle / runtime selection.
-- **`expect`/`actual` *functions and properties* are still the standard way to reach a platform API.** The rule above is about *classes*, not the mechanism as a whole. A one-off `expect fun currentTimeSeconds(): Long` needs no interface.
-- **`expect`/`actual` classes are Beta.** They compile with a warning unless you opt in with `freeCompilerArgs.add("-Xexpect-actual-classes")`, and JetBrains warn they "may require future migration steps." One more reason an interface is the cheaper default.
-- **Introduce an intermediate source set** only when two or more targets genuinely share an implementation, either one `applyDefaultHierarchyTemplate()` already creates (`iosMain`), or a custom one you declare yourself (below).
+## Choose the boundary
 
-Three boundaries get the most detail below: the **Activity-owned** platform-UI boundary, the **custom intermediate source set**, and the **AGP-9 KMP-library** constraints.
+| Need | Shape |
+|---|---|
+| Stateless leaf utility with one implementation per target | An `expect` function/property with platform `actual` implementations |
+| State, dependencies, test fakes, lifecycle or runtime selection | A common interface and per-platform bindings |
+| An existing platform type that must satisfy a common declaration | Consider expect/actual classes or typealiases after checking export and testing constraints |
+| Two targets share implementation code | Put it in a suitable intermediate source set; use module setup guidance for the Gradle wiring |
 
-**Related:** [`kmp-ktor`](../kmp-ktor/SKILL.md) (network boundary), [`compose-multiplatform-ui`](../compose-multiplatform-ui/SKILL.md) (Compose-MP mechanics and SwiftUI/UIKit interop). For the iOS↔Swift bridge, meaning `@Throws`, sealed-class exhaustiveness, SKIE, and the rest of the Swift-facing API review, see the "Swift-facing API review checklist" in [`kmp-ios-integration`](../kmp-ios-integration/SKILL.md) when authoring the iOS-side implementation.
+Split capabilities such as `ShareSheet`, `Clipboard` and `Biometrics` rather than growing one `Platform` object. Keep business decisions in common code; platform implementations translate platform results and failures into the agreed contract.
 
-## Platform-UI bindings are Activity-owned, not Context-owned
+Expect/actual classes remain Beta in the official guidance checked 2026-09-24. Interfaces allow multiple implementations and simpler substitution; this is a preference for the capability case, not a ban on compiler-supported declarations. [Expected and actual declarations](https://kotlinlang.org/docs/multiplatform/multiplatform-expect-actual.html)
 
-The single most common Android boundary mistake: passing `applicationContext` / `LocalContext.current` into a binding that actually needs an `Activity`, then papering over the lifecycle gap with `Intent.FLAG_ACTIVITY_NEW_TASK`. That flag is a smell, because it hides that this is a foreground-UI operation. Hold an `Activity` instead.
+## Define lifetime and completion
+
+For platform UI operations, establish all of these at the call boundary:
+
+- Which foreground Activity or iOS presenter owns the operation, and what happens when none is available.
+- Whether completion means the launch was requested, the UI was presented, or the user finished.
+- Which dispatcher may call the platform API, how cancellation propagates, and how callbacks are released.
+
+An Android binding that needs UI belongs to an Activity scope. Keep the Activity out of app-scoped objects; use a lifecycle-aware provider if a longer-lived caller needs access. Do not assume a value obtained from `LocalContext.current` is an Activity. On iOS, use the active presenting controller and release delegates/callbacks with their owner.
 
 ```kotlin
-// commonMain — semantic interface; DOCUMENT what `suspend` means
+// commonMain: request accepted, not proof of presentation or user completion
 interface ShareSheet {
-    /** Launches the system share sheet. Returns when the sheet is PRESENTED — not when the user
-     *  completes or cancels. (Otherwise callers write incorrect retry/confirmation logic.) */
-    suspend fun shareText(text: String)
-}
-
-// androidMain — thin: build the intent and launch it. Activity-owned.
-class AndroidShareSheet(private val activity: Activity) : ShareSheet {
-    override suspend fun shareText(text: String) {
-        activity.startActivity(Intent.createChooser(
-            Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, text), null,
-        ))
-    }
+    suspend fun requestShare(text: String)
 }
 ```
 
-You don't app-wide-inject an `Activity` (it's framework-created and lifecycle-bound), so construct the binding in an **activity scope** in the Android app module (Hilt `@InstallIn(ActivityComponent::class)`, where `Activity` is a default binding; Koin `scoped`). `commonMain` only ever sees the interface; the `Activity` never leaves the app module. If a longer-lived (app-scoped) object needs it, hold it behind a lifecycle-aware provider (set in `onResume`, cleared in `onPause`) so a destroyed Activity can't leak.
+An Android implementation can switch to `Dispatchers.Main.immediate`, check its current Activity and call `startActivity(Intent.createChooser(...))`. Returning from `startActivity` proves only that launch was requested. If callers need the user's result, design a separate result/callback contract supported by that platform. See [Android Activity lifecycle](https://developer.android.com/guide/components/activities/activity-lifecycle).
 
-## Custom intermediate source sets: sharing across a target subset
+## Shared state and native UX
 
-Sometimes the boundary isn't "common vs platform" but "this *group* of targets vs the rest". The usual trigger is a JVM-only library, whether Jackson, OkHttp or anything JVM-bound, that Android and Desktop can both use and iOS cannot. Putting it in `commonMain` breaks the iOS build; duplicating it across `androidMain` and `jvmMain` duplicates the wiring.
+Share business state, validation and route data when their semantics agree. Choose ownership of visual navigation, permissions presentation and platform chrome from the product's UI architecture. A Compose-owned back stack and a SwiftUI-owned back stack are both valid; each navigation event needs one owner to avoid duplicate pushes. Do not generalize a native-shell choice into a rule against shared navigation.
 
-`applyDefaultHierarchyTemplate()` will **not** solve this for you. Its built-in groupings cover native families (`iosMain` and friends); it deliberately does not create a shared Android+JVM source set. For any combination the template doesn't cover, JetBrains document declaring one by hand; their term is a **custom source set** under manual configuration, and their own worked example (`jvmAndMacos`) is this same shape with different targets.
+Test the common contract with a fake and verify the real binding on the affected platform, including owner destruction and cancellation. Report the chosen interface, lifetime and observable completion semantics. A fake passing does not prove the native implementation works.
 
-```kotlin
-kotlin {
-    androidTarget()
-    jvm()
-    iosArm64()
-    iosSimulatorArm64()
-
-    applyDefaultHierarchyTemplate() // still worth calling — it creates iosMain etc. for the targets above
-
-    sourceSets {
-        val jvmAndroid by creating {
-            dependsOn(commonMain.get())
-            dependencies {
-                api(libs.jackson.module.kotlin)   // JVM-only: fine on Android + Desktop, absent on iOS
-            }
-        }
-
-        jvmMain.get().dependsOn(jvmAndroid)
-        androidMain.get().dependsOn(jvmAndroid)
-    }
-}
-```
-
-**The intermediate set is not a platform.** It is a shared layer that platform source sets opt into via `dependsOn`. Declaring it buys you one place for the dependency and one place for the code that uses it.
-
-**On declaration order:** there is no Gradle or KMP rule that a custom source set must be declared before `androidMain`/`jvmMain`. The only constraint is ordinary Kotlin scoping: a `val` must exist before you reference it. If you see advice framing this as a build-system requirement, it's conflating the two.
-
-**When *not* to reach for one:** pure Kotlin belongs in `commonMain`; genuinely platform-specific APIs belong in the platform source set. An intermediate set earns its place only when two or more targets share a real implementation.
-
-## Team heuristics: what we abstract, and what we don't
-
-⚠️ **This section is our own convention, not JetBrains guidance.** The rules above are sourced from the official docs; the table below is accumulated team judgment. Treat it as a starting position to argue with, not an authority, since JetBrains publish no domain-category guidance of this kind either way.
-
-| Category | Position | Why |
-|---|---|---|
-| Crypto, core protocol / domain logic | **Share** | Needed on every target; platform security APIs differ, so the seam is worth it |
-| I/O, logging, serialization | **Usually share** | Commonly reused, and credible platform implementations exist |
-| Business logic, state holders / ViewModels | **Usually share** | State and transitions are platform-agnostic; `StateFlow`/`SharedFlow` cross the boundary cleanly |
-| Complex UI components | **Rarely share** | Heavy platform dependencies make the abstraction leak |
-| Navigation, permissions, platform UX | **Don't share** | The paradigms differ enough that any shared API becomes a lowest common denominator |
-
-Two failure modes this is meant to head off, in both directions:
-
-- **Premature abstraction**: building `expect`/`actual` before a second target actually needs it, which fixes the boundary in the wrong place. Wait for the second caller.
-- **Under-sharing**: duplicating domain logic across `androidMain` and `jvmMain`, so every bug is fixed twice and every test written twice. That's what `commonMain` (or an intermediate set) is for.
-
-## AGP-9 KMP-library constraints (structural, since they shape what can live in shared code)
-
-AGP 9 replaces `com.android.library` with **`com.android.kotlin.multiplatform.library`** for the Android side of a KMP module, and rejects `com.android.application` + `kotlin.multiplatform` outright. The new plugin enforces a single-variant architecture:
-
-- **`BuildConfig` is unavailable**: compile-time constants come from [BuildKonfig](https://github.com/yshrsmz/BuildKonfig) or an injected `AppConfiguration` interface. Don't design `commonMain` APIs that assume `BuildConfig.X` exists.
-- **No build variants**: variant-specific deps/resources/signing live in the app module; a debug/release decision surfaces as a runtime config value injected into common code, not a build-variant split inside the KMP module.
-- **No NDK / JNI**: extract native (C/C++) into a separate `com.android.library` module, wrapped behind a common interface the KMP module consumes.
-- **Compose-MP resources need explicit enable**: add `androidResources { enable = true }` inside `kotlin { android { … } }`, or `Res.string.*` / `Res.drawable.*` crash at runtime on Android (the build still succeeds, which is easy to miss).
-- **Consumer ProGuard rules need migration**: `consumerProguardFiles("rules.pro")` from the old `android {}` block is silently dropped; use `consumerProguardFiles.add(file("rules.pro"))` in the new DSL.
-- **The KMP module can't also be `com.android.application`**: the Android entry point (`MainActivity`, Application class, launcher manifest, `applicationId` / `targetSdk` / `versionCode` / `versionName`) moves to a separate `androidApp` module that depends on the shared library. `MainActivity`, app-level Hilt setup, and nav-host wiring all move out of the shared `androidMain`.
-- **kapt is incompatible** with AGP 9's built-in Kotlin, so migrate annotation processors to KSP (2.3.1+), or fall back to `com.android.legacy-kapt` for processors with no KSP equivalent.
-
-| Concern | Pre-AGP-9 (monolithic) | AGP 9 KMP library |
-|---|---|---|
-| `MainActivity`, Application class, launcher manifest | `androidMain` of shared module | Separate `androidApp` module |
-| `applicationId`, `versionCode`, `targetSdk` | Shared module's `android {}` | `androidApp` only |
-| Compile-time constants (env, flags) | `BuildConfig` field | `BuildKonfig` in common, or runtime DI |
-| NDK / JNI native code | `androidMain` (any module) | Separate `com.android.library`, behind a common interface |
-
-For migrating an existing project, see JetBrains' [`kotlin-tooling-agp9-migration`](https://github.com/Kotlin/kotlin-agent-skills/tree/main/skills/kotlin-tooling-agp9-migration) skill for the full mechanics.
+Related skills, when installed: `kmp-ios-integration` for Swift export and coroutine bridging, `compose-multiplatform-ui` for native UI interop, `kmp-ktor` for HTTP behavior, and `kmp-test-seams` for the test source set and task. These are optional specializations, not prerequisites.

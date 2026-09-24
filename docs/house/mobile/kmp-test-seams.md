@@ -1,44 +1,42 @@
 ## What it does
 
-`kmp-test-seams` answers the two questions Kotlin Multiplatform adds to a test-first loop: where the **seam** goes, and which Gradle task proves the slice green. It is not a TDD skill. It never runs the loop, states no rules about it, and defers everything about what makes a test worth keeping to [tdd](https://aihero.dev/skills-tdd). It only supplies the platform half that a single-platform TDD reference has no way to know.
+`kmp-test-seams` chooses where a KMP test belongs and which configured task can prove the change. It discovers the project's targets before suggesting commands, so a mobile-only app is not sent to a nonexistent `jvmTest` task.
 
 ## When to reach for it
 
-Type `/kmp-test-seams`, or the agent reaches for it automatically when a KMP repo raises a placement or task question mid-loop.
+Type `/kmp-test-seams`, or the agent reaches for it automatically when test placement or execution is unclear.
 
-| Your question | Where to go |
+| Question | Skill |
 |---|---|
-| What should I test, and what makes this test worth keeping? | [tdd](https://aihero.dev/skills-tdd), which owns the loop |
-| Does this test live in `commonTest` or a platform source set? | here |
-| Which Gradle task do I run to call this slice green? | here, then the task map in [kmp-release-and-publish](../../../skills/house/mobile/kmp-release-and-publish/SKILL.md) |
-| Should this platform service be `expect`/`actual` or an interface? | [kmp-module-setup](../../../skills/house/mobile/kmp-module-setup/SKILL.md), which owns that fork |
+| Common, Android host/device, or iOS test? | This skill |
+| Which existing module-qualified task verifies this change? | This skill |
+| How should the platform capability API be designed? | [kmp-boundaries](../../../skills/house/mobile/kmp-boundaries/SKILL.md) |
+| How should a test-first loop proceed? | [tdd](https://aihero.dev/skills-tdd) |
 
-## Seams are a placement decision, not just a design one
+## A seam needs platform evidence
 
-In a single-platform repo, choosing a seam is about depth: how much behaviour sits behind how small an interface. KMP adds a second axis, *which source set the seam lives in*, and the two interact. A seam in `commonMain`, behind an interface over the platform service, gives you a red-green loop that runs in `commonTest` with `kotlin.test` and multiplatform fakes: fast, and it covers both platforms at once. A seam that reaches into a platform `actual` forces the test into `androidHostTest` or `iosTest`, where the loop is slower and only proves one platform.
-
-That is why the cheapest task that covers the seam is the right one to run: `jvmTest` for pure common logic, and a simulator or device task, `iosSimulatorArm64Test` or `testDebugUnitTest`, only before claiming a platform-touching slice green.
+A fake in `commonTest` checks the caller's contract. It does not exercise the real Android or iOS implementation. Host tests can cover some Android code; UI/device behavior needs the appropriate platform runner. Common code is verified on the targets whose tasks actually ran.
 
 ## Common questions
 
-**The `/tdd` skill used to have a Kotlin Multiplatform section. Where did it go?**
+**We only target Android and iOS. Do we need to add JVM for fast tests?**
 
-Here, unchanged. It was an append onto an upstream file, which meant a merge conflict on every upstream sync of `tdd`. Extracting it into a fork-owned skill retired that conflict: upstream's `tdd` is byte-identical to upstream again, and this skill cross-references it by name.
+No. Use the configured Android host or iOS simulator task that covers the behavior. Add a target only when the project needs it.
 
-**Does this replace `/tdd` on a KMP project?**
+**Why are Android host-test tasks missing?**
 
-No. Run `/tdd`, which is still the loop and the reference for what a good test is. This one layers underneath it, the same way `kmp-module-setup` layers underneath ordinary module design.
+The Android-KMP plugin disables test components by default. Inspect its version, enable the required component with that version's DSL, then discover the generated task.
 
-**A slice passes `jvmTest` but I touched an `actual`. Am I done?**
+**The task succeeded with `NO-SOURCE`. Is the change verified?**
 
-No. `jvmTest` never compiled the `actual` you changed. A platform-touching slice is green only once the platform's own task runs it.
+No tests executed. Check source-set placement and reports before claiming the behavior passed.
 
 ## It's working if
 
-- Tests default to `commonTest`, and a test in `androidHostTest` or `iosTest` is there because it exercises an `actual`, not by habit.
-- The loop you run most often is a fast one; simulator and device tasks show up at slice boundaries, not on every red-green cycle.
-- Nobody is asking "which Gradle task do I run" in review.
+- Commands name a real module and task in the project.
+- Platform changes have evidence from that platform.
+- The report distinguishes executed tests from skipped or absent tests.
 
 ## Where it fits
 
-A reach-for-it-anytime reference that runs *beneath* the flow rather than as a step in it: the platform layer under [tdd](https://aihero.dev/skills-tdd), which stays the step. Its neighbours are [kmp-module-setup](../../../skills/house/mobile/kmp-module-setup/SKILL.md), because a seam you can fake in `commonTest` is a module-shape decision made earlier, and [kmp-release-and-publish](../../../skills/house/mobile/kmp-release-and-publish/SKILL.md), because it owns the full Gradle task map this skill picks from. For the whole map, see [ask-matt](https://aihero.dev/skills-ask-matt).
+A standalone platform reference that can support [tdd](https://aihero.dev/skills-tdd) or other testing workflows. [kmp-module-setup](kmp-module-setup.md) supplies build configuration; [kmp-release-and-publish](kmp-release-and-publish.md) assembles verified tasks into release CI. See [ask-matt](https://aihero.dev/skills-ask-matt) for the full map.

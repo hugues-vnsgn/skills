@@ -1,71 +1,34 @@
 ---
 name: kmp-module-setup
-description: Use when creating, auditing, or upgrading a Kotlin Multiplatform shared module, declaring targets/source sets, wiring the version catalog (Kotlin/AGP/Compose Multiplatform), configuring the iOS framework block, or deciding between expect/actual and interfaces + DI for platform-specific code.
+description: Use when creating or changing a Kotlin Multiplatform module's Gradle plugins, targets, source-set hierarchy, version catalog, or Apple framework configuration, including Android-KMP plugin migration. For platform-capability API design, use kmp-boundaries.
 ---
 
 # KMP Module Setup
 
-Scaffold or audit a shared Kotlin Multiplatform module: targets, source-set hierarchy, version catalog, framework config, and platform-abstraction choices. Full details with worked config in [reference.md](reference.md).
+Configure the shared module for the project's actual targets and toolchain. Inspect `settings.gradle.kts`, the wrapper, version catalog, module plugins and existing CI before proposing changes. Preserve working versions unless the task needs an upgrade; Kotlin, AGP and CMP have compatibility ranges, not a rule that every version must change together.
 
-## Source-set hierarchy
+## Choose the Android plugin path
 
-Declaring `androidTarget()`, `iosArm64()`, `iosSimulatorArm64()` gives you the default hierarchy free (Kotlin ≥1.9.20), with no manual `dependsOn`:
-
-```
-commonMain ─┬─ androidMain
-            └─ appleMain ── iosMain ─┬─ iosArm64Main
-                                     └─ iosSimulatorArm64Main
-```
-
-Visibility is one-way: platform code sees common; common never sees platform. `commonMain` takes only multiplatform deps; `iosMain` may use `platform.*` Apple APIs.
-
-## Version catalog (the compatibility contract)
-
-Pin Kotlin, AGP, and Compose Multiplatform together in `gradle/libs.versions.toml` and bump them together against the official compatibility table, because version drift between the three is the top setup failure.
-
-```toml
-[versions]
-kotlin = "2.4.10"                 # check current stable
-agp = "8.10.0"
-compose-multiplatform = "1.11.1"  # maps to a specific Jetpack Compose release
-
-[plugins]
-kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
-composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
-composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }  # ships with Kotlin since 2.0
-```
-
-## Framework block (iOS)
-
-```kotlin
-listOf(iosArm64(), iosSimulatorArm64()).forEach { target ->
-    target.binaries.framework {
-        baseName = "Shared"
-        isStatic = true   // default choice for a single app; dynamic only for app extensions / shared runtime
-    }
-}
-```
-
-Exporting types from other modules requires `api(...)` + `export(...)`; `implementation` deps surface as mangled names (`Kotlinx_coroutines_coreFlow`). Avoid `transitiveExport = true` (binary bloat).
-
-## expect/actual vs interface + DI
-
-| Situation | Use |
+| Existing configuration | Apply |
 |---|---|
-| Leaf utility (UUID, clock, platform name) | `expect fun` / `actual fun` |
-| Anything with behavior, state, deps, or that tests fake | interface in common + platform impls via DI (Koin etc.), or `expect fun createX(): X` factory |
-| expect/actual **classes** | Avoid: still Beta, warns without `-Xexpect-actual-classes`; official docs recommend interfaces |
+| `com.android.library` with KMP | Legacy `androidTarget()` and top-level `android {}`. Keep a targeted fix on this path unless migration is requested or required for compatibility. |
+| `com.android.kotlin.multiplatform.library` | Configure the Android library inside `kotlin {}`. Use the DSL for the installed AGP version, as described in [reference.md](reference.md#android-library-configuration). |
+| Android app combined with shared code | A migration to the Android-KMP library plugin needs a separate app module for `MainActivity`, signing, variants and application metadata. |
 
-## Verification
+The Android-KMP plugin has one variant. Supply environment configuration through a common interface or generated multiplatform constants; keep flavors and signing in the consuming app. Enable Android resources and test components only when needed.
 
-- `./gradlew :shared:compileKotlinIosSimulatorArm64 :shared:compileDebugKotlinAndroid`: both targets compile.
-- `./gradlew allTests` or `iosSimulatorArm64Test` + `testDebugUnitTest`, since common tests run on every target.
+## Source sets and dependencies
 
-## Common mistakes
+Let the default hierarchy create `iosMain`/`iosTest` for the declared iOS targets. Standard layouts need no manual `dependsOn`. Platform code can see common declarations; common code cannot import `java.*` or Apple `platform.*` APIs.
 
-- Manual `dependsOn` wiring for standard layouts, which the default hierarchy template already does.
-- `implementation` + `export()` → build error or mangled Swift types; must be `api`.
-- Unpinned versions ("latest everything") → Kotlin/AGP/CMP incompatibility; always go through the catalog.
-- Writing `expect class` for services → rigid, untestable; prefer interfaces.
-- Java APIs (`java.io`, `java.time`) in `commonMain` → only compiles for Android; use kotlinx libraries.
+For a JVM-only dependency shared by Android and Desktop, read [custom source sets](reference.md#custom-source-sets). Confirm the second target exists before adding a shared layer. A mobile-only project does not need a Desktop target just to follow a sample.
+
+## Framework configuration
+
+For framework names, static/dynamic linkage, explicit dependency exports or XCFramework assembly, read [Apple binaries](reference.md#apple-binaries). Confirm what the iOS app actually imports before exporting dependencies. A public dependency needs `api(...)` and an explicit framework `export(...)` when its declarations must be exported; a mangled name alone is not proof of the cause.
+
+## Verify the configuration
+
+Discover tasks with `./gradlew :<module>:tasks --all`, then run the relevant Android compilation and Apple simulator compilation/link tasks on a capable host. Report the selected plugin/version branch, changed configuration and exact task results. If an SDK or host is unavailable, distinguish configuration inspection from successful compilation.
+
+Related skills, when installed: `kmp-boundaries` owns capability interfaces and expect/actual choices; `kmp-ios-integration` owns Xcode consumption; `kmp-test-seams` owns test placement and task selection. None is required to apply the configuration guidance here.

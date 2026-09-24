@@ -1,0 +1,109 @@
+{
+  "recorded_at_utc": "2026-09-24T07:00:46.842415+00:00",
+  "scope": "Standalone compile fixtures based solely on kmp-module-setup and kmp-test-seams. No repository changes. No publishing. No application build; minimal shared library only.",
+  "toolchain": {
+    "modern": {
+      "kotlin": "2.3.21",
+      "agp": "9.0.1",
+      "gradle": "9.1.0",
+      "compileSdk": 36,
+      "minSdk": 24
+    },
+    "legacy": {
+      "kotlin": "2.3.21",
+      "agp": "8.7.3",
+      "gradle": "8.13",
+      "compileSdk": 35,
+      "minSdk": 24
+    },
+    "java": "Temurin 21.0.11 arm64",
+    "xcode": "26.4.1 (17E202)",
+    "android_sdk": "/Users/hugues_mini/Library/Android/sdk"
+  },
+  "commands": [
+    {
+      "cwd": "/tmp/mobile-build-eval/fixture",
+      "command": "/Users/hugues_mini/.gradle/wrapper/dists/gradle-9.1.0-bin/9agqghryom9wkf8r80qlhnts3/gradle-9.1.0/bin/gradle :shared:tasks --all --console=plain > tasks.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "cwd": "/tmp/mobile-build-eval/fixture",
+      "command": "/Users/hugues_mini/.gradle/wrapper/dists/gradle-9.1.0-bin/9agqghryom9wkf8r80qlhnts3/gradle-9.1.0/bin/gradle :shared:compileAndroidMain :shared:linkDebugFrameworkIosSimulatorArm64 :shared:testAndroidHostTest :shared:iosSimulatorArm64Test :shared:mergeAndroidMainConsumerProguardFiles --console=plain > verification.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "cwd": "/tmp/mobile-build-eval/fixture/legacy",
+      "command": "/Users/hugues_mini/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13/bin/gradle :shared:tasks --all :shared:testDebugUnitTest --console=plain > verification.log 2>&1",
+      "exit_code": 0
+    },
+    {
+      "cwd": "/tmp/mobile-build-eval/fixture",
+      "command": "/Users/hugues_mini/.gradle/wrapper/dists/gradle-9.1.0-bin/9agqghryom9wkf8r80qlhnts3/gradle-9.1.0/bin/gradle :shared:bundleAndroidMainAar --console=plain > aar.log 2>&1",
+      "exit_code": 0
+    }
+  ],
+  "test_reports": [
+    {
+      "path": "/tmp/mobile-build-eval/fixture/shared/build/test-results/iosSimulatorArm64Test/TEST-fixture.shared.ValidatorTest.xml",
+      "name": "fixture.shared.ValidatorTest",
+      "tests": "2",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0",
+      "timestamp": "2026-09-24T06:59:17.033Z",
+      "hostname": "Dos-Mac-mini.local",
+      "time": "0.001"
+    },
+    {
+      "path": "/tmp/mobile-build-eval/fixture/shared/build/test-results/testAndroidHostTest/TEST-fixture.shared.ValidatorTest.xml",
+      "name": "fixture.shared.ValidatorTest",
+      "tests": "2",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0",
+      "timestamp": "2026-09-24T06:59:14.746Z",
+      "hostname": "Dos-Mac-mini.local",
+      "time": "0.008"
+    },
+    {
+      "path": "/tmp/mobile-build-eval/fixture/legacy/shared/build/test-results/testDebugUnitTest/TEST-fixture.shared.ValidatorTest.xml",
+      "name": "fixture.shared.ValidatorTest",
+      "tests": "2",
+      "skipped": "0",
+      "failures": "0",
+      "errors": "0",
+      "timestamp": "2026-09-24T06:59:42.724Z",
+      "hostname": "Dos-Mac-mini.local",
+      "time": "0.009"
+    }
+  ],
+  "aar_inspection": [
+    {
+      "path": "/tmp/mobile-build-eval/fixture/shared/build/outputs/aar/shared.aar",
+      "entries": [
+        "R.txt",
+        "AndroidManifest.xml",
+        "classes.jar",
+        "proguard.txt",
+        "res/",
+        "res/values/",
+        "res/values/values.xml",
+        "META-INF/com/android/build/gradle/aar-metadata.properties"
+      ],
+      "consumer_rule": "-keep class fixture.shared.Validator { *; }\n"
+    }
+  ],
+  "framework": "/tmp/mobile-build-eval/fixture/shared/build/bin/iosSimulatorArm64/debugFramework/Shared.framework/Shared",
+  "warnings": [
+    "SDK XML parser understands version 3 but version 4 encountered; both builds succeeded.",
+    "Legacy build reports deprecated Gradle features incompatible with Gradle 9.0; that fixture deliberately uses Gradle 8.13."
+  ],
+  "limitations": [
+    "Empirical compilation verifies these pinned combinations, not all documented compatibility ranges.",
+    "AGP 8.10/8.11 androidLibrary branch, AGP 9.2, Kotlin 2.4, custom Android+Desktop source sets, explicit framework dependency exports and device tests were not exercised.",
+    "Consumer rules confirmed in assembled AAR, but no shrinking consumer application was built.",
+    "Only iOS simulator compilation/link/test executed; iosArm64 target was configured but no device build or signing performed.",
+    "Gradle selected simulator runtime automatically; two booted simulators were present (iOS 18.6 and 26.4), and exact selection was not established from default logs.",
+    "No project global configuration edited. Gradle caches and tool-managed build outputs were used normally."
+  ]
+}

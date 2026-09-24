@@ -1,9 +1,17 @@
 # Platform knowledge
 
-Five model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it — the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
+Seven model-invoked references support KMP/CMP work. Choose by the immediate question; a feature can need several at different stages.
 
-- **`/kmp-module-setup`** — the shared module's *shape*: targets and the source-set hierarchy you get free from `androidTarget()` + `iosArm64()`, the version catalog that pins Kotlin, AGP and Compose Multiplatform together, the iOS framework block, and the `expect`/`actual` vs interfaces-plus-DI call.
-- **`/kmp-ios-integration`** — the *Xcode seam*: direct integration vs CocoaPods vs SPM vs KMMBridge, `embedAndSignAppleFrameworkForXcode`, and the framework-not-found and script-sandboxing errors — plus a review checklist for the Kotlin API Swift has to consume (`@Throws`, sealed classes, suspend functions, generics).
-- **`/compose-multiplatform-ui`**, *shared UI*: the full-Compose vs native-SwiftUI shell decision (the one call that has to come before screens get written, and the only route to iOS 26 Liquid Glass), per-platform entry points, `composeResources`/`Res`, Navigation Compose and Navigation 3 with ViewModel in `commonMain`, SwiftUI/UIKit interop both directions, and the iOS-only deltas (frame-rate caps, interop touch and accessibility defaults, `viewModel()` crashes).
-- **`/kmp-test-seams`** — the platform layer *under `/tdd`*: which source set a seam lives in (`commonMain` interfaces over platform services), so the loop runs in `commonTest` rather than `androidHostTest`/`iosTest`, and which Gradle task is the cheapest one that proves a slice green. `/tdd` still owns the loop and what makes a test worth keeping; this only answers the two questions KMP adds.
-- **`/kmp-release-and-publish`** — the odd one out: it runs at **ship time**, at the *end* of the flow — though `/kmp-test-seams` points into it mid-loop for the full Gradle task map. R8 over shared code, iOS archive and TestFlight, Maven Central, and the CI runner split.
+| Question | Skill |
+|---|---|
+| Which Gradle plugin, target, source set or framework configuration? | `/kmp-module-setup` |
+| How should common code call a platform capability, with what lifetime and completion contract? | `/kmp-boundaries` (beta) |
+| How does Xcode consume shared code, and what does Swift see? | `/kmp-ios-integration` |
+| How should shared screens, native UI interop and navigation ownership work? | `/compose-multiplatform-ui` |
+| How should the Ktor client handle engines, credentials, retries and HTTP errors? | `/kmp-ktor` (beta) |
+| Where should a test live and which existing task proves this change? | `/kmp-test-seams` |
+| How should the release artifact be verified, signed and published? | `/kmp-release-and-publish` |
+
+`/tdd` owns a test-first loop. `/kmp-test-seams` supplies platform placement and task discovery without requiring a new JVM target. Release CI consumes those selected checks; release/publish does not own a second test-task map.
+
+Module setup owns build mechanics. Boundaries owns the capability API. iOS integration owns the Swift/Xcode consumer. Compose owns UI behavior and preserves an existing shell unless the requested change requires different ownership.

@@ -1,0 +1,40 @@
+{
+  "task": "C",
+  "skill": "kmp-test-seams",
+  "recorded_at_utc": "2026-09-24T06:56:21.250744+00:00",
+  "model_identity": "Not exposed to this evaluator; no model identifier claimed.",
+  "consulted_files": [
+    {
+      "path": "/Users/hugues_mini/Codes/skills/.worktrees/feat/mobile-skills-upgrade/skills/house/mobile/kmp-test-seams/SKILL.md",
+      "sha256": "3f6195f8f993d3f8a5512f1bb72bd52677a4d4180e2b315ac67c72335c46e006"
+    }
+  ],
+  "questions_and_raw_answers": [
+    {
+      "question": "App has only Android+iOS, no JVM target; shared validation tests need a fast loop.",
+      "answer": "Put shared validation tests in commonTest with kotlin.test. Inspect existing plugins/targets/source sets and ./gradlew :<module>:tasks --all, then choose the cheapest configured Android host test task that exercises them, or the iOS simulator task. Do not add a standalone JVM target solely to obtain jvmTest. Report exactly which platform actually ran common tests."
+    },
+    {
+      "question": "New Android-KMP plugin module has no host-test tasks; what inspect/change/run?",
+      "answer": "Inspect installed plugin/API version and module test source sets. Android-KMP disables tests by default, so enable the host component: current DSL uses kotlin { android { withHostTest {} } }, while older versions use withHostTestBuilder. Match the installed API rather than blindly copying. Discover tasks with ./gradlew :<module>:tasks --all and run the actual module-qualified host test task, commonly :<module>:testAndroidHostTest. Keep shared tests in commonTest and Android-specific host tests in androidHostTest. Inspect the reports to establish that expected tests executed."
+    },
+    {
+      "question": "A biometric prompt actual changed but common fake tests pass; is that sufficient, which source set/task?",
+      "answer": "No. Common fakes do not exercise the real prompt actual or platform UI lifecycle. The platform is unspecified, so choose by the changed actual: Android prompt/device behavior belongs in instrumentation tests, androidDeviceTest for Android-KMP, using the discovered connected/device-managed task on a device/emulator; iOS binding/lifecycle behavior belongs in iosTest or the matching target test source set, with :<module>:iosSimulatorArm64Test on a capable macOS/Xcode/simulator setup. A host JVM test cannot establish device UI behavior. Report any unverified prompt behavior on the selected runtime."
+    },
+    {
+      "question": "Gradle reports NO-SOURCE for iosSimulatorArm64Test; what can the completion report claim?",
+      "answer": "It can report that the exact task was invoked and returned NO-SOURCE, but cannot claim that iOS tests executed or passed. Inspect the test source configuration and reports for expected tests, report the missing execution, and explicitly mark iOS behavior unverified. Distinguish this status from PASS, UP-TO-DATE and SKIPPED."
+    }
+  ],
+  "ambiguities_or_gaps": [
+    "SKILL.md, Discover and select tasks: older Android-KMP API builder names are provided but version-to-target-block mapping is not. Resolving the older androidLibrary versus current android block requires inspecting the installed API as instructed.",
+    "SKILL.md, test matrix: does not address whether biometric prompt behavior is supported by a particular simulator/device environment. Report scope and runtime limitations; the package cannot establish hardware-specific verification from fake tests."
+  ],
+  "limitations": [
+    "Standalone package retrieval only. No repository rules, issue contents, other skill contents, network sources, or application builds consulted.",
+    "Directory file names were enumerated for the three assigned directories; agents/openai.yaml files were not opened.",
+    "Read order was Task A package, Task B package, Task C package; answers use only their assigned package.",
+    "No platform code or Gradle tasks executed. Timestamp records evidence capture, not individual read instants."
+  ]
+}

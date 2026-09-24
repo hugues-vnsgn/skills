@@ -320,6 +320,24 @@ skills:
     domain: mobile
     audience: [engineer, qa]
     owner: "@hugues-vnsgn"
+  - name: tdd-kmp
+    path: skills/house/mobile/tdd-kmp
+    origin: fork
+    domain: mobile
+    audience: [engineer, qa]
+    owner: "@hugues-vnsgn"
+  - name: swiftui-expert-skill
+    path: skills/house/mobile/swiftui-expert-skill
+    origin: fork
+    domain: mobile
+    audience: [engineer, designer]
+    owner: "@hugues-vnsgn"
+  - name: uikit-expert
+    path: skills/house/mobile/uikit-expert
+    origin: fork
+    domain: mobile
+    audience: [engineer]
+    owner: "@hugues-vnsgn"
 
   # --- fork: platform ---
   - name: herdr
@@ -379,6 +397,12 @@ skills:
     status: beta
 
   # --- fork: discovery ---
+  - name: ddd
+    path: skills/house/discovery/ddd
+    origin: fork
+    domain: discovery
+    audience: [engineer, analyst, staff]
+    owner: "@hugues-vnsgn"
   - name: to-prd
     path: skills/house/discovery/to-prd
     origin: fork
@@ -418,11 +442,11 @@ skills:
     audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta
-  - name: ddd
-    path: skills/house/in-development/ddd
+  - name: ios-tdd-practitioner
+    path: skills/house/in-development/ios-tdd-practitioner
     origin: fork
     domain: in-development
-    audience: [engineer, analyst, staff]
+    audience: [engineer, qa]
     owner: "@hugues-vnsgn"
     status: beta
   - name: improve-claude-md

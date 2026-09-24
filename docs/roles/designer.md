@@ -1,6 +1,6 @@
 # Skills for designers
 
-Twelve skills, none of which require you to write Kotlin. They cover the three things design work keeps needing from an agent: something to react to, someone to argue with, and a way to get the thinking written down.
+Thirteen skills, none of which require you to write Kotlin. They cover the three things design work keeps needing from an agent: something to react to, someone to argue with, and a way to get the thinking written down.
 
 Every skill here is one whose `audience` names `designer` in [`.fork/catalog.yaml`](../../.fork/catalog.yaml), the single source of truth for who a skill is for. Each entry links to its docs page, or straight to `SKILL.md` where the skill has none (beta, `misc/`, `in-progress/`).
 
@@ -10,6 +10,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[prototype](../engineering/prototype.md)** _(auto)_: the fastest way to stop arguing about a UI in the abstract: several radically different variations, toggleable from one route, thrown away afterwards.
 - **[compose-multiplatform-ui](../house/mobile/compose-multiplatform-ui.md)** _(auto)_: what the shared UI layer can and cannot express, before you spec a screen against it: how resources, navigation, and SwiftUI/UIKit interop actually behave on both platforms.
+- **[swiftui-expert-skill](../house/mobile/swiftui-expert-skill.md)** _(auto)_: what native SwiftUI can express for adaptive layouts, accessibility, and platform-specific UI.
 
 ## Sharpen the idea
 

@@ -10,6 +10,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[grill-with-docs](../engineering/grill-with-docs.md)**: the workhorse. A relentless interview about the plan that writes the glossary and the decision records as it goes, so the understanding survives the session.
 - **[domain-modeling](../engineering/domain-modeling.md)** _(auto)_: reach for this the moment two people use one word for two things. It stress-tests the term against edge cases and records the winner.
+- **[ddd](../house/discovery/ddd.md)**: the whole domain rather than one term. It reads your workflow (or the code), finds the words used two ways, and returns a context map and a glossary after a few rounds of questions, each with a recommendation.
 - **[research](../engineering/research.md)** _(auto)_: a question of fact (a regulation, an API's real behaviour, what a competitor does) goes to a background agent and comes back as a cited file, not an opinion.
 
 ## Turn it into work

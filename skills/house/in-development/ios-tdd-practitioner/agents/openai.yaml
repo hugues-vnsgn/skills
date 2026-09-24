@@ -1,0 +1,4 @@
+interface:
+  display_name: "iOS TDD Practitioner"
+  short_description: "Swift TDD, XCTest scaffolds, and test quality audits"
+  default_prompt: "Use $ios-tdd-practitioner to implement this Swift behavior with focused XCTest tests and report validation."

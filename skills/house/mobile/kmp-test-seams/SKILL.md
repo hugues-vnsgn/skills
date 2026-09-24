@@ -5,7 +5,7 @@ description: Use when choosing a Kotlin Multiplatform test source set or the exi
 
 # KMP Test Seams
 
-Place the test where its dependencies are available, then run the cheapest configured task that exercises the changed behavior. Inspect the module plugins, declared targets and test source sets first. This supplies platform knowledge to any testing workflow; `tdd`, when installed, owns a test-first loop.
+Place the test where its dependencies are available, then run the cheapest configured task that exercises the changed behavior. Inspect the module plugins, declared targets and test source sets first. This supplies platform knowledge to any testing workflow; for the red-green loop in a KMP/CMP app, use `tdd-kmp`, or `tdd` where `tdd-kmp` is not installed.
 
 ## Place the test
 

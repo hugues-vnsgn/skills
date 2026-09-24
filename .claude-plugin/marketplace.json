@@ -14,6 +14,7 @@
     {
       "name": "discovery",
       "skills": [
+        "./skills/house/discovery/ddd",
         "./skills/house/discovery/to-prd"
       ]
     },
@@ -48,7 +49,10 @@
         "./skills/house/mobile/kmp-ktor",
         "./skills/house/mobile/kmp-module-setup",
         "./skills/house/mobile/kmp-release-and-publish",
-        "./skills/house/mobile/kmp-test-seams"
+        "./skills/house/mobile/kmp-test-seams",
+        "./skills/house/mobile/swiftui-expert-skill",
+        "./skills/house/mobile/tdd-kmp",
+        "./skills/house/mobile/uikit-expert"
       ]
     },
     {

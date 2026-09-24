@@ -60,7 +60,8 @@ lock_sha() { grep '^upstream_sha:' .fork/upstream.lock | awk '{print $2}'; }
 seed_none() { :; }
 
 # --- assertion 1: frozen upstream ---
-seed_upstream_drift() { echo "fork edit" >> skills/engineering/implement/SKILL.md; }
+# Must be an upstream file absent from sanctioned-edits.txt, or the drift is allowed.
+seed_upstream_drift() { echo "fork edit" >> skills/engineering/prototype/SKILL.md; }
 seed_fork_file_in_upstream_folder() {
   mkdir -p skills/engineering/rogue-skill
   printf -- '---\nname: rogue-skill\ndescription: x\n---\n' \

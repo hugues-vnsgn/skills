@@ -1,0 +1,3 @@
+interface:
+  display_name: "TDD KMP"
+  short_description: "Test-first KMP, Compose Multiplatform, and native UI"

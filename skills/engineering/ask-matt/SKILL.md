@@ -24,7 +24,7 @@ The route most work travels. You have an idea and want it built.
    - **Yes** → **`/to-spec`** (turn the thread into a spec), then **`/to-tickets`** to split it into tracer-bullet tickets, each declaring its **blocking edges**. On a local tracker that's one file per ticket under `.scratch/<feature>/issues/`, worked blockers-first by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed: kick off **`/implement`** per ticket, **`/clear`ing context between each one**. Each ticket is self-contained, so the last one's context is disposable.
    - **No** → **`/implement`** right here, in the same context window.
 
-   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/code-review`**, a two-axis review (Standards + Spec) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
+   **`/implement`** uses **`/tdd-kmp`** for KMP/CMP apps when installed; otherwise **`/tdd`** (with **`/kmp-test-seams`** for KMP/CMP). It then runs **`/code-review`** and commits. Use the TDD skills alone for one test-first behaviour, or `/code-review` alone to review a branch or PR.
 
    Where that building happens is **`/use-git-worktree`**: a worktree under `.worktrees/` on a `feat/` or `fix/` branch, so the main checkout keeps its branch and its uncommitted state. It is model-invoked and fires **per change rather than per step**, so it lands here only because this is where code first gets written; it applies just as much to a fix that arrives through `/diagnosing-bugs` or a refactor nobody wrote a ticket for. One-line and single-file edits skip it, and so does any change you have said to make on the current branch.
 
@@ -54,6 +54,8 @@ A starting situation that generates work, then merges onto the main flow.
 
   **Adapt, don't transplant** is the whole discipline: what crosses over is the approach, not the expression, because the source's dependency graph, error convention and platform assumptions are not yours. Reach for **`/research`** instead when you want to understand another codebase with no intention of building from it.
 
+- **A domain to model: an idea whose words are still loose, or a codebase whose boundaries need redrawing** → **`/ddd`**. It reads before it asks (the code, or your own account of one workflow), then settles subdomains, bounded contexts, and each context's language in a few rounds, returning a context map and a glossary it lands through **`/domain-modeling`**. It designs, it doesn't build: merge onto the main flow at **`/to-prd`** for initiative-scale work, or **`/to-spec`** otherwise. For one term or one ADR, **`/domain-modeling`** alone is enough.
+
 ## Codebase health
 
 Not feature work, just upkeep.
@@ -70,7 +72,7 @@ Two model-invoked references that run *beneath* the other skills, each the singl
 
 ## Platform knowledge
 
-Seven model-invoked references supply **Kotlin Multiplatform / Compose Multiplatform** knowledge as the work needs it: `/kmp-module-setup` for build configuration, `/kmp-boundaries` (beta) for capability contracts, `/kmp-ios-integration` for Xcode and Swift APIs, `/compose-multiplatform-ui` for UI, `/kmp-ktor` (beta) for HTTP clients, `/kmp-test-seams` for test placement and task selection, and `/kmp-release-and-publish` for release artifacts and publication. They support the workflow rather than replacing its steps.
+Nine model-invoked references supply mobile platform knowledge as the work needs it: `/kmp-module-setup` for build configuration, `/kmp-boundaries` (beta) for capability contracts, `/kmp-ios-integration` for Xcode and Swift APIs, `/compose-multiplatform-ui` for shared UI, `/swiftui-expert-skill` and `/uikit-expert` for native iOS screens, `/kmp-ktor` (beta) for HTTP clients, `/kmp-test-seams` for test placement and task selection, and `/kmp-release-and-publish` for release artifacts and publication. They sit beneath the flow, while `/tdd-kmp` drives its KMP/CMP test-first step. Reach for `/kmp-test-seams` alone when the question is just source-set placement or Gradle task choice.
 
 Read [references/platform-knowledge.md](references/platform-knowledge.md) for what each one covers.
 

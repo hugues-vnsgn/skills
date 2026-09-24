@@ -391,6 +391,12 @@ skills:
     status: beta
 
   # --- fork: discovery ---
+  - name: ddd
+    path: skills/house/discovery/ddd
+    origin: fork
+    domain: discovery
+    audience: [engineer, analyst, staff]
+    owner: "@hugues-vnsgn"
   - name: to-prd
     path: skills/house/discovery/to-prd
     origin: fork
@@ -428,13 +434,6 @@ skills:
     origin: fork
     domain: in-development
     audience: [engineer]
-    owner: "@hugues-vnsgn"
-    status: beta
-  - name: ddd
-    path: skills/house/in-development/ddd
-    origin: fork
-    domain: in-development
-    audience: [engineer, analyst, staff]
     owner: "@hugues-vnsgn"
     status: beta
   - name: improve-claude-md

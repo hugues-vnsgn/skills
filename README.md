@@ -87,6 +87,7 @@ House skills for the phase before the spec, turning an idea into documents a CEO
 
 **User-invoked**
 
+- **[ddd](./skills/house/discovery/ddd/SKILL.md)**: Run a domain-driven design session on an idea or an existing repo. It crunches what the project already knows, settles the rest in rounds of questions with a recommendation on each, and returns a context map and a glossary, plus aggregates and events if you go deep.
 - **[to-prd](./skills/house/discovery/to-prd/SKILL.md)**: Turn the current conversation into a Product Requirements Document, covering why it's worth building, for whom, and what success looks like. Synthesis first, one batched round of questions for the decisions only you can make; saved in the repo, linked from the tracker.
 
 ### Mobile

@@ -105,6 +105,12 @@ This is a one-line divergence on purpose. MIT requires that "the above copyright
 
 **Recipe:** keep both; then re-read [`ask-matt`](../skills/engineering/ask-matt/SKILL.md) and confirm every fork skill still appears and every upstream skill it routes to still exists under that name.
 
+### `skills/engineering/implement/SKILL.md`: mobile TDD routing
+
+**Why:** the fork's KMP/CMP implementation flow uses the promoted `tdd-kmp` at the affected platform layer rather than the upstream `tdd`. Selective installs may omit it, so the route falls back to `tdd` with `kmp-test-seams` when absent.
+
+**Recipe:** keep upstream's implementation workflow, then restore the conditional mobile TDD route without changing its review or commit steps.
+
 ### `skills/engineering/ask-matt/references/`: the router's long-form detail
 
 Affected: `skills/engineering/ask-matt/PHASE-BOUNDARIES.md` (deleted), `references/phase-boundaries.md` and `references/platform-knowledge.md` (added).
@@ -119,6 +125,6 @@ Recorded so a future maintainer doesn't re-create one by reflex.
 
 ### `skills/engineering/tdd/SKILL.md`: KMP section appended (retired 2026-08-13)
 
-Upstream's `tdd` skill carried a fork-appended `## Kotlin Multiplatform projects` section: seams in `commonMain`, tests in `commonTest`, and the cheapest Gradle task that proves a slice. That guidance now lives in [`skills/house/mobile/kmp-test-seams/`](../skills/house/mobile/kmp-test-seams/SKILL.md), which cross-references `tdd` by name, and upstream's file is byte-identical again, so the path is gone from [`sanctioned-edits.txt`](./sanctioned-edits.txt) and a sync can never conflict there.
+Upstream's `tdd` skill carried a fork-appended `## Kotlin Multiplatform projects` section: seams in `commonMain`, tests in `commonTest`, and the cheapest Gradle task that proves a slice. That guidance now lives in [`skills/house/mobile/kmp-test-seams/`](../skills/house/mobile/kmp-test-seams/SKILL.md), while [`tdd-kmp`](../skills/house/mobile/tdd-kmp/SKILL.md) owns the mobile loop. Upstream's file is byte-identical again, so the path is gone from [`sanctioned-edits.txt`](./sanctioned-edits.txt) and a sync cannot conflict there.
 
 **If upstream's `tdd` skill grows KMP guidance of its own,** reconcile it into `kmp-test-seams` rather than appending here: an in-file append is the divergence this retirement removed.

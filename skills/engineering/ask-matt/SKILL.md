@@ -24,7 +24,7 @@ The route most work travels. You have an idea and want it built.
    - **Yes** → **`/to-spec`** (turn the thread into a spec), then **`/to-tickets`** to split it into tracer-bullet tickets, each declaring its **blocking edges**. On a local tracker that's one file per ticket under `.scratch/<feature>/issues/`, worked blockers-first by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed: kick off **`/implement`** per ticket, **`/clear`ing context between each one**. Each ticket is self-contained, so the last one's context is disposable.
    - **No** → **`/implement`** right here, in the same context window.
 
-   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/code-review`**, a two-axis review (Standards + Spec) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
+   **`/implement`** uses **`/tdd-kmp`** for KMP/CMP apps when installed; otherwise **`/tdd`** (with **`/kmp-test-seams`** for KMP/CMP). It then runs **`/code-review`** and commits. Use the TDD skills alone for one test-first behaviour, or `/code-review` alone to review a branch or PR.
 
    Where that building happens is **`/use-git-worktree`**: a worktree under `.worktrees/` on a `feat/` or `fix/` branch, so the main checkout keeps its branch and its uncommitted state. It is model-invoked and fires **per change rather than per step**, so it lands here only because this is where code first gets written; it applies just as much to a fix that arrives through `/diagnosing-bugs` or a refactor nobody wrote a ticket for. One-line and single-file edits skip it, and so does any change you have said to make on the current branch.
 
@@ -70,7 +70,7 @@ Two model-invoked references that run *beneath* the other skills, each the singl
 
 ## Platform knowledge
 
-Seven model-invoked references for mobile codebases: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/swiftui-expert-skill`, `/uikit-expert`, `/kmp-test-seams`, and `/kmp-release-and-publish`. Five cover Kotlin Multiplatform / Compose Multiplatform; `/swiftui-expert-skill` covers native SwiftUI screens and `/uikit-expert` covers native UIKit screens after the iOS shell decision. They run *beneath* the flow rather than as a step in it: the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
+Seven model-invoked references cover mobile platform questions: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/swiftui-expert-skill`, `/uikit-expert`, `/kmp-test-seams`, and `/kmp-release-and-publish`. They sit beneath the flow, while `/tdd-kmp` drives its KMP/CMP test-first step. Reach for `/kmp-test-seams` alone when the question is just source-set placement or Gradle task choice.
 
 Read [references/platform-knowledge.md](references/platform-knowledge.md) for what each one covers.
 

@@ -49,7 +49,8 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 ## Mobile: Kotlin Multiplatform, Compose, and SwiftUI
 
 - **[kmp-module-setup](../house/mobile/kmp-module-setup.md)** _(auto)_: targets, source sets, the version catalog, and the `expect`/`actual`-vs-interface call.
-- **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_: where a test lives (`commonTest` vs a platform source set) and the cheapest Gradle task that proves the slice. Sits underneath `/tdd`, not instead of it.
+- **[tdd-kmp](../house/mobile/tdd-kmp.md)** _(auto)_: red-green-refactor for KMP/CMP features and bug fixes, testing at the layer that owns the behavior.
+- **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_: quick lookup for test source sets and the Gradle task that proves a slice green.
 - **[compose-multiplatform-ui](../house/mobile/compose-multiplatform-ui.md)** _(auto)_: shared UI: entry points per platform, resources, navigation and ViewModel in common code, SwiftUI/UIKit interop.
 - **[swiftui-expert-skill](../house/mobile/swiftui-expert-skill.md)** _(auto)_: native SwiftUI state, adaptive layout, accessibility, API migration, and Instruments trace diagnosis. Use after the shared-vs-native shell decision.
 - **[uikit-expert](../house/mobile/uikit-expert.md)** _(auto)_: native UIKit lifecycle, Auto Layout, collection views, navigation, accessibility, and SwiftUI interop.

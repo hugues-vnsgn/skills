@@ -1,6 +1,6 @@
 # Skills for QA engineers
 
-Thirteen skills covering the quality loop: what a test is worth, where it lives, what happens when something breaks, and how a build reaches you. Read in order the first time.
+Fourteen skills covering the quality loop: what a test is worth, where it lives, what happens when something breaks, and how a build reaches you. Read in order the first time.
 
 Every skill here is one whose `audience` names `qa` in [`.fork/catalog.yaml`](../../.fork/catalog.yaml), the single source of truth for who a skill is for. Each entry links to its docs page, or straight to `SKILL.md` where the skill has none (beta, `misc/`, `in-progress/`).
 
@@ -9,7 +9,8 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 ## The loop
 
 - **[tdd](../engineering/tdd.md)** _(auto)_: red-green-refactor, one vertical slice at a time. It owns the loop and the standard for what makes a test worth keeping.
-- **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_: on a Kotlin Multiplatform repo, the two questions `/tdd` cannot answer: does this test belong in `commonTest` or a platform source set, and which Gradle task actually proves the slice green.
+- **[tdd-kmp](../house/mobile/tdd-kmp.md)** _(auto)_: test-first features and regressions across shared Kotlin, Android, and SwiftUI; the red and green must run on the affected target.
+- **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_: quick lookup for source-set placement and the Gradle task that proves a slice green.
 - **[code-review](../engineering/code-review.md)** _(auto)_: review a diff on two axes at once: standards, and whether it does what the originating ticket asked. The second axis is the one that catches shipped-but-wrong.
 - **[do-test](../../skills/house/quality/do-test/SKILL.md)** _(auto)_: verify a feature or a bug fix: derive a test matrix, run it, read every surface, and report a SHIP/BLOCKED/UNVERIFIED verdict backed by evidence. Beta.
 

@@ -2,7 +2,7 @@
 
 # Skill catalog
 
-Every skill in this repo: 61 total — 37 upstream, 24 fork-authored.
+Every skill in this repo: 63 total — 37 upstream, 26 fork-authored.
 
 `Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this repo). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
@@ -53,6 +53,7 @@ Every skill in this repo: 61 total — 37 upstream, 24 fork-authored.
 | [kmp-release-and-publish](skills/house/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
 | [kmp-test-seams](skills/house/mobile/kmp-test-seams/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
 | [swiftui-expert-skill](skills/house/mobile/swiftui-expert-skill/SKILL.md) | fork | mobile | engineer, designer | @hugues-vnsgn |
+| [tdd-kmp](skills/house/mobile/tdd-kmp/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
 | [uikit-expert](skills/house/mobile/uikit-expert/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
 | [herdr](skills/house/platform/herdr/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
 | [port-from-repo](skills/house/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
@@ -68,4 +69,5 @@ Every skill in this repo: 61 total — 37 upstream, 24 fork-authored.
 | [bro](skills/house/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
 | [ddd](skills/house/in-development/ddd/SKILL.md) _(beta)_ | fork | in-development | engineer, analyst, staff | @hugues-vnsgn |
 | [improve-claude-md](skills/house/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
+| [ios-tdd-practitioner](skills/house/in-development/ios-tdd-practitioner/SKILL.md) _(beta)_ | fork | in-development | engineer, qa | @hugues-vnsgn |
 | [show-me](skills/house/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |

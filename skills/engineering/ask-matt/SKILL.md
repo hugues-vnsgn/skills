@@ -54,6 +54,8 @@ A starting situation that generates work, then merges onto the main flow.
 
   **Adapt, don't transplant** is the whole discipline: what crosses over is the approach, not the expression, because the source's dependency graph, error convention and platform assumptions are not yours. Reach for **`/research`** instead when you want to understand another codebase with no intention of building from it.
 
+- **A domain to model: an idea whose words are still loose, or a codebase whose boundaries need redrawing** → **`/ddd`**. It reads before it asks (the code, or your own account of one workflow), then settles subdomains, bounded contexts, and each context's language in a few rounds, returning a context map and a glossary it lands through **`/domain-modeling`**. It designs, it doesn't build: merge onto the main flow at **`/to-prd`** for initiative-scale work, or **`/to-spec`** otherwise. For one term or one ADR, **`/domain-modeling`** alone is enough.
+
 ## Codebase health
 
 Not feature work, just upkeep.

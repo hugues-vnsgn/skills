@@ -23,6 +23,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[codebase-design](../engineering/codebase-design.md)** _(auto)_: the shared vocabulary: deep modules, seams, what belongs behind an interface. Adopt it and reviews stop being taste arguments.
 - **[improve-codebase-architecture](../engineering/improve-codebase-architecture.md)**: periodic maintenance: scan the codebase for deepening opportunities, get an HTML report, grill through the one you pick.
+- **[ddd](../house/discovery/ddd.md)**: redraw the boundaries. It crunches the code, names the fractures, and returns today's context map beside the target, with an integration pattern on every edge.
 - **[when-stuck](../../skills/house/platform/when-stuck/SKILL.md)** _(auto)_ gives five moves for a design that will not resolve: inversion, the scale game, the simplification cascade, meta-pattern, collision. For design stuck-ness only; a bug goes to `/diagnosing-bugs`.
 - **[domain-modeling](../engineering/domain-modeling.md)** _(auto)_: pin down a term the team is using two ways, and record the decision where the next person will find it.
 - **[research](../engineering/research.md)** _(auto)_: delegate the reading to a background agent; get back cited primary sources instead of a plausible answer.

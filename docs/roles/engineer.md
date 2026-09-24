@@ -17,6 +17,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[ask-matt](../engineering/ask-matt.md)**: you are lost, or unsure which of these fits. Start here and it routes you.
 - **[grill-with-docs](../engineering/grill-with-docs.md)**: the interview that hardens a vague plan into a decided one, writing the glossary and ADRs as it goes.
+- **[ddd](../house/discovery/ddd.md)**: the plan is a domain, not a feature: a codebase whose boundaries need redrawing, or an idea whose words are still loose. It reads first, settles contexts and language in a few rounds, and hands the glossary to `/domain-modeling`.
 - **[to-spec](../engineering/to-spec.md)**: the conversation is decided; turn it into a spec on the tracker. It does not re-interview you.
 - **[to-tickets](../engineering/to-tickets.md)**: break the spec into tracer-bullet tickets with their blocking edges declared.
 - **[use-git-worktree](../house/platform/use-git-worktree.md)** _(auto)_: before the first edit lands, the change gets its own worktree under `.worktrees/` on a `feat/` or `fix/` branch, so the main checkout keeps its branch and its uncommitted state.

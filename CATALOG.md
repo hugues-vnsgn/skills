@@ -63,11 +63,11 @@ Every skill in this repo: 63 total — 37 upstream, 26 fork-authored.
 | [when-stuck](skills/house/platform/when-stuck/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
 | [cook](skills/house/delivery/cook/SKILL.md) _(beta)_ | fork | delivery | engineer | @hugues-vnsgn |
 | [project-organization](skills/house/delivery/project-organization/SKILL.md) _(beta)_ | fork | delivery | engineer, staff | @hugues-vnsgn |
+| [ddd](skills/house/discovery/ddd/SKILL.md) | fork | discovery | engineer, analyst, staff | @hugues-vnsgn |
 | [to-prd](skills/house/discovery/to-prd/SKILL.md) | fork | discovery | analyst, staff | @hugues-vnsgn |
 | [do-test](skills/house/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @hugues-vnsgn |
 | [unslop](skills/house/writing/unslop/SKILL.md) | fork | writing | engineer, analyst, staff | @hugues-vnsgn |
 | [bro](skills/house/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
-| [ddd](skills/house/in-development/ddd/SKILL.md) _(beta)_ | fork | in-development | engineer, analyst, staff | @hugues-vnsgn |
 | [improve-claude-md](skills/house/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
 | [ios-tdd-practitioner](skills/house/in-development/ios-tdd-practitioner/SKILL.md) _(beta)_ | fork | in-development | engineer, qa | @hugues-vnsgn |
 | [show-me](skills/house/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |

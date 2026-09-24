@@ -32,7 +32,7 @@ The word the skill gives you to think with is **flow**: a path *through* the ski
 - **Codebase health**, for maintenance rather than feature work: finding architectural opportunities or reviewing a completed coding session for improvements to the agent's environment.
 - **Standalones**, off every flow, reached for on their own terms: the prototype, the questionnaire, the merge conflict you are already sitting in.
 - **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
-- **A platform-knowledge layer underneath**, five Kotlin Multiplatform / Compose Multiplatform references the implementation skills reach for when the platform rather than the process is the problem. One of them, test-seams, sits directly under the TDD loop, deciding where the seam goes and which Gradle task proves it; another, release-and-publish, sits at ship time and owns the full task map.
+- **A platform-knowledge layer underneath**, five Kotlin Multiplatform / Compose Multiplatform references plus native SwiftUI and UIKit references. Use the native references for screens owned by those frameworks after choosing the iOS shell; test-seams sits directly under the TDD loop, deciding where the seam goes and which Gradle task proves it, while release-and-publish owns the ship-time task map.
 
 ## The phase boundary
 

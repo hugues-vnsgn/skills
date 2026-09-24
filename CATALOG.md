@@ -2,7 +2,7 @@
 
 # Skill catalog
 
-Every skill in this repo: 59 total — 37 upstream, 22 fork-authored.
+Every skill in this repo: 61 total — 37 upstream, 24 fork-authored.
 
 `Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this repo). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
@@ -52,6 +52,8 @@ Every skill in this repo: 59 total — 37 upstream, 22 fork-authored.
 | [kmp-module-setup](skills/house/mobile/kmp-module-setup/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
 | [kmp-release-and-publish](skills/house/mobile/kmp-release-and-publish/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
 | [kmp-test-seams](skills/house/mobile/kmp-test-seams/SKILL.md) | fork | mobile | engineer, qa | @hugues-vnsgn |
+| [swiftui-expert-skill](skills/house/mobile/swiftui-expert-skill/SKILL.md) | fork | mobile | engineer, designer | @hugues-vnsgn |
+| [uikit-expert](skills/house/mobile/uikit-expert/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |
 | [herdr](skills/house/platform/herdr/SKILL.md) _(beta)_ | fork | platform | engineer, staff | @hugues-vnsgn |
 | [port-from-repo](skills/house/platform/port-from-repo/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |
 | [setup-osxsystem-skills](skills/house/platform/setup-osxsystem-skills/SKILL.md) | fork | platform | engineer, staff | @hugues-vnsgn |

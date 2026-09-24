@@ -91,13 +91,15 @@ House skills for the phase before the spec, turning an idea into documents a CEO
 
 ### Mobile
 
-House skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift). Fork addition, see [skills/house/mobile/README.md](./skills/house/mobile/README.md).
+House skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift), plus native SwiftUI/UIKit. Fork addition, see [skills/house/mobile/README.md](./skills/house/mobile/README.md).
 
 **Model-invoked**
 
 - **[kmp-module-setup](./skills/house/mobile/kmp-module-setup/SKILL.md)**: Scaffold or audit a shared KMP module: targets, source-set hierarchy, version catalog (Kotlin/AGP/CMP pinned together), framework block, expect/actual vs interfaces + DI.
 - **[kmp-ios-integration](./skills/house/mobile/kmp-ios-integration/SKILL.md)**: Connect the shared framework to Xcode: direct vs CocoaPods vs SPM vs KMMBridge, setup checklists, and a Swift-facing API review checklist (@Throws, sealed classes, coroutines, SKIE).
 - **[compose-multiplatform-ui](./skills/house/mobile/compose-multiplatform-ui/SKILL.md)**: Shared Compose UI: the full-Compose vs native SwiftUI shell decision, per-platform entry points, composeResources/Res, Navigation and ViewModel in common code, SwiftUI/UIKit interop both directions, iOS performance and accessibility.
+- **[swiftui-expert-skill](./skills/house/mobile/swiftui-expert-skill/SKILL.md)**: Native SwiftUI implementation and review: state and `@Observable` data flow, view composition, adaptive layout, accessibility, API migration, and Instruments trace capture/analysis.
+- **[uikit-expert](./skills/house/mobile/uikit-expert/SKILL.md)**: Native UIKit implementation and review: view-controller lifecycle, Auto Layout, collection views, navigation, memory, concurrency, accessibility, and SwiftUI interop.
 - **[kmp-release-and-publish](./skills/house/mobile/kmp-release-and-publish/SKILL.md)**: Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
 - **[kmp-test-seams](./skills/house/mobile/kmp-test-seams/SKILL.md)**: The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green.
 
@@ -134,10 +136,11 @@ skills/
 ├── in-progress/          #   and enforced by CI (scripts/harness/forkcheck.py)
 ├── deprecated/
 │
-└── team/                 # ═══ FORK — upstream never writes here ═══
-    ├── mobile/           #   KMP/CMP skills: kmp-module-setup, kmp-ios-integration,
-    │                     #   compose-multiplatform-ui, kmp-release-and-publish,
-    │                     #   kmp-test-seams
+└── house/                # ═══ FORK — upstream never writes here ═══
+    ├── mobile/           #   KMP/CMP and native iOS UI: kmp-module-setup,
+    │                     #   kmp-ios-integration, compose-multiplatform-ui,
+    │                     #   swiftui-expert-skill, uikit-expert,
+    │                     #   kmp-release-and-publish, kmp-test-seams
     └── platform/         #   toolchain skills: setup-osxsystem-skills,
                           #   port-from-repo, when-stuck (beta)
                           #   (design/, discovery/, quality/ are created when

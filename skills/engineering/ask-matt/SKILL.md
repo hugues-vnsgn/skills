@@ -70,7 +70,7 @@ Two model-invoked references that run *beneath* the other skills, each the singl
 
 ## Platform knowledge
 
-Five model-invoked references for when the codebase is **Kotlin Multiplatform / Compose Multiplatform**: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/kmp-test-seams`, `/kmp-release-and-publish`. Like the vocabulary layer, they run *beneath* the flow rather than as a step in it: the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
+Seven model-invoked references for mobile codebases: `/kmp-module-setup`, `/kmp-ios-integration`, `/compose-multiplatform-ui`, `/swiftui-expert-skill`, `/uikit-expert`, `/kmp-test-seams`, and `/kmp-release-and-publish`. Five cover Kotlin Multiplatform / Compose Multiplatform; `/swiftui-expert-skill` covers native SwiftUI screens and `/uikit-expert` covers native UIKit screens after the iOS shell decision. They run *beneath* the flow rather than as a step in it: the model reaches for them as the work demands, and `/kmp-test-seams` is the one that sits directly under a flow step, supplying `/tdd` with the platform half of the loop. Reach for them directly when the **platform**, not the process, is what you're stuck on.
 
 Read [references/platform-knowledge.md](references/platform-knowledge.md) for what each one covers.
 

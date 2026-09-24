@@ -14,7 +14,8 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 - **[swiftui-expert-skill](./swiftui-expert-skill/SKILL.md)**: Native SwiftUI implementation and review: state and `@Observable` data flow, view composition, adaptive layout, accessibility, API migration, and Instruments trace capture/analysis.
 - **[uikit-expert](./uikit-expert/SKILL.md)**: Native UIKit implementation and review: view-controller lifecycle, Auto Layout, collection views, navigation, memory, concurrency, accessibility, and SwiftUI interop.
 - **[kmp-release-and-publish](./kmp-release-and-publish/SKILL.md)**: Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching, test task map.
-- **[kmp-test-seams](./kmp-test-seams/SKILL.md)**: The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green. The loop itself stays with the `tdd` skill.
+- **[kmp-test-seams](./kmp-test-seams/SKILL.md)**: Quick lookup for `commonTest` vs platform source sets and the Gradle task that proves a slice green.
+- **[tdd-kmp](./tdd-kmp/SKILL.md)**: Red-green-refactor for KMP/CMP apps, from shared rules to Android and SwiftUI, with per-platform test evidence.
 
 ## Beta
 

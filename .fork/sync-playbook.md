@@ -149,6 +149,7 @@ The complete set of paths where upstream and this fork can both write, the sync-
 | Hardened git guardrail | `skills/misc/git-guardrails-claude-code/` | both modified | [Keep both](./divergence.md#skillsmiscgit-guardrails-claude-code--hardened), then re-run `bash scripts/harness/test_guardrail.sh`, because the tests are the arbiter, not the diff |
 | Released changeset re-edited | `.changeset/<name>.md` | modify/delete | [Keep the deletion](./divergence.md#additions-sync-inert) (`git rm --ignore-unmatch`): the fork consumed it with `changeset version`, so its content already sits in `CHANGELOG.md`. Restoring it re-releases shipped work |
 | Router and cross-references | `skills/engineering/{ask-matt,code-review,to-spec,to-tickets,triage,wayfinder}/SKILL.md` | both modified | [Keep both](./divergence.md#skillsengineeringask-mattcode-reviewto-specto-ticketstriagewayfinderskillmd), then re-read `ask-matt` and confirm every fork skill still appears and every upstream skill it routes to still exists under that name |
+| Mobile implementation routing | `skills/engineering/implement/SKILL.md` | both modified | [Keep upstream's workflow and restore the KMP/CMP TDD branch](./divergence.md#skillsengineeringimplementskillmd-mobile-tdd-routing), with the fallback for selective installs without `tdd-kmp` |
 
 Everything else the fork owns, meaning `skills/house/`, `docs/house/`, `docs/roles/`, `research/`, `.fork/`, the harness, `MAINTENANCE.md`, `CUSTOMIZING.md`, is sync-inert. Upstream has never written those paths, so a merge cannot conflict there; they need only to survive, which `forkcheck` confirms.
 
@@ -164,4 +165,4 @@ To promote, leave the bytes alone and change how the skill is described:
 2. `python3 scripts/generate-catalog.py` to refresh `CATALOG.md`.
 3. Add it to each `docs/roles/<audience>.md` page in the right reading position, because the role pages are the promotion.
 
-If the fork needs *different behaviour*, that is not a promotion: write a fork skill under `skills/house/<domain>/` that cross-references the upstream skill by name, exactly as `kmp-test-seams` does with `tdd`. That is the pattern the retired TDD append was converted into.
+If the fork needs *different behaviour*, that is not a promotion: write a fork skill under `skills/house/<domain>/` rather than appending to upstream's skill, as the mobile TDD flow does with `tdd-kmp`.

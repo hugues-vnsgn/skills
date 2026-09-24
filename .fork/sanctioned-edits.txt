@@ -58,6 +58,7 @@ skills/engineering/ask-matt/SKILL.md
 skills/engineering/ask-matt/references/phase-boundaries.md
 skills/engineering/ask-matt/references/platform-knowledge.md
 skills/engineering/code-review/SKILL.md
+skills/engineering/implement/SKILL.md
 skills/engineering/to-spec/SKILL.md
 skills/engineering/to-tickets/SKILL.md
 skills/engineering/triage/SKILL.md

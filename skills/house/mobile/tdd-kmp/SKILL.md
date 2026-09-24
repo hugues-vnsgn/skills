@@ -1,8 +1,6 @@
 ---
 name: tdd-kmp
 description: Test-driven development in Kotlin Multiplatform and Compose Multiplatform mobile apps, including native Android and SwiftUI consumers. Use for test-first features, a regression test before a bug fix, or red-green-refactor in a KMP repo; skip it when the request only verifies existing behavior.
-metadata:
-  internal: true
 ---
 
 # Mobile TDD

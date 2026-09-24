@@ -103,6 +103,7 @@ House skills for Kotlin Multiplatform + Compose Multiplatform development (Andro
 - **[uikit-expert](./skills/house/mobile/uikit-expert/SKILL.md)**: Native UIKit implementation and review: view-controller lifecycle, Auto Layout, collection views, navigation, memory, concurrency, accessibility, and SwiftUI interop.
 - **[kmp-release-and-publish](./skills/house/mobile/kmp-release-and-publish/SKILL.md)**: Ship it: Android release with R8 over shared code, iOS archive/TestFlight (privacy manifest, dSYMs), Maven Central via the Central Portal, CI runner split with konan caching.
 - **[kmp-test-seams](./skills/house/mobile/kmp-test-seams/SKILL.md)**: The platform layer under the red-green loop: seams in `commonMain`, `commonTest` vs `androidHostTest`/`iosTest`, and the cheapest Gradle task that proves a slice green.
+- **[tdd-kmp](./skills/house/mobile/tdd-kmp/SKILL.md)**: Test-first KMP/CMP changes across shared Kotlin, Android, and SwiftUI with a red-to-green test on each affected target.
 
 ### Platform
 
@@ -141,7 +142,7 @@ skills/
     ├── mobile/           #   KMP/CMP and native iOS UI: kmp-module-setup,
     │                     #   kmp-ios-integration, compose-multiplatform-ui,
     │                     #   swiftui-expert-skill, uikit-expert,
-    │                     #   kmp-release-and-publish, kmp-test-seams
+    │                     #   kmp-release-and-publish, kmp-test-seams, tdd-kmp
     └── platform/         #   toolchain skills: setup-osxsystem-skills,
                           #   port-from-repo, when-stuck (beta)
                           #   (design/, discovery/, quality/ are created when

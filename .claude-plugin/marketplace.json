@@ -51,6 +51,7 @@
         "./skills/house/mobile/kmp-release-and-publish",
         "./skills/house/mobile/kmp-test-seams",
         "./skills/house/mobile/swiftui-expert-skill",
+        "./skills/house/mobile/tdd-kmp",
         "./skills/house/mobile/uikit-expert"
       ]
     },

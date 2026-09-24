@@ -1,6 +1,8 @@
 ---
 name: ios-tdd-practitioner
 description: Implement Swift/iOS behavior with test-driven development, reproduce bugs with XCTest, and refactor legacy code under characterization tests. Use for feature changes, testable SDK or network integrations, and test-quality reviews; skip prose-only edits and generated declarations without behavior.
+metadata:
+  internal: true
 ---
 
 # iOS TDD Practitioner

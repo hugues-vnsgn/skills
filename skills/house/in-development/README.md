@@ -6,8 +6,8 @@ Every skill here carries `metadata.internal: true`, so none reaches the installe
 
 - **[bro](./bro/SKILL.md)**: Restate the last message in plain human language, with no jargon. User-invoked.
 - **[improve-claude-md](./improve-claude-md/SKILL.md)**: Improve a `CLAUDE.md` using `<important if>` blocks to raise instruction adherence.
+- **[ios-tdd-practitioner](./ios-tdd-practitioner/SKILL.md)**: Test-first Swift/iOS behavior, XCTest regressions, and characterization of legacy code.
 - **[show-me](./show-me/SKILL.md)**: Draw the current topic as the smallest true picture, then show the smaller shape it exposes.
-- **[tdd-kmp](./tdd-kmp/SKILL.md)**: Test-first KMP and Compose Multiplatform mobile changes, including native Android and SwiftUI consumers.
 
 ## Shipping checklist
 

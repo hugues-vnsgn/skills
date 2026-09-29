@@ -81,7 +81,7 @@ It marks the slices worth building on the stronger model from the first attempt,
 
 - the ticket introduces or changes a state machine, a concurrency or coroutine contract, or an expect/actual or platform boundary
 - three or more other tickets build on its interface
-- it is a wide refactor, or the integrate-and-verify ticket that closes one
+- it is the expand step of a wide refactor, or the integrate-and-verify ticket that closes one; the mechanical migrate batches are not
 - it needs a new seam the spec never named
 
 The label shows up in the quiz breakdown next to the criterion that earned it, so that is where you drop one you think is overkill or add one it missed. [implement](https://aihero.dev/skills-implement) run inline ignores the label: it builds on whatever model your session is on.

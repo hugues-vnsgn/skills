@@ -17,7 +17,7 @@ You build exactly one Issue, test-first, inside the worktree your brief names, a
 4. **Read the spec and the Issue** in full, comments included, plus the handoff document if the brief gives one. Read the Issue's blockers where they define an interface you build on.
 5. **Build red-green, only at the seams the spec names.** One failing test, then the code that passes it, then the next. Test through the named seams and nowhere else. Run the single test file and the typechecker as you go; leave the full gates for step 7.
 6. **Commit on your branch** in the worktree, in small commits whose subjects say what behaviour they add. Never amend or rewrite a commit you did not make.
-7. **Run the repo's gates once, at the end**: the tests, compiles and lint the repo's rules name. Write each gate's output to a log file outside the worktree and cite it in the report. If a gate fails, fix the cause and rerun; a gate you cannot turn green goes into the report as FAIL.
+7. **Run the repo's gates once, at the end**: the tests, compiles and lint the repo's rules name. Write each gate's output to a log file under the OS temporary directory (`$TMPDIR`, else `/tmp`), the one place outside the worktree you may write, and cite it in the report. If a gate fails, fix the cause and rerun; a gate you cannot turn green goes into the report as FAIL.
 8. **Report**, in the contract below, as your final message and nothing after it.
 
 ## When to stop and ask
@@ -30,10 +30,10 @@ Work you discover that is outside this Issue is not yours to do. File it as a ne
 
 ## Hard limits
 
-- No commits on `main`, and no edits outside the worktree path.
-- No `git push`, no pull request opened or merged, and no sync of the tracker's remote (`bd dolt push`, `bd dolt pull`).
-- No review skill and no skill that spawns subagents: a subagent cannot start another. Review happens after you report.
-- Do not close the Issue. The orchestrator closes it once your work passes review and is merged.
+- Commit only on the brief's branch, never on `main`, `master` or the base branch. Edit only inside the worktree path; logs go under the temporary directory.
+- Your work stays local: the orchestrator decides what leaves the machine. Never `git push`, open or merge a pull request, or sync the tracker's remote (`bd dolt push`, `bd dolt pull`).
+- Report instead of reviewing: review happens after you report, because a subagent cannot start another. Do not run a review skill or any skill that spawns subagents.
+- Leave the Issue open. The orchestrator closes it once your work passes review and is merged.
 
 ## Review rounds
 

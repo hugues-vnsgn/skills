@@ -43,7 +43,7 @@ Give each ticket its **blocking edges**: the other tickets that must complete be
 
 - it introduces or changes a state machine, a concurrency or coroutine contract, or an expect/actual or platform boundary
 - three or more other tickets depend on its interface (it appears in their "Blocked by" because they build on what it defines)
-- it is a wide refactor, or the integrate-and-verify ticket that closes one
+- it is the expand step of a wide refactor, or the integrate-and-verify ticket that closes one (the mechanical migrate batches are not)
 - it needs a new seam: a test boundary the spec does not already name
 
 Every other ticket carries no model label and runs on the implementer's default.

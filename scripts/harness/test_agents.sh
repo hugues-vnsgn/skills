@@ -101,10 +101,14 @@ seed_malformed_yaml() { edit agents/implementer.md 't.replace("maxTurns: 150", "
 # --- agent-required-fields ---
 seed_missing_model() { edit agents/implementer.md 't.replace("model: sonnet\n", "", 1)'; }
 seed_missing_max_turns() { edit agents/implementer-kmp.md 't.replace("maxTurns: 150\n", "", 1)'; }
+seed_max_turns_not_positive() { edit agents/implementer.md 't.replace("maxTurns: 150", "maxTurns: 0", 1)'; }
+seed_skills_not_a_list() { edit agents/implementer.md 't.replace("skills:\n  - tdd\n", "skills: tdd\n", 1)'; }
 seed_name_mismatch() { edit agents/implementer-kmp.md 't.replace("name: implementer-kmp", "name: implementer-mobile", 1)'; }
 
 # --- agent-preloads-resolve ---
 seed_preload_missing() { edit agents/implementer-kmp.md 't.replace("  - tdd-kmp\n", "  - no-such-skill\n", 1)'; }
+# scripts/link-skills.sh never links misc/, so the preload would find nothing.
+seed_preload_unlinked_bucket() { edit agents/implementer.md 't.replace("  - tdd\n", "  - git-guardrails-claude-code\n", 1)'; }
 seed_preload_user_invoked() {
   edit skills/house/mobile/kmp-test-seams/SKILL.md \
     't.replace("name: kmp-test-seams\n", "name: kmp-test-seams\ndisable-model-invocation: true\n", 1)'
@@ -126,11 +130,14 @@ echo
 echo "=== agent-required-fields ==="
 run "model missing"                      FAIL agent-required-fields "model"           seed_missing_model
 run "maxTurns missing"                   FAIL agent-required-fields "maxTurns"        seed_missing_max_turns
+run "maxTurns not a positive integer"     FAIL agent-required-fields "maxTurns=0"      seed_max_turns_not_positive
+run "skills is not a list"               FAIL agent-required-fields "must be a list"  seed_skills_not_a_list
 run "name does not match filename"       FAIL agent-required-fields "implementer-mobile" seed_name_mismatch
 
 echo
 echo "=== agent-preloads-resolve ==="
 run "preloaded skill does not exist"     FAIL agent-preloads-resolve "no-such-skill"  seed_preload_missing
+run "preloaded skill is never linked"     FAIL agent-preloads-resolve "git-guardrails-claude-code (in misc/" seed_preload_unlinked_bucket
 run "preloaded skill is user-invoked"    FAIL agent-preloads-resolve "kmp-test-seams" seed_preload_user_invoked
 
 echo

@@ -31,6 +31,22 @@ fi
 mkdir -p "$DEST"
 
 shopt -s nullglob
+
+# Prune links this script made for an agent since removed or renamed: a
+# symlink into this repo's agents/ whose target is gone. Anything else in
+# $DEST belongs to the user and is left alone.
+for link in "$DEST"/*.md; do
+  [ -L "$link" ] || continue
+  case "$(readlink "$link")" in
+    "$REPO"/agents/*)
+      if [ ! -e "$link" ]; then
+        rm "$link"
+        echo "pruned $(basename "$link" .md) ($DEST)"
+      fi
+      ;;
+  esac
+done
+
 for src in "$REPO"/agents/*.md; do
   name="$(basename "$src")"
   target="$DEST/$name"

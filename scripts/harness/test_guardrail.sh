@@ -2,9 +2,11 @@
 # Functional test for block-dangerous-git.sh and the implementer guard that
 # wraps it (agents/hooks/implementer-guard.sh).
 # Contract: each reads a Claude Code hook JSON payload on stdin, exits 2 to
-# block a command, 0 to allow. The scripts only read stdin and echo, so no git,
-# gh or bd command is ever executed; the one temp directory, for the
-# unreachable-guardrail case, is removed at once.
+# block a command, 0 to allow. No gh or bd command is ever executed. The guard
+# runs one read-only git query (the checked-out branch) against two throwaway
+# repositories this script creates, a main checkout and an agent/ worktree,
+# removed on exit along with the temp directory for the unreachable-guardrail
+# case.
 set -uo pipefail
 
 REPO="${1:-.}"
@@ -45,6 +47,18 @@ run() {
 }
 
 json() { printf '{"tool_input":{"command":"%s"}}' "$1"; }
+# jsonc <command> <cwd>: the same payload, run from <cwd>.
+jsonc() { printf '{"tool_input":{"command":"%s"},"cwd":"%s"}' "$1" "$2"; }
+
+# A main checkout on `main` and an agent worktree off it, for the guard's
+# branch check. Neither is ever pushed or changed by the guard.
+SANDBOX="$(cd "$(mktemp -d)" && pwd -P)"
+trap 'rm -rf "$SANDBOX"' EXIT
+MAIN="$SANDBOX/main"
+WT="$SANDBOX/wt"
+git init -q -b main "$MAIN"
+git -C "$MAIN" -c user.name=t -c user.email=t@t commit -q --allow-empty -m init
+git -C "$MAIN" worktree add -q "$WT" -b agent/spec--issue
 
 echo "=== DANGEROUS: must block (exit 2) ==="
 run "git push"                  2 "$(json 'git push')"
@@ -158,8 +172,8 @@ run "guard: bd --sandbox=false"        2 "$(json 'bd --sandbox=false update skil
 
 echo
 echo "=== IMPLEMENTER GUARD: ordinary work must allow (exit 0) ==="
-run "guard: git commit"                0 "$(json 'git commit -m \"feat: add thing\"')"
-run "guard: git merge"                 0 "$(json 'git merge --no-ff agent/skills-1.2')"
+run "guard: git commit"                0 "$(jsonc 'git commit -m \"feat: add thing\"' "$WT")"
+run "guard: git merge"                 0 "$(jsonc 'git merge --no-ff agent/spec' "$WT")"
 run "guard: git -C path status"        0 "$(json 'git -C /tmp/wt status')"
 run "guard: git -c key=value log"      0 "$(json 'git -c core.pager=cat log --oneline')"
 run "guard: bd update --claim"         0 "$(json 'bd --sandbox update skills-1 --claim --actor implementer-skills-1')"
@@ -171,9 +185,50 @@ run "guard: gh pr view"                0 "$(json 'gh pr view 12')"
 run "guard: gh pr list"                0 "$(json 'gh pr list')"
 run "guard: gh api GET"                0 "$(json 'gh api repos/a/b/pulls/3')"
 run "guard: mention in bd create"      0 "$(json 'bd --sandbox create \"never run bd dolt push\"')"
-run "guard: mention in commit msg"     0 "$(json 'git commit -m \"docs: no gh pr create here\"')"
+run "guard: mention in commit msg"     0 "$(jsonc 'git commit -m \"docs: no gh pr create here\"' "$WT")"
 run "guard: grep for git push"         0 "$(json 'grep -rn \"git push\" docs/')"
 run "guard: word bd inside a path"     0 "$(json 'ls ./bd-notes/')"
+
+run "guard: gh api -X GET"             0 "$(json 'gh api -XGET repos/a/b/pulls/3')"
+run "guard: gh api jq filter"          0 "$(json 'gh api repos/a/b/pulls -q .[].title')"
+run "guard: git -C worktree commit"    0 "$(jsonc "git -C $WT commit -m x" "$MAIN")"
+run "guard: cd worktree && commit"     0 "$(jsonc "cd $WT && git commit -m x" "$MAIN")"
+run "guard: git checkout -- file"      0 "$(jsonc 'git checkout -- a.txt' "$WT")"
+run "guard: git log in main checkout"  0 "$(jsonc 'git log --oneline -3' "$MAIN")"
+run "guard: git branch --show-current" 0 "$(jsonc 'git branch --show-current' "$MAIN")"
+run "guard: git worktree list"         0 "$(jsonc 'git worktree list' "$MAIN")"
+run "guard: bd update in_progress"     0 "$(json 'bd --sandbox update skills-1 --status in_progress')"
+run "guard: bd comment says closed"    0 "$(json 'bd --sandbox comments add skills-1 \"closed the gap\"')"
+
+echo
+echo "=== IMPLEMENTER GUARD: attached options and quoted --sandbox (exit 2) ==="
+run "guard: gh api -XPUT"              2 "$(json 'gh api repos/a/b/pulls/3/merge -XPUT')"
+run "guard: gh api -Xput lowercase"    2 "$(json 'gh api repos/a/b/pulls/3/merge -Xput')"
+run "guard: gh api -iXPOST"            2 "$(json 'gh api -iXPOST repos/a/b/pulls')"
+run "guard: gh api -ftitle=x"          2 "$(json 'gh api repos/a/b/pulls -ftitle=x')"
+run "guard: gh api -Fquery=@q"         2 "$(json 'gh api graphql -Fquery=@m.graphql')"
+run "guard: --sandbox only in quotes"  2 "$(json 'bd comments add skills-1 \"use --sandbox next time\"')"
+run "guard: --sandbox only in quotes 2" 2 "$(json 'bd create \"x\" -d \"see --sandbox\"')"
+
+echo
+echo "=== IMPLEMENTER GUARD: no Issue close, git changes only on agent/ branches (exit 2) ==="
+run "guard: bd close"                  2 "$(json 'bd --sandbox close skills-1')"
+run "guard: bd close with reason"      2 "$(json 'bd --sandbox close skills-1 --reason \"done\"')"
+run "guard: bd update --status closed" 2 "$(json 'bd --sandbox update skills-1 --status closed')"
+run "guard: bd update -s=closed"       2 "$(json 'bd --sandbox update skills-1 -s=closed')"
+run "guard: git -C main merge"         2 "$(jsonc "git -C $MAIN merge agent/x" "$WT")"
+run "guard: git commit in main"        2 "$(jsonc 'git commit -m x' "$MAIN")"
+run "guard: cd main && git merge"      2 "$(jsonc "cd $MAIN && git merge agent/x" "$WT")"
+run "guard: checkout in main"          2 "$(jsonc 'git checkout -b feature' "$MAIN")"
+run "guard: git add in main"           2 "$(jsonc 'git add -A' "$MAIN")"
+run "guard: git stash in main"         2 "$(jsonc 'git stash' "$MAIN")"
+run "guard: commit, no repo resolved"  2 "$(jsonc 'git commit -m x' "$SANDBOX/missing")"
+run "guard: GIT_DIR redirect"          2 "$(jsonc "GIT_DIR=$MAIN/.git git commit -m x" "$WT")"
+run "guard: --work-tree redirect"      2 "$(jsonc "git --work-tree=$MAIN checkout -- ." "$WT")"
+run "guard: git branch -f main"        2 "$(jsonc 'git branch -f main HEAD' "$WT")"
+run "guard: git update-ref"            2 "$(jsonc 'git update-ref refs/heads/main HEAD' "$WT")"
+run "guard: git worktree add"          2 "$(jsonc 'git worktree add ../x' "$WT")"
+run "guard: fetch into local main"     2 "$(jsonc 'git fetch . agent/spec--issue:main' "$WT")"
 
 echo
 echo "=== IMPLEMENTER GUARD: fail closed (exit 2) ==="

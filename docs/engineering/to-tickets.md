@@ -28,7 +28,7 @@ A **horizontal** slice ships one layer of the change. Nothing works until every 
 
 This is the rule people break most often, and the consequences are well documented. One team ran a 26-ticket stack sliced by layer (corpus, producer, aggregator, selector) and got roughly twenty agent runs per closed ticket, about three quarters of them rework. Their own post-mortem traced every failure class back to the horizontal slicing rather than to the implementations.
 
-Two things happen before anything is published. `to-tickets` looks for prefactoring (the principle "make the change easy, then make the easy change") and orders that work first. Then it presents the breakdown as a numbered list and quizzes you on it: is the granularity right, are the blocking edges real, should anything merge or split. Nothing reaches the tracker until you approve, and that quiz is the place to push back.
+Two things happen before anything is published. `to-tickets` looks for prefactoring (the principle "make the change easy, then make the easy change") and orders that work first. Then it presents the breakdown as a numbered list and quizzes you on it: is the granularity right, are the blocking edges real, should anything merge or split, and has each `model:opus` label earned its place. Nothing reaches the tracker until you approve, and that quiz is the place to push back.
 
 ## Blocking edges
 
@@ -76,6 +76,16 @@ A very large spec can outgrow what a tracker issue serves back cleanly, and ther
 **The acceptance criteria graded nothing: some passed before any work was done.**
 The template asks for criteria and says nothing about whether they can fail, so this happens. Three shapes recur: a criterion already true at the base commit, a criterion that can only be satisfied by work another ticket owns, and one that restates the request rather than deriving from the artifact. Vertical slicing prevents most of it (a slice that delivers behaviour which didn't exist before is red at the base commit by construction), but the check is worth doing by hand. For each criterion, name the observation that would show it false, and confirm it fails at the commit the implementer starts from.
 
+**Some tickets came back labelled `model:opus`. What does that do?**
+It marks the slices worth building on the stronger model from the first attempt, so a dispatcher that reads the label (this fork's `implement-delegate`, still in development) starts them on Opus instead of its Sonnet default. Four things earn it:
+
+- the ticket introduces or changes a state machine, a concurrency or coroutine contract, or an expect/actual or platform boundary
+- three or more other tickets build on its interface
+- it is a wide refactor, or the integrate-and-verify ticket that closes one
+- it needs a new seam the spec never named
+
+The label shows up in the quiz breakdown next to the criterion that earned it, so that is where you drop one you think is overkill or add one it missed. [implement](https://aihero.dev/skills-implement) run inline ignores the label: it builds on whatever model your session is on.
+
 **The tickets are published. How do I actually run them?**
 The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is manual: look at the board, count the tickets with no open blockers, and open that many agent sessions. One ticket per fresh context, cleared between them. Be aware that [implement](https://aihero.dev/skills-implement) does not reliably close or check off the ticket when it finishes, on GitHub or in local markdown, so the ticket's state is yours to update.
 
@@ -87,6 +97,7 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 - Nothing in a ticket body is a file path or a line number, except a snippet a prototype produced.
 - Each ticket reads like something a fresh session could finish without you in the room.
 - Prefactoring, where it found any, is at the front of the order rather than mixed into feature tickets.
+- Every `model:opus` label in the breakdown names the criterion that earned it, and the routine slices carry none.
 
 ## Where it fits
 

@@ -63,6 +63,8 @@ A list of testing decisions that were made. Include:
 - A description of what makes a good test (only test external behavior, not implementation details)
 - Which modules will be tested
 - Prior art for the tests (i.e. similar types of tests in the codebase)
+- The test that proves the Problem Statement end to end through the highest seam: for a bug, the one that reproduces the reported symptom
+- A test for every behaviour change the Implementation Decisions say reaches the wire or persistence, pinning exactly what is sent or stored
 
 ## Out of Scope
 

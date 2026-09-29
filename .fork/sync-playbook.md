@@ -153,6 +153,7 @@ The complete set of paths where upstream and this fork can both write, the sync-
 | Mobile implementation routing | `skills/engineering/implement/SKILL.md` | both modified | [Keep upstream's workflow and restore the KMP/CMP TDD branch](./divergence.md#skillsengineeringimplementskillmd-mobile-tdd-routing), with the fallback for selective installs without `tdd-kmp` |
 | Model escalation label | `skills/engineering/to-tickets/SKILL.md` | both modified | [Take upstream's wording and re-insert the `model:opus` rule](./divergence.md#skillsengineeringto-ticketsskillmd-modelopus-labelling) at the drafting step, the quiz display, the publish step, and the local template |
 | Composition test owner | `skills/engineering/to-tickets/SKILL.md` | both modified | [Take upstream's wording and re-insert the composition-test rule](./divergence.md#skillsengineeringto-ticketsskillmd-composition-test-owner) after the blocking-edges paragraph, and its quiz question |
+| Spec test coverage | `skills/engineering/to-spec/SKILL.md` | both modified | [Take upstream's wording and re-add the two Testing Decisions bullets](./divergence.md#skillsengineeringto-specskillmd-end-to-end-and-wire-tests): the end-to-end test and the wire or persistence tests |
 
 Everything else the fork owns, meaning `skills/house/`, `docs/house/`, `docs/roles/`, `research/`, `.fork/`, the harness, `MAINTENANCE.md`, `CUSTOMIZING.md`, is sync-inert. Upstream has never written those paths, so a merge cannot conflict there; they need only to survive, which `forkcheck` confirms.
 

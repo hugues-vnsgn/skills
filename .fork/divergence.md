@@ -130,6 +130,12 @@ This is a one-line divergence on purpose. MIT requires that "the above copyright
 
 **Recipe:** take upstream's wording, then re-insert the composition paragraph directly after the blocking-edges paragraph in the drafting step, and the composition question after the merge-or-split question in the quiz. If upstream renumbers or merges steps, keep the rule where blocking edges are drawn and the question where the user approves the breakdown. Re-sync the docs page's entries to match.
 
+### `skills/engineering/to-spec/SKILL.md`: end-to-end and wire tests
+
+**Why:** in the `skills-bm3.7` trial of `/implement-delegate`, the spec's Testing Decisions named only per-module seams. No test proved the reported symptom through the whole path, and a recorded change to what the app sends to the server had no test pinning it. The whole-branch review caught both, at the cost of an extra fix cycle. The spec template's Testing Decisions now carry two more bullets: the test proving the Problem Statement end to end through the highest seam, and a test for every behaviour change that reaches the wire or persistence. The file also carries the setup-skill name, under the router row above. Its docs page explains the rule in a Common questions entry and an It's working if line.
+
+**Recipe:** take upstream's wording, then re-add the two bullets at the end of the Testing Decisions list in the spec template. If upstream restructures the template, keep them wherever the spec records its testing decisions. Re-sync the docs page's entries to match.
+
 ### `skills/engineering/ask-matt/references/`: the router's long-form detail
 
 Affected: `skills/engineering/ask-matt/PHASE-BOUNDARIES.md` (deleted), `references/phase-boundaries.md` and `references/platform-knowledge.md` (added).

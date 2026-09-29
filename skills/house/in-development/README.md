@@ -5,6 +5,7 @@ Fork-authored skills still under development, not registered in the top-level RE
 Every skill here carries `metadata.internal: true`, so none reaches the installer picker, and every catalog entry is `status: beta`. Earlier residents shipped as beta: `cook` and `project-organization` to [`house/delivery/`](../delivery/README.md), `do-test` to [`house/quality/`](../quality/README.md). Three went further, straight to promoted: `unslop` to [`house/writing/`](../writing/README.md), `use-git-worktree` to [`house/platform/`](../platform/README.md), which it joined as that domain's first model-invoked skill, and `ddd` to [`house/discovery/`](../discovery/README.md).
 
 - **[bro](./bro/SKILL.md)**: Restate the last message in plain human language, with no jargon. User-invoked.
+- **[implement-delegate](./implement-delegate/SKILL.md)**: Delegate an Issue to a fresh implementer subagent in its own worktree, then review, merge and close it. User-invoked.
 - **[improve-claude-md](./improve-claude-md/SKILL.md)**: Improve a `CLAUDE.md` using `<important if>` blocks to raise instruction adherence.
 - **[ios-tdd-practitioner](./ios-tdd-practitioner/SKILL.md)**: Test-first Swift/iOS behavior, XCTest regressions, and characterization of legacy code.
 - **[show-me](./show-me/SKILL.md)**: Draw the current topic as the smallest true picture, then show the smaller shape it exposes.

@@ -2,7 +2,7 @@
 
 # Skill catalog
 
-Every skill in this repo: 63 total — 37 upstream, 26 fork-authored.
+Every skill in this repo: 64 total — 37 upstream, 27 fork-authored.
 
 `Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this repo). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
@@ -68,6 +68,7 @@ Every skill in this repo: 63 total — 37 upstream, 26 fork-authored.
 | [do-test](skills/house/quality/do-test/SKILL.md) _(beta)_ | fork | quality | engineer, qa | @hugues-vnsgn |
 | [unslop](skills/house/writing/unslop/SKILL.md) | fork | writing | engineer, analyst, staff | @hugues-vnsgn |
 | [bro](skills/house/in-development/bro/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
+| [implement-delegate](skills/house/in-development/implement-delegate/SKILL.md) _(beta)_ | fork | in-development | engineer | @hugues-vnsgn |
 | [improve-claude-md](skills/house/in-development/improve-claude-md/SKILL.md) _(beta)_ | fork | in-development | engineer, staff | @hugues-vnsgn |
 | [ios-tdd-practitioner](skills/house/in-development/ios-tdd-practitioner/SKILL.md) _(beta)_ | fork | in-development | engineer, qa | @hugues-vnsgn |
 | [show-me](skills/house/in-development/show-me/SKILL.md) _(beta)_ | fork | in-development | engineer, designer | @hugues-vnsgn |

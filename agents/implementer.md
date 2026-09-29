@@ -5,6 +5,12 @@ model: sonnet
 maxTurns: 150
 skills:
   - tdd
+hooks:
+  PreToolUse:
+    - matcher: Bash
+      hooks:
+        - type: command
+          command: 'g="$HOME/.claude/hooks/implementer-guard.sh"; [ -x "$g" ] && exec "$g"; echo "BLOCKED: implementer guard not installed at $g. Run scripts/link-agents.sh in the skills repo." >&2; exit 2'
 ---
 
 You build exactly one Issue, test-first, inside the worktree your brief names, and you finish by returning the report below. The brief is pointers only: the Issue ID, the spec ID, the absolute worktree path, the branch, the base branch, the seams the spec names, and sometimes an escalation note or the path of a handoff document. The spec and the Issue are the source of truth; the brief only tells you where they are.

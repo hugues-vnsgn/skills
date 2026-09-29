@@ -12,7 +12,7 @@ Run everything the way CI does:
 ```bash
 python3 scripts/harness/forkcheck.py           # fork boundary: 4 assertions
 python3 scripts/harness/skillcheck.py          # 476+ assertions, exits 1 on any failure
-bash scripts/harness/test_guardrail.sh         # 39 cases for block-dangerous-git.sh
+bash scripts/harness/test_guardrail.sh         # 65 cases: git guardrail + implementer guard
 bash scripts/harness/test_forkcheck.sh         # 18 fail-closed cases for forkcheck.py
 bash scripts/harness/test_agents.sh            # 13 fail-closed cases for skillcheck's agent checks
 python3 scripts/check-confusable-skills.py     # description-collision tripwire
@@ -35,7 +35,7 @@ dependency-free structural read of every `agents/openai.yaml`, and
 | `hand_validator.py` | Dependency-free `openai.yaml` parse. |
 | `yamlcheck.cjs` | Independent Node parse, for cross-checking. |
 | `diff_parsers.py` | Diffs `yamlcheck.cjs` against `hand_validator.py`. |
-| `test_guardrail.sh` | Functional cases for the git guardrail hook script. |
+| `test_guardrail.sh` | Functional cases for the git guardrail hook script and the implementer guard that wraps it. |
 | `test_agents.sh` | Seeds a violation of each agent assertion in `skillcheck.py` and proves it fails. |
 | `render_report.py` | Markdown tables from `skillcheck.py --json` output. |
 

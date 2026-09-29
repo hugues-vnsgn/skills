@@ -100,7 +100,7 @@ Dispatch with the Agent tool in the background: the variant from step 2 as `suba
 The report arrives in the implementer's fixed contract. Before acting on it, check its claims: `git log <start>..<brief's BRANCH> --oneline` lists the COMMITS, and each GATES log exists.
 
 - **DONE:** go to 4c.
-- **BLOCKED:** put the QUESTION and its recommended answer to the user. Write their answer onto the spec (a question means the spec had a gap), then resume the same implementer with SendMessage to its agent ID, the answer as the message (load SendMessage through ToolSearch if it is deferred). Act on its next report.
+- **BLOCKED:** put the QUESTION and its recommended answer to the user. Write their answer onto the spec (a question means the spec had a gap). Where it changes what the spec's or an Issue's description says, edit that text in place and add a dated note naming the change, so later readers meet the ruling rather than the text it replaced. Then resume the same implementer with SendMessage to its agent ID, the answer as the message (load SendMessage through ToolSearch if it is deferred). Act on its next report.
 - **FAILED**, or no report because it hit its turn cap: dispatch a fresh implementer on Opus into the same worktree and branch, with an ESCALATION line saying what stopped the last attempt. When the Opus attempt also fails, the Issue has **failed on Opus**: mark it failed in the ledger, release its slot, tell the user, and carry on with the Issues that do not depend on it.
 
 ### 4c. Review
@@ -121,7 +121,7 @@ git -C <feature-worktree> merge --no-ff agent/<spec-id>--<issue-id> -m "Merge <i
 
 On a textual conflict, call the Skill tool with "resolving-merge-conflicts". A conflict of meaning, where both sides are right and cannot both hold, goes to the user.
 
-Run the repo's gates in the feature worktree, each logged under `$TMPDIR`: later Issues branch from this tip, so it has to build. When a gate fails, fix FEATURE through 4f, with the failing gate's command and log as the findings, before this Issue closes and before any new Issue branches from FEATURE.
+Run the repo's gates in the feature worktree, each logged where the repo's rules put gate logs, else under `$TMPDIR`: later Issues branch from this tip, so it has to build. When a gate fails, fix FEATURE through 4f, with the failing gate's command and log as the findings, before this Issue closes and before any new Issue branches from FEATURE.
 
 Done when FEATURE holds the merge commit and its gates pass.
 
@@ -137,7 +137,7 @@ Findings that belong to FEATURE as a whole (a gate broken by a merge, or the who
 
 1. File one Issue under the spec, titled for what it fixes (`Fix gates after merging <issue-id>`, `Fix whole-branch review findings`), with the findings as a numbered list in its description.
 2. Take a slot: a gate fix inherits the slot of the Issue whose merge broke FEATURE, and the whole-branch fix finds every slot free. Record FEATURE's tip as its start commit, and dispatch a fresh implementer as in 4a, with WORKTREE the feature worktree, BRANCH FEATURE and BASE the default branch. Hold every merge and every new ISSUE branch until this Issue closes.
-3. Run it through 4b and 4c. It commits on FEATURE directly, so there is no merge: run the repo's gates in the feature worktree, each logged under `$TMPDIR`, and close it once they pass.
+3. Run it through 4b and 4c. It commits on FEATURE directly, so there is no merge: run the repo's gates in the feature worktree, logged as in 4d, and close it once they pass.
 
 When it fails on Opus, FEATURE cannot be trusted: stop dispatching, let in-flight Issues report without merging them, and go to step 6.
 
@@ -147,9 +147,11 @@ Skip this step when nothing merged, or when FEATURE is exactly one Issue's merge
 
 Call the Skill tool with "code-review", giving it the spec as the spec and the diff as explicit refs, `git diff <default-branch>...agent/<spec-id>`. It catches what no per-Issue review could see: seams that disagree across Issues, duplication between them, a requirement that fell between two.
 
-Send every finding that needs a change through 4f as one fix. This review runs once: the fix-up's own review in 4c covers only its diff.
+A finding whose fix would contradict the spec, or a ruling the user gave, goes to the user first: only they can change what the spec fixes. When they amend the spec, write the amendment onto it as in 4b and keep the finding; when they keep the spec, the finding is **accepted** and goes in the report unfixed.
 
-Done when the fix-up Issue is closed, or the review found nothing to change.
+Send every finding that still needs a change through 4f as one fix. This review runs once: the fix-up's own review in 4c covers only its diff.
+
+Done when every finding is fixed by a closed fix-up Issue or accepted by the user, or the review found nothing to change.
 
 ## 6. Report
 
@@ -157,7 +159,7 @@ Done when the fix-up Issue is closed, or the review found nothing to change.
 - The feature worktree's absolute path.
 - Changed files: `git diff --stat <default-branch>...agent/<spec-id>`.
 - Gate evidence from the feature worktree's last run: each command, its result and its log path.
-- Per Issue: review rounds and what each changed, any Opus retry, DEVIATIONS, and DISCOVERED Issues. Then every FEATURE fix, the whole-branch findings, and what each fix changed.
+- Per Issue: review rounds and what each changed, any Opus retry, DEVIATIONS, and DISCOVERED Issues. Then every FEATURE fix, the whole-branch findings, what each fix changed, and each finding the user accepted unfixed.
 - The commands for the user to run, marked as not run:
 
   ```bash

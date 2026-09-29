@@ -227,9 +227,9 @@ skills:
     audience: [engineer, designer, analyst, qa, staff]
     owner: "@hugues-vnsgn"
   - name: implement-spec
-    path: skills/in-progress/implement-spec
+    path: skills/deprecated/implement-spec
     origin: upstream
-    domain: in-progress
+    domain: deprecated
     audience: [engineer]
     owner: "@hugues-vnsgn"
   - name: loop-me

@@ -68,6 +68,14 @@ git rm -r --ignore-unmatch skills/engineering/setup-matt-pocock-skills docs/engi
 
 Then port any upstream change to the deleted files into `skills/house/platform/setup-osxsystem-skills/` by hand. The content is otherwise unchanged from upstream's; only the name and the home differ.
 
+### `skills/in-progress/implement-spec/`, moved to `skills/deprecated/`
+
+Affected: `skills/in-progress/implement-spec/` (deleted), `skills/deprecated/implement-spec/` (added), `skills/deprecated/README.md` and `skills/in-progress/README.md` (modified).
+
+**Why:** the fork's `/implement-delegate` (`skills/house/in-development/`) replaces it. The `skills-bm3.7` trial built a real spec through `/implement-delegate` with no context gaps in the skill chain. `implement-spec` has no implementer agent to dispatch, and it opens a draft PR, which pushes without the user asking. One orchestration skill, not two. The moved `SKILL.md` gains `metadata.internal: true`, as everything in `deprecated/` does; the body is upstream's. Upstream's `deprecated/README.md` says retired skills are deleted, but the fork keeps this one installable by `--skill=implement-spec`, so the README now lists it with its replacement.
+
+**Recipe:** keep the move. When upstream changes `skills/in-progress/implement-spec/`, `git rm -r --ignore-unmatch skills/in-progress/implement-spec`, then decide by hand whether the change is worth porting into `skills/deprecated/implement-spec/` (usually not: it is retired) and keep the `metadata.internal` line. When upstream edits either bucket `README.md`, take its text and keep `implement-spec` out of the in-progress list and in the deprecated one. If upstream retires `implement-spec` itself, follow upstream and drop these entries from [`sanctioned-edits.txt`](./sanctioned-edits.txt).
+
 ### Prose files: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `MAINTENANCE.md`-adjacent conventions
 
 Affected: `README.md`, `CLAUDE.md`, `CONTEXT.md`, `.agents/install-block.md`, `.agents/writing-docs.md`, `.agents/adr/0001-explicit-setup-pointer-only-for-hard-dependencies.md`, `skills/{engineering,in-progress,misc}/README.md`, `docs/engineering/*.md`, `docs/productivity/wait-what.md`.

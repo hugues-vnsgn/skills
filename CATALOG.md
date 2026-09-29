@@ -37,7 +37,6 @@ Every skill in this repo: 64 total — 37 upstream, 27 fork-authored.
 | [scaffold-exercises](skills/misc/scaffold-exercises/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
 | [setup-pre-commit](skills/misc/setup-pre-commit/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
 | [claude-handoff](skills/in-progress/claude-handoff/SKILL.md) | upstream | in-progress | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
-| [implement-spec](skills/in-progress/implement-spec/SKILL.md) | upstream | in-progress | engineer | @hugues-vnsgn |
 | [loop-me](skills/in-progress/loop-me/SKILL.md) | upstream | in-progress | engineer, staff | @hugues-vnsgn |
 | [pr](skills/in-progress/pr/SKILL.md) | upstream | in-progress | engineer, staff | @hugues-vnsgn |
 | [retro](skills/in-progress/retro/SKILL.md) | upstream | in-progress | engineer, staff | @hugues-vnsgn |
@@ -45,6 +44,7 @@ Every skill in this repo: 64 total — 37 upstream, 27 fork-authored.
 | [writing-beats](skills/in-progress/writing-beats/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
 | [writing-fragments](skills/in-progress/writing-fragments/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
 | [writing-shape](skills/in-progress/writing-shape/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
+| [implement-spec](skills/deprecated/implement-spec/SKILL.md) | upstream | deprecated | engineer | @hugues-vnsgn |
 | [compose-multiplatform-ui](skills/house/mobile/compose-multiplatform-ui/SKILL.md) | fork | mobile | engineer, designer | @hugues-vnsgn |
 | [kmp-boundaries](skills/house/mobile/kmp-boundaries/SKILL.md) _(beta)_ | fork | mobile | engineer | @hugues-vnsgn |
 | [kmp-ios-integration](skills/house/mobile/kmp-ios-integration/SKILL.md) | fork | mobile | engineer | @hugues-vnsgn |

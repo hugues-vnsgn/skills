@@ -38,31 +38,72 @@ if ! COMMAND=$(printf '%s' "$INPUT" | jq -re '.tool_input.command' 2>/dev/null);
   block "implementer guard could not read .tool_input.command from the hook payload."
 fi
 
-# Global flags may sit between the tool and its subcommand
-# (`bd --actor implementer-x dolt push`), so each pattern allows any run of
-# `-flag` or `--flag value` tokens there. A quoted argument is never a flag, so
-# a mere mention (`bd create "never run bd dolt push"`) does not match.
-FLAGS="([[:space:]]+-[^[:space:]]*([[:space:]]+[^-[:space:]\"'][^[:space:]]*)?)*"
-PUBLISHING_PATTERNS=(
-  "gh${FLAGS}[[:space:]]+pr[[:space:]]+(create|merge)"
-  "bd${FLAGS}[[:space:]]+dolt[[:space:]]+(push|pull)"
-)
+# The guardrail matches only the plain shapes of a command, which suits a
+# human's hook. This layer normalizes harder, because an implementer that
+# reaches for a workaround should still hit the wall: every control operator,
+# grouping and substitution starts a new segment, and each segment is peeled
+# of wrappers (`command`, `env`, `nohup`, `bash -c "..."`, `/usr/bin/git`)
+# until the real tool is first. The cost is over-blocking a quoted mention
+# that contains a separator (`-m "a; gh pr create"`), which is acceptable for
+# an agent that is not meant to write such commands anyway.
+SEGMENTS=$(printf '%s\n' "$COMMAND" | sed -E 's/\$\(|`|\|&|&&|\|\||[;|&(){}]/\n/g')
 
-# Same segmenting as the guardrail: split on shell separators, then strip
-# leading env assignments, so `cd x && gh pr create` and `FOO=1 bd dolt push`
-# are both caught.
-SEGMENTS=$(printf '%s' "$COMMAND" | sed -E 's/(\&\&|\|\||;|\|)/\n/g')
+# normalize <segment>: strip, repeatedly, leading whitespace and quotes, env
+# assignments, wrapper commands with their flags, `sh -c`, and a directory
+# prefix on the tool, until nothing changes.
+normalize() {
+  local s="$1" prev=""
+  while [ "$s" != "$prev" ]; do
+    prev="$s"
+    s=$(printf '%s' "$s" | sed -E \
+      -e "s/^[[:space:]\"']+//" \
+      -e "s/^[A-Za-z_][A-Za-z0-9_]*=(\"[^\"]*\"|'[^']*'|[^[:space:]]*)([[:space:]]+|$)//" \
+      -e 's/^(command|builtin|exec|eval|env|time|nohup|nice|sudo|xargs|stdbuf)(([[:space:]]+-[^[:space:]]*)*)([[:space:]]+|$)//' \
+      -e 's/^timeout(([[:space:]]+-[^[:space:]]*)*)[[:space:]]+[^[:space:]]+([[:space:]]+|$)//' \
+      -e 's/^(ba|z|da|k)?sh(([[:space:]]+-[^[:space:]]*)*)[[:space:]]+-[[:alpha:]]*c([[:space:]]+|$)//' \
+      -e 's#^[^[:space:]]*/(git|gh|bd)([[:space:]]|$)#\1\2#')
+  done
+  printf '%s' "$s"
+}
+
+# Global flags may sit between a tool and its subcommand (`git -c k=v push`,
+# `bd --actor "x" dolt push`), so FLAGS allows any run of `-flag` or
+# `--flag value` tokens there, quoted values included. A bare word is never a
+# flag, so a mention (`bd create "never run bd dolt push"`) does not match.
+VALUE="(\"[^\"]*\"|'[^']*'|[^-[:space:]\"'][^[:space:]]*)"
+FLAGS="([[:space:]]+-[^[:space:]]*([[:space:]]+${VALUE})?)*"
+END="([[:space:]\"']|$)"
+PUBLISHING_PATTERNS=(
+  "git${FLAGS}[[:space:]]+push"
+  "gh${FLAGS}[[:space:]]+pr${FLAGS}[[:space:]]+(create|merge)"
+  "bd${FLAGS}[[:space:]]+dolt${FLAGS}[[:space:]]+(push|pull)"
+)
+# `gh api` reads are fine; any write (a non-GET method, or fields, which make
+# gh send a POST) can open or merge a pull request by another route.
+GH_API="^gh${FLAGS}[[:space:]]+api${END}"
+GH_API_WRITE="(^|[[:space:]])((-X|--method)(=|[[:space:]]+)[\"']?(POST|PUT|PATCH|DELETE)|(-f|-F|--field|--raw-field|--input)([[:space:]=]|$))"
+# bd pushes on its own when `dolt.auto-push` is on, so an ordinary write would
+# sync the remote without any command above. `--sandbox` turns that off, and an
+# implementer must pass it on every bd call.
+BD="^bd${END}"
+BD_SANDBOX="(^|[[:space:]])--sandbox([[:space:]]|=true|$)"
 
 while IFS= read -r segment; do
-  segment="${segment#"${segment%%[![:space:]]*}"}"
-  segment=$(printf '%s' "$segment" | sed -E 's/^([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)+//')
+  segment=$(normalize "$segment")
   [ -z "$segment" ] && continue
 
   for pattern in "${PUBLISHING_PATTERNS[@]}"; do
-    if printf '%s' "$segment" | grep -qE "^${pattern}([[:space:]]|$)"; then
-      block "'$COMMAND' matches publishing pattern '$pattern'."
+    if printf '%s' "$segment" | grep -qE "^${pattern}${END}"; then
+      block "'$COMMAND' runs a publishing command ('${segment%% *} ...')."
     fi
   done
+  if printf '%s' "$segment" | grep -qE "$GH_API" && printf '%s' "$segment" | grep -qE "$GH_API_WRITE"; then
+    block "'$COMMAND' writes through the GitHub API."
+  fi
+  if printf '%s' "$segment" | grep -qE "$BD" && ! printf '%s' "$segment" | grep -qE "$BD_SANDBOX"; then
+    echo "BLOCKED: '$COMMAND' runs bd without --sandbox, which would let Dolt auto-push sync the tracker remote. Re-run it with --sandbox (for example 'bd --sandbox update <id> --claim')." >&2
+    exit 2
+  fi
 done <<< "$SEGMENTS"
 
 exit 0

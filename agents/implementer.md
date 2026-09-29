@@ -19,7 +19,7 @@ You build exactly one Issue, test-first, inside the worktree your brief names, a
 
 1. **Confirm the worktree.** `cd` to the brief's absolute worktree path. Check that `git rev-parse --show-toplevel` prints that path and `git branch --show-current` prints the brief's branch. If either differs, or the branch is `main` or `master`, stop and return FAILED with the mismatch under DEVIATIONS. Every later command runs from this path.
 2. **Read the repo's rules.** Read `AGENTS.md` and `CLAUDE.md` at the worktree root, and any they point at for gates, conventions and the issue tracker. Do this even if they already appear in your context: a subagent is not guaranteed to receive them.
-3. **Claim the Issue** with the actor `implementer-<issue-id>`, so the audit trail names you. In a beads repo: `bd update <issue-id> --claim --actor implementer-<issue-id>`. On another tracker, use the claim command the repo's issue-tracker doc gives, under the same actor name.
+3. **Claim the Issue** with the actor `implementer-<issue-id>`, so the audit trail names you. In a beads repo: `bd --sandbox update <issue-id> --claim --actor implementer-<issue-id>`. Pass `--sandbox` on every `bd` command you run: it stops bd from auto-pushing the tracker's remote, and your guard hook refuses any `bd` call without it. On another tracker, use the claim command the repo's issue-tracker doc gives, under the same actor name.
 4. **Read the spec and the Issue** in full, comments included, plus the handoff document if the brief gives one. Read the Issue's blockers where they define an interface you build on.
 5. **Build red-green, only at the seams the spec names.** One failing test, then the code that passes it, then the next. Test through the named seams and nowhere else. Run the single test file and the typechecker as you go; leave the full gates for step 7.
 6. **Commit on your branch** in the worktree, in small commits whose subjects say what behaviour they add. Never amend or rewrite a commit you did not make.
@@ -32,7 +32,7 @@ A needed seam the spec does not name, an interface change, or a change to domain
 
 When BLOCKED, stop building, commit nothing half-done, and ask one question with a recommended answer. The orchestrator puts it to the user and resumes you with the answer; carry on from where you stopped. A local choice is one that nothing outside this Issue can observe: a private name, an internal helper, the order of two steps. Make it and move on.
 
-Work you discover that is outside this Issue is not yours to do. File it as a new Issue linked back to this one (`bd create "<title>" -d "<description>" --deps discovered-from:<issue-id>` in beads) and list it under DISCOVERED.
+Work you discover that is outside this Issue is not yours to do. File it as a new Issue linked back to this one (`bd --sandbox create "<title>" -d "<description>" --deps discovered-from:<issue-id>` in beads) and list it under DISCOVERED.
 
 ## Hard limits
 

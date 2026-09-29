@@ -12,7 +12,7 @@ Run everything the way CI does:
 ```bash
 python3 scripts/harness/forkcheck.py           # fork boundary: 4 assertions
 python3 scripts/harness/skillcheck.py          # 476+ assertions, exits 1 on any failure
-bash scripts/harness/test_guardrail.sh         # 65 cases: git guardrail + implementer guard
+bash scripts/harness/test_guardrail.sh         # 101 cases: git guardrail + implementer guard
 bash scripts/harness/test_forkcheck.sh         # 18 fail-closed cases for forkcheck.py
 bash scripts/harness/test_agents.sh            # 13 fail-closed cases for skillcheck's agent checks
 python3 scripts/check-confusable-skills.py     # description-collision tripwire

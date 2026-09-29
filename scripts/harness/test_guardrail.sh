@@ -2,8 +2,9 @@
 # Functional test for block-dangerous-git.sh and the implementer guard that
 # wraps it (agents/hooks/implementer-guard.sh).
 # Contract: each reads a Claude Code hook JSON payload on stdin, exits 2 to
-# block a command, 0 to allow. Runs entirely inside the workspace; the scripts
-# only read stdin and echo, so no git, gh or bd command is ever executed.
+# block a command, 0 to allow. The scripts only read stdin and echo, so no git,
+# gh or bd command is ever executed; the one temp directory, for the
+# unreachable-guardrail case, is removed at once.
 set -uo pipefail
 
 REPO="${1:-.}"
@@ -103,6 +104,7 @@ run "git branch -f -D name"       2 "$(json 'git branch -f -D old')"
 
 echo
 echo "=== IMPLEMENTER GUARD: publishing commands must block (exit 2) ==="
+# In these payloads \" is a real quote in the command and \n a real newline.
 TARGET="$GUARD"
 run "guard: git push"                  2 "$(json 'git push')"
 run "guard: git -C path push"          2 "$(json 'git -C /tmp/wt push origin agent/x')"
@@ -111,25 +113,67 @@ run "guard: git push after &&"         2 "$(json 'git commit -m wip && git push'
 run "guard: gh pr create"              2 "$(json 'gh pr create --fill')"
 run "guard: gh pr merge"               2 "$(json 'gh pr merge 12 --squash')"
 run "guard: gh pr create after ;"      2 "$(json 'git status; gh pr create --draft')"
-run "guard: bd dolt push"              2 "$(json 'bd dolt push')"
-run "guard: bd dolt pull"              2 "$(json 'bd dolt pull')"
-run "guard: bd --actor x dolt push"    2 "$(json 'bd --actor implementer-x dolt push')"
-run "guard: env-prefixed bd dolt pull" 2 "$(json 'BEADS_ACTOR=x bd dolt pull')"
+run "guard: bd dolt push"              2 "$(json 'bd --sandbox dolt push')"
+run "guard: bd dolt pull"              2 "$(json 'bd --sandbox dolt pull')"
+run "guard: bd --actor x dolt push"    2 "$(json 'bd --actor implementer-x --sandbox dolt push')"
+run "guard: env-prefixed bd dolt pull" 2 "$(json 'BEADS_ACTOR=x bd --sandbox dolt pull')"
 run "guard: still blocks reset --hard" 2 "$(json 'git reset --hard HEAD~1')"
 
 echo
+echo "=== IMPLEMENTER GUARD: shell forms around a publishing command (exit 2) ==="
+run "guard: after |&"                  2 "$(json 'ls |& bd --sandbox dolt push')"
+run "guard: after background &"        2 "$(json 'ls & gh pr create')"
+run "guard: after newline"             2 "$(json 'git status\ngit push')"
+run "guard: in subshell"               2 "$(json '(git push)')"
+run "guard: in brace group"            2 "$(json '{ gh pr create; }')"
+run "guard: in command substitution"   2 "$(json 'echo $(git push)')"
+run "guard: in backticks"              2 "$(json 'echo `gh pr merge 3`')"
+run "guard: bash -c"                   2 "$(json 'bash -c \"git push\"')"
+run "guard: sh -lc"                    2 "$(json 'sh -lc \"cd x && gh pr create\"')"
+run "guard: eval"                      2 "$(json 'eval \"git push\"')"
+run "guard: command prefix"            2 "$(json 'command git push')"
+run "guard: env prefix"                2 "$(json 'env GIT_TRACE=1 git push')"
+run "guard: nohup prefix"              2 "$(json 'nohup git push')"
+run "guard: timeout prefix"            2 "$(json 'timeout 60 gh pr create')"
+run "guard: xargs prefix"              2 "$(json 'echo main | xargs git push origin')"
+run "guard: absolute path to git"      2 "$(json '/usr/bin/git push')"
+run "guard: git -c key=value push"     2 "$(json 'git -c core.x=1 push')"
+run "guard: git --no-pager push"       2 "$(json 'git --no-pager push')"
+run "guard: git --git-dir=x push"      2 "$(json 'git --git-dir=.git push')"
+run "guard: git -C quoted path push"   2 "$(json 'git -C \"/tmp/a b\" push')"
+run "guard: gh quoted flag value"      2 "$(json 'gh -R \"a/b\" pr create')"
+run "guard: gh pr --repo x create"     2 "$(json 'gh pr --repo a/b create --fill')"
+run "guard: bd quoted flag value"      2 "$(json 'bd --actor \"x\" --sandbox dolt push')"
+run "guard: gh api POST"               2 "$(json 'gh api -X POST repos/a/b/pulls')"
+run "guard: gh api --method=PUT"       2 "$(json 'gh api --method=PUT repos/a/b/pulls/3/merge')"
+run "guard: gh api with fields"        2 "$(json 'gh api repos/a/b/pulls -f title=t -f head=x')"
+run "guard: gh api graphql mutation"   2 "$(json 'gh api graphql -F query=@m.graphql')"
+
+echo
+echo "=== IMPLEMENTER GUARD: bd must carry --sandbox, which disables Dolt auto-push (exit 2) ==="
+run "guard: bd update, no --sandbox"   2 "$(json 'bd update skills-1 --claim')"
+run "guard: bd create, no --sandbox"   2 "$(json 'bd create \"t\" -d \"d\"')"
+run "guard: bd show, no --sandbox"     2 "$(json 'bd show skills-1')"
+run "guard: bd --sandbox=false"        2 "$(json 'bd --sandbox=false update skills-1')"
+
+echo
 echo "=== IMPLEMENTER GUARD: ordinary work must allow (exit 0) ==="
-run "guard: git commit"                0 "$(json 'git commit -m \\\"feat: add thing\\\"')"
+run "guard: git commit"                0 "$(json 'git commit -m \"feat: add thing\"')"
 run "guard: git merge"                 0 "$(json 'git merge --no-ff agent/skills-1.2')"
 run "guard: git -C path status"        0 "$(json 'git -C /tmp/wt status')"
-run "guard: bd update --claim"         0 "$(json 'bd update skills-1 --claim --actor implementer-skills-1')"
-run "guard: bd comments add"           0 "$(json 'bd comments add skills-1 \\\"chose X\\\"')"
-run "guard: bd create discovered"      0 "$(json 'bd create \\\"t\\\" -d \\\"d\\\" --deps discovered-from:skills-1')"
-run "guard: bd dolt commit"            0 "$(json 'bd dolt commit')"
+run "guard: git -c key=value log"      0 "$(json 'git -c core.pager=cat log --oneline')"
+run "guard: bd update --claim"         0 "$(json 'bd --sandbox update skills-1 --claim --actor implementer-skills-1')"
+run "guard: bd --sandbox after args"   0 "$(json 'bd update skills-1 --claim --sandbox')"
+run "guard: bd comments add"           0 "$(json 'bd --sandbox comments add skills-1 \"chose X\"')"
+run "guard: bd create discovered"      0 "$(json 'bd --sandbox create \"t\" -d \"d\" --deps discovered-from:skills-1')"
+run "guard: bd dolt commit"            0 "$(json 'bd --sandbox dolt commit')"
 run "guard: gh pr view"                0 "$(json 'gh pr view 12')"
 run "guard: gh pr list"                0 "$(json 'gh pr list')"
-run "guard: mention in bd create"      0 "$(json 'bd create \\\"never run bd dolt push\\\"')"
-run "guard: mention in commit msg"     0 "$(json 'git commit -m \\\"docs: no gh pr create here\\\"')"
+run "guard: gh api GET"                0 "$(json 'gh api repos/a/b/pulls/3')"
+run "guard: mention in bd create"      0 "$(json 'bd --sandbox create \"never run bd dolt push\"')"
+run "guard: mention in commit msg"     0 "$(json 'git commit -m \"docs: no gh pr create here\"')"
+run "guard: grep for git push"         0 "$(json 'grep -rn \"git push\" docs/')"
+run "guard: word bd inside a path"     0 "$(json 'ls ./bd-notes/')"
 
 echo
 echo "=== IMPLEMENTER GUARD: fail closed (exit 2) ==="

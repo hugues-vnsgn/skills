@@ -66,7 +66,7 @@ The **frontier** is every open Issue in the graph whose blockers are all closed,
 - **At most two slots.** An Issue holds a slot from its dispatch until it is closed or marked failed, through its reviews, BLOCKED questions and merge gates. Two implementers building, or one building while FEATURE's gates run, is the most a machine carries: parallel builds exhaust memory past that, Gradle and Kotlin/Native worst of all.
 - **Pair only Issues that stay apart.** Before dispatching an Issue beside one already holding a slot, compare their descriptions: the same file, module, screen, schema or public interface named or implied by both means it waits for the other to close. When unsure, wait.
 - **Recompute the frontier** after every close, and fill each free slot from it.
-- **Keep a ledger** in your working notes: per Issue, its agent ID, worktree, branch, start commit, state, review round and whether it is on Opus. The run spans many background notifications; the ledger is how you know who to resume.
+- **Keep a ledger** in your working notes: per Issue, its agent ID, worktree, branch, start commit, last reviewed tip, state, review round and whether it is on Opus. The run spans many background notifications; the ledger is how you know who to resume.
 
 The walk is done when every Issue in the graph is closed, or when the frontier is empty, no slot is held, and open Issues remain (blocked outside the graph, or behind an Issue that failed): list those for the report and go on to step 5.
 
@@ -105,9 +105,9 @@ The report arrives in the implementer's fixed contract. Before acting on it, che
 
 ### 4c. Review
 
-Call the Skill tool with "code-review", giving it the Issue as the spec and the diff as explicit refs, `git diff <start>...<brief's BRANCH>`, so it reviews the right commits from whichever directory its sub-agents start in. Its sub-agents are the separate reviewer.
+Call the Skill tool with "code-review", giving it the Issue as the spec, the diff as explicit refs, `git diff <start>...<brief's BRANCH>`, so it reviews the right commits from whichever directory its sub-agents start in, and the **gate evidence**: each command from the report's GATES line with its result and log path, so a reviewer that doubts a build or test claim reads the log instead of guessing. Its sub-agents are the separate reviewer. Record the branch tip it reviewed in the ledger.
 
-Send every finding that needs a change (a hard standards violation, a missing or wrong requirement, a judgement call you agree with) back to the same implementer with SendMessage, as one numbered list. It fixes, commits, reruns the gates and reports again; review again. The same implementer gets at most two fix rounds. When the review after its second round still has findings, dispatch a fresh implementer on Opus with the open findings as its ESCALATION, and give it the same two rounds. When its reviews still have findings after that, the Issue has failed on Opus, as in 4b.
+Send every finding that needs a change (a hard standards violation, a missing or wrong requirement, a judgement call you agree with) back to the same implementer with SendMessage, as one numbered list. It fixes, commits, reruns the gates and reports again. Then **re-review** the fix round: call "code-review" with the numbered findings you sent as the spec, the new gate evidence, and the diff since the last reviewed tip, `git diff <reviewed tip>..<brief's BRANCH>`. It confirms each finding is resolved and checks only what the fix changed. When the fix touched production code rather than only tests or comments, re-review the full diff from `<start>` instead, with the Issue as the spec alongside the findings. However small the fix, a reviewer checks it; the narrow scope is what keeps that cheap. The same implementer gets at most two fix rounds. When the review after its second round still has findings, dispatch a fresh implementer on Opus with the open findings as its ESCALATION, and give it the same two rounds. When its reviews still have findings after that, the Issue has failed on Opus, as in 4b.
 
 Done when a review returns nothing you would send back.
 
@@ -145,7 +145,7 @@ When it fails on Opus, FEATURE cannot be trusted: stop dispatching, let in-fligh
 
 Skip this step when nothing merged, or when FEATURE is exactly one Issue's merge on top of the default branch: 4c already reviewed that diff.
 
-Call the Skill tool with "code-review", giving it the spec as the spec and the diff as explicit refs, `git diff <default-branch>...agent/<spec-id>`. It catches what no per-Issue review could see: seams that disagree across Issues, duplication between them, a requirement that fell between two.
+Call the Skill tool with "code-review", giving it the spec as the spec, the diff as explicit refs, `git diff <default-branch>...agent/<spec-id>`, and the gate evidence from FEATURE's last gate run (each command, its result and its log path). It catches what no per-Issue review could see: seams that disagree across Issues, duplication between them, a requirement that fell between two.
 
 A finding whose fix would contradict the spec, or a ruling the user gave, goes to the user first: only they can change what the spec fixes. When they amend the spec, write the amendment onto it as in 4b and keep the finding; when they keep the spec, the finding is **accepted** and goes in the report unfixed.
 

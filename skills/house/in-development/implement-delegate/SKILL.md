@@ -15,7 +15,7 @@ Running this skill authorizes local commits and merges on `agent/` branches. Eve
 Resolve the argument to a **spec** and the Issues to build, reading every Issue in full, comments included, through the repo's issue-tracker doc (`bd show <id>` in beads):
 
 - **A spec or epic ID** (an Issue with children): the spec is that Issue, and its child Issues are the graph, joined by their blocking edges.
-- **A single Issue ID** (no children): the spec is its parent Issue, or the Issue itself when it has none. The graph is that one Issue, and every one of its blockers must already be closed.
+- **A single Issue ID** (no children): the spec is its parent Issue, or the Issue itself when it has none. The graph is that one Issue, and every one of its blockers must already be closed. A standalone Issue, its own spec, still closes after its merge in 4e like any Issue; only a separate parent spec is left open.
 - **No argument:** take the spec created earlier in this conversation, confirm its ID with the user, and treat it as a spec ID. With no such spec, ask for an ID.
 
 A closed Issue counts as done, so a rerun picks up whatever is left. An open Issue claimed by `implementer-<issue-id>` was left by an earlier run and is yours to redispatch. Any other claim belongs to someone else: report it and stop.
@@ -57,7 +57,9 @@ git worktree add <feature-worktree> -b agent/<spec-id> <default-branch>
 git worktree add <feature-worktree> agent/<spec-id>
 ```
 
-Copy the needed ignored files in. Done when the feature worktree exists with the build's local files, and you hold its absolute path.
+Copy the needed ignored files in, then run the repo's gates in the feature worktree, logged as in 4d, and record the result in the ledger as FEATURE's **gate state**. When they fail on the tip you branched from, tell the user and stop: no merge can pass gates on a base that does not build.
+
+Done when the feature worktree exists with the build's local files, you hold its absolute path, and FEATURE's gate state is passing.
 
 ## 4. Walk the graph
 
@@ -66,7 +68,7 @@ The **frontier** is every open Issue in the graph whose blockers are all closed,
 - **At most two slots.** An Issue holds a slot from its dispatch until it is closed or marked failed, through its reviews, BLOCKED questions and merge gates. Two implementers building, or one building while FEATURE's gates run, is the most a machine carries: parallel builds exhaust memory past that, Gradle and Kotlin/Native worst of all.
 - **Pair only Issues that stay apart.** Before dispatching an Issue beside one already holding a slot, compare their descriptions: the same file, module, screen, schema or public interface named or implied by both means it waits for the other to close. When unsure, wait.
 - **Recompute the frontier** after every close, and fill each free slot from it.
-- **Keep a ledger** in your working notes: per Issue, its agent ID, worktree, branch, start commit, last reviewed tip, state, review round and whether it is on Opus. The run spans many background notifications; the ledger is how you know who to resume.
+- **Keep a ledger** in your working notes: FEATURE's gate state, and per Issue its agent ID, worktree, branch, start commit, last reviewed tip, state, review round and whether it is on Opus. The run spans many background notifications; the ledger is how you know who to resume.
 
 The walk is done when every Issue in the graph is closed, or when the frontier is empty, no slot is held, and open Issues remain (blocked outside the graph, or behind an Issue that failed): list those for the report and go on to step 5.
 
@@ -77,6 +79,11 @@ Create the Issue's worktree off FEATURE's current tip, copy the ignored files in
 ```bash
 git worktree add <issue-worktree> -b agent/<spec-id>--<issue-id> agent/<spec-id>
 ```
+
+On a rerun the ISSUE branch may already exist, left by an earlier run. Pick up where that run stopped:
+
+- **Already merged** (`git merge-base --is-ancestor <ISSUE> <FEATURE>` succeeds): the run stopped between 4d and 4e. Run FEATURE's gates as in 4d, then go to 4e.
+- **Not merged:** reuse the worktree already on the branch, or add one without `-b` (`git worktree add <issue-worktree> agent/<spec-id>--<issue-id>`). Its start commit is `git merge-base agent/<spec-id> agent/<spec-id>--<issue-id>`. Dispatch into it with an ESCALATION line saying an earlier run was interrupted there, and noting uncommitted changes when `git status --porcelain` shows any.
 
 The brief is at most ten lines of pointers; the spec and the Issue carry the substance:
 
@@ -97,7 +104,7 @@ Dispatch with the Agent tool in the background: the variant from step 2 as `suba
 
 ### 4b. Act on the report
 
-The report arrives in the implementer's fixed contract. Before acting on it, check its claims: `git log <start>..<brief's BRANCH> --oneline` lists the COMMITS, and each GATES log exists.
+The report arrives in the implementer's fixed contract. Before acting on it, check its claims: `git log <start>..<brief's BRANCH> --oneline` lists the COMMITS, TESTED AT equals the branch tip (`git rev-parse <brief's BRANCH>`), `git -C <brief's WORKTREE> status --porcelain` prints nothing, and each GATES log exists. A claim that does not hold goes back to the same implementer as a finding, so no gate evidence stands for code the branch lacks.
 
 - **DONE:** go to 4c.
 - **BLOCKED:** put the QUESTION and its recommended answer to the user. Write their answer onto the spec (a question means the spec had a gap). Where it changes what the spec's or an Issue's description says, edit that text in place and add a dated note naming the change, so later readers meet the ruling rather than the text it replaced. Then resume the same implementer with SendMessage to its agent ID, the answer as the message (load SendMessage through ToolSearch if it is deferred). Act on its next report.
@@ -113,15 +120,15 @@ Done when a review returns nothing you would send back.
 
 ### 4d. Merge
 
-Merge only while FEATURE's last gates passed and no FEATURE fix (4f) is running, since that implementer commits in the feature worktree:
+Merge only while FEATURE's gate state is passing and no FEATURE fix (4f) is running, since that implementer commits in the feature worktree:
 
 ```bash
 git -C <feature-worktree> merge --no-ff agent/<spec-id>--<issue-id> -m "Merge <issue-id>: <issue title>"
 ```
 
-On a textual conflict, call the Skill tool with "resolving-merge-conflicts". A conflict of meaning, where both sides are right and cannot both hold, goes to the user.
+On a conflict, run `git -C <feature-worktree> merge --abort` and resume the Issue's implementer with SendMessage: merge FEATURE into its branch and resolve the conflict there (dispatch a fresh one into the same worktree, as in 4b's FAILED, when it cannot be resumed). It returns BLOCKED on a conflict of meaning, where both sides are right and cannot both hold, which goes to the user as in 4b. Record FEATURE's current tip as the Issue's new start commit, so its diffs show only its own change, review its report as a fix round of 4c that touched production code, and merge again. The Issue keeps its slot throughout.
 
-Run the repo's gates in the feature worktree, each logged where the repo's rules put gate logs, else under `$TMPDIR`: later Issues branch from this tip, so it has to build. When a gate fails, fix FEATURE through 4f, with the failing gate's command and log as the findings, before this Issue closes and before any new Issue branches from FEATURE.
+Run the repo's gates in the feature worktree, each logged where the repo's rules put gate logs, else under `$TMPDIR`: later Issues branch from this tip, so it has to build. Record the result as FEATURE's gate state. When a gate fails, fix FEATURE through 4f, with the failing gate's command and log as the findings, before this Issue closes and before any new Issue branches from FEATURE.
 
 Done when FEATURE holds the merge commit and its gates pass.
 
@@ -137,7 +144,7 @@ Findings that belong to FEATURE as a whole (a gate broken by a merge, the whole-
 
 1. File one Issue under the spec, titled for what it fixes (`Fix gates after merging <issue-id>`, `Fix whole-branch review findings`), with the findings as a numbered list in its description.
 2. Take a slot: a gate fix inherits the slot of the Issue whose merge broke FEATURE, and the whole-branch fix finds every slot free. Record FEATURE's tip as its start commit, and dispatch a fresh implementer as in 4a, with WORKTREE the feature worktree, BRANCH FEATURE and BASE the default branch. Hold every merge and every new ISSUE branch until this Issue closes.
-3. Run it through 4b and 4c. It commits on FEATURE directly, so there is no merge: run the repo's gates in the feature worktree, logged as in 4d, and close it once they pass.
+3. Run it through 4b and 4c. It commits on FEATURE directly, so there is no merge: run the repo's gates in the feature worktree, logged as in 4d, and record FEATURE's gate state. When they pass, close the fix Issue. When a gate fails, its command and log go back to the same implementer as a fix round of 4c, within 4c's limits.
 
 When it fails on Opus, FEATURE cannot be trusted: stop dispatching, let in-flight Issues report without merging them, and go to step 7.
 
@@ -157,17 +164,17 @@ Done when every finding is fixed by a closed fix-up Issue or accepted by the use
 
 Skip this step when nothing merged. The spec's Testing Decisions may name **spec checks**: verifications beyond the repo's gates, such as a device or simulator run or a manual end-to-end pass. Review only reads code, so these are yours. Run each one against FEATURE's build in the feature worktree, through the skill or agent the repo's rules name for that kind of check, else by calling the Skill tool with "do-test", logged like a gate. A check that needs a human, hardware this machine lacks, or credentials you do not hold is **not run**: record the command or skill that runs it for the report.
 
-A failing spec check is a finding on FEATURE: fix it through 4f, then run the check again.
+Send the failing spec checks through 4f as one fix, each check's command and log a finding. Rerun those checks before the fix Issue closes: a check still failing is a finding for another fix round with the same implementer, within 4c's limits, and when those are spent the fix has failed on Opus, as 4f says. Once it closes, rerun every spec check against FEATURE's new tip, since a fix for one check can break another. A check that fails on that last pass is reported as **failing**, with its log, rather than starting another fix.
 
-Done when every spec check has passed or is recorded as not run.
+Done when every spec check has passed on FEATURE's final tip, or is recorded as not run or failing.
 
 ## 7. Report
 
-- The spec, left open for the user to close once the work lands, and every Issue in the graph with its state: closed with its merge commit, failed on Opus, or still open and why.
+- The spec, left open for the user to close once the work lands (a standalone Issue closed in 4e like any other), and every Issue in the graph with its state: closed with its merge commit, failed on Opus, or still open and why.
 - The feature worktree's absolute path.
 - Changed files: `git diff --stat <default-branch>...agent/<spec-id>`.
 - Gate evidence from the feature worktree's last run: each command, its result and its log path.
-- Each spec check: passed, with its log, or not run, with the command or skill that runs it.
+- Each spec check: passed or failing, with its log, or not run, with the command or skill that runs it.
 - Per Issue: review rounds and what each changed, any Opus retry, DEVIATIONS, and DISCOVERED Issues. Then every FEATURE fix, the whole-branch findings, what each fix changed, and each finding the user accepted unfixed.
 - The commands for the user to run, marked as not run:
 

@@ -13,6 +13,11 @@
 # resolving that link back into the skills repo, so a `git pull` there keeps
 # both current. Fails CLOSED, like the guardrail: a missing guardrail, a
 # missing jq, or an unreadable payload blocks the command.
+#
+# A seatbelt, not a sandbox: it reads the command line, so a publishing call
+# hidden inside a script file, a git alias (`git -c alias.p=push p`) or a
+# Makefile target still gets through. It stops an implementer that follows or
+# half-follows its instructions, which is the failure it exists for.
 
 block() {
   echo "BLOCKED: $1 An implementer never publishes; the orchestrator and the user decide what leaves this machine." >&2

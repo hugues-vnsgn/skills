@@ -71,6 +71,9 @@ Not without checking. Sub-agent output is a hypothesis, not evidence: one team r
 
 Because fixes create new surface, and because the judgement-call half of the Standards axis is not deterministic between runs. One reader described the loop plainly: "/code-review and /improve-code-architecture always find new stuff every time. I implement fixes, rerun these skills, and again and again." There is no convergence guarantee. Treat a pass as a list of leads, act on the ones with a cited rule behind them, and stop: do not run it in a loop until it comes back clean, because it will not.
 
+**A skill called it with a branch and a list of findings. Does it still hunt for the spec itself?**
+No. When the caller supplies a diff command, a spec, or gate evidence, the review uses each as given and only discovers what is missing. That is what lets an orchestrator such as the fork's `implement-delegate` review another worktree's branch from its own checkout, re-review just a fix round against the findings it sent, and have reviewers read the test and build logs instead of guessing whether the code compiled.
+
 **Does it review my uncommitted work?**
 
 No. It diffs `<fixed-point>...HEAD`, three-dot, which is measured from the merge-base and excludes staged and working-tree changes. If `implement` has not made an interim commit, the work about to be committed is invisible to the review. Commit first, then review, then amend or add a fixup.
@@ -82,6 +85,7 @@ No. It diffs `<fixed-point>...HEAD`, three-dot, which is measured from the merge
 - Every Standards finding names either a rule in one of your repo's files or one of the twelve smells, with the hunk quoted; every Spec finding quotes a line of the spec.
 - The closing summary gives a worst issue per axis and declines to pick an overall winner.
 - With no spec available, the Spec block says so instead of listing requirements it inferred from the code.
+- Handed a diff command, a spec or gate logs, it reviews exactly those rather than rediscovering its own.
 
 ## Where it fits
 

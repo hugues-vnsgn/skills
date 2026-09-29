@@ -138,6 +138,12 @@ This is a one-line divergence on purpose. MIT requires that "the above copyright
 
 **Recipe:** take upstream's wording, then re-insert the composition paragraph directly after the blocking-edges paragraph in the drafting step, and the composition question after the merge-or-split question in the quiz. If upstream renumbers or merges steps, keep the rule where blocking edges are drawn and the question where the user approves the breakdown. Re-sync the docs page's entries to match.
 
+### `skills/engineering/code-review/SKILL.md`: caller-supplied inputs
+
+**Why:** the fork's `/implement-delegate` calls `code-review` with explicit refs for a branch other than its own checkout, a numbered list of findings as the spec for a narrow re-review, and the gate logs. Upstream's process rebuilds `git diff <fixed-point>...HEAD` and searches commit messages for the spec, so followed literally it could review the orchestrator's checkout or re-review the original issue instead of the fix round (Codex readiness review, `skills-q4q.7`). A paragraph at the top of Process makes a caller's diff command, spec and gate evidence authoritative, with discovery filling only what is missing, and both sub-agent prompts carry the gate evidence. The file also carries the setup-skill name, under the router row above. Its docs page explains the rule in a Common questions entry and an It's working if line.
+
+**Recipe:** take upstream's wording, then re-insert the caller-inputs paragraph between the `## Process` heading and step 1, and the gate-evidence bullet after the diff bullet in each sub-agent prompt. If upstream restructures the process, keep the rule ahead of the first discovery step. Re-sync the docs page's entries to match.
+
 ### `skills/engineering/to-spec/SKILL.md`: end-to-end and wire tests
 
 **Why:** in the `skills-bm3.7` trial of `/implement-delegate`, the spec's Testing Decisions named only per-module seams. No test proved the reported symptom through the whole path, and a recorded change to what the app sends to the server had no test pinning it. The whole-branch review caught both, at the cost of an extra fix cycle. The spec template's Testing Decisions now carry two more bullets: the test proving the Problem Statement end to end through the highest seam, and a test for every behaviour change that reaches the wire or persistence. The file also carries the setup-skill name, under the router row above. Its docs page explains the rule in a Common questions entry and an It's working if line.

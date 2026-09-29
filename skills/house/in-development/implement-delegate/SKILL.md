@@ -133,13 +133,13 @@ Done when the Issue is closed, its slot is free, and `git worktree list` no long
 
 ### 4f. Fix on FEATURE
 
-Findings that belong to FEATURE as a whole (a gate broken by a merge, or the whole-branch review in step 5) get one fix, built on FEATURE itself:
+Findings that belong to FEATURE as a whole (a gate broken by a merge, the whole-branch review in step 5, or a failing spec check in step 6) get one fix, built on FEATURE itself:
 
 1. File one Issue under the spec, titled for what it fixes (`Fix gates after merging <issue-id>`, `Fix whole-branch review findings`), with the findings as a numbered list in its description.
 2. Take a slot: a gate fix inherits the slot of the Issue whose merge broke FEATURE, and the whole-branch fix finds every slot free. Record FEATURE's tip as its start commit, and dispatch a fresh implementer as in 4a, with WORKTREE the feature worktree, BRANCH FEATURE and BASE the default branch. Hold every merge and every new ISSUE branch until this Issue closes.
 3. Run it through 4b and 4c. It commits on FEATURE directly, so there is no merge: run the repo's gates in the feature worktree, logged as in 4d, and close it once they pass.
 
-When it fails on Opus, FEATURE cannot be trusted: stop dispatching, let in-flight Issues report without merging them, and go to step 6.
+When it fails on Opus, FEATURE cannot be trusted: stop dispatching, let in-flight Issues report without merging them, and go to step 7.
 
 ## 5. Review the whole branch
 
@@ -153,12 +153,21 @@ Send every finding that still needs a change through 4f as one fix. This review 
 
 Done when every finding is fixed by a closed fix-up Issue or accepted by the user, or the review found nothing to change.
 
-## 6. Report
+## 6. Run the spec's own checks
+
+Skip this step when nothing merged. The spec's Testing Decisions may name **spec checks**: verifications beyond the repo's gates, such as a device or simulator run or a manual end-to-end pass. Review only reads code, so these are yours. Run each one against FEATURE's build in the feature worktree, through the skill or agent the repo's rules name for that kind of check, else by calling the Skill tool with "do-test", logged like a gate. A check that needs a human, hardware this machine lacks, or credentials you do not hold is **not run**: record the command or skill that runs it for the report.
+
+A failing spec check is a finding on FEATURE: fix it through 4f, then run the check again.
+
+Done when every spec check has passed or is recorded as not run.
+
+## 7. Report
 
 - The spec, left open for the user to close once the work lands, and every Issue in the graph with its state: closed with its merge commit, failed on Opus, or still open and why.
 - The feature worktree's absolute path.
 - Changed files: `git diff --stat <default-branch>...agent/<spec-id>`.
 - Gate evidence from the feature worktree's last run: each command, its result and its log path.
+- Each spec check: passed, with its log, or not run, with the command or skill that runs it.
 - Per Issue: review rounds and what each changed, any Opus retry, DEVIATIONS, and DISCOVERED Issues. Then every FEATURE fix, the whole-branch findings, what each fix changed, and each finding the user accepted unfixed.
 - The commands for the user to run, marked as not run:
 

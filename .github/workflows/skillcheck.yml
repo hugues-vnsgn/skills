@@ -58,6 +58,9 @@ jobs:
       - name: Git guardrail functional tests
         run: bash scripts/harness/test_guardrail.sh
 
+      - name: Agent checks fail-closed tests
+        run: bash scripts/harness/test_agents.sh
+
       - name: Fork boundary guard fail-closed tests
         run: bash scripts/harness/test_forkcheck.sh
 

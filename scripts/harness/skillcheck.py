@@ -22,6 +22,14 @@ DOC_SECTIONS = [
     "It's working if",
 ]
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)")
+# Subagent definitions, linked into the harness by scripts/link-agents.sh.
+# `model` and `maxTurns` are required because an agent that inherits them runs
+# on whatever the caller happens to be using, with no turn budget.
+AGENTS_DIR = "agents"
+AGENT_REQUIRED = ("name", "description", "model", "maxTurns")
+# scripts/link-skills.sh skips these, so an agent preloading one of them would
+# find nothing installed under that name.
+AGENT_UNSHIPPED_BUCKETS = {"deprecated", "misc"}
 
 # --- Repo coordinates -------------------------------------------------------
 # The account migration moved this repo from `osxsystem` to `hugues-vnsgn`. It
@@ -549,6 +557,94 @@ def check_repo_coordinates(repo):
     return rows
 
 
+def check_agents(repo, skills):
+    """Subagent definitions under agents/: one Markdown file per agent.
+
+    An agent file is YAML frontmatter plus a body that becomes the agent's
+    system prompt. Three things can break one silently: frontmatter the harness
+    cannot read, a preloaded skill that does not exist or that the model is not
+    allowed to invoke, and a variant (`<base>-<variant>.md`) whose body has
+    drifted from its base agent's. Variants differ from their base only in
+    frontmatter, so the bodies must match byte for byte.
+    """
+    rows = []
+    agents_dir = os.path.join(repo, AGENTS_DIR)
+    if not os.path.isdir(agents_dir):
+        return rows
+    by_name = {s["name"]: s for s in skills}
+    bodies = {}
+    for fname in sorted(os.listdir(agents_dir)):
+        if not fname.endswith(".md"):
+            continue
+        stem = fname[:-3]
+        rel = f"{AGENTS_DIR}/{fname}"
+
+        def row(check, status, notes=""):
+            rows.append({"bucket": AGENTS_DIR, "skill": stem, "check": check,
+                         "status": status, "notes": notes, "file": rel})
+
+        fm_text, body = split_frontmatter(read(os.path.join(agents_dir, fname)))
+        if fm_text is None:
+            row("agent-frontmatter-parses", "FAIL", "no --- frontmatter block found")
+            continue
+        try:
+            fm = yaml.safe_load(fm_text)
+        except yaml.YAMLError as e:
+            row("agent-frontmatter-parses", "FAIL", f"YAML error: {e}")
+            continue
+        if not isinstance(fm, dict):
+            row("agent-frontmatter-parses", "FAIL", "frontmatter is not a mapping")
+            continue
+        row("agent-frontmatter-parses", "PASS")
+        bodies[stem] = body
+
+        problems = [f"missing {k}:" for k in AGENT_REQUIRED if not fm.get(k)]
+        if fm.get("name") and fm["name"] != stem:
+            problems.append(f"name={fm['name']!r} does not match file {fname}")
+        turns = fm.get("maxTurns")
+        if turns is not None and not (isinstance(turns, int) and turns > 0):
+            problems.append(f"maxTurns={turns!r} is not a positive integer")
+        preloads = fm.get("skills", [])
+        if not (isinstance(preloads, list) and all(isinstance(p, str) for p in preloads)):
+            problems.append("skills: must be a list of skill names")
+            preloads = []
+        row("agent-required-fields", "FAIL" if problems else "PASS", "; ".join(problems))
+
+        # A preload the model may not invoke is a contradiction the harness
+        # resolves silently, so the agent starts without the skill it relies on.
+        bad = []
+        for name in preloads:
+            skill = by_name.get(name)
+            if skill is None:
+                bad.append(f"{name} (no such skill)")
+                continue
+            sfm_text, _ = split_frontmatter(read(os.path.join(skill["dir"], "SKILL.md")))
+            try:
+                sfm = (yaml.safe_load(sfm_text) or {}) if sfm_text else {}
+            except yaml.YAMLError:
+                sfm = {}
+            if sfm.get("disable-model-invocation"):
+                bad.append(f"{name} (user-invoked)")
+            elif skill["bucket"] in AGENT_UNSHIPPED_BUCKETS:
+                bad.append(f"{name} (in {skill['bucket']}/, not linked)")
+        row("agent-preloads-resolve", "FAIL" if bad else "PASS",
+            f"bad preload(s): {', '.join(bad)}" if bad
+            else f"{len(preloads)} preload(s) checked")
+
+    for stem in sorted(bodies):
+        base = next((b for b in sorted(bodies, key=len, reverse=True)
+                     if stem.startswith(b + "-")), None)
+        if base is None:
+            continue
+        same = bodies[stem] == bodies[base]
+        rows.append({"bucket": AGENTS_DIR, "skill": stem, "check": "agent-body-matches-base",
+                     "status": "PASS" if same else "FAIL",
+                     "notes": f"body identical to {base}.md" if same
+                              else f"body differs from {base}.md; variants may differ only in frontmatter",
+                     "file": f"{AGENTS_DIR}/{stem}.md"})
+    return rows
+
+
 def main():
     skills = find_skills(REPO)
     beta = load_beta(REPO)
@@ -558,6 +654,7 @@ def main():
     rows.extend(check_readme_membership(REPO, skills, beta))
     rows.extend(check_bucket_readmes(REPO, skills, beta))
     rows.extend(check_ask_matt_routing(REPO, skills, beta))
+    rows.extend(check_agents(REPO, skills))
     rows.extend(check_install_block(REPO))
     rows.extend(check_repo_coordinates(REPO))
 

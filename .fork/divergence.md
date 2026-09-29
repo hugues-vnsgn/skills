@@ -124,6 +124,12 @@ This is a one-line divergence on purpose. MIT requires that "the above copyright
 
 **Recipe:** take upstream's wording, then re-insert the four fork additions at the same steps: the labelling paragraph after the wide-refactor paragraph, the **Model** bullet and the quiz question in step 4, the `model:opus` sentence after the `ready-for-agent` sentence in step 5, and the `**Labels:**` line below `**Status:**` in the local template. If upstream renumbers or merges steps, keep the rule where tickets are drafted and the display where the user approves them. Re-sync the docs page's entry to match.
 
+### `skills/engineering/to-tickets/SKILL.md`: composition test owner
+
+**Why:** in the `skills-bm3.7` trial of `/implement-delegate`, `to-tickets` split one bug into two parallel tickets that met at a seam. Each proved its own half and no ticket owned the test that ran the whole path, so only the whole-branch review caught the gap, at the cost of an extra fix cycle. `to-tickets` now carries a paragraph in step 3 that gives every seam between tickets with no blocking edge between them a **composition test** owned by a ticket blocked by every slice meeting there, plus a step 4 quiz question asking which ticket owns it. Its docs page explains the rule in a Common questions entry and an It's working if line.
+
+**Recipe:** take upstream's wording, then re-insert the composition paragraph directly after the blocking-edges paragraph in the drafting step, and the composition question after the merge-or-split question in the quiz. If upstream renumbers or merges steps, keep the rule where blocking edges are drawn and the question where the user approves the breakdown. Re-sync the docs page's entries to match.
+
 ### `skills/engineering/ask-matt/references/`: the router's long-form detail
 
 Affected: `skills/engineering/ask-matt/PHASE-BOUNDARIES.md` (deleted), `references/phase-boundaries.md` and `references/platform-knowledge.md` (added).

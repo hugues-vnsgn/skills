@@ -37,6 +37,8 @@ Break the work into **tracer bullet** tickets.
 
 Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
 
+**Give every seam between parallel tickets a composition test.** When tickets with no blocking edge between them meet at a seam (one produces what another consumes, or each builds half of one user-visible behaviour), each proves only its own half, and the test that runs the whole path through both belongs to neither. Give that **composition test** an owner: a ticket blocked by every slice that meets there, an existing one or a new one, whose acceptance criterion is the test through the highest seam that shows the combined behaviour. For a bug, that is the test reproducing the reported symptom. When the spec's Testing Decisions already name the test, the owning ticket carries it by name.
+
 **Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
 
 **Label the slices that need the stronger model.** Give a ticket the `model:opus` label when any of these holds, so whoever dispatches it starts on Opus rather than finding out mid-build:
@@ -62,6 +64,7 @@ Ask the user:
 - Does the granularity feel right? (too coarse / too fine)
 - Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
 - Should any tickets be merged or split further?
+- Where tickets with no edge between them meet at a seam, which ticket owns the composition test?
 - Is each `model:opus` label earned, and does any ticket lack one it should carry?
 
 Iterate until the user approves the breakdown.

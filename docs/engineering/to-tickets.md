@@ -86,6 +86,9 @@ It marks the slices worth building on the stronger model from the first attempt,
 
 The label shows up in the quiz breakdown next to the criterion that earned it, so that is where you drop one you think is overkill or add one it missed. [implement](https://aihero.dev/skills-implement) run inline ignores the label: it builds on whatever model your session is on.
 
+**Two parallel tickets each passed, but together they still didn't fix the bug.**
+Each ticket proved its own half, and nobody owned the test that runs the whole path through both. `to-tickets` now looks for this: where tickets with no blocking edge between them meet at a seam (one produces what the other consumes, or each builds half of one behaviour), it gives a **composition test** to a ticket blocked by all of them, either one that already exists or a small new one. That test goes through the highest seam that shows the combined behaviour; for a bug, it is the test that reproduces the reported symptom. The quiz asks you which ticket owns it, so that is where to correct the choice.
+
 **The tickets are published. How do I actually run them?**
 The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is manual: look at the board, count the tickets with no open blockers, and open that many agent sessions. One ticket per fresh context, cleared between them. Be aware that [implement](https://aihero.dev/skills-implement) does not reliably close or check off the ticket when it finishes, on GitHub or in local markdown, so the ticket's state is yours to update.
 
@@ -98,6 +101,7 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 - Each ticket reads like something a fresh session could finish without you in the room.
 - Prefactoring, where it found any, is at the front of the order rather than mixed into feature tickets.
 - Every `model:opus` label in the breakdown names the criterion that earned it, and the routine slices carry none.
+- Wherever parallel tickets meet at a seam, one ticket blocked by all of them owns the test that proves they work together.
 
 ## Where it fits
 

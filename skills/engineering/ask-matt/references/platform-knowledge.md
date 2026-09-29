@@ -1,6 +1,6 @@
 # Platform knowledge
 
-Nine model-invoked references support KMP/CMP and native iOS work. Choose by the immediate question; a feature can need several at different stages.
+Nine references support KMP/CMP and native iOS work. Seven are model-invoked; `/swiftui-expert-skill` and `/uikit-expert` are user-invoked, so type them when a native screen is the work. Choose by the immediate question; a feature can need several at different stages.
 
 | Question | Skill |
 |---|---|

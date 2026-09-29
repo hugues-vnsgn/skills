@@ -10,7 +10,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[setup-osxsystem-skills](../house/platform/setup-osxsystem-skills.md)**: run this before anything else in a new repo: it picks the issue tracker, the triage labels, and where docs get written. `/triage`, `/to-spec` and `/to-tickets` do nothing sensible until it has.
 - **[git-guardrails-claude-code](../../skills/misc/git-guardrails-claude-code/SKILL.md)** _(auto)_: install the hook that blocks `git push`, `reset --hard` and friends before an agent can run them.
-- **[setup-pre-commit](../../skills/misc/setup-pre-commit/SKILL.md)** _(auto)_: wire Husky + lint-staged so formatting, types and tests run at commit time instead of in review.
+- **[setup-pre-commit](../../skills/misc/setup-pre-commit/SKILL.md)**: wire Husky + lint-staged so formatting, types and tests run at commit time instead of in review.
 - **[setup-ts-deep-modules](../../skills/in-progress/setup-ts-deep-modules/SKILL.md)**: TypeScript repos only: enforce that each package is reachable only through its entry point.
 
 ## The main flow
@@ -37,8 +37,8 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[research](../engineering/research.md)** _(auto)_: delegate the reading to a background agent and get back a cited Markdown file instead of a guess.
 - **[project-organization](../../skills/house/delivery/project-organization/SKILL.md)** _(auto)_: where any output file goes and what it's called: plans, reports, journals, assets, and their markdown templates. Beta.
 - **[wizard](../engineering/wizard.md)** _(auto)_: the steps only a human can do (dashboards, credentials, a cutover) become an interactive bash script that walks them through it.
-- **[migrate-to-shoehorn](../../skills/misc/migrate-to-shoehorn/SKILL.md)** _(auto)_: mechanical: replace `as` assertions in TypeScript tests with shoehorn.
-- **[scaffold-exercises](../../skills/misc/scaffold-exercises/SKILL.md)** _(auto)_: mechanical: stub out an exercise tree (problems, solutions, explainers) for course material.
+- **[migrate-to-shoehorn](../../skills/misc/migrate-to-shoehorn/SKILL.md)**: mechanical: replace `as` assertions in TypeScript tests with shoehorn.
+- **[scaffold-exercises](../../skills/misc/scaffold-exercises/SKILL.md)**: mechanical: stub out an exercise tree (problems, solutions, explainers) for course material.
 
 ## When it goes wrong
 
@@ -53,8 +53,8 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[tdd-kmp](../house/mobile/tdd-kmp.md)** _(auto)_: red-green-refactor for KMP/CMP features and bug fixes, testing at the layer that owns the behavior.
 - **[kmp-test-seams](../house/mobile/kmp-test-seams.md)** _(auto)_: where a test lives (`commonTest` vs a platform source set) and the cheapest Gradle task that proves the slice. Sits underneath `/tdd-kmp`, not instead of it.
 - **[compose-multiplatform-ui](../house/mobile/compose-multiplatform-ui.md)** _(auto)_: shared UI: entry points per platform, resources, navigation and ViewModel in common code, SwiftUI/UIKit interop.
-- **[swiftui-expert-skill](../house/mobile/swiftui-expert-skill.md)** _(auto)_: native SwiftUI state, adaptive layout, accessibility, API migration, and Instruments trace diagnosis. Use after the shared-vs-native shell decision.
-- **[uikit-expert](../house/mobile/uikit-expert.md)** _(auto)_: native UIKit lifecycle, Auto Layout, collection views, navigation, accessibility, and SwiftUI interop.
+- **[swiftui-expert-skill](../house/mobile/swiftui-expert-skill.md)**: native SwiftUI state, adaptive layout, accessibility, API migration, and Instruments trace diagnosis. Use after the shared-vs-native shell decision.
+- **[uikit-expert](../house/mobile/uikit-expert.md)**: native UIKit lifecycle, Auto Layout, collection views, navigation, accessibility, and SwiftUI interop.
 - **[kmp-ios-integration](../house/mobile/kmp-ios-integration.md)** _(auto)_: getting the framework into Xcode, and the Swift-facing API review that stops Kotlin idioms leaking awkwardly.
 - **[kmp-release-and-publish](../house/mobile/kmp-release-and-publish.md)** _(auto)_: Android release with R8 over shared code, iOS archive and TestFlight, Maven Central, CI runner split.
 - **[kmp-boundaries](../../skills/house/mobile/kmp-boundaries/SKILL.md)** _(auto, beta)_: capability interfaces, expect/actual choices, binding lifetimes and completion semantics.
@@ -82,7 +82,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[writing-for-agents](../productivity/writing-for-agents.md)** _(auto)_: before you edit a `SKILL.md`, a `CLAUDE.md`, or any document an agent reaches by pointer: they are written for a reader who cannot ask a follow-up question.
 - **[unslop](../house/writing/unslop.md)** _(auto)_ does the same job for prose a *human* reads: the README, the PR description, the release notes. Cuts the AI tells, then checks a voice survived the cutting.
 - **[port-from-repo](../house/platform/port-from-repo.md)**: another repo does something well and you want it here. Study it, argue against it, then adapt it to this codebase's idiom instead of transplanting it.
-- **[herdr](../../skills/house/platform/herdr/SKILL.md)** _(auto, beta)_: drive Herdr's panes, tabs and workspaces from an agent. Only reaches for it when you name Herdr, and only with `HERDR_ENV=1` set.
+- **[herdr](../../skills/house/platform/herdr/SKILL.md)** _(beta)_: drive Herdr's panes, tabs and workspaces from an agent. Only reaches for it when you name Herdr, and only with `HERDR_ENV=1` set.
 
 ## Where to look next
 

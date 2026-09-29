@@ -94,13 +94,16 @@ House skills for the phase before the spec, turning an idea into documents a CEO
 
 House skills for Kotlin Multiplatform + Compose Multiplatform development (Android + iOS/Swift), plus native SwiftUI/UIKit. Fork addition, see [skills/house/mobile/README.md](./skills/house/mobile/README.md).
 
+**User-invoked**
+
+- **[swiftui-expert-skill](./skills/house/mobile/swiftui-expert-skill/SKILL.md)**: Native SwiftUI implementation and review: state and `@Observable` data flow, view composition, adaptive layout, accessibility, API migration, and Instruments trace capture/analysis.
+- **[uikit-expert](./skills/house/mobile/uikit-expert/SKILL.md)**: Native UIKit implementation and review: view-controller lifecycle, Auto Layout, collection views, navigation, memory, concurrency, accessibility, and SwiftUI interop.
+
 **Model-invoked**
 
 - **[kmp-module-setup](./skills/house/mobile/kmp-module-setup/SKILL.md)**: Configure shared-module plugins, targets, source sets, compatible versions and Apple frameworks for the installed toolchain.
 - **[kmp-ios-integration](./skills/house/mobile/kmp-ios-integration/SKILL.md)**: Connect shared code to Xcode and verify Swift-facing APIs, errors and coroutine behavior.
 - **[compose-multiplatform-ui](./skills/house/mobile/compose-multiplatform-ui/SKILL.md)**: Build shared screens and verify native iOS interop, navigation ownership, resources, touch and accessibility.
-- **[swiftui-expert-skill](./skills/house/mobile/swiftui-expert-skill/SKILL.md)**: Native SwiftUI implementation and review: state and `@Observable` data flow, view composition, adaptive layout, accessibility, API migration, and Instruments trace capture/analysis.
-- **[uikit-expert](./skills/house/mobile/uikit-expert/SKILL.md)**: Native UIKit implementation and review: view-controller lifecycle, Auto Layout, collection views, navigation, memory, concurrency, accessibility, and SwiftUI interop.
 - **[kmp-release-and-publish](./skills/house/mobile/kmp-release-and-publish/SKILL.md)**: Prepare and verify release artifacts, signing, CI and library publication with explicit upload/release scope.
 - **[kmp-test-seams](./skills/house/mobile/kmp-test-seams/SKILL.md)**: Choose common or platform test placement and discover the existing task that verifies the change.
 - **[tdd-kmp](./skills/house/mobile/tdd-kmp/SKILL.md)**: Test-first KMP/CMP changes across shared Kotlin, Android, and SwiftUI with a red-to-green test on each affected target.

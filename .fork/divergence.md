@@ -100,6 +100,12 @@ This is a one-line divergence on purpose. MIT requires that "the above copyright
 
 **Recipe:** keep both, and reconcile by re-running `bash scripts/harness/test_guardrail.sh`; the tests are the arbiter, not the diff.
 
+### `skills/misc/{migrate-to-shoehorn,scaffold-exercises,setup-pre-commit}/`: made user-invoked
+
+**Why:** each is a one-off job (a migration to shoehorn, scaffolding a course's exercise tree, installing Husky pre-commit hooks) that changes a repo's setup or rewrites many files at once. The fork makes all three user-invoked so they run only when typed, never because a task happened to mention tests, exercises or commit hooks. Two lines per skill: `disable-model-invocation: true` in `SKILL.md` frontmatter, and `policy.allow_implicit_invocation: false` in `agents/openai.yaml`. Nothing else in either file changes.
+
+**Recipe:** take upstream's version of all six files, then re-add those two lines. If upstream makes a skill user-invoked itself, its files match the fork's again: drop both entries from [`sanctioned-edits.txt`](./sanctioned-edits.txt), which `forkcheck` demands once they are identical. If upstream deletes or moves one, follow the move and keep the two lines.
+
 ### `skills/engineering/{ask-matt,code-review,to-spec,to-tickets,triage,wayfinder}/SKILL.md`
 
 **Why:** router entries and cross-references for fork skills (the `mobile` and `platform` domains). These cite fork skills by name, not by path, so the move left them unchanged.

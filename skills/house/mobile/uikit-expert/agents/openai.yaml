@@ -1,3 +1,5 @@
 interface:
   display_name: "UIKit Expert"
   short_description: "Build and review native UIKit views and controllers"
+policy:
+  allow_implicit_invocation: false

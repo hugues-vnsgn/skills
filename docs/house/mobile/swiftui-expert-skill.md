@@ -6,7 +6,7 @@ It treats each view as an invalidation boundary: pass a view only the data it re
 
 ## When to reach for it
 
-Type `/swiftui-expert-skill`, or the agent reaches for it automatically when writing or reviewing native SwiftUI screens. Reach for it when the question is how a SwiftUI view should own state, lay out across available space, expose accessible controls, or adopt a newer API without breaking older deployment targets. For shared Kotlin UI rendered through Compose, use [compose-multiplatform-ui](./compose-multiplatform-ui.md) instead.
+You invoke this by typing `/swiftui-expert-skill`, and the agent won't reach for it on its own, so type it when you start writing or reviewing native SwiftUI screens. Reach for it when the question is how a SwiftUI view should own state, lay out across available space, expose accessible controls, or adopt a newer API without breaking older deployment targets. For shared Kotlin UI rendered through Compose, use [compose-multiplatform-ui](./compose-multiplatform-ui.md) instead.
 
 ## The platform boundary
 

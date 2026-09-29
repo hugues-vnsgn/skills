@@ -6,7 +6,7 @@ It separates correctness from optional performance work. Lifecycle and containme
 
 ## When to reach for it
 
-Type `/uikit-expert`, or the agent reaches for it automatically when building or reviewing UIKit views and view controllers. Reach for it when constraints churn, reusable cells show stale images, view controllers leak, navigation transitions race, or UIKit needs to host SwiftUI content. For a screen owned by SwiftUI, use [swiftui-expert-skill](./swiftui-expert-skill.md) instead; for a screen owned by shared Compose UI, use [compose-multiplatform-ui](./compose-multiplatform-ui.md).
+You invoke this by typing `/uikit-expert`, and the agent won't reach for it on its own, so type it when you start building or reviewing UIKit views and view controllers. Reach for it when constraints churn, reusable cells show stale images, view controllers leak, navigation transitions race, or UIKit needs to host SwiftUI content. For a screen owned by SwiftUI, use [swiftui-expert-skill](./swiftui-expert-skill.md) instead; for a screen owned by shared Compose UI, use [compose-multiplatform-ui](./compose-multiplatform-ui.md).
 
 ## The lifecycle boundary
 

@@ -1,3 +1,5 @@
 interface:
   display_name: "Herdr"
   short_description: "Drive Herdr panes, tabs and workspaces from an agent"
+policy:
+  allow_implicit_invocation: false

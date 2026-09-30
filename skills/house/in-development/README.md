@@ -6,6 +6,7 @@ Every skill here carries `metadata.internal: true`, so none reaches the installe
 
 - **[bro](./bro/SKILL.md)**: Restate the last message in plain human language, with no jargon. User-invoked.
 - **[implement-delegate](./implement-delegate/SKILL.md)**: Delegate a spec's Issues, or a single Issue, to fresh implementer subagents in their own worktrees, then review, merge and close each. User-invoked.
+- **[implementing-an-issue](./implementing-an-issue/SKILL.md)**: Build one Issue test-first in the worktree an implementer brief names, and return the fixed-format report. The `implementer` agent's procedure.
 - **[improve-claude-md](./improve-claude-md/SKILL.md)**: Improve a `CLAUDE.md` using `<important if>` blocks to raise instruction adherence.
 - **[ios-tdd-practitioner](./ios-tdd-practitioner/SKILL.md)**: Test-first Swift/iOS behavior, XCTest regressions, and characterization of legacy code.
 - **[show-me](./show-me/SKILL.md)**: Draw the current topic as the smallest true picture, then show the smaller shape it exposes.

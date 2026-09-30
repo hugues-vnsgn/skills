@@ -449,6 +449,13 @@ skills:
     audience: [engineer]
     owner: "@hugues-vnsgn"
     status: beta
+  - name: implementing-an-issue
+    path: skills/house/in-development/implementing-an-issue
+    origin: fork
+    domain: in-development
+    audience: [engineer]
+    owner: "@hugues-vnsgn"
+    status: beta
   - name: ios-tdd-practitioner
     path: skills/house/in-development/ios-tdd-practitioner
     origin: fork

@@ -172,8 +172,8 @@ run "guard: bd --sandbox=false"        2 "$(json 'bd --sandbox=false update skil
 
 echo
 echo "=== IMPLEMENTER GUARD: ordinary work must allow (exit 0) ==="
-run "guard: git commit"                0 "$(jsonc 'git commit -m \"feat: add thing\"' "$WT")"
-run "guard: git merge"                 0 "$(jsonc 'git merge --no-ff agent/spec' "$WT")"
+run "guard: git commit"                0 "$(json "git -C $WT commit -m \\\"feat: add thing\\\"")"
+run "guard: git merge"                 0 "$(json "git -C $WT merge --no-ff agent/spec")"
 run "guard: git -C path status"        0 "$(json 'git -C /tmp/wt status')"
 run "guard: git -c key=value log"      0 "$(json 'git -c core.pager=cat log --oneline')"
 run "guard: bd update --claim"         0 "$(json 'bd --sandbox update skills-1 --claim --actor implementer-skills-1')"
@@ -185,15 +185,16 @@ run "guard: gh pr view"                0 "$(json 'gh pr view 12')"
 run "guard: gh pr list"                0 "$(json 'gh pr list')"
 run "guard: gh api GET"                0 "$(json 'gh api repos/a/b/pulls/3')"
 run "guard: mention in bd create"      0 "$(json 'bd --sandbox create \"never run bd dolt push\"')"
-run "guard: mention in commit msg"     0 "$(jsonc 'git commit -m \"docs: no gh pr create here\"' "$WT")"
+run "guard: mention in commit msg"     0 "$(json "git -C $WT commit -m \\\"docs: no gh pr create here\\\"")"
 run "guard: grep for git push"         0 "$(json 'grep -rn \"git push\" docs/')"
 run "guard: word bd inside a path"     0 "$(json 'ls ./bd-notes/')"
 
 run "guard: gh api -X GET"             0 "$(json 'gh api -XGET repos/a/b/pulls/3')"
 run "guard: gh api jq filter"          0 "$(json 'gh api repos/a/b/pulls -q .[].title')"
 run "guard: git -C worktree commit"    0 "$(jsonc "git -C $WT commit -m x" "$MAIN")"
-run "guard: cd worktree && commit"     0 "$(jsonc "cd $WT && git commit -m x" "$MAIN")"
-run "guard: git checkout -- file"      0 "$(jsonc 'git checkout -- a.txt' "$WT")"
+run "guard: chained -C to worktree"    0 "$(json "git -C $SANDBOX -C wt commit -m x")"
+run "guard: cd worktree && git -C"     0 "$(jsonc "cd $WT && git -C $WT commit -m x" "$MAIN")"
+run "guard: git checkout -- file"      0 "$(json "git -C $WT checkout -- a.txt")"
 run "guard: git log in main checkout"  0 "$(jsonc 'git log --oneline -3' "$MAIN")"
 run "guard: git branch --show-current" 0 "$(jsonc 'git branch --show-current' "$MAIN")"
 run "guard: git worktree list"         0 "$(jsonc 'git worktree list' "$MAIN")"
@@ -219,16 +220,52 @@ run "guard: bd update -s=closed"       2 "$(json 'bd --sandbox update skills-1 -
 run "guard: git -C main merge"         2 "$(jsonc "git -C $MAIN merge agent/x" "$WT")"
 run "guard: git commit in main"        2 "$(jsonc 'git commit -m x' "$MAIN")"
 run "guard: cd main && git merge"      2 "$(jsonc "cd $MAIN && git merge agent/x" "$WT")"
-run "guard: checkout in main"          2 "$(jsonc 'git checkout -b feature' "$MAIN")"
-run "guard: git add in main"           2 "$(jsonc 'git add -A' "$MAIN")"
-run "guard: git stash in main"         2 "$(jsonc 'git stash' "$MAIN")"
-run "guard: commit, no repo resolved"  2 "$(jsonc 'git commit -m x' "$SANDBOX/missing")"
+run "guard: checkout in main"          2 "$(json "git -C $MAIN checkout -b feature")"
+run "guard: git add in main"           2 "$(json "git -C $MAIN add -A")"
+run "guard: git stash in main"         2 "$(json "git -C $MAIN stash")"
+run "guard: commit, no repo resolved"  2 "$(json "git -C $SANDBOX/missing commit -m x")"
+
+echo
+echo "=== IMPLEMENTER GUARD: a git write must name its worktree with an absolute -C (exit 2) ==="
+# Codex gives each shell call its own directory and reports only the session's
+# as cwd, so neither cwd nor cd can place a write, even when both are right.
+run "guard: commit, cwd is worktree"   2 "$(jsonc 'git commit -m x' "$WT")"
+run "guard: cd worktree && commit"     2 "$(jsonc "cd $WT && git commit -m x" "$WT")"
+run "guard: relative -C"               2 "$(jsonc 'git -C wt commit -m x' "$SANDBOX")"
+run "guard: -C through ~"              2 "$(json 'git -C ~ commit -m x')"
+run "guard: -C through a variable"     2 "$(json 'git -C $W commit -m x')"
+run "guard: -C through substitution"   2 "$(json 'git -C $(pwd) commit -m x')"
+run "guard: -C through backticks"      2 "$(json 'git -C `pwd` commit -m x')"
+run "guard: subcommand substituted"    2 "$(json "git -C $WT \$(echo commit) -m x")"
+run "guard: read through a variable"   0 "$(json 'git -C $W log --oneline -5')"
+run "guard: substitution inside a read" 0 "$(json "echo \$(git -C $WT log --oneline -1)")"
+# A variable is the agent shortening a path it knows, so the message says what
+# to write instead of reporting an unknown branch.
+dynamic=$(printf '%s' "$(json 'git -C $W commit -m x')" | bash "$GUARD" 2>&1 >/dev/null)
+case "$dynamic" in
+  *"shell variable or substitution"*) pass=$((pass + 1)); printf '%-46s %s\n' "guard: variable -C message names the cause" PASS ;;
+  *) fail=$((fail + 1)); printf '%-46s %s\n' "guard: variable -C message names the cause" FAIL ;;
+esac
 run "guard: GIT_DIR redirect"          2 "$(jsonc "GIT_DIR=$MAIN/.git git commit -m x" "$WT")"
 run "guard: --work-tree redirect"      2 "$(jsonc "git --work-tree=$MAIN checkout -- ." "$WT")"
 run "guard: git branch -f main"        2 "$(jsonc 'git branch -f main HEAD' "$WT")"
 run "guard: git update-ref"            2 "$(jsonc 'git update-ref refs/heads/main HEAD' "$WT")"
 run "guard: git worktree add"          2 "$(jsonc 'git worktree add ../x' "$WT")"
 run "guard: fetch into local main"     2 "$(jsonc 'git fetch . agent/spec--issue:main' "$WT")"
+
+echo
+echo "=== IMPLEMENTER GUARD: the canary is always blocked, and only it (exit 2 / 0) ==="
+run "guard: canary"                    2 "$(json 'implementer-guard-check')"
+run "guard: canary, padded"            2 "$(json '  implementer-guard-check\n')"
+run "guard: canary word in a grep"     0 "$(json 'grep -rn implementer-guard-check agents/')"
+# The canary proves the guard is live only if its message is fixed: the
+# implementing-an-issue skill compares against this exact line.
+canary=$(printf '%s' "$(json 'implementer-guard-check')" | bash "$GUARD" 2>&1 >/dev/null)
+if [ "$canary" = 'BLOCKED: implementer guard is live.' ]; then
+  pass=$((pass + 1)); printf '%-46s %s\n' "guard: canary message is exact" PASS
+else
+  fail=$((fail + 1)); printf '%-46s %s\n' "guard: canary message is exact" FAIL
+fi
 
 echo
 echo "=== IMPLEMENTER GUARD: fail closed (exit 2) ==="

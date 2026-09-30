@@ -30,10 +30,12 @@ trap 'chmod -R u+rw "$SCRATCH" 2>/dev/null; rm -rf "$SCRATCH"' EXIT
 cp -R "$REPO" "$TEMPLATE"
 # Trees that are gitignored, machine-local, or merely slow to copy. A clean CI
 # checkout has none of them, and `in-development/` skills that are not yet in
-# the catalog would fail unrelated assertions.
+# the catalog would fail unrelated assertions. `agents/` goes with them: the
+# implementer preloads an in-development skill, and test_agents.sh owns the
+# agent assertions.
 rm -rf "$TEMPLATE/isolated_test_workspace" "$TEMPLATE/node_modules" \
        "$TEMPLATE/.claude" "$TEMPLATE/.beads" "$TEMPLATE/.git" \
-       "$TEMPLATE/skills/house/in-development"
+       "$TEMPLATE/skills/house/in-development" "$TEMPLATE/agents"
 
 pass=0
 fail=0

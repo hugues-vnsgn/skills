@@ -14,13 +14,22 @@
 # - no bd call without `--sandbox`, which disables Dolt auto-push;
 # - no closing an Issue (`bd close`, `--status closed`): the orchestrator
 #   closes it after the merge;
-# - git changes only in a repository whose checked-out branch starts with
-#   `agent/`. Read-only git runs anywhere. The repository is the one `git -C`
-#   names, else the last `cd` in the same command, else the payload's `cwd`.
+# - git changes only through `git -C <absolute path>` into a repository whose
+#   checked-out branch starts with `agent/`. Read-only git runs anywhere. The
+#   repository is never inferred from a `cd` or the payload's `cwd`: Codex
+#   gives each shell call its own working directory and reports only the
+#   session's in the payload, so an explicit `-C` is the one location both
+#   harnesses let the hook see truthfully.
 #
-# Prose-only, in agents/implementer.md: that the agent branch is the one the
-# brief names, and that the implementer never merges into FEATURE. The hook
-# cannot see the brief, so it enforces the class of branch, not the branch.
+# The command `implementer-guard-check` is a canary: it is always blocked with
+# a fixed message, so an implementer can prove at startup that its guard is
+# live. Codex runs a command whose hook is missing, untrusted or crashed, so
+# the canary is what turns a silent open failure into a FAILED report.
+#
+# Prose-only, in the implementing-an-issue skill: that the agent branch is the
+# one the brief names, and that the implementer never merges into FEATURE. The
+# hook cannot see the brief, so it enforces the class of branch, not the
+# branch.
 #
 # Installed as a symlink by scripts/link-agents.sh; the guardrail is found by
 # resolving that link back into the skills repo, so a `git pull` there keeps
@@ -30,8 +39,10 @@
 #
 # A seatbelt, not a sandbox: it reads the command line, so a publishing call
 # hidden inside a script file, a git alias (`git -c alias.p=push p`) or a
-# Makefile target still gets through. It stops an implementer that follows or
-# half-follows its instructions, which is the failure it exists for.
+# Makefile target still gets through, and so does anything typed into a shell
+# Codex already started (its `write_stdin` input is never hooked). It stops an
+# implementer that follows or half-follows its instructions, which is the
+# failure it exists for.
 
 block() {
   echo "BLOCKED: $1 An implementer never publishes; the orchestrator and the user decide what leaves this machine." >&2
@@ -57,6 +68,11 @@ if ! COMMAND=$(printf '%s' "$INPUT" | jq -re '.tool_input.command' 2>/dev/null);
   block "implementer guard could not read .tool_input.command from the hook payload."
 fi
 
+if [ "$(printf '%s' "$COMMAND" | tr -d '[:space:]')" = implementer-guard-check ]; then
+  echo "BLOCKED: implementer guard is live." >&2
+  exit 2
+fi
+
 # The guardrail matches only the plain shapes of a command, which suits a
 # human's hook. This layer normalizes harder, because an implementer that
 # reaches for a workaround should still hit the wall: every control operator,
@@ -65,7 +81,12 @@ fi
 # until the real tool is first. The cost is over-blocking a quoted mention
 # that contains a separator (`-m "a; gh pr create"`), which is acceptable for
 # an agent that is not meant to write such commands anyway.
-SEGMENTS=$(printf '%s\n' "$COMMAND" | sed -E 's/\$\(|`|\|&|&&|\|\||[;|&(){}]/\n/g')
+#
+# A substitution also leaves a SUBST marker where it cut, so a git segment
+# still sees that its `-C` path or subcommand came from one: without it,
+# `git -C $(pwd) commit` would split into a `git -C` with nothing to check.
+SUBST=__implementer_guard_substitution__
+SEGMENTS=$(printf '%s\n' "$COMMAND" | sed -E "s/\\\$\\(|\`/ $SUBST\\n/g; s/\\|&|&&|\\|\\||[;|&(){}]/\\n/g")
 
 # normalize <segment>: strip, repeatedly, leading whitespace and quotes, env
 # assignments, wrapper commands with their flags, `sh -c`, and a directory
@@ -175,13 +196,19 @@ git_reads() {
   return 1
 }
 
-# check_git <segment>: block a git change outside an agent branch.
+# check_git <segment>: block a git change that is not `git -C <path>` into an
+# agent branch. Chained `-C`s resolve each against the one before, as git does;
+# a relative first `-C` has no trustworthy base, so it stays unresolved.
 check_git() {
-  local dir="$CURDIR" sub="" expect="" redirect="" t branch
+  local dir="" named="" dynamic="" sub="" expect="" redirect="" t branch
   local -a args=()
   while IFS= read -r t; do
     if [ -n "$expect" ]; then
-      [ "$expect" = C ] && dir=$(resolve "$dir" "$t")
+      if [ "$expect" = C ]; then
+        named=1
+        dir=$(resolve "$dir" "$t")
+        case "$t" in *'$'*|*'`'*|"$SUBST") dynamic=1 ;; esac
+      fi
       [ "$expect" = redirect ] && redirect=1
       expect=""
       continue
@@ -200,7 +227,11 @@ check_git() {
       args+=("$t")
     fi
   done <<< "$(tokens "$1")"
-  [ -z "$sub" ] && return 0
+  if [ -z "$sub" ]; then
+    [ -n "$dynamic" ] && block "'$COMMAND' names git's repository with a shell variable or substitution, and the rest of the call cannot be read. Write the path out literally: 'git -C <absolute path of your worktree> ...'."
+    return 0
+  fi
+  [ "$sub" = "$SUBST" ] && block "'$COMMAND' takes git's subcommand from a substitution, which the guard cannot read. Write the subcommand out literally."
   if git_reads "$sub" ${args[@]+"${args[@]}"}; then
     return 0
   fi
@@ -213,35 +244,23 @@ check_git() {
       done ;;
   esac
   [ -n "$redirect" ] && block "'$COMMAND' points git at another repository with --git-dir or --work-tree. Use 'git -C <your worktree>'."
+  [ -n "$named" ] || block "'$COMMAND' runs 'git $sub' without naming its repository. Run it as 'git -C <absolute path of your worktree> $sub ...'."
+  [ -n "$dynamic" ] && block "'$COMMAND' names its repository with a shell variable or substitution, which the guard cannot expand. Write the path out literally: 'git -C <absolute path of your worktree> $sub ...'."
   branch=""
   [ -n "$dir" ] && branch=$(git -C "$dir" symbolic-ref --short -q HEAD 2>/dev/null)
   case "$branch" in
     agent/*) return 0 ;;
   esac
-  block "'$COMMAND' changes a repository on branch '${branch:-unknown}' (${dir:-unresolved directory}). An implementer changes only its agent/ branch: cd into the worktree your brief names, or run 'git -C <that worktree> ...'."
+  block "'$COMMAND' changes a repository on branch '${branch:-unknown}' (${dir:-unresolved -C path}). An implementer changes only its agent/ branch: run 'git -C <absolute path of the worktree your brief names> ...'."
 }
 
 if printf '%s' "$COMMAND" | grep -qE "$GIT_REDIRECT"; then
   block "'$COMMAND' sets GIT_DIR, GIT_WORK_TREE, GIT_COMMON_DIR or GIT_INDEX_FILE. Use 'git -C <your worktree>'."
 fi
 
-CURDIR=$(printf '%s' "$INPUT" | jq -r '.cwd // empty' 2>/dev/null)
-[ -n "$CURDIR" ] || CURDIR="$PWD"
-CURDIR=$(resolve / "$CURDIR")
-
 while IFS= read -r segment; do
   segment=$(normalize "$segment")
   [ -z "$segment" ] && continue
-
-  # Follow `cd` within the command, so `cd <dir> && git ...` is judged where
-  # it runs. A directory that cannot be resolved leaves the location unknown.
-  case "$segment" in
-    cd|pushd) CURDIR="$HOME"; continue ;;
-    "cd "*|"pushd "*)
-      target=$(tokens "$segment" | sed 1d | grep -v '^-' | head -1)
-      CURDIR=$(resolve "$CURDIR" "${target:-$HOME}")
-      continue ;;
-  esac
 
   for pattern in "${PUBLISHING_PATTERNS[@]}"; do
     if printf '%s' "$segment" | grep -qE "^${pattern}${END}"; then

@@ -23,10 +23,13 @@ DOC_SECTIONS = [
 ]
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)")
 # Subagent definitions, linked into the harness by scripts/link-agents.sh.
-# `model` and `maxTurns` are required because an agent that inherits them runs
-# on whatever the caller happens to be using, with no turn budget.
+# `model` is required so the choice is written down, even when it is `inherit`.
+# `maxTurns` is optional: a cap cuts an agent off mid-work with no report, and
+# Codex has no equivalent, so the implementer stops itself instead (the three
+# strikes in the implementing-an-issue skill). When set, it must be a positive
+# integer.
 AGENTS_DIR = "agents"
-AGENT_REQUIRED = ("name", "description", "model", "maxTurns")
+AGENT_REQUIRED = ("name", "description", "model")
 # scripts/link-skills.sh skips these, so an agent preloading one of them would
 # find nothing installed under that name.
 AGENT_UNSHIPPED_BUCKETS = {"deprecated", "misc"}

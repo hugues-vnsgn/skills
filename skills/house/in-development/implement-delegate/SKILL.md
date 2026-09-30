@@ -41,10 +41,10 @@ If the chosen agent type is not available in this session, tell the user to run 
 
 Two kinds of branch, named once here and used by these names below:
 
-- **FEATURE**: `agent/<spec-id>`, branched from the local default branch so the user's unpushed commits are included. One per run.
-- **ISSUE**: `agent/<spec-id>--<issue-id>`, branched from FEATURE's tip when the Issue is dispatched. One per Issue.
+- **FEATURE**: `agent/<spec-id>-<spec-slug>`, branched from the local default branch so the user's unpushed commits are included. One per run.
+- **ISSUE**: `agent/<issue-id>-<issue-slug>`, branched from FEATURE's tip when the Issue is dispatched. One per Issue. A standalone Issue, its own spec, has no ISSUE branch: it is built on FEATURE directly, as 4a says.
 
-Each gets a worktree at the location the target repo's `AGENTS.md` / `CLAUDE.md` conventions give, along with the list of ignored local files (`local.properties`, `.env`, signing config) a build needs copied in. With no convention, use `.worktrees/<branch>` at the repo root, ignored locally first:
+A **slug** is what a human reads to know the work without opening the tracker: 2 to 4 lowercase kebab-case words from the Issue's title, at most about 30 characters (`sm-keypad-gap`, never a bare ID like `mzum3`), unless the target repo's conventions define one. Each branch gets a worktree whose folder is named by slugs alone, `<spec-slug>` for FEATURE and `<spec-slug>--<issue-slug>` for ISSUE, at the location the target repo's `AGENTS.md` / `CLAUDE.md` conventions give, along with the list of ignored local files (`local.properties`, `.env`, signing config) a build needs copied in. When a folder name is taken, pick another slug rather than appending a number. With no location convention, use `.worktrees/<folder>` at the repo root, ignored locally first:
 
 ```bash
 git check-ignore -q .worktrees/ || echo '/.worktrees/' >> "$(git rev-parse --git-common-dir)/info/exclude"
@@ -53,8 +53,8 @@ git check-ignore -q .worktrees/ || echo '/.worktrees/' >> "$(git rev-parse --git
 From the main checkout's root, create FEATURE's worktree, or check out the existing branch, or reuse a worktree already on it:
 
 ```bash
-git worktree add <feature-worktree> -b agent/<spec-id> <default-branch>
-git worktree add <feature-worktree> agent/<spec-id>
+git worktree add <feature-worktree> -b agent/<spec-id>-<spec-slug> <default-branch>
+git worktree add <feature-worktree> agent/<spec-id>-<spec-slug>
 ```
 
 Copy the needed ignored files in, then run the repo's gates in the feature worktree, logged as in 4d, and record the result in the ledger as FEATURE's **gate state**. When they fail on the tip you branched from, tell the user and stop: no merge can pass gates on a base that does not build.
@@ -74,16 +74,18 @@ The walk is done when every Issue in the graph is closed, or when the frontier i
 
 ### 4a. Worktree, brief, dispatch
 
-Create the Issue's worktree off FEATURE's current tip, copy the ignored files in, and record that tip in the ledger as the Issue's **start** commit:
+For a standalone Issue, its own spec, there is no ISSUE worktree: record FEATURE's tip as the **start** commit and dispatch with WORKTREE the feature worktree, BRANCH FEATURE and BASE the default branch, as 4f does. It commits on FEATURE directly, so 4d skips the merge and only runs FEATURE's gates, and 4e removes no worktree.
+
+Otherwise create the Issue's worktree off FEATURE's current tip, copy the ignored files in, and record that tip in the ledger as the Issue's **start** commit:
 
 ```bash
-git worktree add <issue-worktree> -b agent/<spec-id>--<issue-id> agent/<spec-id>
+git worktree add <issue-worktree> -b agent/<issue-id>-<issue-slug> agent/<spec-id>-<spec-slug>
 ```
 
 On a rerun the ISSUE branch may already exist, left by an earlier run. Pick up where that run stopped:
 
 - **Already merged** (`git merge-base --is-ancestor <ISSUE> <FEATURE>` succeeds): the run stopped between 4d and 4e. Run FEATURE's gates as in 4d, then go to 4e.
-- **Not merged:** reuse the worktree already on the branch, or add one without `-b` (`git worktree add <issue-worktree> agent/<spec-id>--<issue-id>`). Its start commit is `git merge-base agent/<spec-id> agent/<spec-id>--<issue-id>`. Dispatch into it with an ESCALATION line saying an earlier run was interrupted there, and noting uncommitted changes when `git status --porcelain` shows any.
+- **Not merged:** reuse the worktree already on the branch, or add one without `-b` (`git worktree add <issue-worktree> agent/<issue-id>-<issue-slug>`). Its start commit is `git merge-base agent/<spec-id>-<spec-slug> agent/<issue-id>-<issue-slug>`. Dispatch into it with an ESCALATION line saying an earlier run was interrupted there, and noting uncommitted changes when `git status --porcelain` shows any.
 
 The brief is at most ten lines of pointers; the spec and the Issue carry the substance:
 
@@ -91,8 +93,8 @@ The brief is at most ten lines of pointers; the spec and the Issue carry the sub
 ISSUE: <issue-id>
 SPEC: <spec-id>
 WORKTREE: <absolute path of the ISSUE worktree>
-BRANCH: agent/<spec-id>--<issue-id>
-BASE: agent/<spec-id>
+BRANCH: agent/<issue-id>-<issue-slug>
+BASE: agent/<spec-id>-<spec-slug>
 SEAMS: <the seams the spec names for this Issue>
 ESCALATION: <only on an Opus retry: why the previous attempt stopped>
 HANDOFF: <only when needed: absolute path of the handoff document>
@@ -123,7 +125,7 @@ Done when a review returns nothing you would send back.
 Merge only while FEATURE's gate state is passing and no FEATURE fix (4f) is running, since that implementer commits in the feature worktree:
 
 ```bash
-git -C <feature-worktree> merge --no-ff agent/<spec-id>--<issue-id> -m "Merge <issue-id>: <issue title>"
+git -C <feature-worktree> merge --no-ff agent/<issue-id>-<issue-slug> -m "Merge <issue-id>: <issue title>"
 ```
 
 On a conflict, run `git -C <feature-worktree> merge --abort` and resume the Issue's implementer with SendMessage: merge FEATURE into its branch and resolve the conflict there (dispatch a fresh one into the same worktree, as in 4b's FAILED, when it cannot be resumed). It returns BLOCKED on a conflict of meaning, where both sides are right and cannot both hold, which goes to the user as in 4b. Record FEATURE's current tip as the Issue's new start commit, so its diffs show only its own change, review its report as a fix round of 4c that touched production code, and merge again. The Issue keeps its slot throughout.
@@ -134,7 +136,7 @@ Done when FEATURE holds the merge commit and its gates pass.
 
 ### 4e. Close and clean up
 
-Close the Issue with the reason `Merged into agent/<spec-id> at <short sha>` (`bd --sandbox close <issue-id> --reason "..."` in beads). Then, from the main checkout, run `git worktree remove <issue-worktree>`. Keep both branches.
+Close the Issue with the reason `Merged into agent/<spec-id>-<spec-slug> at <short sha>`, or `Built on agent/<spec-id>-<spec-slug> at <short sha>` for a standalone Issue (`bd --sandbox close <issue-id> --reason "..."` in beads). Then, from the main checkout, run `git worktree remove <issue-worktree>`. Keep both branches.
 
 Done when the Issue is closed, its slot is free, and `git worktree list` no longer shows its worktree.
 
@@ -150,9 +152,9 @@ When it fails on Opus, FEATURE cannot be trusted: stop dispatching, let in-fligh
 
 ## 5. Review the whole branch
 
-Skip this step when nothing merged, or when FEATURE is exactly one Issue's merge on top of the default branch: 4c already reviewed that diff.
+Skip this step when nothing merged, or when FEATURE carries exactly one Issue, merged or built on it directly: 4c already reviewed that diff.
 
-Call the Skill tool with "code-review", giving it the spec as the spec, the diff as explicit refs, `git diff <default-branch>...agent/<spec-id>`, and the gate evidence from FEATURE's last gate run (each command, its result and its log path). It catches what no per-Issue review could see: seams that disagree across Issues, duplication between them, a requirement that fell between two.
+Call the Skill tool with "code-review", giving it the spec as the spec, the diff as explicit refs, `git diff <default-branch>...agent/<spec-id>-<spec-slug>`, and the gate evidence from FEATURE's last gate run (each command, its result and its log path). It catches what no per-Issue review could see: seams that disagree across Issues, duplication between them, a requirement that fell between two.
 
 A finding whose fix would contradict the spec, or a ruling the user gave, goes to the user first: only they can change what the spec fixes. When they amend the spec, write the amendment onto it as in 4b and keep the finding; when they keep the spec, the finding is **accepted** and goes in the report unfixed.
 
@@ -172,14 +174,14 @@ Done when every spec check has passed on FEATURE's final tip, or is recorded as 
 
 - The spec, left open for the user to close once the work lands (a standalone Issue closed in 4e like any other), and every Issue in the graph with its state: closed with its merge commit, failed on Opus, or still open and why.
 - The feature worktree's absolute path.
-- Changed files: `git diff --stat <default-branch>...agent/<spec-id>`.
+- Changed files: `git diff --stat <default-branch>...agent/<spec-id>-<spec-slug>`.
 - Gate evidence from the feature worktree's last run: each command, its result and its log path.
 - Each spec check: passed or failing, with its log, or not run, with the command or skill that runs it.
 - Per Issue: review rounds and what each changed, any Opus retry, DEVIATIONS, and DISCOVERED Issues. Then every FEATURE fix, the whole-branch findings, what each fix changed, and each finding the user accepted unfixed.
 - The commands for the user to run, marked as not run:
 
   ```bash
-  git push -u origin agent/<spec-id>
-  gh pr create --base <default-branch> --head agent/<spec-id>
+  git push -u origin agent/<spec-id>-<spec-slug>
+  gh pr create --base <default-branch> --head agent/<spec-id>-<spec-slug>
   bd dolt push   # only in a beads repo that syncs its tracker remote
   ```

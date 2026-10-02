@@ -12,6 +12,8 @@ You saw something work in another codebase and you want it here. This skill brin
 
 Ask the user for the source, whether a GitHub URL, an `owner/repo`, or a local path, and for the capability they want, if they haven't already said.
 
+Follow the glossary paths configured by the project's instructions or `docs/agents/domain.md`; use `GLOSSARY.md` and `GLOSSARY-MAP.md` only as defaults.
+
 ## The source is read-only
 
 Fetch it outside this repository: a shallow clone in a temp directory, or `gh` reads against the API when you only need a few files. Never add it as a submodule, never vendor the tree, never edit it. You are reading a primary source, not acquiring a dependency.
@@ -52,7 +54,7 @@ Then build with the `/tdd` skill, one vertical slice at a time, at seams agreed 
 
 Translate as you go:
 
-- **Naming** to this project's domain language, so read `CONTEXT.md` where it exists.
+- **Naming** to this project's domain language, so read `GLOSSARY.md` where it exists.
 - **Error handling** to this codebase's convention, not the source's.
 - **Dependencies** to what the manifest already has. A dependency the source has and this codebase doesn't is usually hiding a seam: the thing to port is what the source used it *for*, re-expressed with what's already here, whether a constructor parameter, an interface, or a plain function. Adding the dependency is the last resort, not the first, and a decision to surface to the user, not take.
 

@@ -12,13 +12,15 @@ Its place in the flow: after the idea has been sharpened (`grill-with-docs`) and
 
 The issue tracker should have been provided to you. If not, tell the user to run `/setup-osxsystem-skills`.
 
+Follow the glossary paths configured by the project's instructions or `docs/agents/domain.md`; use `GLOSSARY.md` and `GLOSSARY-MAP.md` only as defaults.
+
 ## Process
 
-1. Ground yourself in the repo, if you haven't already. Use the project's domain glossary vocabulary (`CONTEXT.md`) throughout the PRD, and respect any ADRs touching this area, because a PRD that contradicts a recorded decision needs to say so explicitly, not silently.
+1. Ground yourself in the repo, if you haven't already. Use the project's domain glossary vocabulary (`GLOSSARY.md`) throughout the PRD, and respect any ADRs touching this area, because a PRD that contradicts a recorded decision needs to say so explicitly, not silently.
 
 2. Draft the full document from what you already know: the conversation, any research or grilling that preceded it, the codebase. Fill every section of the template below that you can defend. Where a section rests on something you believe but weren't told, write it anyway and flag it as an assumption; assumptions the team can shoot down are worth more than blanks.
 
-   If drafting surfaces a term the PRD leans on that `CONTEXT.md` doesn't pin down, or one word doing two jobs, call the Skill tool with "domain-modeling" to sharpen it before that term anchors a section. A PRD is the first document a non-engineer reads; a fuzzy term here propagates into every spec and ticket downstream.
+   If drafting surfaces a term the PRD leans on that `GLOSSARY.md` doesn't pin down, or one word doing two jobs, call the Skill tool with "domain-modeling" to sharpen it before that term anchors a section. A PRD is the first document a non-engineer reads; a fuzzy term here propagates into every spec and ticket downstream.
 
 3. Identify the genuine gaps. Some sections can't be invented on the user's behalf, because they're decisions, not facts:
 

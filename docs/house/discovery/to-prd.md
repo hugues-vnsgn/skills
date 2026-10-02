@@ -17,7 +17,9 @@ You invoke this by typing `/to-prd`, and the agent won't reach for it on its own
 
 ## Prerequisites
 
-Publishing the tracker link assumes an issue tracker is configured, so run [setup-osxsystem-skills](../platform/setup-osxsystem-skills.md) once per repo if it isn't. The PRD file itself is written regardless. A project glossary (`CONTEXT.md`) isn't required, but the PRD is markedly better with one: the skill writes in the glossary's vocabulary and calls `domain-modeling` when it hits a term the glossary doesn't pin down.
+Use the project's configured glossary path, with `GLOSSARY.md` as the default.
+
+Publishing the tracker link assumes an issue tracker is configured, so run [setup-osxsystem-skills](../platform/setup-osxsystem-skills.md) once per repo if it isn't. The PRD file itself is written regardless. A project glossary (`GLOSSARY.md`) isn't required, but the PRD is markedly better with one: the skill writes in the glossary's vocabulary and calls `domain-modeling` when it hits a term the glossary doesn't pin down.
 
 ## Ripeness, and why the skill refuses
 

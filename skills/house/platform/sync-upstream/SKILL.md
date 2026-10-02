@@ -97,4 +97,4 @@ Expect the name and the home to differ and nothing else. In the 2026-08-20 sync 
 
 ---
 
-For the mechanics of an individual conflicted file, the `/resolving-merge-conflicts` skill applies. Where the two disagree, this repo's recipes win: they encode which side owns the bytes, which a general resolver cannot know.
+For each conflicted file, read both sides and the documented recipe before editing. Stage the resolved file only after verifying that upstream's change and the fork's documented divergence both survive. Upstream removed `resolving-merge-conflicts` in v1.3; this workflow uses the recipes directly.

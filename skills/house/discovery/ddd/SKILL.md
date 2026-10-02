@@ -10,6 +10,8 @@ metadata:
 
 Speak the model out loud, walking each scenario in its own terms. The ear catches an awkward model before a diagram does: a sentence that will not say cleanly is a model asking to change.
 
+Follow the glossary paths configured by the project's instructions or `docs/agents/domain.md`; use `GLOSSARY.md` and `GLOSSARY-MAP.md` only as defaults.
+
 ## 1. Crunch
 
 Pick the entry from what exists:
@@ -105,7 +107,7 @@ Produce one artifact per settled branch, in the notation [ARTIFACTS.md](./ARTIFA
 
 Close with the Coverage note.
 
-Then call the Skill tool with "domain-modeling" to land the glossary in the project's `CONTEXT.md`, and any ADR the session earned.
+Then call the Skill tool with "domain-modeling" to land the glossary in the project's `GLOSSARY.md`, and any ADR the session earned.
 
 ## Guardrails
 

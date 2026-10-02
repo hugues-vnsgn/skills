@@ -17,6 +17,8 @@ You invoke this by typing `/port-from-repo`, and the agent won't reach for it on
 
 ## Prerequisites
 
+Use the project's configured glossary path, with `GLOSSARY.md` as the default.
+
 The source repository must be readable: a public GitHub URL, an `owner/repo` you have access to, or a local path. It is fetched outside this repository and never modified: you are reading it as a [primary source](https://www.aihero.dev/ai-coding-dictionary/primary-source), not acquiring a dependency.
 
 ## Adapt, don't transplant

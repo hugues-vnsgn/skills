@@ -2,9 +2,9 @@
 
 # Skill catalog
 
-Every skill in this repo: 65 total — 37 upstream, 28 fork-authored.
+Every skill in this repo: 64 total (36 upstream, 28 fork-authored).
 
-`Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this repo). `Audience` is who the skill is for — a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
+`Origin` says who owns the bytes (`upstream` = [mattpocock/skills](https://github.com/mattpocock/skills), which may rewrite them in any sync; `fork` = this repo). `Audience` is who the skill is for; a skill can serve several roles. A skill marked _(beta)_ is not promoted: no docs page, and not listed in the top-level README. Edit [.fork/catalog.yaml](.fork/catalog.yaml) and regenerate; never edit this file.
 
 | Skill | Origin | Domain | Audience | Owner |
 |---|---|---|---|---|
@@ -16,9 +16,10 @@ Every skill in this repo: 65 total — 37 upstream, 28 fork-authored.
 | [grill-with-docs](skills/engineering/grill-with-docs/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
 | [implement](skills/engineering/implement/SKILL.md) | upstream | engineering | engineer | @hugues-vnsgn |
 | [improve-codebase-architecture](skills/engineering/improve-codebase-architecture/SKILL.md) | upstream | engineering | engineer, staff | @hugues-vnsgn |
+| [pr](skills/engineering/pr/SKILL.md) | upstream | engineering | engineer, staff | @hugues-vnsgn |
 | [prototype](skills/engineering/prototype/SKILL.md) | upstream | engineering | engineer, designer | @hugues-vnsgn |
 | [research](skills/engineering/research/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
-| [resolving-merge-conflicts](skills/engineering/resolving-merge-conflicts/SKILL.md) | upstream | engineering | engineer | @hugues-vnsgn |
+| [retro](skills/engineering/retro/SKILL.md) | upstream | engineering | engineer, staff | @hugues-vnsgn |
 | [tdd](skills/engineering/tdd/SKILL.md) | upstream | engineering | engineer, qa | @hugues-vnsgn |
 | [to-spec](skills/engineering/to-spec/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
 | [to-tickets](skills/engineering/to-tickets/SKILL.md) | upstream | engineering | engineer, analyst, staff | @hugues-vnsgn |
@@ -38,8 +39,6 @@ Every skill in this repo: 65 total — 37 upstream, 28 fork-authored.
 | [setup-pre-commit](skills/misc/setup-pre-commit/SKILL.md) | upstream | misc | engineer | @hugues-vnsgn |
 | [claude-handoff](skills/in-progress/claude-handoff/SKILL.md) | upstream | in-progress | engineer, designer, analyst, qa, staff | @hugues-vnsgn |
 | [loop-me](skills/in-progress/loop-me/SKILL.md) | upstream | in-progress | engineer, staff | @hugues-vnsgn |
-| [pr](skills/in-progress/pr/SKILL.md) | upstream | in-progress | engineer, staff | @hugues-vnsgn |
-| [retro](skills/in-progress/retro/SKILL.md) | upstream | in-progress | engineer, staff | @hugues-vnsgn |
 | [setup-ts-deep-modules](skills/in-progress/setup-ts-deep-modules/SKILL.md) | upstream | in-progress | engineer | @hugues-vnsgn |
 | [writing-beats](skills/in-progress/writing-beats/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |
 | [writing-fragments](skills/in-progress/writing-fragments/SKILL.md) | upstream | in-progress | analyst, designer | @hugues-vnsgn |

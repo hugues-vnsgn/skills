@@ -39,7 +39,7 @@ Keep it to the contexts in scope. A map of every service in the company is an or
 
 ## Ubiquitous language glossary
 
-Group by context, since a term only means something inside one. This is `domain-modeling`'s `CONTEXT.md` shape on purpose, so the handoff is a copy rather than a translation. In a repo that already has a `CONTEXT-MAP.md`, each context's entries go to that context's own `CONTEXT.md` instead.
+Group by context, since a term only means something inside one. This is `domain-modeling`'s `GLOSSARY.md` shape on purpose, so the handoff is a copy rather than a translation. In a repo that already has a `GLOSSARY-MAP.md`, each context's entries go to that context's own `GLOSSARY.md` instead.
 
 ```md
 ### Billing

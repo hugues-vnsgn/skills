@@ -8,6 +8,6 @@ Fix each numbered finding in `<wt>`, commit, rerun every gate on the clean tip, 
 
 ## Merge FEATURE into your branch
 
-This happens when merging your branch into FEATURE conflicted. Run `git -C <wt> merge <FEATURE branch>` and resolve the conflicts by calling the Skill tool with "resolving-merge-conflicts".
+This happens when merging your branch into FEATURE conflicted. Run `git -C <wt> merge <FEATURE branch>` and resolve each conflicted hunk by reading both branches' intent and the relevant tests. Preserve both required behaviours, stage the resolved files, then finish the merge through `git -C <wt>` under the live guard.
 
 A conflict where both sides are right and cannot both hold is a change to domain meaning: run `git -C <wt> merge --abort` and return BLOCKED with the choice as your question. Otherwise commit the merge, rerun every gate, and report again.

@@ -26,7 +26,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 - **[tdd](../engineering/tdd.md)** _(auto)_: the red-green-refactor loop itself, one vertical slice at a time.
 - **[do-test](../../skills/house/quality/do-test/SKILL.md)** _(auto)_: after the build: derive a test matrix from the change, run it, and get a SHIP/BLOCKED/UNVERIFIED verdict backed by evidence. Beta.
 - **[code-review](../engineering/code-review.md)** _(auto)_: review the diff since a fixed point on two axes at once: does it follow the repo's standards, and does it do what the spec asked?
-- **[pr](../../skills/in-progress/pr/SKILL.md)** _(auto)_: write the PR body from the issue or spec, then show the change, before and after evidence, and the merge danger in a format built for fast review.
+- **[pr](../engineering/pr.md)** _(auto)_: write the PR body from the issue or spec, then show the change, before and after evidence, and the merge danger in a format built for fast review.
 
 ## While you are building
 
@@ -43,7 +43,6 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[diagnosing-bugs](../engineering/diagnosing-bugs.md)** _(auto)_: a bug you cannot explain, or a performance regression. Builds a loop that goes red on *this* bug before anything is fixed.
 - **[when-stuck](../../skills/house/platform/when-stuck/SKILL.md)** _(auto)_: not a bug: the design will not resolve, every option feels forced, or special cases keep accreting.
-- **[resolving-merge-conflicts](../engineering/resolving-merge-conflicts.md)** _(auto)_: work an in-progress merge or rebase hunk by hunk, by intent, and finish it, never `--abort`.
 - **[wait-what](../productivity/wait-what.md)**: the agent's last message did not land. Fire this instead of nodding along.
 
 ## Mobile: Kotlin Multiplatform, Compose, and SwiftUI
@@ -63,7 +62,7 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 - **[wayfinder](../engineering/wayfinder.md)**: the work is too big to hold in one session: map it as decision tickets and resolve them one at a time.
 - **[improve-codebase-architecture](../engineering/improve-codebase-architecture.md)**: periodic: scan for deepening opportunities, then grill through the one you pick.
-- **[retro](../../skills/in-progress/retro/SKILL.md)**: after a coding session, rank the navigation, checks, standards, tooling, and information-access changes that would improve the next run.
+- **[retro](../engineering/retro.md)**: after a coding session, rank the navigation, checks, standards, tooling, and information-access changes that would improve the next run.
 - **[triage](../engineering/triage.md)**: move issues and external PRs through the triage state machine into agent-ready briefs.
 - **[handoff](../productivity/handoff.md)**: compact this conversation into a document the next agent can pick up.
 - **[claude-handoff](../../skills/in-progress/claude-handoff/SKILL.md)**: same idea, but hands off to a fresh background agent that starts immediately.

@@ -106,12 +106,6 @@ skills:
     domain: engineering
     audience: [engineer, analyst, staff]
     owner: "@hugues-vnsgn"
-  - name: resolving-merge-conflicts
-    path: skills/engineering/resolving-merge-conflicts
-    origin: upstream
-    domain: engineering
-    audience: [engineer]
-    owner: "@hugues-vnsgn"
   - name: tdd
     path: skills/engineering/tdd
     origin: upstream
@@ -239,15 +233,15 @@ skills:
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
   - name: pr
-    path: skills/in-progress/pr
+    path: skills/engineering/pr
     origin: upstream
-    domain: in-progress
+    domain: engineering
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
   - name: retro
-    path: skills/in-progress/retro
+    path: skills/engineering/retro
     origin: upstream
-    domain: in-progress
+    domain: engineering
     audience: [engineer, staff]
     owner: "@hugues-vnsgn"
   - name: setup-ts-deep-modules

@@ -2,7 +2,7 @@
 
 `ddd` runs a domain-driven design session end to end: it works out where the boundaries in a domain fall and what each word means inside them, then writes that down. It reads before it asks. On an existing repo it reads the code first; on an idea it asks for one workflow in your own words and reads that. So every question it puts to you comes from a contradiction it found, not from a generic DDD checklist.
 
-What comes back is a context map (on a redesign, today's map beside the target), a ubiquitous language glossary handed to `domain-modeling` for the project's `CONTEXT.md`, and a Coverage note saying what the model settles, what it parks, and what it guessed. Going deep adds a model diagram per aggregate and an event table.
+What comes back is a context map (on a redesign, today's map beside the target), a ubiquitous language glossary handed to `domain-modeling` for the project's `GLOSSARY.md`, and a Coverage note saying what the model settles, what it parks, and what it guessed. Going deep adds a model diagram per aggregate and an event table.
 
 ## When to reach for it
 
@@ -18,7 +18,9 @@ You invoke this by typing `/ddd`, and the agent won't reach for it on its own.
 
 ## Prerequisites
 
-None to start. At the end the glossary goes to `domain-modeling`, which writes it into the project's `CONTEXT.md`, or into one `CONTEXT.md` per context where a `CONTEXT-MAP.md` exists, so run it from the directory where that file should live.
+Use the project's configured glossary path, with `GLOSSARY.md` as the default.
+
+None to start. At the end the glossary goes to `domain-modeling`, which writes it into the project's `GLOSSARY.md`, or into one `GLOSSARY.md` per context where a `GLOSSARY-MAP.md` exists, so run it from the directory where that file should live.
 
 ## The crunch report
 

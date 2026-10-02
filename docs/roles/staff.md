@@ -31,11 +31,11 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 ## Review
 
 - **[code-review](../engineering/code-review.md)** _(auto)_: standards and spec-fidelity reviewed as parallel sub-agents, so neither pollutes the other. The spec axis is the one a human reviewer usually skips.
-- **[pr](../../skills/in-progress/pr/SKILL.md)** _(auto)_: write the PR body from the primary source, with the smallest useful view, before and after evidence, and an explicit merge-danger call.
+- **[pr](../engineering/pr.md)** _(auto)_: write the PR body from the primary source, with the smallest useful view, before and after evidence, and an explicit merge-danger call.
 
 ## Grow the toolchain
 
-- **[retro](../../skills/in-progress/retro/SKILL.md)**: review a completed coding session for improvements to navigation, automated checks, standards, tooling, and information access.
+- **[retro](../engineering/retro.md)**: review a completed coding session for improvements to navigation, automated checks, standards, tooling, and information access.
 - **[setup-osxsystem-skills](../house/platform/setup-osxsystem-skills.md)**: run once per repo to configure the tracker, triage labels and docs layout every other skill assumes.
 - **[port-from-repo](../house/platform/port-from-repo.md)**: bring a capability across from another codebase: study it, argue against it, then adapt it to this codebase's idiom rather than transplanting it.
 - **[sync-upstream](../../skills/house/platform/sync-upstream/SKILL.md)**: drive the upstream merge: read the delta, classify each conflict before resolving it, and land the sync PR without breaking the lock. Maintainers only. Beta.

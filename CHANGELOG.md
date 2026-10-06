@@ -1,5 +1,11 @@
 # osxsystem-skills
 
+## 1.11.0
+
+### Minor Changes
+
+- Add the experimental chief-of-staff skill for pursuing a long-running goal through subagents. Refresh upstream documentation while preserving the fork's setup, mobile testing, and implementation routes.
+
 ## 1.10.0
 
 ### Minor Changes

@@ -60,6 +60,8 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Work bigger than one session
 
+- **[chief-of-staff](../../skills/in-progress/chief-of-staff/SKILL.md)** _(experimental)_: pursue a long-running goal in one session, coordinating subagents while keeping the strategic view.
+
 - **[wayfinder](../engineering/wayfinder.md)**: the work is too big to hold in one session: map it as decision tickets and resolve them one at a time.
 - **[improve-codebase-architecture](../engineering/improve-codebase-architecture.md)**: periodic: scan for deepening opportunities, then grill through the one you pick.
 - **[retro](../engineering/retro.md)**: after a coding session, rank the navigation, checks, standards, tooling, and information-access changes that would improve the next run.

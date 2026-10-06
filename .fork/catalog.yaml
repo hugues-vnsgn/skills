@@ -214,6 +214,12 @@ skills:
     owner: "@hugues-vnsgn"
 
   # --- upstream: in-progress ---
+  - name: chief-of-staff
+    path: skills/in-progress/chief-of-staff
+    origin: upstream
+    domain: in-progress
+    audience: [engineer, staff]
+    owner: "@hugues-vnsgn"
   - name: claude-handoff
     path: skills/in-progress/claude-handoff
     origin: upstream

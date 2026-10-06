@@ -19,7 +19,7 @@
 # Verify (should print nothing beyond fork-owned trees):
 #   git fetch upstream && git diff --name-status -M upstream/main
 #
-# Last verified: 2026-10-05 against upstream/main 24fe0ef7737efae15c87225755e9f6f5965e4888
+# Last verified: 2026-10-06 against upstream/main 4588b32ecab9ecc9fc8cc6b6c5e7d675b6004b0d
 
 # --- Modified upstream files ---
 # `.claude-plugin/marketplace.json` shares only its path with upstream's: the

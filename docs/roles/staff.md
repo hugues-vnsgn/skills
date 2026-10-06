@@ -55,6 +55,8 @@ You invoke any of them by typing `/<name>`. Entries marked _(auto)_ the agent ca
 
 ## Long sessions
 
+- **[chief-of-staff](../../skills/in-progress/chief-of-staff/SKILL.md)** _(experimental)_: pursue a long-running goal in one session, coordinating subagents while keeping the strategic view.
+
 - **[handoff](../productivity/handoff.md)**: compact a session into a document another agent resumes from.
 - **[claude-handoff](../../skills/in-progress/claude-handoff/SKILL.md)**: the same, handed to a fresh background agent that starts immediately.
 

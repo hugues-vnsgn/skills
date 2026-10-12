@@ -26,7 +26,7 @@ The machine-readable half of this file is [`sanctioned-edits.txt`](./sanctioned-
 | `skills/house/writing/`, `docs/house/writing/` | The `writing` domain: prose a human reads, which is the other half of the pair whose agent-facing side upstream's `writing-for-agents` owns. `unslop` (cut the AI tells, restore a voice) is its first resident, promoted out of `in-development/` on 2026-08-24 | Its bundled `scripts/check-tells.py` is fork-authored and has no upstream counterpart, so a sync can never contest it. |
 | `skills/house/in-development/` | Staging area for fork skills still being written, the one `skills/house/` child that is a maturity bucket rather than a capability domain. Its `README.md` carries the shipping checklist out of it | Never gains a `docs/house/` tree: a skill here is unregistered by definition, and it earns its docs page only after moving to a capability domain. |
 | `docs/roles/` | One entry page per audience in [`catalog.yaml`](./catalog.yaml), a curated reading order for engineers, designers, analysts, QA and staff (fork-local) | Regenerate the lists by hand whenever a skill's `audience` changes; the catalog is the source of truth, the pages are the view. |
-| `docs/agents/` | Per-repo configuration the engineering skills read: which issue tracker this repo uses (beads), the triage label vocabulary, and where the glossary and ADRs live. Written by `setup-osxsystem-skills`, and `code-review` reads `issue-tracker.md` directly | The one `docs/` subtree that is not a published page per skill, so `skillcheck`'s docs assertions do not apply to it. Note the path is fixed by the consuming skills, which is why this is not folded into the `.agents/` control plane where it would otherwise belong. |
+| `docs/agents/` | Per-repo configuration the engineering skills read: which issue tracker this repo uses (beads), the triage label vocabulary, and where the glossary and ADRs live. Written by `setup-osxsystem-skills`, and `code-review` reads `issue-tracker.md` directly | Upstream began shipping `triage-labels.md` on 2026-10-07, so that file is now sync-active; see the recipe below. The remaining configuration stays fork-owned. This subtree is not a published page per skill, so `skillcheck`'s docs assertions do not apply to it. |
 | `scripts/harness/`, `scripts/check-confusable-skills.py`, `.github/workflows/skillcheck.yml` | The fork's skill-validation harness and its CI job | None |
 | `agents/`, `scripts/link-agents.sh` | Claude Code subagent definitions (`implementer`, whose procedure lives in the internal `implementing-an-issue` skill), one Markdown file per agent; the hook scripts their frontmatter calls, under `agents/hooks/` (`implementer-guard.sh`, which wraps the git guardrail below); and the sibling link script that symlinks agents into `~/.claude/agents` and hooks into `~/.claude/hooks` | Upstream ships `.agents/`, a different tree (its control plane), and no top-level `agents/`. The link script is a sibling of upstream's `scripts/link-skills.sh`, which is left untouched because it does not accept modifications. `skillcheck` validates every agent file, and `test_guardrail.sh` covers the implementer guard. The guard calls the hardened guardrail by path, so a sync that moves `block-dangerous-git.sh` must update `implementer-guard.sh` too, or every implementer command blocks. |
 | `.fork/`, `CATALOG.md`, `scripts/generate-catalog.py`, `scripts/generate-marketplace.py` | This control plane and the two artefacts generated from [`catalog.yaml`](./catalog.yaml): `CATALOG.md` (the human table) and `.claude-plugin/marketplace.json` (installer picker grouping; the manifest itself is a *modification*, see below), including [`sync-playbook.md`](./sync-playbook.md), the step-by-step sync procedure | The playbook's residual conflict surface is this file's sync-active sections, one row per section. Change one, change the other. |
@@ -131,7 +131,7 @@ This is a one-line divergence on purpose. MIT requires that "the above copyright
 
 **Why:** the fork's KMP/CMP implementation flow uses the promoted `tdd-kmp` at the affected platform layer rather than the upstream `tdd`. Selective installs may omit it, so the route falls back to `tdd` with `kmp-test-seams` when absent.
 
-**Recipe:** keep upstream's implementation workflow, then restore the conditional mobile TDD route without changing its review or commit steps.
+**Recipe:** keep upstream's implementation workflow and explicit Skill tool calls, then restore the conditional mobile TDD route without changing its review or commit steps.
 
 ### `skills/engineering/to-tickets/SKILL.md`: `model:opus` labelling
 
@@ -149,7 +149,7 @@ This is a one-line divergence on purpose. MIT requires that "the above copyright
 
 **Why:** the fork's `/implement-delegate` calls `code-review` with explicit refs for a branch other than its own checkout, a numbered list of findings as the spec for a narrow re-review, and the gate logs. Upstream's process rebuilds `git diff <fixed-point>...HEAD` and searches commit messages for the spec, so followed literally it could review the orchestrator's checkout or re-review the original issue instead of the fix round (Codex readiness review, `skills-q4q.7`). A paragraph at the top of Process makes a caller's diff command, spec and gate evidence authoritative, with discovery filling only what is missing, and both sub-agent prompts carry the gate evidence. The file also carries the setup-skill name, under the router row above. Its docs page explains the rule in a Common questions entry and an It's working if line.
 
-**Recipe:** take upstream's wording, then re-insert the caller-inputs paragraph between the `## Process` heading and step 1, and the gate-evidence bullet after the diff bullet in each sub-agent prompt. If upstream restructures the process, keep the rule ahead of the first discovery step. Re-sync the docs page's entries to match.
+**Recipe:** take upstream's wording, then re-insert the caller-inputs paragraph between the `## Process` heading and step 1, and the gate-evidence bullet after the diff bullet in each sub-agent prompt. Preserve a caller-provided tracker as authoritative, falling back to `docs/agents/issue-tracker.md` only when none was provided; request setup only when tracker access is needed and neither source exists. If upstream restructures the process, keep the rule ahead of the first discovery step. Re-sync the docs page's entries to match.
 
 ### `skills/engineering/to-spec/SKILL.md`: end-to-end and wire tests
 
@@ -162,6 +162,12 @@ This is a one-line divergence on purpose. MIT requires that "the above copyright
 **Why:** upstream's PR docs name `implement-spec` as an active orchestration exception. The fork keeps that skill retired and points to the internal `implement-delegate` when installed.
 
 **Recipe:** take upstream's PR-body guidance and replace its active `implement-spec` pointer with the fork's orchestration route. Keep `pr` focused on writing the body.
+
+### `docs/agents/triage-labels.md`: Beads triage configuration
+
+**Why:** upstream began shipping this previously fork-owned path in `f0588cd`. The fork uses Beads, with its canonical-role table, tracker pointer and `bd` examples. Upstream's `SCOPE.md` rejects personal workflow customizations and new skills, which are deliberate fork additions, so it is retained as upstream policy rather than imposed on fork issues.
+
+**Recipe:** keep the fork's tracker mapping and Beads commands. Port applicable vocabulary changes from upstream, but retain the fork's issue policy instead of adding upstream's `SCOPE.md` rejection rule. Keep the Beads context pointers in `CLAUDE.md`; do not replace them with upstream's GitHub-oriented triage pointer.
 
 ### `skills/engineering/ask-matt/references/`: the router's long-form detail
 

@@ -27,4 +27,4 @@ bd list --label ready-for-agent
 - A typo becomes a new label silently rather than erroring, so read the table rather than recalling it.
 - `bd list --label <name>` defaults to open issues. Pass `--status closed` when auditing past work, or a label that is genuinely in use will look unused.
 
-Edit the right-hand column to match whatever vocabulary you actually use.
+Edit the "Label in our tracker" column to match whatever vocabulary you actually use.

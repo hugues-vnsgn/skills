@@ -2,7 +2,7 @@
 
 One install story, one wording. `README.md`, `.changeset/*`, and every page under `docs/` must say **this** and nothing else. Change it here first, then propagate.
 
-The single install route is [skills.sh](https://skills.sh/hugues-vnsgn/skills), which copies editable skill files into the project, files you own and can edit. Nothing updates behind your back; pull the latest changes with `npx skills update`.
+The single install route is [skills.sh](https://skills.sh/hugues-vnsgn/skills), which copies editable skill files into the project, files you own and can edit. Updates are manual: run `npx skills@latest update`, and re-run `add` to pick up new skills.
 
 ## Whole set, on `README.md`
 
@@ -34,8 +34,8 @@ npx skills@latest update <name>
 
 </canonical-block>
 
-`skills@latest` is the pinned spelling in both. The pages under `docs/` used to carry their own copy of these commands; those blocks are now deleted rather than corrected, because the site renders the install commands itself.
+`skills@latest` is the pinned spelling everywhere.
 
 ## No plugin route
 
-Upstream ships a Claude Code plugin from `.claude-plugin/`; this fork deleted that directory, and skills.sh is the only install route. Upstream syncs that re-add `.claude-plugin/` are resolved by deleting it again; see [MAINTENANCE.md](../MAINTENANCE.md). The history of the plugin decision lives in [adr/0002-ship-as-a-claude-code-plugin.md](./adr/0002-ship-as-a-claude-code-plugin.md).
+Upstream ships managed plugins from `.claude-plugin/`; this fork keeps only a generated `marketplace.json` for installer grouping, not an install route. `plugin.json` stays absent and skills.sh is the only supported route. Regenerate the grouping manifest after a conflicting sync; see [MAINTENANCE.md](../MAINTENANCE.md). The history of the plugin decision lives in [adr/0002-ship-as-a-claude-code-plugin.md](./adr/0002-ship-as-a-claude-code-plugin.md).

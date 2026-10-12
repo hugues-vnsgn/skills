@@ -8,7 +8,7 @@ Nine references support KMP/CMP and native iOS work. Seven are model-invoked; `/
 | How should common code call a platform capability, with what lifetime and completion contract? | `/kmp-boundaries` (beta) |
 | How does Xcode consume shared code, and what does Swift see? | `/kmp-ios-integration` |
 | How should shared screens, native UI interop and navigation ownership work? | `/compose-multiplatform-ui` |
-| How should native SwiftUI views handle state, layout, accessibility or an Instruments trace? | `/swiftui-expert-skill` |
+| How should native SwiftUI views handle state, foldable or large-display layout, iPhone tab sidebars, accessibility or an Instruments trace? | `/swiftui-expert-skill` |
 | How should a UIKit-owned screen handle lifecycle, Auto Layout, collection views or SwiftUI interop? | `/uikit-expert` |
 | How should the Ktor client handle engines, credentials, retries and HTTP errors? | `/kmp-ktor` (beta) |
 | Where should a test live and which existing task proves this change? | `/kmp-test-seams` |

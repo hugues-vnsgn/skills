@@ -2,7 +2,7 @@
 
 House skills for Kotlin Multiplatform + Compose Multiplatform development and native SwiftUI/UIKit (Android and iOS). The KMP skills' technical guidance was checked against official sources on 2026-09-24. Larger skills keep conditional detail in bundled references; shorter skills are self-contained.
 
-`swiftui-expert-skill` is adapted from [avdlee/swiftui-agent-skill](https://github.com/avdlee/swiftui-agent-skill) at commit `b24e68a965dc4b5bd2cc41dc60c094a26a9379ce` ([MIT license](./swiftui-expert-skill/LICENSE)). `uikit-expert` is adapted from [ivan-magda/uikit-expert-skill](https://github.com/ivan-magda/uikit-expert-skill) at commit `45c70f0f31e63c62bcb11da6c7bb3b4759dac393` ([MIT license](./uikit-expert/LICENSE)).
+`swiftui-expert-skill` is adapted from [avdlee/swiftui-agent-skill](https://github.com/avdlee/swiftui-agent-skill) at commit `204dba7c67256a8b707ee3fbc5759a824191974f` ([MIT license](./swiftui-expert-skill/LICENSE)). `uikit-expert` is adapted from [ivan-magda/uikit-expert-skill](https://github.com/ivan-magda/uikit-expert-skill) at commit `45c70f0f31e63c62bcb11da6c7bb3b4759dac393` ([MIT license](./uikit-expert/LICENSE)).
 
 ## User-invoked
 

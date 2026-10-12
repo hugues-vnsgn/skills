@@ -19,7 +19,7 @@
 # Verify (should print nothing beyond fork-owned trees):
 #   git fetch upstream && git diff --name-status -M upstream/main
 #
-# Last verified: 2026-10-06 against upstream/main 4588b32ecab9ecc9fc8cc6b6c5e7d675b6004b0d
+# Last verified: 2026-10-12 against upstream/main 49dd158d1076134a641b33efb035946536778336
 
 # --- Modified upstream files ---
 # `.claude-plugin/marketplace.json` shares only its path with upstream's: the
@@ -39,6 +39,8 @@ CLAUDE.md
 # copies, and this repo vendors upstream's skill trees byte-for-byte.
 LICENSE
 README.md
+# Upstream now ships this tracker config; retain the fork's Beads mapping.
+docs/agents/triage-labels.md
 docs/engineering/ask-matt.md
 docs/engineering/code-review.md
 docs/engineering/implement.md

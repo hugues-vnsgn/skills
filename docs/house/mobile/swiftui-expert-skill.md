@@ -1,6 +1,6 @@
 ## What it does
 
-`swiftui-expert-skill` guides native SwiftUI implementation, review, and refactoring across iOS and macOS. It covers state ownership and `@Observable` data flow, view identity, adaptive layout, lists, navigation, animation, accessibility, and SDK migrations. When a performance problem needs runtime evidence, it can record and analyse Instruments traces with bundled scripts.
+`swiftui-expert-skill` guides native SwiftUI implementation, review, and refactoring across iOS and macOS. It covers state ownership and `@Observable` data flow, view identity, adaptive layout, lists, navigation, animation, accessibility, and SDK migrations, including foldable and large-display screens. When a performance problem needs runtime evidence, it can record and analyse Instruments traces with bundled scripts.
 
 It treats each view as an invalidation boundary: pass a view only the data it reads, and keep frequently changing state close to the subtree that consumes it. Its reference files are consulted by topic rather than loaded all at once.
 
@@ -14,6 +14,16 @@ You invoke this by typing `/swiftui-expert-skill`, and the agent won't reach for
 - **Compose owns the screen:** use [compose-multiplatform-ui](./compose-multiplatform-ui.md) for shared views and iOS interop.
 - **A trace shows jank or hangs:** this skill can correlate SwiftUI updates, hitches, and main-thread samples; its scripts require Xcode's `xctrace` to capture or export a trace.
 
+## Reflow without losing state
+
+Choose the layout from the screen's structure before reaching for fold-specific APIs:
+
+- **Rows open deeper screens:** use `NavigationSplitView` so the same navigation collapses at compact widths and expands beside the list.
+- **Cards share a scrolling feed:** reflow into two columns when space allows, preserving card state and reading order; keep accessibility text sizes in one column.
+- **Two peer regions have no navigation:** consider `ArrangementView`, with an earlier-OS fallback and state ownership that survives layout changes.
+
+The skill also covers iPhone tab sidebars on iOS 27 and fold-aligned custom layouts on iOS 27.1. It checks inactive reserved regions explicitly rather than assuming they obstruct content.
+
 ## Common questions
 
 **Does it require MVVM or rewriting UIKit screens?**
@@ -24,11 +34,17 @@ No. It does not enforce an architecture or mandate UIKit migration. It prefers n
 
 No. It adopts Liquid Glass only when explicitly requested, and checks API availability and fallbacks for the app's deployment target.
 
+**Can it verify folded layouts without extra tooling?**
+
+Xcode Previews help with resizing, but `simctl` cannot pose the iPhone Duo simulator. When available, the RocketSim CLI can change its pose and inspect the hinge; otherwise the skill asks the developer to confirm folded and landscape behavior. A layout claim needs observed results at narrow, wide, short, tall, and roughly square sizes.
+
 ## It's working if
 
 - State updates redraw the smallest view subtree that reads the changed value.
 - Lists preserve row identity across inserts and reorders, so focus and row state survive.
 - Newer APIs have availability gates and usable fallbacks on supported older OS versions.
+- Navigation selection and card state survive compact-to-regular resizing, and nested tab content remains reachable without a sidebar.
+- Folded and landscape layout claims distinguish observed results from poses that still need developer confirmation.
 - An investigated performance regression cites trace or profiling evidence rather than attributing jank to an unmeasured view.
 
 ## Where it fits

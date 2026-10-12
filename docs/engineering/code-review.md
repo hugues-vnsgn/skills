@@ -23,14 +23,14 @@ You must supply the fixed point. If you do not, the skill asks for one rather th
 
 The Standards axis needs nothing. It reads whatever the repo documents (`CODING_STANDARDS.md`, `CONTRIBUTING.md`, and the like) and falls back on a built-in baseline when the repo documents nothing.
 
-The Spec axis needs a spec to exist and be findable. It looks in this order:
+The Spec axis needs a spec to exist and be findable. A caller-supplied spec is authoritative; otherwise it looks in this order:
 
-1. Issue references in the commit messages (`#123`, `Closes #45`, a GitLab `!67`), fetched through `docs/agents/issue-tracker.md`.
+1. Issue references in the commit messages (`#123`, `Closes #45`, a GitLab `!67`), fetched through the tracker doc.
 2. A path you pass in as an argument.
 3. A spec file under `docs/`, `specs/`, or `.scratch/` matching the branch or feature name.
 4. Asking you.
 
-Step 1 depends on `docs/agents/issue-tracker.md`, which [setup-osxsystem-skills](../../skills/house/platform/setup-osxsystem-skills/SKILL.md) writes. Without it the axis still works if you hand it a path. With no spec at all, the skill skips the Spec sub-agent and the report says "no spec available" rather than inventing requirements.
+Step 1 uses the caller's tracker doc, or discovers `docs/agents/issue-tracker.md`, which [setup-osxsystem-skills](../../skills/house/platform/setup-osxsystem-skills/SKILL.md) writes. Without either the axis still works if you hand it a path. With no spec at all, the skill skips the Spec sub-agent and the report says "no spec available" rather than inventing requirements.
 
 ## The two axes
 

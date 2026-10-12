@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 You don't remember every skill, so ask.
 
+Before stating what a skill does or recommending a step be skipped, read that skill's SKILL.md: the summaries here are for orientation only.
+
 A **flow** is a path through the skills. Most paths run along one **main flow**, and several **on-ramps** merge onto it. Everything else is maintenance, standalone, or one of two layers that run underneath: **vocabulary**, and **platform knowledge**.
 
 ## The main flow: idea → ship

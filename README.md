@@ -19,13 +19,13 @@ Skills are grouped by domain: **Engineering**, **Productivity**, and one group p
 
 Claude Code, Codex, Cursor, Pi and 70-odd other agents are offered by name. **[omp (oh-my-pi)](https://omp.sh) is not yet listed by name, so choose the `agents` target**, which writes to `~/.agents/skills`, the location omp reads natively.
 
-The installer writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull the latest changes when you want them with `npx skills update`.
+The installer writes the skills into your repo as ordinary files you own and can edit. Updates are manual: run `npx skills@latest update`, and re-run `add` to pick up new skills.
 
 ### 2. Run `/setup-osxsystem-skills`
 
 In your agent, run it once per repo. It will:
 
-- Ask you which issue tracker you want to use (GitHub, Linear, or local files)
+- Ask you which issue tracker you want to use (GitHub, GitLab, local files, or anything else you describe)
 - Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
 - Ask you where you want to save any docs we create
 
